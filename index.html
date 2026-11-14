@@ -135,6 +135,7 @@ img{max-width:100%}
 .projet .corps{flex-direction:column;align-items:flex-start}
 .projet .bas{display:flex;justify-content:space-between;align-items:flex-end;width:100%;gap:14px}
 .projet p{margin:8px 0 0;font-size:.98rem;max-width:34ch;opacity:.92}
+.projet .badge{width:64px;height:64px;border-radius:50%;border:3px solid #fff;object-fit:cover;background:#fff}
 .hero .reelle{background:var(--salle) center/cover no-repeat;border-radius:var(--rayon);min-height:340px}
 .visite{background:var(--bleu-fonce);color:#fff;border-radius:var(--rayon);padding:clamp(24px,4vw,44px);display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(24px,4vw,48px);align-items:center}
 .visite-texte{display:flex;flex-direction:column;gap:14px}
@@ -317,45 +318,36 @@ img{max-width:100%}
       <div class="bloc-tete"><h2>Les projets Moov'Up</h2>
         <div class="fleches" data-pour="defile-projets"><button type="button" aria-label="Projets précédents">‹</button><button type="button" aria-label="Projets suivants">›</button></div>
       </div>
-      <p class="note"><b>À confirmer :</b> la liste des projets et le texte de chacun.</p>
+      <p class="note"><b>À écrire :</b> le texte de présentation et la photo de chaque projet.</p>
       <div class="defile" id="defile-projets">
-        <article class="carte reelle projet">
+        <a class="carte reelle projet" href="https://www.instagram.com/complexemoovup/" target="_blank" rel="noopener">
           <span class="marque">Le complexe</span>
-          <div class="corps"><div class="bas"><div><h3>Complexe Moov'Up Sports</h3><p>Le complexe principal. Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
-        </article>
-        <article class="carte o projet">
+          <div class="corps"><div class="bas"><div><h3>Complexe Moov'Up Sports</h3><p>Le complexe sportif. Présentation à écrire.</p><span class="puce">@complexemoovup</span></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </a>
+        <a class="carte o projet" href="https://www.instagram.com/lady_moov_up/" target="_blank" rel="noopener">
           <span class="marque">Photo à ajouter</span>
-          <div class="corps"><div class="bas"><div><h3>Lady Moov Up</h3><p>L'espace réservé aux femmes. Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
-        </article>
-        <article class="carte  projet">
+          <div class="corps"><img class="badge" src="assets/projet-lady.png" alt=""><div class="bas"><div><h3>Lady Moov'Up</h3><p>Fitness pour elle. Présentation à écrire.</p><span class="puce">@lady_moov_up</span></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </a>
+        <a class="carte  projet" href="https://www.instagram.com/moovup_kids/" target="_blank" rel="noopener">
           <span class="marque">Photo à ajouter</span>
-          <div class="corps"><div class="bas"><div><h3>Moov Up Kids</h3><p>Les activités pour enfants. Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
-        </article>
-        <article class="carte n projet">
+          <div class="corps"><img class="badge" src="assets/projet-kids.png" alt=""><div class="bas"><div><h3>Moov'Up Kids</h3><p>Le complexe des enfants. Présentation à écrire.</p><span class="puce">@moovup_kids</span></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </a>
+        <a class="carte n projet" href="https://www.instagram.com/moovuppowergym/" target="_blank" rel="noopener">
           <span class="marque">Photo à ajouter</span>
-          <div class="corps"><div class="bas"><div><h3>Moov Up Power Gym</h3><p>Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
-        </article>
-        <article class="carte  projet">
+          <div class="corps"><img class="badge" src="assets/projet-power-gym.png" alt=""><div class="bas"><div><h3>Moov'Up Power Gym</h3><p>Présentation à écrire.</p><span class="puce">@moovuppowergym</span></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </a>
+        <a class="carte  projet" href="https://www.instagram.com/evolvehommes_/" target="_blank" rel="noopener">
           <span class="marque">Photo à ajouter</span>
-          <div class="corps"><div class="bas"><div><h3>Evolve Hommes</h3><p>Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
-        </article>
-        <article class="carte o projet">
+          <div class="corps"><img class="badge" src="assets/projet-evolve.png" alt=""><div class="bas"><div><h3>Evolve Hommes</h3><p>Présentation à écrire.</p><span class="puce">@evolvehommes_</span></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </a>
+        <a class="carte o projet" href="https://www.instagram.com/anaisclinic/" target="_blank" rel="noopener">
           <span class="marque">Photo à ajouter</span>
-          <div class="corps"><div class="bas"><div><h3>Anaïs Clinic</h3><p>Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
-        </article>
-        <article class="carte n projet">
+          <div class="corps"><img class="badge" src="assets/projet-anais-clinic.png" alt=""><div class="bas"><div><h3>Anaïs Beauty Clinic</h3><p>Présentation à écrire.</p><span class="puce">@anaisclinic</span></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </a>
+        <a class="carte n projet" href="https://www.instagram.com/anaisinstitut_/" target="_blank" rel="noopener">
           <span class="marque">Photo à ajouter</span>
-          <div class="corps"><div class="bas"><div><h3>Anaïs Institut</h3><p>Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="bloc" id="tarifs">
-      <div class="bloc-tete"><h2>Abonnements</h2><p class="note"><b>À remplir :</b> formules et prix réels.</p></div>
-      <div class="grille g3">
-        <article class="tarif"><h3>Formule 1</h3><div class="prix">— DH</div><ul><li>Avantage à préciser</li><li>Avantage à préciser</li></ul></article>
-        <article class="tarif"><h3>Formule 2</h3><div class="prix">— DH</div><ul><li>Avantage à préciser</li><li>Avantage à préciser</li></ul></article>
-        <article class="tarif"><h3>Formule 3</h3><div class="prix">— DH</div><ul><li>Avantage à préciser</li><li>Avantage à préciser</li></ul></article>
+          <div class="corps"><img class="badge" src="assets/projet-anais-institut.png" alt=""><div class="bas"><div><h3>Anaïs Institut</h3><p>Présentation à écrire.</p><span class="puce">@anaisinstitut_</span></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </a>
       </div>
     </section>
 
