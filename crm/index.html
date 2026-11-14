@@ -50,6 +50,13 @@ select,input[type=text],input[type=date],input[type=time],textarea{
 textarea{width:100%;min-height:64px;resize:vertical}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 13px;cursor:pointer;font-weight:500}
 .btn{text-decoration:none;display:inline-block}
+.chat .msgs{display:flex;flex-direction:column;gap:8px;max-height:56vh;min-height:220px;overflow-y:auto;padding:4px}
+.msg{max-width:min(78%,560px);background:var(--sunken);border-radius:12px;padding:8px 12px;align-self:flex-start}
+.msg.mine{align-self:flex-end;background:var(--accent-soft)}
+.msg .mh{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.msg .mh b{color:var(--brand-blue)}
+.msg p{margin:3px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg .btn{padding:0 6px;font-size:12px;margin-left:auto}
 .spaces{margin-top:12px;display:flex;flex-direction:column;gap:6px}
 .spaces .sp{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;background:var(--sunken);border-radius:8px;padding:7px 10px}
 .spaces .sp .grow{flex:1}
@@ -192,6 +199,7 @@ dialog h2{font:700 19px/1.2 var(--display);margin:0}
       <a href="#tableau">Tableau de bord</a>
       <a href="#taches">Tâches</a>
       <a href="#tournages">Tournages</a>
+      <a href="#discussion" id="navChat">Discussion</a>
       <a href="#suivi">Suivi</a>
       <a href="#equipe">Équipe</a>
     </nav>
@@ -223,9 +231,9 @@ const PROJECTS = [
   {k:'anais',  n:'Anaïs',                   s:'Anaïs',     c:'#8a5bd1'}
 ];
 const STATUS = [['todo','À faire'],['doing','En cours'],['done','Terminé']];
-const state = {members:[], tasks:[], shoots:[], access:[], spaces:[]};
+const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[]};
 const loaded = {members:false, tasks:false, shoots:false};
-const ui = {kind:'all', person:'', project:''};
+const ui = {kind:'all', person:'', project:'', ch:'general', seen:0};
 let db = null, auth = null, me = null, phase = 'loading', unsub = [], canWrite = true, draft = null, loadTimer = null;
 
 try { Object.assign(ui, JSON.parse(localStorage.getItem('moovcrm-filters') || '{}')); } catch (e) {}
@@ -264,9 +272,11 @@ function init(){
 }
 function subscribe(){
   loadTimer = setTimeout(() => note("Les données ne sont pas encore joignables. Vérifiez la connexion, elles s'afficheront dès que possible."), 10000);
-  ['members','tasks','shoots','access','spaces'].forEach(name => {
-    unsub.push(db.collection(name).onSnapshot(snap => {
+  ['members','tasks','shoots','access','spaces','messages'].forEach(name => {
+    const q = name === 'messages' ? db.collection(name).orderBy('at', 'desc').limit(200) : db.collection(name);
+    unsub.push(q.onSnapshot(snap => {
       state[name] = snap.docs.map(d => Object.assign({id: d.id}, d.data()));
+      if (name === 'messages') state.messages.reverse();
       if (name in loaded) loaded[name] = true;
       if (!snap.metadata.fromCache && loaded.members && loaded.tasks && loaded.shoots) { clearTimeout(loadTimer); note(''); }
       render();
@@ -292,7 +302,7 @@ async function write(fn, what){
 }
 
 /* ---------- rendu ---------- */
-function view(){ const h = location.hash.replace('#',''); return ['tableau','taches','tournages','suivi','equipe'].includes(h) ? h : 'tableau'; }
+function view(){ const h = location.hash.replace('#',''); return ['tableau','taches','tournages','discussion','suivi','equipe'].includes(h) ? h : 'tableau'; }
 function render(){
   const v = view(), app = phase === 'app';
   $('#nav').hidden = !app;
@@ -304,7 +314,15 @@ function render(){
   if (phase === 'denied') { $('#main').innerHTML = `<section class="block gate"><h2>Accès pas encore ouvert</h2><p>L'adresse ${esc(me ? me.email : '')} n'est pas dans la liste de l'équipe. Demandez à Aya de l'ajouter dans l'onglet Équipe, puis rechargez la page.</p><button type="button" class="btn" data-act="logout">Changer de compte</button></section>`; return; }
   const ready = loaded.members && loaded.tasks && loaded.shoots;
   if (!ready) { $('#main').innerHTML = '<p class="empty">Chargement des données de l\'équipe…</p>'; return; }
-  $('#main').innerHTML = ({tableau: vDash, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
+  const ci = $('#chatText'), keep = ci ? {v: ci.value, f: document.activeElement === ci} : null;
+  if (v === 'discussion' && state.messages.length) { const last = state.messages[state.messages.length - 1].at || 0; if (last > ui.seen) { ui.seen = last; keepFilters(); } }
+  const unread = state.messages.filter(m => (m.at || 0) > ui.seen && m.email !== (me && me.email)).length;
+  $('#navChat').textContent = 'Discussion' + (unread ? ' (' + unread + ')' : '');
+  $('#main').innerHTML = ({tableau: vDash, discussion: vChat, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
+  if (v === 'discussion') {
+    const box = $('#chatBox'); if (box) box.scrollTop = box.scrollHeight;
+    const n = $('#chatText'); if (n && keep) { n.value = keep.v; if (keep.f) n.focus(); }
+  }
 }
 const dis = () => canWrite ? '' : ' disabled';
 
@@ -495,6 +513,18 @@ function vDash(){
   </div>`;
 }
 
+/* discussion */
+function vChat(){
+  const chans = [['general','Général']].concat(PROJECTS.map(p => [p.k, p.s]));
+  const list = state.messages.filter(m => (m.ch || 'general') === ui.ch), t = today();
+  const stamp = at => { const d = new Date(at), ds = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); return (ds === t ? '' : fdate(ds) + ' ') + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); };
+  return `<div class="bar"><div class="seg" role="group" aria-label="Canal de discussion" style="flex-wrap:wrap">${chans.map(([k,l]) => { const n = state.messages.filter(m => (m.ch || 'general') === k).length; return `<button type="button" data-act="ch" data-v="${k}" aria-pressed="${ui.ch === k}">${esc(l)}${n ? ' · ' + n : ''}</button>`; }).join('')}</div></div>
+  <section class="block chat">
+    <div class="msgs" id="chatBox">${list.map(m => { const mine = me && m.email === me.email; return `<div class="msg${mine ? ' mine' : ''}"><div class="mh"><b>${esc(m.name || String(m.email || '').split('@')[0])}</b><span>${esc(stamp(m.at || 0))}</span>${mine ? `<button type="button" class="btn small" data-act="delMsg" data-id="${esc(m.id)}">Supprimer</button>` : ''}</div><p>${esc(m.text)}</p></div>`; }).join('') || '<p class="empty">Aucun message dans ce canal. Écrivez le premier.</p>'}</div>
+    <form class="bar" id="chatForm" style="margin:10px 0 0"><input type="text" id="chatText" maxlength="1500" placeholder="Votre message à l'équipe" aria-label="Votre message" autocomplete="off" style="flex:1 1 200px"><button class="btn primary">Envoyer</button></form>
+  </section>`;
+}
+
 /* équipe */
 function vTeam(){
   return `<section class="block"><h2>Membres de l'équipe marketing</h2>
@@ -626,6 +656,11 @@ document.addEventListener('click', async e => {
     else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; }
   }
   else if (a === 'notify') { const sh = state.shoots.find(x => x.id === id), k = b.dataset.k; if (sh && canWrite) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: Date.now(), ok: !!((sh.notified || {})[k] || {}).ok}})); }
+  else if (a === 'ch') { ui.ch = b.dataset.v; keepFilters(); render(); }
+  else if (a === 'delMsg') {
+    if (b.dataset.sure) await write(() => db.collection('messages').doc(id).delete());
+    else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; }
+  }
   else if (a === 'newTask') openTask(null);
   else if (a === 'editTask') { const t = state.tasks.find(x => x.id === id); if (t && canWrite) openTask(t); }
   else if (a === 'newShoot') openShoot(null);
@@ -666,6 +701,14 @@ document.addEventListener('change', async e => {
 document.addEventListener('submit', async e => {
   e.preventDefault();
   if (e.target.id === 'dlgForm') return saveDraft();
+  if (e.target.id === 'chatForm') {
+    const inp = $('#chatText'), text = inp.value.trim();
+    if (!text || !me) return;
+    inp.value = '';
+    const ok = await write(() => db.collection('messages').add({text, ch: ui.ch, email: me.email, name: me.displayName || '', at: Date.now()}));
+    if (!ok) { const n = $('#chatText'); if (n && !n.value) n.value = text; }
+    return;
+  }
   if (e.target.id === 'addAccess') {
     const email = $('#newEmail').value.trim().toLowerCase();
     if (!/^[^@\s\/]+@[^@\s\/]+\.[^@\s\/]+$/.test(email)) { note("Cette adresse n'a pas la forme d'un e-mail. Vérifiez-la puis réessayez."); return; }
