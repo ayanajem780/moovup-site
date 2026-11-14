@@ -58,6 +58,11 @@ select,input[type=text],input[type=date],input[type=time],textarea{
   background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-width:0}
 textarea{width:100%;min-height:64px;resize:vertical}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 13px;cursor:pointer;font-weight:500}
+.btn{text-decoration:none;display:inline-block}
+.spaces{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.spaces .sp{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;background:var(--sunken);border-radius:8px;padding:7px 10px}
+.spaces .sp .grow{flex:1}
+.spaces .check{padding:0}
 .btn:hover{border-color:var(--muted)}
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .btn.danger{color:var(--bad)}
@@ -209,7 +214,7 @@ const PROJECTS = [
   {k:'anais',  n:'Anaïs',                   s:'Anaïs',     c:'#8a5bd1'}
 ];
 const STATUS = [['todo','À faire'],['doing','En cours'],['done','Terminé']];
-const state = {members:[], tasks:[], shoots:[], access:[]};
+const state = {members:[], tasks:[], shoots:[], access:[], spaces:[]};
 const loaded = {members:false, tasks:false, shoots:false};
 const ui = {kind:'all', person:'', project:''};
 let db = null, auth = null, me = null, phase = 'loading', unsub = [], canWrite = true, draft = null, loadTimer = null;
@@ -250,7 +255,7 @@ function init(){
 }
 function subscribe(){
   loadTimer = setTimeout(() => note("Les données ne sont pas encore joignables. Vérifiez la connexion, elles s'afficheront dès que possible."), 10000);
-  ['members','tasks','shoots','access'].forEach(name => {
+  ['members','tasks','shoots','access','spaces'].forEach(name => {
     unsub.push(db.collection(name).onSnapshot(snap => {
       state[name] = snap.docs.map(d => Object.assign({id: d.id}, d.data()));
       if (name in loaded) loaded[name] = true;
@@ -258,6 +263,7 @@ function subscribe(){
       render();
     }, err => {
       clearTimeout(loadTimer);
+      if (!(name in loaded)) return;
       if (err && err.code === 'permission-denied') phase = 'denied';
       else note("Les données ne peuvent pas être lues pour le moment. Rechargez la page.");
       if (name in loaded) loaded[name] = true;
@@ -352,6 +358,22 @@ function vShoots(){
   ${up.map(shootCard).join('') || '<p class="empty">Aucun tournage prévu. Créez le premier pour répartir les univers, les personnes et le matériel.</p>'}
   ${past.length ? `<details class="past"><summary>Tournages passés (${past.length})</summary>${past.map(shootCard).join('')}</details>` : ''}`;
 }
+const space = k => state.spaces.find(x => x.id === k) || {};
+function waNumber(p){ let d = String(p || '').replace(/\D/g, ''); if (d.startsWith('00')) d = d.slice(2); if (d.length === 10 && d[0] === '0') d = '212' + d.slice(1); return d.length >= 9 ? d : ''; }
+function waText(s, p, c){
+  const when = (s.date ? 'le ' + fdate(s.date, true) : 'à une date à confirmer') + (s.start ? ' de ' + s.start + (s.end ? ' à ' + s.end : '') : '');
+  return `Bonjour${c.name ? ' ' + c.name : ''}, l'équipe marketing Moov Up prévoit un tournage ${when} pour ${p.n}` + (s.place ? `, lieu : ${s.place}` : '') + (s.guests ? `. Personnes concernées : ${s.guests}` : '') + `. Merci de prévenir votre équipe et les adhérents présents, et de me confirmer que c'est bon pour vous.`;
+}
+function pending(s){ return arr(s.projects).filter(k => proj(k) && !(s.notified || {})[k]); }
+function spacesBlock(s){
+  const ps = arr(s.projects).filter(proj); if (!ps.length) return '';
+  return `<div class="spaces"><h4>Espaces à prévenir avant le tournage</h4>${ps.map(k => {
+    const p = proj(k), c = space(k), n = (s.notified || {})[k], tel = waNumber(c.phone);
+    const st = n && n.ok ? '<span class="pill ok">A confirmé</span>' : n ? `<span class="pill warn">Prévenu le ${esc(new Date(n.at).toLocaleDateString('fr-FR', {day:'numeric', month:'short'}))}</span>` : '<span class="pill bad">Pas encore prévenu</span>';
+    const act = tel ? `<a class="btn small" href="https://wa.me/${tel}?text=${encodeURIComponent(waText(s, p, c))}" target="_blank" rel="noopener" data-act="notify" data-id="${esc(s.id)}" data-k="${k}">${n ? 'Relancer' : 'Prévenir'} sur WhatsApp</a>` : '<a href="#equipe">Ajouter son numéro WhatsApp</a>';
+    return `<div class="sp">${projChip(k)}<span>${esc(c.name || 'Responsable non renseigné')}</span>${st}<span class="grow"></span>${n ? `<label class="check"><input type="checkbox" data-chg="confirm" data-id="${esc(s.id)}" data-k="${k}"${n.ok ? ' checked' : ''}${dis()}><span>A confirmé</span></label>` : ''}${act}</div>`;
+  }).join('')}</div>`;
+}
 function shootCard(s){
   const cf = conflicts(s);
   const alert = cf.map(({o, shared}) => `<div class="alert">Même créneau que « ${esc(o.title || 'un autre tournage')} »${shared.length ? ' : ' + esc(shared.map(mname).join(', ')) + (shared.length > 1 ? ' sont prévus' : ' est prévu(e)') + ' sur les deux' : ''}.</div>`).join('');
@@ -368,6 +390,7 @@ function shootCard(s){
       <h3>${esc(s.title || 'Tournage')}</h3>
       <div class="meta">${arr(s.projects).map(projChip).join('') || '<span>Aucun univers choisi</span>'}</div>
       <div class="meta" style="margin-top:6px">${arr(s.people).map(id => `<span class="pill">${esc(mname(id))}</span>`).join('') || '<span>Personne d\'assigné</span>'}${s.guests ? `<span>avec ${esc(s.guests)}</span>` : ''}</div>
+      ${spacesBlock(s)}
       <div class="cols">
         <div><h4>Plans à filmer ${shots.length ? `(${doneN}/${shots.length})` : ''}</h4>
           ${shots.map((x,i) => `<label class="check${x.done ? ' done' : ''}"><input type="checkbox" data-chg="shot" data-id="${esc(s.id)}" data-i="${i}"${x.done ? ' checked' : ''}${dis()}><span><span class="x">${esc(x.text)}</span> ${projChip(x.project)}</span></label>`).join('') || '<p class="empty">Aucun plan listé.</p>'}
@@ -430,7 +453,9 @@ function vDash(){
   const noOwner = state.tasks.filter(x => x.status !== 'done' && !arr(x.who).length).length;
   const clash = upcoming.filter(s => conflicts(s).length).length;
   const gearMissing = upcoming.reduce((n,s) => n + arr(s.gear).filter(g => !g.who).length, 0);
+  const toWarn = upcoming.reduce((n,s) => n + pending(s).length, 0);
   const alerts = [
+    toWarn ? `${toWarn} espace${toWarn > 1 ? 's' : ''} pas encore prévenu${toWarn > 1 ? 's' : ''} d'un tournage` : '',
     all.late ? `${all.late} tâche${all.late > 1 ? 's' : ''} en retard` : '',
     clash ? `${clash} tournages se chevauchent` : '',
     gearMissing ? `${gearMissing} matériel${gearMissing > 1 ? 's' : ''} sans personne pour l'apporter` : '',
@@ -475,6 +500,13 @@ function vTeam(){
       <button class="btn primary"${dis()}>Ajouter</button>
     </form>
   </section>
+  <section class="block"><h2>Responsables des espaces</h2>
+    <p class="meta" style="margin:0 0 8px">La personne à prévenir sur WhatsApp avant chaque tournage dans son univers.</p>
+    ${PROJECTS.map(p => { const c = space(p.k); return `<div class="member"><span style="flex:0 0 110px">${projChip(p.k)}</span>
+      <input type="text" value="${esc(c.name || '')}" placeholder="Nom du responsable" data-chg="spName" data-id="${p.k}" aria-label="Responsable ${esc(p.s)}"${dis()}>
+      <input type="text" inputmode="tel" value="${esc(c.phone || '')}" placeholder="WhatsApp, ex. 06 12 34 56 78" data-chg="spPhone" data-id="${p.k}" aria-label="Numéro WhatsApp ${esc(p.s)}"${dis()}>
+      ${c.phone && !waNumber(c.phone) ? '<span class="pill bad">Numéro incomplet</span>' : ''}</div>`; }).join('')}
+  </section>
   <section class="block"><h2>Accès au CRM</h2>
     <p class="meta" style="margin:0 0 8px">Les adresses Google autorisées à ouvrir le CRM, en plus de l'administratrice. Elle seule peut modifier cette liste.</p>
     ${state.access.map(a => `<div class="member"><span style="flex:1;overflow-wrap:anywhere">${esc(a.id)}</span><button type="button" class="btn small danger" data-act="delAccess" data-id="${esc(a.id)}">Retirer</button></div>`).join('') || '<p class="empty">Aucune adresse ajoutée pour le moment.</p>'}
@@ -494,7 +526,7 @@ function openTask(t){
 function openShoot(s){
   draft = {type:'shoot', id: s ? s.id : null, title: s ? (s.title || '') : '', date: s ? (s.date || '') : '', start: s ? (s.start || '') : '', end: s ? (s.end || '') : '',
     place: s ? (s.place || '') : '', projects: s ? arr(s.projects).slice() : [], people: s ? arr(s.people).slice() : [], guests: s ? (s.guests || '') : '',
-    shots: s ? arr(s.shots).map(x => Object.assign({}, x)) : [], gear: s ? arr(s.gear).map(x => Object.assign({}, x)) : [], note: s ? (s.note || '') : '', createdAt: s ? s.createdAt : null};
+    shots: s ? arr(s.shots).map(x => Object.assign({}, x)) : [], gear: s ? arr(s.gear).map(x => Object.assign({}, x)) : [], note: s ? (s.note || '') : '', notified: s ? Object.assign({}, s.notified || {}) : {}, createdAt: s ? s.createdAt : null};
   drawDialog(); $('#dlg').showModal();
 }
 function memberChoices(name, sel){
@@ -566,7 +598,7 @@ async function saveDraft(){
     col = 'shoots';
     data = {title:d.title, date:d.date, start:d.start, end:d.end, place:d.place, projects:d.projects, people:d.people, guests:d.guests,
       shots: d.shots.filter(x => x.text).map(x => ({text:x.text, project:x.project || '', done: !!x.done})),
-      gear: d.gear.filter(x => x.text).map(x => ({text:x.text, who:x.who || '', ok: !!x.ok})), note:d.note, createdAt: d.createdAt || Date.now()};
+      gear: d.gear.filter(x => x.text).map(x => ({text:x.text, who:x.who || '', ok: !!x.ok})), notified: d.notified || {}, note:d.note, createdAt: d.createdAt || Date.now()};
   }
   const ref = d.id ? db.collection(col).doc(d.id) : db.collection(col).doc();
   if (await write(() => ref.set(data))) $('#dlg').close();
@@ -584,6 +616,7 @@ document.addEventListener('click', async e => {
     if (b.dataset.sure) await write(() => db.collection('access').doc(id).delete(), 'access');
     else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; }
   }
+  else if (a === 'notify') { const sh = state.shoots.find(x => x.id === id), k = b.dataset.k; if (sh && canWrite) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: Date.now(), ok: !!((sh.notified || {})[k] || {}).ok}})); }
   else if (a === 'newTask') openTask(null);
   else if (a === 'editTask') { const t = state.tasks.find(x => x.id === id); if (t && canWrite) openTask(t); }
   else if (a === 'newShoot') openShoot(null);
@@ -616,6 +649,8 @@ document.addEventListener('change', async e => {
     list[+el.dataset.i][flag] = el.checked;
     await write(() => db.collection('shoots').doc(id).update({[key]: list}));
   }
+  else if (c === 'confirm') { const sh = state.shoots.find(x => x.id === id), k = el.dataset.k; if (sh) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: ((sh.notified || {})[k] || {}).at || Date.now(), ok: el.checked}})); }
+  else if (c === 'spName' || c === 'spPhone') await write(() => db.collection('spaces').doc(id).set({[c === 'spName' ? 'name' : 'phone']: el.value.trim()}, {merge: true}));
   else if (c === 'mName') { const v = el.value.trim(); if (v) await write(() => db.collection('members').doc(id).update({name: v})); else render(); }
   else if (c === 'mRole') await write(() => db.collection('members').doc(id).update({role: el.value.trim()}));
 });
