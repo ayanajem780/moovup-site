@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Complexe Moov'Up Sports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Plan : fond clair bleuté semé de petits carrés (le coureur en pixels du logo),
+   bleu = espace membre, orange = espace visiteur. Thème clair unique, par choix. */
+:root{
+  color-scheme: light;
+  --fond:#F2F5F8;
+  --surface:#FFFFFF;
+  --bleu:#2E6990;
+  --bleu-fonce:#1E4A68;
+  --orange:#D87238;
+  --orange-fonce:#B85A24;
+  --encre:#2C2E34;
+  --gris:#6A717B;
+  --trait:#D9E0E7;
+  --titre:"Outfit","Trebuchet MS",Arial,sans-serif;
+  --texte:"DM Sans","Segoe UI",Arial,sans-serif;
+  --rayon:22px;
+  --salle:url("assets/salle.jpg");
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--fond);color:var(--encre);font-family:var(--texte);font-size:17px;line-height:1.5;min-height:100vh;position:relative}
+canvas#semis{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.vue{position:relative;z-index:1;display:none}
+.vue.active{display:block}
+h1,h2,h3{font-family:var(--titre);text-wrap:balance;margin:0;line-height:1.1}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--encre);outline-offset:3px}
+img{max-width:100%}
+
+/* ---------- Accueil : photo plein écran, deux accès ---------- */
+.seuil{position:relative;min-height:100vh;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(20px,5vw,80px);padding:40px clamp(20px,5vw,70px);background:#1b1d22 var(--salle) center/cover no-repeat;color:#fff;isolation:isolate}
+.seuil::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(18,34,48,.78),rgba(20,22,26,.45) 50%,rgba(60,26,8,.72))}
+.seuil a.entree{text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:14px;padding:26px 0}
+.seuil a.gauche{text-align:right;align-items:flex-end}
+.seuil a.droite{text-align:left;align-items:flex-start}
+.entree h2{font-size:clamp(1.7rem,3.6vw,3rem);font-weight:700;text-transform:uppercase;letter-spacing:.01em;text-shadow:0 2px 18px rgba(0,0,0,.5)}
+.entree .sous{display:inline-flex;align-items:center;gap:14px;font-size:clamp(.85rem,1.3vw,1.05rem);letter-spacing:.24em;text-transform:uppercase;padding-bottom:8px;border-bottom:2px solid transparent;transition:border-color .2s,gap .2s}
+.entree.gauche:hover .sous,.entree.gauche:focus-visible .sous{border-color:#6FB0DB;gap:22px}
+.entree.droite:hover .sous,.entree.droite:focus-visible .sous{border-color:var(--orange);gap:22px}
+.entree .chev{font-size:1.3em;line-height:1}
+.seuil :focus-visible{outline-color:#fff}
+.sceau{background:#fff;border-radius:999px;padding:16px 30px;box-shadow:0 14px 40px -10px rgba(0,0,0,.6)}
+.sceau img{display:block;width:clamp(190px,20vw,290px);height:auto}
+.sceau h1{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+
+/* ---------- Barre commune aux pages intérieures ---------- */
+.barre{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);border-bottom:1px solid var(--trait)}
+.barre-in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.barre img{height:44px;width:auto;display:block}
+.barre nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.barre nav a{text-decoration:none;font-weight:500;font-size:.95rem;padding:8px 14px;border-radius:999px}
+.barre nav a:hover{background:var(--fond)}
+.btn{display:inline-block;border:0;cursor:pointer;font:700 .9rem var(--texte);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:999px;background:var(--encre);color:#fff}
+.btn.bleu{background:var(--bleu)}
+.btn.orange{background:var(--orange)}
+.btn.contour{background:transparent;color:var(--encre);box-shadow:inset 0 0 0 2px var(--encre)}
+
+.page{max-width:1180px;margin:0 auto;padding:0 20px 70px;display:flex;flex-direction:column;gap:64px}
+.bloc{display:flex;flex-direction:column;gap:22px;scroll-margin-top:90px}
+.bloc-tete{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.bloc h2{font-size:clamp(1.6rem,3.4vw,2.3rem);color:var(--bleu-fonce)}
+.note{margin:0;color:var(--gris);font-size:.92rem}
+.note b{color:var(--orange-fonce)}
+
+/* Emplacements à remplir */
+.photo{border-radius:var(--rayon);background:repeating-linear-gradient(135deg,#DCE5EC 0 14px,#E7EDF2 14px 28px);display:flex;align-items:flex-end;padding:22px;color:var(--bleu-fonce);font-family:var(--titre);font-weight:600;font-size:1.25rem;position:relative;overflow:hidden}
+.photo small{position:absolute;top:16px;left:22px;font:700 .7rem var(--texte);letter-spacing:.14em;text-transform:uppercase;color:var(--gris)}
+.photo.sombre{background:repeating-linear-gradient(135deg,#2C2E34 0 14px,#34373E 14px 28px);color:#fff}
+.photo.sombre small{color:#B9C0C9}
+
+.hero{margin-top:26px;display:grid;grid-template-columns:1.05fr 1fr;gap:26px;align-items:stretch}
+.hero-texte{background:var(--surface);border-radius:var(--rayon);padding:38px;display:flex;flex-direction:column;gap:18px;justify-content:center}
+.hero-texte h1{font-size:clamp(2rem,4.6vw,3.2rem);color:var(--bleu-fonce)}
+.hero-texte h1 span{color:var(--orange)}
+.hero-texte p{margin:0;color:var(--gris);max-width:44ch}
+.hero .photo{min-height:340px}
+.rangee{display:flex;gap:12px;flex-wrap:wrap}
+
+.pastilles{display:flex;gap:10px;flex-wrap:wrap}
+.pastilles button{border:0;cursor:pointer;font:700 .78rem var(--texte);letter-spacing:.1em;text-transform:uppercase;padding:11px 18px;border-radius:999px;background:var(--surface);color:var(--encre)}
+.pastilles button[aria-pressed="true"]{background:var(--encre);color:#fff}
+
+.grille{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g3 .photo{min-height:300px}
+.g4 .photo{min-height:360px}
+.univers{background:var(--surface);border-radius:var(--rayon);padding:24px;display:flex;flex-direction:column;gap:8px;border-top:6px solid var(--bleu)}
+.univers:nth-child(even){border-top-color:var(--orange)}
+.univers h3{font-size:1.25rem}
+.univers p{margin:0;color:var(--gris);font-size:.93rem}
+.tarif{background:var(--surface);border-radius:var(--rayon);padding:28px;display:flex;flex-direction:column;gap:12px}
+.tarif h3{font-size:1.3rem}
+.tarif .prix{font-family:var(--titre);font-size:2rem;font-weight:700;color:var(--bleu)}
+.tarif ul{margin:0;padding-left:18px;color:var(--gris)}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.contact .photo{min-height:260px}
+.fiche{background:var(--bleu-fonce);color:#fff;border-radius:var(--rayon);padding:30px;display:flex;flex-direction:column;gap:14px}
+.fiche dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 18px}
+.fiche dt{opacity:.7}
+.fiche dd{margin:0}
+
+/* ---------- Carrousels : activités, coachs, projets ---------- */
+.defile{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 4px 14px;margin:0 -4px;scrollbar-width:thin;scrollbar-color:var(--trait) transparent}
+.defile>*{scroll-snap-align:start;flex:0 0 calc((100% - 44px)/3)}
+.defile.quatre>*{flex-basis:calc((100% - 66px)/4)}
+.fleches{display:flex;gap:10px}
+.fleches button{width:48px;height:48px;border-radius:50%;border:2px solid var(--encre);background:transparent;color:var(--encre);font-size:1.3rem;cursor:pointer;line-height:1}
+.fleches button:hover{background:var(--encre);color:#fff}
+.carte{position:relative;min-height:400px;border-radius:var(--rayon);overflow:hidden;display:flex;align-items:flex-end;color:#fff;text-decoration:none;background:repeating-linear-gradient(135deg,#3F6E8E 0 14px,#467695 14px 28px)}
+.carte.o{background:repeating-linear-gradient(135deg,#C4672F 0 14px,#CC6F37 14px 28px)}
+.carte.n{background:repeating-linear-gradient(135deg,#2C2E34 0 14px,#34373E 14px 28px)}
+.carte.reelle{background:var(--salle) center/cover no-repeat}
+.carte::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.72));transition:background .25s}
+.carte:hover::after,.carte:focus-visible::after{background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.82))}
+.carte .marque{position:absolute;top:18px;left:22px;z-index:1;font:700 .7rem var(--texte);letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.carte .corps{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;width:100%;padding:24px}
+.carte h3{font-size:1.7rem;font-weight:600}
+.carte .desc{margin:0;max-height:0;opacity:0;overflow:hidden;font-size:.98rem;transition:max-height .3s,opacity .3s,margin .3s}
+.carte:hover .desc,.carte:focus-visible .desc{max-height:9em;opacity:1;margin-top:12px}
+.carte .rond{flex:none;width:50px;height:50px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:1.2rem}
+.puce{display:inline-block;margin-top:12px;font:700 .72rem var(--texte);letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.16)}
+.coach{min-height:480px}
+.projet{min-height:340px}
+.projet h3{font-size:1.9rem}
+.projet .corps{flex-direction:column;align-items:flex-start}
+.projet .bas{display:flex;justify-content:space-between;align-items:flex-end;width:100%;gap:14px}
+.projet p{margin:8px 0 0;font-size:.98rem;max-width:34ch;opacity:.92}
+.hero .reelle{background:var(--salle) center/cover no-repeat;border-radius:var(--rayon);min-height:340px}
+.visite{background:var(--bleu-fonce);color:#fff;border-radius:var(--rayon);padding:clamp(24px,4vw,44px);display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(24px,4vw,48px);align-items:center}
+.visite-texte{display:flex;flex-direction:column;gap:14px}
+.visite-texte .etiquette{color:#F2A772}
+.visite h2{color:#fff;font-size:clamp(1.7rem,3.4vw,2.5rem)}
+.visite p{margin:0;max-width:40ch;opacity:.92}
+.visite .note-claire{font-size:.9rem;opacity:.75}
+.visite-form{background:var(--surface);color:var(--encre);border-radius:18px;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.visite-form .large{grid-column:1/-1}
+.champ select{font:inherit;padding:13px 14px;border:1.5px solid var(--trait);border-radius:12px;background:var(--fond);color:var(--encre)}
+.champ select:focus{border-color:var(--bleu);outline:none;box-shadow:0 0 0 3px rgba(46,105,144,.2)}
+#retour-visite{margin:0;font-size:.92rem;color:var(--orange-fonce);min-height:1.4em;max-width:none;opacity:1}
+.pied{position:relative;z-index:1;border-top:1px solid var(--trait);background:var(--surface)}
+.pied div{max-width:1180px;margin:0 auto;padding:22px 20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--gris);font-size:.9rem}
+
+/* ---------- Espace membre ---------- */
+.membre-page{max-width:1180px;margin:0 auto;padding:36px 20px 70px;display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:26px;align-items:start}
+.connexion{background:var(--surface);border-radius:var(--rayon);padding:32px;display:flex;flex-direction:column;gap:18px}
+.connexion h1{font-size:2rem;color:var(--bleu-fonce)}
+.champ{display:flex;flex-direction:column;gap:6px;font-weight:500;font-size:.95rem}
+.champ input{font:inherit;padding:13px 14px;border:1.5px solid var(--trait);border-radius:12px;background:var(--fond);color:var(--encre)}
+.champ input:focus{border-color:var(--bleu);outline:none;box-shadow:0 0 0 3px rgba(46,105,144,.2)}
+#retour-connexion{margin:0;font-size:.92rem;color:var(--orange-fonce);min-height:1.4em}
+.apercu{display:flex;flex-direction:column;gap:16px}
+.apercu h2{font-size:1.4rem;color:var(--bleu-fonce)}
+.modules{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.module{background:var(--surface);border-radius:var(--rayon);padding:22px;border-left:6px solid var(--bleu);display:flex;flex-direction:column;gap:6px}
+.module:nth-child(even){border-left-color:var(--orange)}
+.module h3{font-size:1.1rem}
+.module p{margin:0;color:var(--gris);font-size:.92rem}
+
+@media (max-width:820px){
+  .seuil{grid-template-columns:1fr;justify-items:center;align-content:center;gap:10px}
+  .seuil::before{background:linear-gradient(180deg,rgba(18,34,48,.8),rgba(20,22,26,.5) 50%,rgba(60,26,8,.75))}
+  .sceau{order:-1;margin-bottom:24px}
+  .seuil a.gauche,.seuil a.droite{text-align:center;align-items:center}
+}
+@media (max-width:900px){
+  .defile>*,.defile.quatre>*{flex-basis:calc((100% - 22px)/2)}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(2,1fr)}
+  .hero,.contact,.membre-page,.visite{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .g3,.g4,.modules{grid-template-columns:1fr}
+  .defile>*,.defile.quatre>*{flex-basis:84%}
+  .visite-form{grid-template-columns:1fr}
+  .carte{min-height:340px}
+  .barre nav{margin-left:0}
+  .hero-texte{padding:26px}
+}
+@media (prefers-reduced-motion:reduce){.entree .sous,.carte .desc,.carte::after{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="semis" aria-hidden="true"></canvas>
+
+<!-- ================= PAGE 1 : CHOIX DE L'ACCÈS ================= -->
+<main class="vue active" id="vue-accueil">
+  <div class="seuil">
+    <a class="entree gauche" href="#membre">
+      <h2>Espace membre</h2>
+      <span class="sous"><span class="chev" aria-hidden="true">‹</span>Accès membres</span>
+    </a>
+    <div class="sceau"><h1>Complexe Moov'Up Sports</h1><img src="assets/logo.png" alt="Complexe Moov'Up Sports"></div>
+    <a class="entree droite" href="#visiteur">
+      <h2>Découvrir le complexe</h2>
+      <span class="sous">Accès visiteurs<span class="chev" aria-hidden="true">›</span></span>
+    </a>
+  </div>
+</main>
+
+<!-- ================= ESPACE VISITEUR ================= -->
+<div class="vue" id="vue-visiteur">
+  <header class="barre"><div class="barre-in">
+    <a href="#accueil" aria-label="Retour au choix de l'accès"><img src="assets/logo.png" alt="Complexe Moov'Up Sports"></a>
+    <nav aria-label="Sections">
+      <a href="#activites" data-ancre>Activités</a>
+      <a href="#coachs" data-ancre>Coachs</a>
+      <a href="#projets" data-ancre>Projets</a>
+      <a href="#tarifs" data-ancre>Tarifs</a>
+      <a href="#contact" data-ancre>Contact</a>
+    </nav>
+    <a class="btn orange" href="#visite" data-ancre>Réserver une visite</a>
+    <a class="btn bleu" href="#membre">Accès membre</a>
+  </div></header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-texte">
+        <span class="etiquette" style="color:var(--orange-fonce)">Espace visiteur</span>
+        <h1>Titre d'accroche du <span>complexe</span></h1>
+        <p>Emplacement pour une ou deux phrases de présentation du Complexe Moov'Up.</p>
+        <div class="rangee">
+          <a class="btn orange" href="#visite" data-ancre>Réserver une visite</a>
+          <a class="btn contour" href="#activites" data-ancre>Voir les activités</a>
+        </div>
+      </div>
+      <div class="reelle" role="img" aria-label="Plateau cardio du complexe Moov'Up"></div>
+    </section>
+
+    <section class="bloc" id="activites">
+      <div class="bloc-tete"><h2>Nos activités</h2><p class="note"><b>Exemples à remplacer :</b> noms, catégories, descriptions et photos.</p></div>
+      <div class="bloc-tete">
+        <div class="pastilles" role="group" aria-label="Filtrer les activités">
+          <button type="button" aria-pressed="true" data-filtre="tous">Toutes</button>
+          <button type="button" aria-pressed="false" data-filtre="muscu">Cardio &amp; musculation</button>
+          <button type="button" aria-pressed="false" data-filtre="co">Cours collectifs</button>
+          <button type="button" aria-pressed="false" data-filtre="eau">Piscine</button>
+          <button type="button" aria-pressed="false" data-filtre="kids">Enfants</button>
+        </div>
+        <div class="fleches" data-pour="defile-activites"><button type="button" aria-label="Activités précédentes">‹</button><button type="button" aria-label="Activités suivantes">›</button></div>
+      </div>
+      <div class="defile" id="defile-activites">
+        <a class="carte reelle" href="#contact" data-ancre data-cat="muscu">
+          <span class="marque">Plateau cardio</span>
+          <div class="corps"><div><h3>Cardio</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Cardio & musculation</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte n" href="#contact" data-ancre data-cat="muscu">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div><h3>Musculation</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Cardio & musculation</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte o" href="#contact" data-ancre data-cat="co">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div><h3>Cours collectifs</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Cours collectifs</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte " href="#contact" data-ancre data-cat="eau">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div><h3>Natation</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Piscine</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte o" href="#contact" data-ancre data-cat="eau">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div><h3>Aquagym</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Piscine</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte n" href="#contact" data-ancre data-cat="co">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div><h3>Sports de combat</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Cours collectifs</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte " href="#contact" data-ancre data-cat="kids">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div><h3>Activités enfants</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Enfants</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="bloc" id="coachs">
+      <div class="bloc-tete"><h2>Nos coachs</h2>
+        <div class="rangee" style="align-items:center"><div class="fleches" data-pour="defile-coachs"><button type="button" aria-label="Coachs précédents">‹</button><button type="button" aria-label="Coachs suivants">›</button></div><a class="btn" href="#contact" data-ancre>Trouver un coach</a></div>
+      </div>
+      <p class="note"><b>À remplir :</b> nom, spécialité, courte présentation et portrait de chaque coach.</p>
+      <div class="defile quatre" id="defile-coachs">
+        <a class="carte n coach" href="#contact" data-ancre>
+          <span class="marque">Portrait noir et blanc</span>
+          <div class="corps"><div><h3>Nom du coach</h3><p class="desc">Deux lignes sur son parcours, ses diplômes et sa façon de coacher.</p><span class="puce">Spécialité</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte n coach" href="#contact" data-ancre>
+          <span class="marque">Portrait noir et blanc</span>
+          <div class="corps"><div><h3>Nom du coach</h3><p class="desc">Deux lignes sur son parcours, ses diplômes et sa façon de coacher.</p><span class="puce">Spécialité</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte n coach" href="#contact" data-ancre>
+          <span class="marque">Portrait noir et blanc</span>
+          <div class="corps"><div><h3>Nom du coach</h3><p class="desc">Deux lignes sur son parcours, ses diplômes et sa façon de coacher.</p><span class="puce">Spécialité</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte n coach" href="#contact" data-ancre>
+          <span class="marque">Portrait noir et blanc</span>
+          <div class="corps"><div><h3>Nom du coach</h3><p class="desc">Deux lignes sur son parcours, ses diplômes et sa façon de coacher.</p><span class="puce">Spécialité</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte n coach" href="#contact" data-ancre>
+          <span class="marque">Portrait noir et blanc</span>
+          <div class="corps"><div><h3>Nom du coach</h3><p class="desc">Deux lignes sur son parcours, ses diplômes et sa façon de coacher.</p><span class="puce">Spécialité</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+        <a class="carte n coach" href="#contact" data-ancre>
+          <span class="marque">Portrait noir et blanc</span>
+          <div class="corps"><div><h3>Nom du coach</h3><p class="desc">Deux lignes sur son parcours, ses diplômes et sa façon de coacher.</p><span class="puce">Spécialité</span></div><span class="rond" aria-hidden="true">→</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="bloc" id="projets">
+      <div class="bloc-tete"><h2>Les projets Moov'Up</h2>
+        <div class="fleches" data-pour="defile-projets"><button type="button" aria-label="Projets précédents">‹</button><button type="button" aria-label="Projets suivants">›</button></div>
+      </div>
+      <p class="note"><b>À confirmer :</b> la liste des projets et le texte de chacun.</p>
+      <div class="defile" id="defile-projets">
+        <article class="carte reelle projet">
+          <span class="marque">Le complexe</span>
+          <div class="corps"><div class="bas"><div><h3>Complexe Moov'Up Sports</h3><p>Le complexe principal. Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </article>
+        <article class="carte o projet">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div class="bas"><div><h3>Lady Moov Up</h3><p>L'espace réservé aux femmes. Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </article>
+        <article class="carte  projet">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div class="bas"><div><h3>Moov Up Kids</h3><p>Les activités pour enfants. Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </article>
+        <article class="carte n projet">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div class="bas"><div><h3>Moov Up Power Gym</h3><p>Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </article>
+        <article class="carte  projet">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div class="bas"><div><h3>Evolve Hommes</h3><p>Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </article>
+        <article class="carte o projet">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div class="bas"><div><h3>Anaïs Clinic</h3><p>Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </article>
+        <article class="carte n projet">
+          <span class="marque">Photo à ajouter</span>
+          <div class="corps"><div class="bas"><div><h3>Anaïs Institut</h3><p>Présentation à écrire.</p></div><span class="rond" aria-hidden="true">→</span></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="bloc" id="tarifs">
+      <div class="bloc-tete"><h2>Abonnements</h2><p class="note"><b>À remplir :</b> formules et prix réels.</p></div>
+      <div class="grille g3">
+        <article class="tarif"><h3>Formule 1</h3><div class="prix">— DH</div><ul><li>Avantage à préciser</li><li>Avantage à préciser</li></ul></article>
+        <article class="tarif"><h3>Formule 2</h3><div class="prix">— DH</div><ul><li>Avantage à préciser</li><li>Avantage à préciser</li></ul></article>
+        <article class="tarif"><h3>Formule 3</h3><div class="prix">— DH</div><ul><li>Avantage à préciser</li><li>Avantage à préciser</li></ul></article>
+      </div>
+    </section>
+
+    <section class="bloc" id="visite">
+      <div class="visite">
+        <div class="visite-texte">
+          <span class="etiquette">Book a tour</span>
+          <h2>Réservez votre visite du complexe</h2>
+          <p>Choisissez un jour et un créneau. Un membre de l'équipe vous accueille et vous fait découvrir les espaces.</p>
+          <p class="note-claire"><b>À préciser :</b> durée de la visite, jours et horaires possibles.</p>
+        </div>
+        <form class="visite-form" id="form-visite" novalidate>
+          <label class="champ" for="v-nom">Nom complet
+            <input id="v-nom" name="nom" type="text" autocomplete="name" required></label>
+          <label class="champ" for="v-tel">Téléphone
+            <input id="v-tel" name="tel" type="tel" autocomplete="tel" required></label>
+          <label class="champ" for="v-date">Date souhaitée
+            <input id="v-date" name="date" type="date" required></label>
+          <label class="champ" for="v-creneau">Créneau
+            <select id="v-creneau" name="creneau">
+              <option>Matin</option><option>Après-midi</option><option>Soir</option>
+            </select></label>
+          <label class="champ large" for="v-interet">Ce qui vous intéresse
+            <select id="v-interet" name="interet">
+              <option>Complexe Moov'Up Sports</option><option>Lady Moov Up</option><option>Moov Up Kids</option><option>Moov Up Power Gym</option><option>Evolve Hommes</option>
+            </select></label>
+          <button class="btn orange large" type="submit">Réserver ma visite</button>
+          <p id="retour-visite" class="large" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="bloc" id="contact">
+      <div class="bloc-tete"><h2>Nous trouver</h2></div>
+      <div class="contact">
+        <div class="fiche">
+          <h3>Complexe Moov'Up Sports</h3>
+          <dl>
+            <dt>Adresse</dt><dd>À remplir</dd>
+            <dt>Horaires</dt><dd>À remplir</dd>
+            <dt>Téléphone</dt><dd>À remplir</dd>
+            <dt>Instagram</dt><dd>@complexemoovup</dd>
+          </dl>
+        </div>
+        <div class="photo"><small>Carte</small>Plan d'accès</div>
+      </div>
+    </section>
+  </main>
+  <footer class="pied"><div><span>Complexe Moov'Up Sports</span><a href="#accueil">Changer d'accès</a></div></footer>
+</div>
+
+<!-- ================= ESPACE MEMBRE ================= -->
+<div class="vue" id="vue-membre">
+  <header class="barre"><div class="barre-in">
+    <a href="#accueil" aria-label="Retour au choix de l'accès"><img src="assets/logo.png" alt="Complexe Moov'Up Sports"></a>
+    <nav aria-label="Navigation"><a href="#accueil">Changer d'accès</a></nav>
+    <a class="btn orange" href="#visiteur">Accès visiteur</a>
+  </div></header>
+  <main class="membre-page">
+    <form class="connexion" id="form-connexion" novalidate>
+      <span class="etiquette" style="color:var(--bleu)">Espace membre</span>
+      <h1>Connexion</h1>
+      <label class="champ" for="identifiant">Identifiant ou e-mail
+        <input id="identifiant" name="identifiant" type="text" autocomplete="username"></label>
+      <label class="champ" for="mot-de-passe">Mot de passe
+        <input id="mot-de-passe" name="mot-de-passe" type="password" autocomplete="current-password"></label>
+      <button class="btn bleu" type="submit">Se connecter</button>
+      <p id="retour-connexion" role="status"></p>
+      <p class="note">Pas encore membre ? <a href="#visiteur">Découvrir le complexe</a></p>
+    </form>
+    <section class="apercu">
+      <h2>Ce que le membre verra une fois connecté</h2>
+      <p class="note"><b>À valider :</b> contenu de l'espace membre.</p>
+      <div class="modules">
+        <article class="module"><h3>Mon abonnement</h3><p>Formule en cours et date de fin.</p></article>
+        <article class="module"><h3>Planning des cours</h3><p>Horaires de la semaine et réservation.</p></article>
+        <article class="module"><h3>Mes réservations</h3><p>Séances à venir et historique.</p></article>
+        <article class="module"><h3>Mon coach</h3><p>Contact et programme personnalisé.</p></article>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// --- Navigation entre les trois vues (accueil, visiteur, membre) ---
+var VUES = ['accueil','visiteur','membre'];
+function afficher(nom){
+  VUES.forEach(function(v){ document.getElementById('vue-'+v).classList.toggle('active', v===nom); });
+  window.scrollTo(0,0);
+}
+function route(){
+  var h = location.hash.replace('#','');
+  if (VUES.indexOf(h) >= 0) afficher(h);
+  else if (!h) afficher('accueil');
+}
+window.addEventListener('hashchange', route);
+route();
+
+// Liens internes à l'espace visiteur : défilement sans changer de vue
+document.querySelectorAll('a[data-ancre]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var cible = document.querySelector(a.getAttribute('href'));
+    var doux = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (cible) cible.scrollIntoView({behavior: doux ? 'smooth' : 'auto'});
+  });
+});
+
+// Filtres des activités
+document.querySelectorAll('.pastilles button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.pastilles button').forEach(function(x){ x.setAttribute('aria-pressed', x===b); });
+    var f = b.dataset.filtre;
+    document.querySelectorAll('#defile-activites .carte').forEach(function(c){
+      c.style.display = (f==='tous' || c.dataset.cat===f) ? '' : 'none';
+    });
+    document.getElementById('defile-activites').scrollLeft = 0;
+  });
+});
+
+// Flèches des carrousels
+document.querySelectorAll('.fleches').forEach(function(g){
+  var piste = document.getElementById(g.dataset.pour), bs = g.querySelectorAll('button');
+  function aller(sens){
+    var carte = piste.querySelector('.carte'), pas = carte ? carte.getBoundingClientRect().width + 22 : 300;
+    var doux = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    piste.scrollBy({left: sens*pas, behavior: doux ? 'smooth' : 'auto'});
+  }
+  bs[0].addEventListener('click', function(){ aller(-1); });
+  bs[1].addEventListener('click', function(){ aller(1); });
+});
+
+// Connexion : pas encore branchée
+document.getElementById('form-connexion').addEventListener('submit', function(e){
+  e.preventDefault();
+  document.getElementById('retour-connexion').textContent = "La connexion n'est pas encore branchée : c'est le squelette.";
+});
+
+// Réservation de visite : pas encore branchée
+document.getElementById('form-visite').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = e.target, r = document.getElementById('retour-visite');
+  if (!f.nom.value.trim() || !f.tel.value.trim() || !f.date.value){
+    r.textContent = 'Indiquez votre nom, votre téléphone et la date souhaitée.'; return;
+  }
+  r.textContent = "Formulaire prêt, mais l'envoi n'est pas encore branché : aucune demande n'est partie.";
+});
+
+// --- Fond : semis de petits carrés aux couleurs du logo ---
+(function(){
+  var c = document.getElementById('semis'), x = c.getContext('2d');
+  var couleurs = ['#2E6990','#2E6990','#D87238','#2C2E34','#9AA3AD','#9AA3AD'];
+  function alea(g){ return function(){ g = (g*1664525 + 1013904223) % 4294967296; return g/4294967296; }; }
+  function dessiner(){
+    var r = window.devicePixelRatio || 1, w = innerWidth, h = innerHeight;
+    c.width = w*r; c.height = h*r; x.setTransform(r,0,0,r,0,0); x.clearRect(0,0,w,h);
+    var a = alea(7), n = Math.round(w*h/5200);
+    for (var i=0;i<n;i++){
+      // deux nuages : en haut à droite et en bas à gauche, clairsemés vers le centre
+      var coin = a() < .5, d = Math.pow(a(), 1.9), ang = a()*Math.PI/2;
+      var R = Math.max(w,h)*.75*d;
+      var px = coin ? w - Math.cos(ang)*R : Math.cos(ang)*R;
+      var py = coin ? Math.sin(ang)*R : h - Math.sin(ang)*R;
+      var t = 4 + a()*9*(1-d*.6);
+      x.globalAlpha = (.55 - d*.45) * (.5 + a()*.5);
+      x.fillStyle = couleurs[Math.floor(a()*couleurs.length)];
+      x.fillRect(px, py, t, t);
+    }
+    x.globalAlpha = 1;
+  }
+  dessiner(); addEventListener('resize', dessiner);
+})();
+</script>
+</body>
+</html>
