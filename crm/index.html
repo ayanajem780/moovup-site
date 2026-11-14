@@ -750,28 +750,40 @@ document.addEventListener('keydown', e => {
 document.addEventListener('input', e => { if (e.target.id === 'palQ') { pal.i = 0; palDraw(); } });
 if (typeof window.addEventListener === 'function') { window.addEventListener('online', () => render()); window.addEventListener('offline', () => render()); }
 
-/* sphère de particules de la page de connexion */
-const orb = {pts: null, ang: 0, raf: 0};
+/* icône Moov'Up animée en 3D sur la page de connexion : chaque carré du logo est une pièce */
+const ICON = [[-0.085,0.775,0.072,0.0,0],[0.73,0.633,0.223,0.27,3],[0.138,0.695,0.083,0.25,0],[0.34,0.64,0.079,0.34,0],[0.45,0.646,0.059,0.24,0],[0.207,0.599,0.105,0.41,2],[-0.225,0.625,0.063,0.03,0],[0.057,0.606,0.083,0.25,0],[-0.064,0.563,0.083,0.39,2],[0.498,0.524,0.107,0.01,1],[0.361,0.518,0.077,0.23,0],[-0.168,0.492,0.077,0.23,0],[-0.073,0.443,0.074,0.08,0],[0.206,0.458,0.058,0.0,0],[-0.258,0.399,0.063,0.03,0],[0.593,0.394,0.087,0.0,0],[0.463,0.362,0.094,0.07,2],[1.0,0.32,0.075,0.06,2],[0.18,0.307,0.062,0.06,0],[0.321,0.298,0.093,0.01,0],[0.7,0.257,0.138,0.14,2],[0.923,0.279,0.066,0.1,0],[0.54,0.25,0.112,0.02,2],[-0.105,0.253,0.059,0.09,0],[0.335,0.2,0.058,0.0,0],[0.837,0.185,0.093,0.17,0],[0.478,0.15,0.085,0.01,0],[0.148,0.123,0.123,0.0,1],[0.657,0.134,0.085,0.01,0],[0.742,0.148,0.058,0.13,0],[0.309,0.097,0.087,0.0,0],[0.818,0.11,0.056,0.17,0],[-0.214,0.048,0.071,0.13,0],[0.021,0.049,0.065,0.13,0],[0.728,0.046,0.063,0.03,0],[0.234,-0.089,0.138,0.45,1],[-0.005,-0.035,0.065,0.26,0],[0.105,-0.013,0.039,0.14,0],[0.352,-0.08,0.112,0.36,2],[0.105,-0.103,0.076,0.04,0],[0.464,-0.133,0.083,0.39,0],[-0.008,-0.176,0.08,0.08,1],[0.564,-0.208,0.11,0.2,2],[-1.0,-0.199,0.063,0.03,0],[0.367,-0.214,0.08,0.31,0],[-0.273,-0.226,0.059,0.09,0],[-0.079,-0.25,0.087,0.29,2],[0.464,-0.235,0.065,0.26,0],[-0.799,-0.269,0.108,0.23,2],[0.184,-0.25,0.079,0.21,0],[0.285,-0.253,0.052,0.12,0],[0.048,-0.294,0.083,0.25,0],[0.662,-0.311,0.084,0.23,0],[-0.544,-0.362,0.092,0.03,0],[0.551,-0.363,0.084,0.23,0],[-0.199,-0.376,0.097,0.04,1],[-0.414,-0.381,0.058,0.0,0],[-0.088,-0.421,0.101,0.07,2],[0.677,-0.42,0.062,0.36,0],[-0.68,-0.42,0.056,0.17,0],[-0.917,-0.439,0.058,0.13,0],[0.207,-0.431,0.056,0.03,0],[0.444,-0.451,0.089,0.15,2],[0.562,-0.476,0.076,0.13,0],[-0.234,-0.492,0.083,0.14,0],[-0.37,-0.531,0.071,0.02,0],[0.366,-0.524,0.063,0.03,0],[-0.442,-0.568,0.062,0.06,0],[-0.001,-0.571,0.062,0.06,0],[0.471,-0.559,0.062,0.06,0],[-0.614,-0.575,0.065,0.0,0],[-0.317,-0.625,0.08,0.31,0],[0.258,-0.602,0.059,0.09,0],[-0.75,-0.607,0.05,0.0,0],[0.371,-0.67,0.11,0.79,2],[-0.438,-0.652,0.084,0.03,2],[-0.414,-0.762,0.065,0.0,0],[0.445,-0.775,0.066,0.1,0]];
+const orb = {pts: null, t0: 0, raf: 0};
 function orbStart(){
   const cv = document.getElementById && document.getElementById('orb');
   if (!cv || !cv.getContext || typeof requestAnimationFrame !== 'function') return;
   cancelAnimationFrame(orb.raf);
-  if (!orb.pts) { orb.pts = []; for (let i = 0; i < 5200; i++) { const th = Math.random() * Math.PI * 2, ph = Math.random() * Math.PI, r = 1 - Math.pow(Math.random(), 3) * .07; orb.pts.push([r * Math.sin(ph) * Math.cos(th), r * Math.cos(ph), r * Math.sin(ph) * Math.sin(th), .7 + Math.random() * .9, .35 + Math.random() * .65]); } }
+  if (!orb.pts) {
+    let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    orb.pts = ICON.map(q => { const th = rnd() * Math.PI * 2, ph = Math.acos(2 * rnd() - 1), r = 1.5 + rnd() * .5;
+      return {x: q[0], y: q[1], z: (rnd() - .5) * .62, s: q[2], rot: q[3], c: q[4], sx: r * Math.sin(ph) * Math.cos(th), sy: r * Math.cos(ph), sz: r * Math.sin(ph) * Math.sin(th), ph: rnd() * 6.28, d: rnd() * .35}; });
+    orb.t0 = performance.now();
+  }
   const ctx = cv.getContext('2d'), still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let last = performance.now();
+  const COL = ['#4a4a4a', '#101010', '#0a5f85', '#ffffff'];
   const frame = now => {
     if (!cv.isConnected) return;
     const dpr = Math.min(2, window.devicePixelRatio || 1), w = cv.clientWidth, h = cv.clientHeight;
     if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
-    orb.ang += Math.min(60, now - last) * .00022; last = now;
-    const R = Math.min(w, h) * .33 * dpr, cx = cv.width / 2, cy = cv.height / 2, ca = Math.cos(orb.ang), sa = Math.sin(orb.ang), tilt = .16, ct = Math.cos(tilt), st = Math.sin(tilt);
+    const t = still ? 1e6 : now - orb.t0, R = Math.min(w, h) * .36 * dpr, cx = cv.width / 2, cy = cv.height / 2;
+    const ay = still ? 0 : Math.sin(t * .00055) * .8, ax = still ? 0 : Math.sin(t * .0004) * .2;
+    const ca = Math.cos(ay), sa = Math.sin(ay), cb = Math.cos(ax), sb = Math.sin(ax);
+    const list = orb.pts.map(p => {
+      const k = Math.max(0, Math.min(1, (t / 1900 - p.d) / .65)), e = 1 - Math.pow(1 - k, 3), fl = still ? 0 : Math.sin(t * .0011 + p.ph) * .012;
+      const X = p.sx + (p.x - p.sx) * e, Y = p.sy + (p.y + fl - p.sy) * e, Z = p.sz + (p.z - p.sz) * e;
+      const x1 = X * ca + Z * sa, z1 = -X * sa + Z * ca, y1 = Y * cb - z1 * sb, z2 = Y * sb + z1 * cb;
+      return {p, x: x1, y: y1, z: z2, e};
+    }).sort((u, v) => u.z - v.z);
     ctx.clearRect(0, 0, cv.width, cv.height);
-    for (const p of orb.pts) {
-      const x = p[0] * ca + p[2] * sa, z0 = -p[0] * sa + p[2] * ca, y = p[1] * ct - z0 * st, z = p[1] * st + z0 * ct;
-      const persp = 1 + z * .12, a = Math.min(1, (.62 + (z + 1) * .3) * (.55 + p[4] * .45));
-      ctx.fillStyle = 'rgba(8,72,104,' + a.toFixed(3) + ')';
-      const sz = p[3] * dpr * persp * 1.9;
-      ctx.fillRect(cx + x * R * persp, cy - y * R * persp, sz, sz);
+    for (const o of list) {
+      const persp = 1 / (1 - o.z * .32), sz = o.p.s * R * persp;
+      ctx.save(); ctx.translate(cx + o.x * R * persp, cy - o.y * R * persp); ctx.rotate(o.p.rot + (1 - o.e) * 3 + ay * .25);
+      ctx.globalAlpha = Math.min(1, .25 + o.e) * Math.max(.55, Math.min(1, .8 + o.z * .5));
+      ctx.fillStyle = COL[o.p.c]; ctx.fillRect(-sz / 2, -sz / 2, sz, sz); ctx.restore();
     }
     if (!still) orb.raf = requestAnimationFrame(frame);
   };
@@ -813,7 +825,7 @@ function vGate(){
     <div class="lux-or"><span>ou</span></div>
     <button type="button" class="lux-btn ghost" data-act="login"><svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.8H9v3.4h4.8a4.1 4.1 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.7-3.9 2.7-6.5z"/><path fill="#34A853" d="M9 18c2.4 0 4.5-.8 6-2.2l-3-2.3c-.8.6-1.8.9-3 .9-2.3 0-4.3-1.6-5-3.7H1v2.3A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M4 10.7a5.4 5.4 0 0 1 0-3.4V5H1a9 9 0 0 0 0 8z"/><path fill="#EA4335" d="M9 3.6c1.3 0 2.5.5 3.4 1.3L15 2.3A9 9 0 0 0 1 5l3 2.3c.7-2.1 2.7-3.7 5-3.7z"/></svg>Continuer avec Google</button>`; }
   return `<div class="lux">
-    <div class="lux-photo"><canvas id="orb" role="img" aria-label="Sphère de particules en rotation"></canvas></div>
+    <div class="lux-photo"><canvas id="orb" role="img" aria-label="Icône Moov'Up animée en trois dimensions"></canvas></div>
     <div class="lux-panel"><div class="lux-card"><img src="../assets/logo.png" alt="Complexe Moov'Up Sports" width="190" height="57">${body}</div><p class="lux-foot">Accès réservé aux membres autorisés</p></div>
   </div>`;
 }
