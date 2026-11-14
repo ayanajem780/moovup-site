@@ -11,29 +11,15 @@
    fiches datées pour les tournages. Neutres froids tirés vers le bleu nuit, un seul accent bleu vif,
    les 6 univers ont chacun une pastille de couleur + leur nom. */
 :root{
-  --bg:#f3f5f8; --surface:#ffffff; --sunken:#e8ecf2; --line:#d5dbe5;
-  --ink:#141b2b; --muted:#5b667a;
-  --accent:#1f4fd8; --accent-ink:#ffffff; --accent-soft:#e3eafc;
-  --ok:#1d7a4c; --ok-soft:#dff3e8; --warn:#9a6200; --warn-soft:#fbeed0; --bad:#b3261e; --bad-soft:#fbe3e1;
+  --bg:#eaf2fd; --surface:#ffffff; --sunken:#f2f5fa; --line:#dde4ef;
+  --ink:#1f2a44; --muted:#5f6b85;
+  --accent:#0b6fe0; --accent-ink:#ffffff; --accent-soft:#deebff;
+  --ok:#067a4b; --ok-soft:#d6f5e6; --warn:#8a5300; --warn-soft:#ffe9c7; --bad:#c22543; --bad-soft:#fde0e6;
+  --s-todo:#579bfc; --s-doing:#fdab3d; --s-done:#00c875; --s-late:#e2445c; --s-violet:#a25ddc;
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
   --r:10px;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0f131c; --surface:#181e2b; --sunken:#121722; --line:#2b3446;
-    --ink:#e9edf5; --muted:#9aa5ba;
-    --accent:#7ea2ff; --accent-ink:#0b1020; --accent-soft:#1d2a4d;
-    --ok:#62c992; --ok-soft:#173326; --warn:#e6b450; --warn-soft:#3a2d10; --bad:#ff8a80; --bad-soft:#40201e;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0f131c; --surface:#181e2b; --sunken:#121722; --line:#2b3446;
-  --ink:#e9edf5; --muted:#9aa5ba;
-  --accent:#7ea2ff; --accent-ink:#0b1020; --accent-soft:#1d2a4d;
-  --ok:#62c992; --ok-soft:#173326; --warn:#e6b450; --warn-soft:#3a2d10; --bad:#ff8a80; --bad-soft:#40201e;
-  color-scheme:dark;
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -75,7 +61,21 @@ textarea{width:100%;min-height:64px;resize:vertical}
 .col{background:var(--sunken);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;gap:8px;min-height:120px}
 .col h2{font:600 13px/1 var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:4px 2px 4px;display:flex;justify-content:space-between}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:11px 12px;display:flex;flex-direction:column;gap:8px}
-.card.late{border-left:4px solid var(--bad)}
+.card{border-left:4px solid var(--s-todo)}
+.col.k-doing .card{border-left-color:var(--s-doing)}
+.col.k-done .card{border-left-color:var(--s-done)}
+.card.late{border-left-color:var(--s-late)}
+.col{border-top:4px solid var(--s-todo)}
+.col.k-doing{border-top-color:var(--s-doing)}
+.col.k-done{border-top-color:var(--s-done)}
+.col h2{color:var(--ink)}
+.tile{border-top:4px solid var(--s-todo)}
+.tiles .tile:nth-child(2){border-top-color:var(--s-late)}
+.tiles .tile:nth-child(3){border-top-color:var(--s-done)}
+.tiles .tile:nth-child(4){border-top-color:var(--s-violet)}
+.block,.card,.tile,.shoot{box-shadow:0 1px 3px rgba(31,42,68,.06)}
+.day .ev.sh{border-left-color:var(--s-violet)}
+.day .ev.lt{border-left-color:var(--s-late)}
 .card .t{font-weight:600;overflow-wrap:anywhere;cursor:pointer;background:none;border:0;padding:0;text-align:left}
 .card .t:hover{color:var(--accent)}
 .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
@@ -111,7 +111,7 @@ th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 tr:last-child td{border-bottom:0}
 .prog{height:8px;background:var(--sunken);border-radius:99px;overflow:hidden;min-width:90px}
-.prog i{display:block;height:100%;background:var(--ok)}
+.prog i{display:block;height:100%;background:var(--s-done)}
 .member{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .member:last-of-type{border-bottom:0}
 .member input{flex:1 1 160px}
@@ -146,7 +146,7 @@ dialog h2{font:700 19px/1.2 var(--display);margin:0}
 .legend span{display:flex;gap:8px;align-items:center}
 .legend b{font-variant-numeric:tabular-nums;margin-left:auto;padding-left:14px}
 .sq{width:10px;height:10px;border-radius:3px;flex:none}
-.c-todo{background:var(--muted)}.c-doing{background:var(--accent)}.c-done{background:var(--ok)}
+.c-todo{background:var(--s-todo)}.c-doing{background:var(--s-doing)}.c-done{background:var(--s-done)}
 .load{display:flex;flex-direction:column;gap:10px}
 .load .r{display:grid;grid-template-columns:minmax(90px,150px) minmax(0,1fr);gap:4px 12px;align-items:center;font-size:14px}
 .load .r small{grid-column:2;color:var(--muted);font-size:12.5px}
@@ -160,8 +160,8 @@ dialog h2{font:700 19px/1.2 var(--display);margin:0}
 .day{background:var(--sunken);border-radius:8px;padding:8px;min-height:96px;display:flex;flex-direction:column;gap:5px;font-size:12.5px}
 .day.today{outline:2px solid var(--accent)}
 .day h3{margin:0;font:600 12px/1.2 var(--body);color:var(--muted);text-transform:capitalize}
-.day .ev{background:var(--surface);border-radius:6px;padding:3px 6px;overflow-wrap:anywhere;border-left:3px solid var(--muted)}
-.day .ev.sh{border-left-color:var(--accent);font-weight:600}
+.day .ev{background:var(--surface);border-radius:6px;padding:3px 6px;overflow-wrap:anywhere;border-left:3px solid var(--s-todo)}
+.day .ev.sh{font-weight:600}
 .day .ev.lt{border-left-color:var(--bad)}
 @media (max-width:760px){
   .dash>section,.dash>section.third,.dash>section.two3{grid-column:1/-1}
@@ -309,7 +309,7 @@ function vTasks(){
     .map(([k,l]) => `<button type="button" data-act="kind" data-v="${k}" aria-pressed="${ui.kind === k}">${l}</button>`).join('');
   const cols = STATUS.map(([k,l]) => {
     const items = list.filter(t => (t.status || 'todo') === k);
-    return `<div class="col"><h2><span>${l}</span><span>${items.length}</span></h2>${items.map(taskCard).join('') || '<p class="empty">Rien ici.</p>'}</div>`;
+    return `<div class="col k-${k}"><h2><span>${l}</span><span>${items.length}</span></h2>${items.map(taskCard).join('') || '<p class="empty">Rien ici.</p>'}</div>`;
   }).join('');
   return `<div class="bar">
     <div class="seg" role="group" aria-label="Type de tâche">${seg}</div>
@@ -448,7 +448,7 @@ function vDash(){
   const upcoming = state.shoots.filter(s => s.date && s.date >= t).sort((a,b) => (a.date + (a.start || '')).localeCompare(b.date + (b.start || '')));
   const C = 2 * Math.PI * 42; let off = 0;
   const arc = (n, col) => { if (!n || !all.total) return ''; const len = n / all.total * C; const h = `<circle cx="60" cy="60" r="42" fill="none" stroke="${col}" stroke-width="14" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-off}" transform="rotate(-90 60 60)"/>`; off += len; return h; };
-  const donut = `<svg viewBox="0 0 120 120" role="img" aria-label="${all.pct} % des tâches terminées"><circle cx="60" cy="60" r="42" fill="none" stroke="var(--sunken)" stroke-width="14"/>${arc(all.done,'var(--ok)')}${arc(all.doing,'var(--accent)')}${arc(all.todo,'var(--muted)')}<text x="60" y="62" text-anchor="middle">${all.pct} %</text><text class="s" x="60" y="76" text-anchor="middle">terminé</text></svg>`;
+  const donut = `<svg viewBox="0 0 120 120" role="img" aria-label="${all.pct} % des tâches terminées"><circle cx="60" cy="60" r="42" fill="none" stroke="var(--sunken)" stroke-width="14"/>${arc(all.done,'var(--s-done)')}${arc(all.doing,'var(--s-doing)')}${arc(all.todo,'var(--s-todo)')}<text x="60" y="62" text-anchor="middle">${all.pct} %</text><text class="s" x="60" y="76" text-anchor="middle">terminé</text></svg>`;
   const urgent = state.tasks.filter(x => x.status !== 'done' && x.due && x.due <= end).sort((a,b) => a.due.localeCompare(b.due)).slice(0, 8);
   const noOwner = state.tasks.filter(x => x.status !== 'done' && !arr(x.who).length).length;
   const clash = upcoming.filter(s => conflicts(s).length).length;
