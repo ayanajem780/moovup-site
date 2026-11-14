@@ -515,12 +515,10 @@ function vDash(){
 
 /* discussion */
 function vChat(){
-  const chans = [['general','Général']].concat(PROJECTS.map(p => [p.k, p.s]));
-  const list = state.messages.filter(m => (m.ch || 'general') === ui.ch), t = today();
+  const list = state.messages, t = today();
   const stamp = at => { const d = new Date(at), ds = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); return (ds === t ? '' : fdate(ds) + ' ') + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); };
-  return `<div class="bar"><div class="seg" role="group" aria-label="Canal de discussion" style="flex-wrap:wrap">${chans.map(([k,l]) => { const n = state.messages.filter(m => (m.ch || 'general') === k).length; return `<button type="button" data-act="ch" data-v="${k}" aria-pressed="${ui.ch === k}">${esc(l)}${n ? ' · ' + n : ''}</button>`; }).join('')}</div></div>
-  <section class="block chat">
-    <div class="msgs" id="chatBox">${list.map(m => { const mine = me && m.email === me.email; return `<div class="msg${mine ? ' mine' : ''}"><div class="mh"><b>${esc(m.name || String(m.email || '').split('@')[0])}</b><span>${esc(stamp(m.at || 0))}</span>${mine ? `<button type="button" class="btn small" data-act="delMsg" data-id="${esc(m.id)}">Supprimer</button>` : ''}</div><p>${esc(m.text)}</p></div>`; }).join('') || '<p class="empty">Aucun message dans ce canal. Écrivez le premier.</p>'}</div>
+  return `<section class="block chat">
+    <div class="msgs" id="chatBox">${list.map(m => { const mine = me && m.email === me.email; return `<div class="msg${mine ? ' mine' : ''}"><div class="mh"><b>${esc(m.name || String(m.email || '').split('@')[0])}</b><span>${esc(stamp(m.at || 0))}</span>${mine ? `<button type="button" class="btn small" data-act="delMsg" data-id="${esc(m.id)}">Supprimer</button>` : ''}</div><p>${esc(m.text)}</p></div>`; }).join('') || '<p class="empty">Aucun message pour le moment. Écrivez le premier.</p>'}</div>
     <form class="bar" id="chatForm" style="margin:10px 0 0"><input type="text" id="chatText" maxlength="1500" placeholder="Votre message à l'équipe" aria-label="Votre message" autocomplete="off" style="flex:1 1 200px"><button class="btn primary">Envoyer</button></form>
   </section>`;
 }
@@ -705,7 +703,7 @@ document.addEventListener('submit', async e => {
     const inp = $('#chatText'), text = inp.value.trim();
     if (!text || !me) return;
     inp.value = '';
-    const ok = await write(() => db.collection('messages').add({text, ch: ui.ch, email: me.email, name: me.displayName || '', at: Date.now()}));
+    const ok = await write(() => db.collection('messages').add({text, email: me.email, name: me.displayName || '', at: Date.now()}));
     if (!ok) { const n = $('#chatText'); if (n && !n.value) n.value = text; }
     return;
   }
