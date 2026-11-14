@@ -263,11 +263,87 @@ dialog h2{font:700 19px/1.2 var(--display);margin:0}
   nav{margin-left:0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ===== Habillage haut de gamme : bleu nuit, titres en serif, filets fins, ombres douces ===== */
+:root{--navy:#0a3447;--navy-deep:#062636;--serif:"Cormorant Garamond",Georgia,serif;--r:14px;
+  --bg:#f4f6f7;--sunken:#edf1f3;--line:#dfe6ea;--ink:#102a36;--muted:#5b6b74;--accent:#0a3447;--accent-soft:#e1edf2}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#061820;--surface:#0c2733;--sunken:#09202b;--line:#1b3f4e;--ink:#eaf2f5;--muted:#9db4be;
+  --accent:#7fd0ee;--accent-ink:#04202c;--accent-soft:#123a4b;--brand-blue:#7fd0ee;
+  --ok:#62d39c;--ok-soft:#0f3a2a;--warn:#f2b56b;--warn-soft:#3f2a12;--bad:#ff8fa3;--bad-soft:#44202a}
+.lux{color-scheme:light;--line:#d9e2e8;--muted:#5d676e;--brand-blue:#0c6c94;--ink:#102a36;--bad:#c22543;--bad-soft:#fde0e6;--ok:#17794a;--ok-soft:#dbf3e6;color:#102a36}
+body{letter-spacing:.005em}
+.shell{grid-template-columns:232px minmax(0,1fr)}
+.side{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%);padding:18px 12px 24px;box-shadow:inset -1px 0 0 rgba(255,255,255,.06)}
+.brand{background:#fff;border-radius:10px;padding:10px 12px;margin:0 2px 14px;display:flex;justify-content:center}
+.brand img{height:40px;width:auto}
+.navh{letter-spacing:.2em;font-size:10.5px;color:rgba(255,255,255,.5);padding:20px 12px 8px}
+nav a{font-weight:400;color:rgba(255,255,255,.82);padding:9px 12px;border-radius:6px;border-left:2px solid transparent;transition:background .18s,color .18s}
+nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+nav a[aria-current="page"]{background:rgba(255,255,255,.1);color:#fff;border-left-color:var(--brand-orange);font-weight:500}
+.wrap{max-width:1560px;margin:0;padding:0 clamp(18px,3vw,44px) 64px}
+header.top{background:none;box-shadow:none;border-radius:0;border-bottom:1px solid var(--line);margin:0 0 22px;padding:22px 0 16px;gap:12px 14px}
+header.top .ttl{margin-right:auto;min-width:0}
+h1{padding:0;border:0;font:600 clamp(30px,3vw,42px)/1.02 var(--serif);color:var(--ink);letter-spacing:-.01em}
+.crumb{margin:0 0 6px;font:600 10.5px/1 var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--brand-orange)}
+.who{margin-left:0}
+.kbtn{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:8px;padding:8px 10px 8px 12px;cursor:pointer;font-size:14px;min-width:0}
+.kbtn:hover{border-color:var(--muted);color:var(--ink)}
+.kbtn[hidden],.livedot[hidden]{display:none}
+kbd{font:500 11px/1 var(--body);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:3px 6px;background:var(--sunken);color:var(--muted)}
+.livedot{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.livedot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--s-done);box-shadow:0 0 0 0 rgba(47,174,107,.5);animation:pulse 2s infinite}
+.livedot.off::before{background:var(--s-late);animation:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,174,107,.5)}70%{box-shadow:0 0 0 8px rgba(47,174,107,0)}100%{box-shadow:0 0 0 0 rgba(47,174,107,0)}}
+section.block,.card,.tile,.shoot{border:1px solid var(--line);box-shadow:0 1px 2px rgba(10,52,71,.04),0 14px 34px -22px rgba(10,52,71,.28)}
+section.block{padding:20px 22px}
+section.block h2,.bh h2{font:600 23px/1.1 var(--serif);color:var(--ink);letter-spacing:-.005em}
+.ident h2{font-size:24px!important}
+.shoot h3{font:600 21px/1.15 var(--serif)}
+.shoot .when b{font:600 21px/1.15 var(--serif)}
+.shoot h4,.col h2,th,.kv dt,.f>label,.f>span.l{letter-spacing:.14em;font-size:10.5px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tiles .tile{border-top:1px solid var(--line);padding:18px 20px;position:relative;overflow:hidden}
+.tiles .tile::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:linear-gradient(90deg,var(--brand-orange),transparent 70%)}
+.tile b{font:600 44px/1 var(--serif);color:var(--ink);margin-bottom:6px}
+.tile.bad b{color:var(--bad)}
+.tile span{letter-spacing:.14em;font-size:10.5px;text-transform:uppercase}
+.btn{border-radius:6px;transition:border-color .15s,background .15s,transform .15s}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);letter-spacing:.03em}
+.seg{border-radius:8px}
+.seg button[aria-pressed="true"]{box-shadow:0 1px 2px rgba(10,52,71,.12),inset 0 -2px 0 var(--brand-orange)}
+.col{background:transparent;border:1px solid var(--line);border-top:2px solid var(--s-todo);border-radius:var(--r);padding:12px}
+.pill{font-weight:500;letter-spacing:.01em}
+.aib{background:linear-gradient(110deg,var(--brand-orange),#f2b56b 45%,#3aa3c9);background-size:220% 100%;animation:shine 5s linear infinite;border-radius:4px;letter-spacing:.14em}
+@keyframes shine{0%{background-position:0 0}50%{background-position:100% 0}100%{background-position:0 0}}
+select,input[type=text],input[type=date],input[type=time],input[type=email],textarea{border-radius:8px;transition:border-color .15s,box-shadow .15s}
+select:focus,input:focus,textarea:focus{outline:0;border-color:var(--brand-blue);box-shadow:0 0 0 3px var(--accent-soft)}
+dialog{border-radius:16px;box-shadow:0 30px 80px -20px rgba(6,38,54,.5)}
+dialog::backdrop{background:rgba(6,38,54,.55);backdrop-filter:blur(3px)}
+dialog h2{font:600 28px/1.1 var(--serif)}
+.note{border-radius:8px;border-left:3px solid currentColor}
+#main.enter>*{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+#main.enter>*:nth-child(2){animation-delay:.06s}#main.enter>*:nth-child(3){animation-delay:.12s}#main.enter>*:nth-child(4){animation-delay:.18s}
+#main.enter .dash>section,#main.enter .fiche>div{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}
+#main.enter .dash>section:nth-child(2),#main.enter .fiche>div:nth-child(2){animation-delay:.08s}
+#main.enter .dash>section:nth-child(n+3),#main.enter .fiche>div:nth-child(3){animation-delay:.16s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+#pal{width:min(640px,calc(100% - 24px));padding:0;margin-top:12vh;overflow:hidden}
+#palQ{width:100%;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:18px 20px;font-size:17px;background:transparent}
+#palQ:focus{box-shadow:none;border-color:var(--line)}
+#palList{list-style:none;margin:0;padding:6px;max-height:46vh;overflow-y:auto}
+#palList li{display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:8px;cursor:pointer}
+#palList li[aria-selected="true"]{background:var(--accent-soft)}
+#palList li span{flex:1;overflow-wrap:anywhere}
+#palList li small{color:var(--muted);letter-spacing:.12em;font-size:10.5px;text-transform:uppercase;white-space:nowrap}
+.palh{margin:0;padding:10px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media (max-width:760px){.brand{display:none}.shell{grid-template-columns:minmax(0,1fr)}.side{padding:8px}nav a{border-left:0}.kbtn span,.kbtn kbd{display:none}header.top{padding-top:14px}}
+@media (prefers-reduced-motion:reduce){#main.enter>*,#main.enter .dash>section,#main.enter .fiche>div,.aib,.livedot::before{animation:none!important}}
 </style>
 </head>
 <body>
 <div class="shell">
   <aside class="side" id="side" hidden>
+    <div class="brand"><img src="../assets/logo.png" alt="Complexe Moov'Up Sports" width="172" height="52"></div>
     <nav id="nav" aria-label="Sections">
       <a href="#tableau">Tableau de bord</a>
       <span class="navh">Univers</span>
@@ -291,14 +367,17 @@ dialog h2{font:700 19px/1.2 var(--display);margin:0}
   </aside>
   <div class="wrap">
     <header class="top">
-      <img class="logo" src="../assets/logo.png" alt="Complexe Moov'Up Sports" width="172" height="52">
-      <h1>CRM Marketing<small>Tâches de l'équipe et coordination des tournages des 6 univers</small></h1>
+      <div class="ttl"><p class="crumb" id="crumb"></p><h1 id="ptitle">CRM Marketing</h1></div>
+      <button type="button" class="kbtn" data-act="palette" id="kbtn" hidden><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13.5 13.5 18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Rechercher ou lancer une action</span><kbd>Ctrl K</kbd></button>
+      <span class="livedot" id="live" hidden></span>
+      <button type="button" class="btn small" data-act="theme" id="themeBtn">Mode nuit</button>
       <div class="who" id="who"></div>
     </header>
     <p class="note" id="note" hidden></p>
     <main id="main"></main>
   </div>
 </div>
+<dialog id="pal" aria-label="Recherche et actions"><input type="text" id="palQ" placeholder="Chercher une tâche, un tournage, un univers, ou poser une question à l'IA" autocomplete="off" aria-label="Recherche"><ul id="palList" role="listbox"></ul><p class="palh"><kbd>↑</kbd><kbd>↓</kbd> choisir · <kbd>Entrée</kbd> ouvrir · <kbd>Échap</kbd> fermer</p></dialog>
 <dialog id="dlg"><form id="dlgForm" method="dialog"></form></dialog>
 
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -326,6 +405,9 @@ const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[
 const loaded = {members:false, tasks:false, shoots:false};
 const ui = {kind:'all', person:'', project:'', ch:'general', seen:0, u:'sports', utab:'ia'};
 const live = {aiBusy:'', qa:[], asking:false, repBusy:false};
+const TITLES = {tableau:'Tableau de bord', taches:'Tâches', tournages:'Tournages', reunions:'Réunions', discussion:'Discussion', assistant:'Assistant IA', rapport:'Rapport du jour', suivi:'Suivi', equipe:'Équipe'};
+let lastView = '', lastSync = 0;
+try { if (localStorage.getItem('moovcrm-theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
 const whoAmI = () => (me && (me.displayName || me.email)) || '';
 window.crmConfig = firebaseConfig; window.crmAiModel = 'gemini-3.5-flash-lite'; window.crmRecaptchaKey = '';
 let db = null, auth = null, me = null, phase = 'loading', unsub = [], canWrite = true, draft = null, loadTimer = null;
@@ -372,6 +454,7 @@ function subscribe(){
     unsub.push(q.onSnapshot(snap => {
       state[name] = snap.docs.map(d => Object.assign({id: d.id}, d.data()));
       if (name === 'messages') state.messages.reverse();
+      if (!snap.metadata.fromCache) lastSync = Date.now();
       if (name in loaded) loaded[name] = true;
       if (!snap.metadata.fromCache && loaded.members && loaded.tasks && loaded.shoots) { clearTimeout(loadTimer); note(''); }
       render();
@@ -405,6 +488,12 @@ function render(){
   const v = view(), app = phase === 'app';
   $('#side').hidden = !app;
   const cur = v === 'univers' ? 'univers-' + ui.u : v;
+  $('#ptitle').textContent = !app ? 'CRM Marketing' : v === 'univers' ? proj(ui.u).n : TITLES[v];
+  $('#crumb').textContent = app ? new Date().toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}) + (v === 'univers' ? ' · univers' : '') : '';
+  $('#kbtn').hidden = !app; const lv = $('#live'); lv.hidden = !app;
+  const off = typeof navigator !== 'undefined' && navigator.onLine === false;
+  lv.className = 'livedot' + (off ? ' off' : ''); lv.textContent = off ? 'Hors ligne' : 'En direct' + (lastSync ? ' · ' + new Date(lastSync).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '');
+  $('#themeBtn').textContent = document.documentElement.dataset.theme === 'dark' ? 'Mode jour' : 'Mode nuit';
   $('#who').innerHTML = me ? `<span>${esc(me.email)}</span> <button type="button" class="btn small" data-act="logout">Se déconnecter</button>` : '';
   document.querySelectorAll('#nav a').forEach(a => a.getAttribute('href') === '#' + cur ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current'));
   if (phase === 'loading') { $('#main').innerHTML = '<p class="empty">Chargement…</p>'; return; }
@@ -418,6 +507,7 @@ function render(){
   const unread = state.messages.filter(m => (m.at || 0) > ui.seen && m.email !== (me && me.email)).length;
   $('#navChat').textContent = 'Discussion' + (unread ? ' (' + unread + ')' : '');
   $('#main').innerHTML = ({tableau: vDash, reunions: vMeet, rapport: vReport, univers: vUnivers, assistant: vAssistant, discussion: vChat, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
+  if (cur !== lastView) { lastView = cur; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); countUp(); }
   if (v === 'discussion') {
     const box = $('#chatBox'); if (box) box.scrollTop = box.scrollHeight;
     const n = $('#chatText'); if (n && keep) { n.value = keep.v; if (keep.f) n.focus(); }
@@ -614,6 +704,56 @@ function vDash(){
       <h2 style="margin-top:16px">Prochains tournages</h2><ul class="items">${upcoming.slice(0,5).map(s => `<li><span class="g">${esc(s.title || 'Tournage')}</span>${arr(s.projects).map(projChip).join('')}<span class="pill ${conflicts(s).length ? 'bad' : ''}">${esc(fdate(s.date))}${s.start ? ' ' + esc(s.start) : ''}</span></li>`).join('') || '<li class="empty">Aucun tournage prévu.</li>'}</ul></section>
   </div>`;
 }
+
+/* effets et recherche */
+function countUp(){
+  if (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof requestAnimationFrame !== 'function') return;
+  document.querySelectorAll('#main .tile b').forEach(el => {
+    const txt = el.textContent, n = /^\d+$/.test(txt) ? +txt : null; if (!n) return;
+    const t0 = performance.now(), step = now => { const p = Math.min(1, (now - t0) / 650), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(n * e); if (p < 1 && el.isConnected) requestAnimationFrame(step); else if (el.isConnected) el.textContent = txt; };
+    requestAnimationFrame(step);
+  });
+}
+const pal = {items: [], i: 0};
+const norm = v => String(v || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+function palItems(q){
+  const go = h => () => { location.hash = '#' + h; };
+  let list = [
+    {l:'Nouvelle tâche', k:'Action', run: () => openTask(null)},
+    {l:'Nouveau tournage', k:'Action', run: () => openShoot(null)},
+    {l:'Nouvelle réunion', k:'Action', run: () => { location.hash = '#reunions'; const b = document.querySelector('[data-act="newMeet"]'); if (b) b.click(); }},
+    {l:'Générer le rapport du jour', k:'Action IA', run: () => { location.hash = '#rapport'; genReport(); }},
+    {l: document.documentElement.dataset.theme === 'dark' ? 'Passer en mode jour' : 'Passer en mode nuit', k:'Affichage', run: toggleTheme}
+  ].concat(Object.keys(TITLES).map(k => ({l: TITLES[k], k:'Page', run: go(k)})))
+   .concat(PROJECTS.map(p => ({l: p.n, k:'Univers', run: go('univers-' + p.k)})))
+   .concat(state.tasks.map(x => ({l: x.title, k:'Tâche', run: () => openTask(x)})))
+   .concat(state.shoots.map(x => ({l: (x.title || 'Tournage') + (x.date ? ' · ' + fdate(x.date) : ''), k:'Tournage', run: go('tournages')})))
+   .concat(state.meetings.map(x => ({l: (x.title || 'Réunion') + (x.date ? ' · ' + fdate(x.date) : ''), k:'Réunion', run: go('reunions')})))
+   .concat(state.members.map(m => ({l: m.name, k:'Membre', run: () => { ui.person = m.id; ui.project = ''; ui.kind = 'all'; keepFilters(); location.hash = '#taches'; render(); }})));
+  const n = norm(q).trim();
+  if (n) list = list.filter(x => norm(x.l).includes(n) || norm(x.k).includes(n));
+  list = list.slice(0, 40);
+  if (q.trim().length > 3) list.push({l: 'Demander à l\'IA : « ' + q.trim() + ' »', k:'Assistant IA', run: () => { location.hash = '#assistant'; askAI(q.trim()); }});
+  return list;
+}
+function palDraw(){
+  pal.items = palItems($('#palQ').value); pal.i = Math.max(0, Math.min(pal.i, pal.items.length - 1));
+  $('#palList').innerHTML = pal.items.map((x,i) => `<li role="option" data-pi="${i}" aria-selected="${i === pal.i}"><span>${esc(x.l)}</span><small>${esc(x.k)}</small></li>`).join('') || '<li><span class="empty">Aucun résultat.</span></li>';
+  const sel = document.querySelector('#palList li[aria-selected="true"]'); if (sel && sel.scrollIntoView) sel.scrollIntoView({block: 'nearest'});
+}
+function palOpen(){ if (phase !== 'app' || $('#dlg').open) return; const d = $('#pal'); if (d.open) return; $('#palQ').value = ''; pal.i = 0; d.showModal(); palDraw(); $('#palQ').focus(); }
+function palRun(i){ const it = pal.items[i]; if (!it) return; $('#pal').close(); it.run(); }
+function toggleTheme(){ const dk = document.documentElement.dataset.theme === 'dark'; if (dk) delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = 'dark'; try { localStorage.setItem('moovcrm-theme', dk ? 'light' : 'dark'); } catch (e) {} render(); }
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); palOpen(); return; }
+  if (!$('#pal').open) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); pal.i = Math.min(pal.items.length - 1, pal.i + 1); palDraw(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); pal.i = Math.max(0, pal.i - 1); palDraw(); }
+  else if (e.key === 'Enter') { e.preventDefault(); palRun(pal.i); }
+});
+document.addEventListener('input', e => { if (e.target.id === 'palQ') { pal.i = 0; palDraw(); } });
+if (typeof window.addEventListener === 'function') { window.addEventListener('online', () => render()); window.addEventListener('offline', () => render()); }
 
 /* connexion */
 const gate = {mode:'in', email:'', msg:'', ok:'', busy:false};
@@ -994,6 +1134,8 @@ async function saveDraft(){
 
 /* ---------- événements ---------- */
 document.addEventListener('click', async e => {
+  const pi = e.target.closest('#palList li[data-pi]'); if (pi) { palRun(+pi.dataset.pi); return; }
+  if (e.target.id === 'pal') { $('#pal').close(); return; }
   const b = e.target.closest('[data-act]'); if (!b) return;
   const a = b.dataset.act, id = b.dataset.id;
   if (a === 'kind') { ui.kind = b.dataset.v; keepFilters(); render(); }
@@ -1020,6 +1162,8 @@ document.addEventListener('click', async e => {
     else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; }
   }
   else if (a === 'notify') { const sh = state.shoots.find(x => x.id === id), k = b.dataset.k; if (sh && canWrite) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: Date.now(), ok: !!((sh.notified || {})[k] || {}).ok}})); }
+  else if (a === 'palette') palOpen();
+  else if (a === 'theme') toggleTheme();
   else if (a === 'utab') { ui.utab = b.dataset.v; keepFilters(); render(); }
   else if (a === 'taskFor') openTask(null, {project: b.dataset.k});
   else if (a === 'shootFor') openShoot(null, {project: b.dataset.k});
