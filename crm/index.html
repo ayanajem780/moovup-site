@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRM Marketing Moov Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Plan : outil de travail dense. Barre d'onglets en haut, tableau en 3 colonnes pour les tâches,
+   fiches datées pour les tournages. Neutres froids tirés vers le bleu nuit, un seul accent bleu vif,
+   les 6 univers ont chacun une pastille de couleur + leur nom. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --sunken:#e8ecf2; --line:#d5dbe5;
+  --ink:#141b2b; --muted:#5b667a;
+  --accent:#1f4fd8; --accent-ink:#ffffff; --accent-soft:#e3eafc;
+  --ok:#1d7a4c; --ok-soft:#dff3e8; --warn:#9a6200; --warn-soft:#fbeed0; --bad:#b3261e; --bad-soft:#fbe3e1;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f131c; --surface:#181e2b; --sunken:#121722; --line:#2b3446;
+    --ink:#e9edf5; --muted:#9aa5ba;
+    --accent:#7ea2ff; --accent-ink:#0b1020; --accent-soft:#1d2a4d;
+    --ok:#62c992; --ok-soft:#173326; --warn:#e6b450; --warn-soft:#3a2d10; --bad:#ff8a80; --bad-soft:#40201e;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f131c; --surface:#181e2b; --sunken:#121722; --line:#2b3446;
+  --ink:#e9edf5; --muted:#9aa5ba;
+  --accent:#7ea2ff; --accent-ink:#0b1020; --accent-soft:#1d2a4d;
+  --ok:#62c992; --ok-soft:#173326; --warn:#e6b450; --warn-soft:#3a2d10; --bad:#ff8a80; --bad-soft:#40201e;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.45 var(--body)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 56px}
+header.top{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding:18px 0 12px}
+h1{font:700 22px/1.1 var(--display);margin:0;letter-spacing:-.01em}
+h1 small{display:block;font:400 13px/1.3 var(--body);color:var(--muted);letter-spacing:0;margin-top:3px}
+nav{display:flex;flex-wrap:wrap;gap:4px;background:var(--sunken);padding:4px;border-radius:999px;margin-left:auto}
+.who{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:0 0 10px;overflow-wrap:anywhere}
+.gate{max-width:520px;margin:32px auto}
+nav[hidden]{display:none}
+nav a{padding:7px 14px;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:500;font-size:14px}
+nav a[aria-current="page"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.note{background:var(--warn-soft);color:var(--warn);border-radius:var(--r);padding:9px 12px;margin:0 0 12px;font-size:14px}
+.note[hidden]{display:none}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 14px}
+.bar .grow{flex:1}
+select,input[type=text],input[type=date],input[type=time],textarea{
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-width:0}
+textarea{width:100%;min-height:64px;resize:vertical}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 13px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.danger{color:var(--bad)}
+.btn.small{padding:3px 9px;font-size:13px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.seg{display:flex;background:var(--sunken);border-radius:8px;padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:5px 11px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:500;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink)}
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.col{background:var(--sunken);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;gap:8px;min-height:120px}
+.col h2{font:600 13px/1 var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:4px 2px 4px;display:flex;justify-content:space-between}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:11px 12px;display:flex;flex-direction:column;gap:8px}
+.card.late{border-left:4px solid var(--bad)}
+.card .t{font-weight:600;overflow-wrap:anywhere;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.card .t:hover{color:var(--accent)}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;font-size:12.5px;font-weight:500;background:var(--sunken);color:var(--ink);white-space:nowrap}
+.pill.kind-c{background:var(--accent-soft);color:var(--accent)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.empty{color:var(--muted);font-size:14px;padding:10px 4px}
+.shoot{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;display:grid;grid-template-columns:150px minmax(0,1fr);gap:8px 20px}
+.shoot .when{font-variant-numeric:tabular-nums}
+.shoot .when b{display:block;font:700 17px/1.2 var(--display);text-transform:capitalize}
+.shoot h3{margin:0 0 6px;font:600 16px/1.3 var(--body);overflow-wrap:anywhere}
+.shoot .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 24px;margin-top:10px}
+.shoot h4{margin:0 0 4px;font:600 12px/1 var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.check{display:flex;gap:8px;align-items:flex-start;padding:3px 0;font-size:14px}
+.check input{margin-top:3px;flex:none}
+.check.done span.x{text-decoration:line-through;color:var(--muted)}
+.alert{grid-column:1/-1;background:var(--bad-soft);color:var(--bad);border-radius:8px;padding:8px 11px;font-size:14px;font-weight:500}
+details.past{margin-top:18px}
+details.past summary{cursor:pointer;color:var(--muted);font-weight:500;margin-bottom:10px}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.tile b{display:block;font:700 28px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.tile span{color:var(--muted);font-size:13px}
+.tile.bad b{color:var(--bad)}
+section.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;overflow-x:auto}
+section.block h2{font:700 17px/1.2 var(--display);margin:0 0 10px}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);font-size:14px}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+.prog{height:8px;background:var(--sunken);border-radius:99px;overflow:hidden;min-width:90px}
+.prog i{display:block;height:100%;background:var(--ok)}
+.member{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.member:last-of-type{border-bottom:0}
+.member input{flex:1 1 160px}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);padding:0;width:min(620px,calc(100% - 24px));max-height:calc(100% - 24px)}
+dialog::backdrop{background:rgba(10,14,24,.55)}
+dialog form{padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+dialog h2{font:700 19px/1.2 var(--display);margin:0}
+.f{display:flex;flex-direction:column;gap:4px}
+.f>label,.f>span.l{font-size:13px;font-weight:600;color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>.f{flex:1 1 130px}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.choices label{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:14px;cursor:pointer}
+.choices label:has(input:checked){background:var(--accent-soft);border-color:var(--accent)}
+.lines{display:flex;flex-direction:column;gap:6px}
+.line{display:flex;gap:6px}
+.line input{flex:1 1 auto}
+.line select{flex:0 1 150px}
+.err{color:var(--bad);font-size:14px;min-height:1px}
+.actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.actions .left{margin-right:auto}
+@media (max-width:760px){
+  .board{grid-template-columns:1fr}
+  .shoot{grid-template-columns:1fr}
+  .shoot .cols{grid-template-columns:1fr}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  nav{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>CRM Marketing Moov Up<small>Tâches de l'équipe et coordination des tournages des 6 univers</small></h1>
+    <nav id="nav" aria-label="Sections">
+      <a href="#taches">Tâches</a>
+      <a href="#tournages">Tournages</a>
+      <a href="#suivi">Suivi</a>
+      <a href="#equipe">Équipe</a>
+    </nav>
+  </header>
+  <div class="who" id="who"></div>
+  <p class="note" id="note" hidden></p>
+  <main id="main"></main>
+</div>
+<dialog id="dlg"><form id="dlgForm" method="dialog"></form></dialog>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBKsTQJs6_dEEmNgxMSEDAzkSiIIjt4m4w",
+  authDomain: "moovupmarketing-crm.firebaseapp.com",
+  projectId: "moovupmarketing-crm",
+  storageBucket: "moovupmarketing-crm.firebasestorage.app",
+  messagingSenderId: "1021567590928",
+  appId: "1:1021567590928:web:4b7aa79c0e3f338e0a2095"
+};
+const PROJECTS = [
+  {k:'sports', n:"Complexe Moov'Up Sports", s:'Sports',    c:'#2f6fde'},
+  {k:'lady',   n:'Lady Moov Up',            s:'Lady',      c:'#d6408f'},
+  {k:'kids',   n:'Moov Up Kids',            s:'Kids',      c:'#e39a12'},
+  {k:'power',  n:'Power Gym',               s:'Power Gym', c:'#c8442b'},
+  {k:'evolve', n:'Evolve Hommes',           s:'Evolve',    c:'#3d8c5a'},
+  {k:'anais',  n:'Anaïs',                   s:'Anaïs',     c:'#8a5bd1'}
+];
+const STATUS = [['todo','À faire'],['doing','En cours'],['done','Terminé']];
+const state = {members:[], tasks:[], shoots:[], access:[]};
+const loaded = {members:false, tasks:false, shoots:false};
+const ui = {kind:'all', person:'', project:''};
+let db = null, auth = null, me = null, phase = 'loading', unsub = [], canWrite = true, draft = null, loadTimer = null;
+
+try { Object.assign(ui, JSON.parse(localStorage.getItem('moovcrm-filters') || '{}')); } catch (e) {}
+function keepFilters(){ try { localStorage.setItem('moovcrm-filters', JSON.stringify(ui)); } catch (e) {} }
+
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const proj = k => PROJECTS.find(p => p.k === k);
+const member = id => state.members.find(m => m.id === id);
+const mname = id => { const m = member(id); return m ? m.name : 'Ancien membre'; };
+function today(){ const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function fdate(s, long){
+  if (!s) return '';
+  const [y,m,d] = s.split('-').map(Number);
+  return new Date(y, m-1, d).toLocaleDateString('fr-FR', long ? {weekday:'long', day:'numeric', month:'long'} : {day:'numeric', month:'short'});
+}
+function projChip(k){ const p = proj(k); return p ? `<span class="pill"><i class="dot" style="background:${p.c}"></i>${esc(p.s)}</span>` : ''; }
+function note(msg){ const n = $('#note'); n.textContent = msg || ''; n.hidden = !msg; }
+function isLate(t){ return t.status !== 'done' && t.due && t.due < today(); }
+const arr = v => Array.isArray(v) ? v : [];
+
+/* ---------- données ---------- */
+function init(){
+  render();
+  if (!window.firebase) { phase = 'error'; note("Le CRM n'a pas pu se charger. Vérifiez la connexion puis rechargez la page."); render(); return; }
+  firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth(); db = firebase.firestore();
+  auth.onAuthStateChanged(u => {
+    unsub.forEach(f => f()); unsub = [];
+    clearTimeout(loadTimer); note('');
+    me = u; canWrite = true;
+    Object.keys(loaded).forEach(k => loaded[k] = false);
+    if (!u) { phase = 'login'; render(); return; }
+    phase = 'app'; subscribe(); render();
+  });
+}
+function subscribe(){
+  loadTimer = setTimeout(() => note("Les données ne sont pas encore joignables. Vérifiez la connexion, elles s'afficheront dès que possible."), 10000);
+  ['members','tasks','shoots','access'].forEach(name => {
+    unsub.push(db.collection(name).onSnapshot(snap => {
+      state[name] = snap.docs.map(d => Object.assign({id: d.id}, d.data()));
+      if (name in loaded) loaded[name] = true;
+      if (!snap.metadata.fromCache && loaded.members && loaded.tasks && loaded.shoots) { clearTimeout(loadTimer); note(''); }
+      render();
+    }, err => {
+      clearTimeout(loadTimer);
+      if (err && err.code === 'permission-denied') phase = 'denied';
+      else note("Les données ne peuvent pas être lues pour le moment. Rechargez la page.");
+      if (name in loaded) loaded[name] = true;
+      render();
+    }));
+  });
+}
+async function write(fn, what){
+  if (!db || !canWrite) return false;
+  try { await fn(); return true; }
+  catch (e) {
+    if (e && e.code === 'permission-denied') note(what === 'access' ? "Seule l'administratrice du CRM peut ajouter ou retirer des accès." : "Vous n'avez pas le droit de modifier le CRM avec ce compte.");
+    else if (e && e.code === 'resource-exhausted') note("Le quota gratuit du jour est atteint. Réessayez demain.");
+    else note("L'enregistrement n'a pas abouti. Vérifiez la connexion puis réessayez.");
+    return false;
+  }
+}
+
+/* ---------- rendu ---------- */
+function view(){ const h = location.hash.replace('#',''); return ['taches','tournages','suivi','equipe'].includes(h) ? h : 'taches'; }
+function render(){
+  const v = view(), app = phase === 'app';
+  $('#nav').hidden = !app;
+  $('#who').innerHTML = me ? `<span>${esc(me.email)}</span> <button type="button" class="btn small" data-act="logout">Se déconnecter</button>` : '';
+  document.querySelectorAll('#nav a').forEach(a => a.getAttribute('href') === '#' + v ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current'));
+  if (phase === 'loading') { $('#main').innerHTML = '<p class="empty">Chargement…</p>'; return; }
+  if (phase === 'error') { $('#main').innerHTML = ''; return; }
+  if (phase === 'login') { $('#main').innerHTML = `<section class="block gate"><h2>Espace réservé à l'équipe marketing</h2><p>Connectez-vous avec votre compte Google pour voir les tâches et les tournages.</p><button type="button" class="btn primary" data-act="login">Se connecter avec Google</button></section>`; return; }
+  if (phase === 'denied') { $('#main').innerHTML = `<section class="block gate"><h2>Accès pas encore ouvert</h2><p>L'adresse ${esc(me ? me.email : '')} n'est pas dans la liste de l'équipe. Demandez à Aya de l'ajouter dans l'onglet Équipe, puis rechargez la page.</p><button type="button" class="btn" data-act="logout">Changer de compte</button></section>`; return; }
+  const ready = loaded.members && loaded.tasks && loaded.shoots;
+  if (!ready) { $('#main').innerHTML = '<p class="empty">Chargement des données de l\'équipe…</p>'; return; }
+  $('#main').innerHTML = ({taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
+}
+const dis = () => canWrite ? '' : ' disabled';
+
+function vTasks(){
+  let list = state.tasks.slice();
+  if (ui.kind !== 'all') list = list.filter(t => t.kind === ui.kind);
+  if (ui.person) list = list.filter(t => arr(t.who).includes(ui.person));
+  if (ui.project) list = list.filter(t => t.project === ui.project);
+  list.sort((a,b) => (a.due || '9999').localeCompare(b.due || '9999') || (a.createdAt || 0) - (b.createdAt || 0));
+  const seg = [['all','Toutes'],['indiv','Individuelles'],['collectif','Collectives']]
+    .map(([k,l]) => `<button type="button" data-act="kind" data-v="${k}" aria-pressed="${ui.kind === k}">${l}</button>`).join('');
+  const cols = STATUS.map(([k,l]) => {
+    const items = list.filter(t => (t.status || 'todo') === k);
+    return `<div class="col"><h2><span>${l}</span><span>${items.length}</span></h2>${items.map(taskCard).join('') || '<p class="empty">Rien ici.</p>'}</div>`;
+  }).join('');
+  return `<div class="bar">
+    <div class="seg" role="group" aria-label="Type de tâche">${seg}</div>
+    <select id="fPerson" data-chg="person" aria-label="Filtrer par personne"><option value="">Toute l'équipe</option>${state.members.map(m => `<option value="${esc(m.id)}"${ui.person === m.id ? ' selected' : ''}>${esc(m.name)}</option>`).join('')}</select>
+    <select id="fProject" data-chg="project" aria-label="Filtrer par univers"><option value="">Les 6 univers</option>${PROJECTS.map(p => `<option value="${p.k}"${ui.project === p.k ? ' selected' : ''}>${esc(p.n)}</option>`).join('')}</select>
+    <span class="grow"></span>
+    <button type="button" class="btn primary" data-act="newTask"${dis()}>Nouvelle tâche</button>
+  </div>
+  ${state.members.length ? '' : '<p class="note">Ajoutez d\'abord les membres dans l\'onglet Équipe pour pouvoir attribuer les tâches.</p>'}
+  <div class="board">${cols}</div>`;
+}
+function taskCard(t){
+  const late = isLate(t);
+  const who = arr(t.who).map(id => `<span class="pill">${esc(mname(id))}</span>`).join('');
+  return `<article class="card${late ? ' late' : ''}">
+    <button type="button" class="t" data-act="editTask" data-id="${esc(t.id)}">${esc(t.title)}</button>
+    <div class="meta">
+      <span class="pill ${t.kind === 'collectif' ? 'kind-c' : ''}">${t.kind === 'collectif' ? 'Collective' : 'Individuelle'}</span>
+      ${projChip(t.project)}${who}
+    </div>
+    <div class="meta">
+      ${t.due ? `<span class="pill ${late ? 'bad' : ''}">${late ? 'En retard, ' : 'Pour le '}${esc(fdate(t.due))}</span>` : '<span>Sans échéance</span>'}
+      <span class="grow" style="flex:1"></span>
+      <select data-chg="status" data-id="${esc(t.id)}" aria-label="Statut de la tâche"${dis()}>${STATUS.map(([k,l]) => `<option value="${k}"${(t.status || 'todo') === k ? ' selected' : ''}>${l}</option>`).join('')}</select>
+    </div>
+  </article>`;
+}
+
+/* tournages */
+function mins(s){ if (!s) return null; const [h,m] = s.split(':').map(Number); return h*60 + m; }
+function span(s){ const a = mins(s.start); if (a == null) return [0, 1440]; const b = mins(s.end); return [a, b != null && b > a ? b : a + 120]; }
+function conflicts(s){
+  if (!s.date) return [];
+  const [a1,b1] = span(s);
+  return state.shoots.filter(o => o.id !== s.id && o.date === s.date).filter(o => { const [a2,b2] = span(o); return a1 < b2 && a2 < b1; })
+    .map(o => ({o, shared: arr(s.people).filter(id => arr(o.people).includes(id))}));
+}
+function vShoots(){
+  const t = today();
+  const sorted = state.shoots.slice().sort((a,b) => ((a.date || '') + (a.start || '')).localeCompare((b.date || '') + (b.start || '')));
+  const up = sorted.filter(s => !s.date || s.date >= t), past = sorted.filter(s => s.date && s.date < t).reverse();
+  return `<div class="bar">
+    <span>${up.length} tournage${up.length > 1 ? 's' : ''} à venir</span><span class="grow"></span>
+    <button type="button" class="btn primary" data-act="newShoot"${dis()}>Nouveau tournage</button>
+  </div>
+  ${up.map(shootCard).join('') || '<p class="empty">Aucun tournage prévu. Créez le premier pour répartir les univers, les personnes et le matériel.</p>'}
+  ${past.length ? `<details class="past"><summary>Tournages passés (${past.length})</summary>${past.map(shootCard).join('')}</details>` : ''}`;
+}
+function shootCard(s){
+  const cf = conflicts(s);
+  const alert = cf.map(({o, shared}) => `<div class="alert">Même créneau que « ${esc(o.title || 'un autre tournage')} »${shared.length ? ' : ' + esc(shared.map(mname).join(', ')) + (shared.length > 1 ? ' sont prévus' : ' est prévu(e)') + ' sur les deux' : ''}.</div>`).join('');
+  const shots = arr(s.shots), gear = arr(s.gear);
+  const doneN = shots.filter(x => x.done).length;
+  return `<article class="shoot">
+    ${alert}
+    <div class="when">
+      <b>${s.date ? esc(fdate(s.date, true)) : 'Date à fixer'}</b>
+      <span>${s.start ? esc(s.start) + (s.end ? ' à ' + esc(s.end) : '') : 'Heure à fixer'}</span><br>
+      <span class="meta">${esc(s.place || 'Lieu à fixer')}</span>
+    </div>
+    <div>
+      <h3>${esc(s.title || 'Tournage')}</h3>
+      <div class="meta">${arr(s.projects).map(projChip).join('') || '<span>Aucun univers choisi</span>'}</div>
+      <div class="meta" style="margin-top:6px">${arr(s.people).map(id => `<span class="pill">${esc(mname(id))}</span>`).join('') || '<span>Personne d\'assigné</span>'}${s.guests ? `<span>avec ${esc(s.guests)}</span>` : ''}</div>
+      <div class="cols">
+        <div><h4>Plans à filmer ${shots.length ? `(${doneN}/${shots.length})` : ''}</h4>
+          ${shots.map((x,i) => `<label class="check${x.done ? ' done' : ''}"><input type="checkbox" data-chg="shot" data-id="${esc(s.id)}" data-i="${i}"${x.done ? ' checked' : ''}${dis()}><span><span class="x">${esc(x.text)}</span> ${projChip(x.project)}</span></label>`).join('') || '<p class="empty">Aucun plan listé.</p>'}
+        </div>
+        <div><h4>Matériel</h4>
+          ${gear.map((x,i) => `<label class="check${x.ok ? ' done' : ''}"><input type="checkbox" data-chg="gear" data-id="${esc(s.id)}" data-i="${i}"${x.ok ? ' checked' : ''}${dis()}><span><span class="x">${esc(x.text)}</span>${x.who ? ` <span class="pill">${esc(mname(x.who))}</span>` : ' <span class="pill warn">personne ne l\'apporte</span>'}</span></label>`).join('') || '<p class="empty">Aucun matériel listé.</p>'}
+        </div>
+      </div>
+      ${s.note ? `<p class="meta" style="margin:10px 0 0">${esc(s.note)}</p>` : ''}
+      <div style="margin-top:10px"><button type="button" class="btn small" data-act="editShoot" data-id="${esc(s.id)}"${dis()}>Modifier</button></div>
+    </div>
+  </article>`;
+}
+
+/* suivi */
+function counts(list){
+  const c = {todo:0, doing:0, done:0, late:0, total:list.length};
+  list.forEach(t => { c[t.status || 'todo']++; if (isLate(t)) c.late++; });
+  c.pct = c.total ? Math.round(c.done / c.total * 100) : 0;
+  return c;
+}
+function rowCells(c){
+  return `<td class="n">${c.todo}</td><td class="n">${c.doing}</td><td class="n">${c.done}</td>
+    <td class="n">${c.late ? `<span class="pill bad">${c.late}</span>` : '0'}</td>
+    <td><div class="prog" role="img" aria-label="${c.pct} % terminé"><i style="width:${c.pct}%"></i></div></td><td class="n">${c.pct} %</td>`;
+}
+function vSuivi(){
+  const all = counts(state.tasks), t = today();
+  const upcoming = state.shoots.filter(s => s.date && s.date >= t).sort((a,b) => a.date.localeCompare(b.date));
+  const head = '<th class="n">À faire</th><th class="n">En cours</th><th class="n">Terminé</th><th class="n">En retard</th><th>Avancement</th><th class="n"></th>';
+  const people = state.members.map(m => `<tr><td>${esc(m.name)}${m.role ? `<br><span class="meta">${esc(m.role)}</span>` : ''}</td>${rowCells(counts(state.tasks.filter(x => arr(x.who).includes(m.id))))}</tr>`).join('');
+  const projects = PROJECTS.map(p => {
+    const next = upcoming.find(s => arr(s.projects).includes(p.k));
+    return `<tr><td>${projChip(p.k)}</td>${rowCells(counts(state.tasks.filter(x => x.project === p.k)))}<td>${next ? esc(fdate(next.date)) : '<span class="meta">aucun</span>'}</td></tr>`;
+  }).join('');
+  return `<div class="tiles">
+    <div class="tile"><b>${all.todo + all.doing}</b><span>tâches ouvertes</span></div>
+    <div class="tile${all.late ? ' bad' : ''}"><b>${all.late}</b><span>en retard</span></div>
+    <div class="tile"><b>${all.done}</b><span>terminées</span></div>
+    <div class="tile"><b>${upcoming.length}</b><span>tournages à venir</span></div>
+  </div>
+  <section class="block"><h2>Par personne</h2>${people ? `<table><thead><tr><th>Membre</th>${head}</tr></thead><tbody>${people}</tbody></table>` : '<p class="empty">Aucun membre pour le moment. Ajoutez l\'équipe dans l\'onglet Équipe.</p>'}</section>
+  <section class="block"><h2>Par univers</h2><table><thead><tr><th>Univers</th>${head}<th>Prochain tournage</th></tr></thead><tbody>${projects}</tbody></table></section>`;
+}
+
+/* équipe */
+function vTeam(){
+  return `<section class="block"><h2>Membres de l'équipe marketing</h2>
+    ${state.members.map(m => `<div class="member">
+      <input type="text" value="${esc(m.name)}" data-chg="mName" data-id="${esc(m.id)}" aria-label="Nom"${dis()}>
+      <input type="text" value="${esc(m.role || '')}" placeholder="Rôle (ex. tournage, montage)" data-chg="mRole" data-id="${esc(m.id)}" aria-label="Rôle"${dis()}>
+      <button type="button" class="btn small danger" data-act="delMember" data-id="${esc(m.id)}"${dis()}>Retirer</button>
+    </div>`).join('') || '<p class="empty">Aucun membre pour le moment.</p>'}
+    <form class="bar" id="addMember" style="margin-bottom:0">
+      <input type="text" id="newName" placeholder="Nom du membre" aria-label="Nom du nouveau membre" required${dis()}>
+      <input type="text" id="newRole" placeholder="Rôle" aria-label="Rôle du nouveau membre"${dis()}>
+      <button class="btn primary"${dis()}>Ajouter</button>
+    </form>
+  </section>
+  <section class="block"><h2>Accès au CRM</h2>
+    <p class="meta" style="margin:0 0 8px">Les adresses Google autorisées à ouvrir le CRM, en plus de l'administratrice. Elle seule peut modifier cette liste.</p>
+    ${state.access.map(a => `<div class="member"><span style="flex:1;overflow-wrap:anywhere">${esc(a.id)}</span><button type="button" class="btn small danger" data-act="delAccess" data-id="${esc(a.id)}">Retirer</button></div>`).join('') || '<p class="empty">Aucune adresse ajoutée pour le moment.</p>'}
+    <form class="bar" id="addAccess" style="margin-bottom:0">
+      <input type="text" inputmode="email" id="newEmail" placeholder="adresse@gmail.com" aria-label="Adresse Google à autoriser" required style="flex:1 1 220px">
+      <button class="btn primary">Autoriser</button>
+    </form>
+  </section>`;
+}
+
+/* ---------- fenêtres ---------- */
+function openTask(t){
+  draft = {type:'task', id: t ? t.id : null, title: t ? t.title : '', kind: t ? t.kind : 'indiv', who: t ? arr(t.who).slice() : (ui.person ? [ui.person] : []),
+    project: t ? (t.project || '') : ui.project, status: t ? (t.status || 'todo') : 'todo', due: t ? (t.due || '') : '', note: t ? (t.note || '') : '', createdAt: t ? t.createdAt : null};
+  drawDialog(); $('#dlg').showModal();
+}
+function openShoot(s){
+  draft = {type:'shoot', id: s ? s.id : null, title: s ? (s.title || '') : '', date: s ? (s.date || '') : '', start: s ? (s.start || '') : '', end: s ? (s.end || '') : '',
+    place: s ? (s.place || '') : '', projects: s ? arr(s.projects).slice() : [], people: s ? arr(s.people).slice() : [], guests: s ? (s.guests || '') : '',
+    shots: s ? arr(s.shots).map(x => Object.assign({}, x)) : [], gear: s ? arr(s.gear).map(x => Object.assign({}, x)) : [], note: s ? (s.note || '') : '', createdAt: s ? s.createdAt : null};
+  drawDialog(); $('#dlg').showModal();
+}
+function memberChoices(name, sel){
+  return state.members.map(m => `<label><input type="checkbox" name="${name}" value="${esc(m.id)}"${sel.includes(m.id) ? ' checked' : ''}>${esc(m.name)}</label>`).join('') || '<span class="meta">Ajoutez les membres dans l\'onglet Équipe.</span>';
+}
+function drawDialog(err){
+  const d = draft, f = $('#dlgForm');
+  const foot = `<p class="err" role="alert">${esc(err || '')}</p><div class="actions">
+    ${d.id ? `<button type="button" class="btn danger left" data-act="del">${d.confirmDel ? 'Confirmer la suppression' : 'Supprimer'}</button>` : ''}
+    <button type="button" class="btn" data-act="close">Annuler</button><button class="btn primary">Enregistrer</button></div>`;
+  if (d.type === 'task') {
+    f.innerHTML = `<h2>${d.id ? 'Modifier la tâche' : 'Nouvelle tâche'}</h2>
+    <div class="f"><label for="dTitle">Tâche</label><input type="text" id="dTitle" value="${esc(d.title)}" placeholder="Ex. Monter le reel de la séance Lady"></div>
+    <div class="f"><span class="l">Type</span><div class="choices">
+      <label><input type="radio" name="kind" value="indiv"${d.kind !== 'collectif' ? ' checked' : ''}>Individuelle</label>
+      <label><input type="radio" name="kind" value="collectif"${d.kind === 'collectif' ? ' checked' : ''}>Collective</label></div></div>
+    <div class="f"><span class="l">Qui s'en occupe</span><div class="choices">${memberChoices('who', d.who)}</div></div>
+    <div class="row">
+      <div class="f"><label for="dProject">Univers</label><select id="dProject"><option value="">Tous / aucun</option>${PROJECTS.map(p => `<option value="${p.k}"${d.project === p.k ? ' selected' : ''}>${esc(p.n)}</option>`).join('')}</select></div>
+      <div class="f"><label for="dStatus">Statut</label><select id="dStatus">${STATUS.map(([k,l]) => `<option value="${k}"${d.status === k ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
+      <div class="f"><label for="dDue">Échéance</label><input type="date" id="dDue" value="${esc(d.due)}"></div>
+    </div>
+    <div class="f"><label for="dNote">Note de suivi</label><textarea id="dNote" placeholder="Où en est la tâche, ce qui bloque, le lien du fichier…">${esc(d.note)}</textarea></div>${foot}`;
+  } else {
+    const projOpts = v => `<option value="">Univers</option>` + PROJECTS.map(p => `<option value="${p.k}"${v === p.k ? ' selected' : ''}>${esc(p.s)}</option>`).join('');
+    const memOpts = v => `<option value="">Qui l'apporte ?</option>` + state.members.map(m => `<option value="${esc(m.id)}"${v === m.id ? ' selected' : ''}>${esc(m.name)}</option>`).join('');
+    f.innerHTML = `<h2>${d.id ? 'Modifier le tournage' : 'Nouveau tournage'}</h2>
+    <div class="f"><label for="dTitle">Nom du tournage</label><input type="text" id="dTitle" value="${esc(d.title)}" placeholder="Ex. Matinée Lady + Kids"></div>
+    <div class="row">
+      <div class="f"><label for="dDate">Date</label><input type="date" id="dDate" value="${esc(d.date)}"></div>
+      <div class="f"><label for="dStart">Début</label><input type="time" id="dStart" value="${esc(d.start)}"></div>
+      <div class="f"><label for="dEnd">Fin</label><input type="time" id="dEnd" value="${esc(d.end)}"></div>
+    </div>
+    <div class="f"><label for="dPlace">Lieu</label><input type="text" id="dPlace" value="${esc(d.place)}" placeholder="Ex. plateau cardio, salle Kids"></div>
+    <div class="f"><span class="l">Univers concernés</span><div class="choices">${PROJECTS.map(p => `<label><input type="checkbox" name="projects" value="${p.k}"${d.projects.includes(p.k) ? ' checked' : ''}><i class="dot" style="background:${p.c}"></i>${esc(p.s)}</label>`).join('')}</div></div>
+    <div class="f"><span class="l">Équipe présente</span><div class="choices">${memberChoices('people', d.people)}</div></div>
+    <div class="f"><label for="dGuests">Coachs et intervenants à prévenir</label><input type="text" id="dGuests" value="${esc(d.guests)}" placeholder="Ex. coach du cours, adhérentes volontaires"></div>
+    <div class="f"><span class="l">Plans à filmer</span><div class="lines">${d.shots.map((x,i) => `<div class="line"><input type="text" data-shot="${i}" value="${esc(x.text)}" placeholder="Ce qu'il faut filmer" aria-label="Plan ${i+1}"><select data-shotp="${i}" aria-label="Univers du plan ${i+1}">${projOpts(x.project)}</select><button type="button" class="btn small" data-act="rmShot" data-i="${i}" aria-label="Retirer ce plan">Retirer</button></div>`).join('')}
+      <div><button type="button" class="btn small" data-act="addShot">Ajouter un plan</button></div></div></div>
+    <div class="f"><span class="l">Matériel</span><div class="lines">${d.gear.map((x,i) => `<div class="line"><input type="text" data-gear="${i}" value="${esc(x.text)}" placeholder="Caméra, micro, lumière…" aria-label="Matériel ${i+1}"><select data-gearw="${i}" aria-label="Qui apporte le matériel ${i+1}">${memOpts(x.who)}</select><button type="button" class="btn small" data-act="rmGear" data-i="${i}" aria-label="Retirer ce matériel">Retirer</button></div>`).join('')}
+      <div><button type="button" class="btn small" data-act="addGear">Ajouter du matériel</button></div></div></div>
+    <div class="f"><label for="dNote">Note</label><textarea id="dNote">${esc(d.note)}</textarea></div>${foot}`;
+  }
+}
+function syncDraft(){
+  const d = draft, f = $('#dlgForm'), val = id => { const e = $('#' + id, f); return e ? e.value.trim() : ''; };
+  const checked = n => Array.from(f.querySelectorAll(`input[name="${n}"]:checked`)).map(e => e.value);
+  d.title = val('dTitle'); d.note = val('dNote');
+  if (d.type === 'task') {
+    d.kind = (f.querySelector('input[name="kind"]:checked') || {}).value || 'indiv';
+    d.who = checked('who'); d.project = val('dProject'); d.status = val('dStatus') || 'todo'; d.due = val('dDue');
+  } else {
+    d.date = val('dDate'); d.start = val('dStart'); d.end = val('dEnd'); d.place = val('dPlace'); d.guests = val('dGuests');
+    d.projects = checked('projects'); d.people = checked('people');
+    d.shots.forEach((x,i) => { x.text = f.querySelector(`[data-shot="${i}"]`).value.trim(); x.project = f.querySelector(`[data-shotp="${i}"]`).value; });
+    d.gear.forEach((x,i) => { x.text = f.querySelector(`[data-gear="${i}"]`).value.trim(); x.who = f.querySelector(`[data-gearw="${i}"]`).value; });
+  }
+}
+async function saveDraft(){
+  syncDraft();
+  const d = draft;
+  if (!d.title) return drawDialog(d.type === 'task' ? 'Écrivez la tâche avant d\'enregistrer.' : 'Donnez un nom au tournage avant d\'enregistrer.');
+  let data, col;
+  if (d.type === 'task') {
+    if (d.kind === 'indiv' && d.who.length !== 1) return drawDialog('Une tâche individuelle a une seule personne. Choisissez-en une, ou passez la tâche en Collective.');
+    col = 'tasks';
+    data = {title:d.title, kind:d.kind, who:d.who, project:d.project, status:d.status, due:d.due, note:d.note, createdAt: d.createdAt || Date.now()};
+  } else {
+    col = 'shoots';
+    data = {title:d.title, date:d.date, start:d.start, end:d.end, place:d.place, projects:d.projects, people:d.people, guests:d.guests,
+      shots: d.shots.filter(x => x.text).map(x => ({text:x.text, project:x.project || '', done: !!x.done})),
+      gear: d.gear.filter(x => x.text).map(x => ({text:x.text, who:x.who || '', ok: !!x.ok})), note:d.note, createdAt: d.createdAt || Date.now()};
+  }
+  const ref = d.id ? db.collection(col).doc(d.id) : db.collection(col).doc();
+  if (await write(() => ref.set(data))) $('#dlg').close();
+  else drawDialog("L'enregistrement n'a pas abouti. Réessayez.");
+}
+
+/* ---------- événements ---------- */
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act, id = b.dataset.id;
+  if (a === 'kind') { ui.kind = b.dataset.v; keepFilters(); render(); }
+  else if (a === 'login') { try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); } catch (err) { note("La connexion n'a pas abouti. Autorisez les fenêtres pop-up pour cette page puis réessayez."); } }
+  else if (a === 'logout') { if (auth) await auth.signOut(); }
+  else if (a === 'delAccess') {
+    if (b.dataset.sure) await write(() => db.collection('access').doc(id).delete(), 'access');
+    else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; }
+  }
+  else if (a === 'newTask') openTask(null);
+  else if (a === 'editTask') { const t = state.tasks.find(x => x.id === id); if (t && canWrite) openTask(t); }
+  else if (a === 'newShoot') openShoot(null);
+  else if (a === 'editShoot') { const s = state.shoots.find(x => x.id === id); if (s) openShoot(s); }
+  else if (a === 'close') $('#dlg').close();
+  else if (a === 'addShot') { syncDraft(); draft.shots.push({text:'', project:'', done:false}); drawDialog(); }
+  else if (a === 'rmShot') { syncDraft(); draft.shots.splice(+b.dataset.i, 1); drawDialog(); }
+  else if (a === 'addGear') { syncDraft(); draft.gear.push({text:'', who:'', ok:false}); drawDialog(); }
+  else if (a === 'rmGear') { syncDraft(); draft.gear.splice(+b.dataset.i, 1); drawDialog(); }
+  else if (a === 'del') {
+    if (!draft.confirmDel) { syncDraft(); draft.confirmDel = true; drawDialog(); return; }
+    const col = draft.type === 'task' ? 'tasks' : 'shoots', did = draft.id;
+    if (await write(() => db.collection(col).doc(did).delete())) $('#dlg').close();
+  }
+  else if (a === 'delMember') {
+    if (b.dataset.sure) await write(() => db.collection('members').doc(id).delete());
+    else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; }
+  }
+});
+document.addEventListener('change', async e => {
+  const el = e.target, c = el.dataset.chg; if (!c) return;
+  const id = el.dataset.id;
+  if (c === 'person' || c === 'project') { ui[c] = el.value; keepFilters(); render(); }
+  else if (c === 'status') await write(() => db.collection('tasks').doc(id).update({status: el.value}));
+  else if (c === 'shot' || c === 'gear') {
+    const s = state.shoots.find(x => x.id === id); if (!s) return;
+    const key = c === 'shot' ? 'shots' : 'gear', flag = c === 'shot' ? 'done' : 'ok';
+    const list = arr(s[key]).map(x => Object.assign({}, x));
+    if (!list[+el.dataset.i]) return;
+    list[+el.dataset.i][flag] = el.checked;
+    await write(() => db.collection('shoots').doc(id).update({[key]: list}));
+  }
+  else if (c === 'mName') { const v = el.value.trim(); if (v) await write(() => db.collection('members').doc(id).update({name: v})); else render(); }
+  else if (c === 'mRole') await write(() => db.collection('members').doc(id).update({role: el.value.trim()}));
+});
+document.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (e.target.id === 'dlgForm') return saveDraft();
+  if (e.target.id === 'addAccess') {
+    const email = $('#newEmail').value.trim().toLowerCase();
+    if (!/^[^@\s\/]+@[^@\s\/]+\.[^@\s\/]+$/.test(email)) { note("Cette adresse n'a pas la forme d'un e-mail. Vérifiez-la puis réessayez."); return; }
+    note('');
+    await write(() => db.collection('access').doc(email).set({addedAt: Date.now()}), 'access');
+    return;
+  }
+  if (e.target.id === 'addMember') {
+    const name = $('#newName').value.trim(), role = $('#newRole').value.trim();
+    if (!name) return;
+    await write(() => db.collection('members').doc().set({name, role, createdAt: Date.now()}));
+  }
+});
+window.addEventListener('hashchange', render);
+init();
+</script>
+</body>
+</html>
