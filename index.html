@@ -152,6 +152,34 @@ img{max-width:100%}
 .carte.centre::after{background:rgba(0,0,0,.28)}
 .carte.centre:hover::after,.carte.centre:focus-visible::after{background:rgba(0,0,0,.45)}
 .carte.centre h3{position:relative;z-index:1;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;text-align:center;padding:0 16px}
+.rdv{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--rayon);overflow:hidden;background:var(--surface);box-shadow:0 14px 40px -24px rgba(30,74,104,.5)}
+.rdv-cal{background:var(--bleu-fonce);color:#fff;padding:clamp(22px,3.4vw,40px);display:flex;flex-direction:column;gap:18px}
+.rdv-cal .etiquette{color:#F2A772}
+.rdv-cal h2{color:#fff;font-size:clamp(1.5rem,2.8vw,2.1rem)}
+.rdv-mois{display:flex;align-items:center;justify-content:center;gap:18px}
+.rdv-mois strong{font-family:var(--titre);font-size:1.35rem;min-width:11ch;text-align:center}
+.rdv-mois button{width:40px;height:40px;border-radius:50%;border:0;background:transparent;color:#fff;font-size:1.6rem;cursor:pointer;line-height:1}
+.rdv-mois button:hover:not(:disabled){background:rgba(255,255,255,.14)}
+.rdv-mois button:disabled{opacity:.3;cursor:default}
+.cal-grille{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;justify-items:center}
+.cal-jours span{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.cal-grille button{width:100%;max-width:48px;aspect-ratio:1;border-radius:50%;border:0;background:transparent;color:#fff;font:500 1rem var(--texte);font-variant-numeric:tabular-nums;cursor:pointer}
+.cal-grille button:hover:not(:disabled){background:rgba(255,255,255,.16)}
+.cal-grille button:disabled{color:rgba(255,255,255,.3);cursor:default}
+.cal-grille button[aria-pressed="true"]{background:#fff;color:var(--bleu-fonce);font-weight:700}
+.rdv-cal :focus-visible{outline-color:#fff}
+.rdv-detail{padding:clamp(22px,3.4vw,40px);display:flex;flex-direction:column;gap:16px}
+.rdv-detail h3{font-size:1.05rem;color:var(--bleu-fonce)}
+.rdv-detail p{margin:4px 0 0}
+.rdv-info{display:grid;grid-template-columns:1fr auto;gap:16px}
+.rdv-info p{color:var(--gris);font-size:.95rem}
+.rdv-info .duree{background:var(--fond);border-radius:8px;padding:6px 14px;color:var(--encre);font-weight:500;text-align:center}
+.creneaux{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:216px;overflow-y:auto;padding:2px 6px 2px 2px}
+.creneaux button{padding:12px 0;border:1.5px solid var(--trait);border-radius:10px;background:var(--surface);color:var(--encre);font:500 1rem var(--texte);font-variant-numeric:tabular-nums;cursor:pointer}
+.creneaux button:hover{border-color:var(--bleu)}
+.creneaux button[aria-pressed="true"]{background:var(--bleu);border-color:var(--bleu);color:#fff}
+.rdv-champs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#retour-visite{margin:0;font-size:.92rem;color:var(--orange-fonce);min-height:1.4em}
 .hero .reelle{background:var(--salle) center/cover no-repeat;border-radius:var(--rayon);min-height:340px}
 .visite{background:var(--bleu-fonce);color:#fff;border-radius:var(--rayon);padding:clamp(24px,4vw,44px);display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(24px,4vw,48px);align-items:center}
 .visite-texte{display:flex;flex-direction:column;gap:14px}
@@ -193,12 +221,12 @@ img{max-width:100%}
   .defile>*,.defile.quatre>*{flex-basis:calc((100% - 22px)/2)}
   .g4{grid-template-columns:repeat(2,1fr)}
   .g3{grid-template-columns:repeat(2,1fr)}
-  .hero,.contact,.membre-page,.visite,.evenements{grid-template-columns:1fr}
+  .hero,.contact,.membre-page,.visite,.evenements,.rdv{grid-template-columns:1fr}
 }
 @media (max-width:620px){
   .g3,.g4,.modules{grid-template-columns:1fr}
   .defile>*,.defile.quatre>*{flex-basis:84%}
-  .visite-form{grid-template-columns:1fr}
+  .rdv-champs{grid-template-columns:1fr}
   .carte{min-height:340px}
   .barre nav{margin-left:0}
   .hero-texte{padding:26px}
@@ -388,30 +416,36 @@ img{max-width:100%}
     </section>
 
     <section class="bloc" id="visite">
-      <div class="visite">
-        <div class="visite-texte">
+      <div class="rdv">
+        <div class="rdv-cal">
           <span class="etiquette">Book a tour</span>
-          <h2>Réservez votre visite du complexe</h2>
-          <p>Choisissez un jour et un créneau. Un membre de l'équipe vous accueille et vous fait découvrir les espaces.</p>
-          <p class="note-claire"><b>À préciser :</b> durée de la visite, jours et horaires possibles.</p>
+          <h2>Visite du Complexe Moov'Up</h2>
+          <div class="rdv-mois">
+            <button type="button" id="cal-prec" aria-label="Mois précédent">‹</button>
+            <strong id="cal-titre" aria-live="polite"></strong>
+            <button type="button" id="cal-suiv" aria-label="Mois suivant">›</button>
+          </div>
+          <div class="cal-grille cal-jours" aria-hidden="true"><span>Lun.</span><span>Mar.</span><span>Mer.</span><span>Jeu.</span><span>Ven.</span><span>Sam.</span><span>Dim.</span></div>
+          <div class="cal-grille" id="cal-grille" role="group" aria-label="Choisir une date"></div>
         </div>
-        <form class="visite-form" id="form-visite" novalidate>
-          <label class="champ" for="v-nom">Nom complet
-            <input id="v-nom" name="nom" type="text" autocomplete="name" required></label>
-          <label class="champ" for="v-tel">Téléphone
-            <input id="v-tel" name="tel" type="tel" autocomplete="tel" required></label>
-          <label class="champ" for="v-date">Date souhaitée
-            <input id="v-date" name="date" type="date" required></label>
-          <label class="champ" for="v-creneau">Créneau
-            <select id="v-creneau" name="creneau">
-              <option>Matin</option><option>Après-midi</option><option>Soir</option>
-            </select></label>
-          <label class="champ large" for="v-interet">Ce qui vous intéresse
-            <select id="v-interet" name="interet">
-              <option>Complexe Moov'Up Sports</option><option>Lady Moov Up</option><option>Moov Up Kids</option><option>Moov Up Power Gym</option><option>Evolve Hommes</option>
-            </select></label>
-          <button class="btn orange large" type="submit">Réserver ma visite</button>
-          <p id="retour-visite" class="large" role="status"></p>
+        <form class="rdv-detail" id="form-visite" novalidate>
+          <div class="rdv-info">
+            <div><h3>Lieu de la visite</h3><p>Complexe Moov'Up Sports — adresse à remplir</p></div>
+            <div><h3>Durée</h3><p class="duree">30 min</p></div>
+          </div>
+          <div>
+            <h3>Quelle heure vous convient ?</h3>
+            <p class="note">Créneaux du <b id="rdv-date"></b> · <b>exemples</b>, horaires réels à préciser</p>
+          </div>
+          <div class="creneaux" id="creneaux" role="group" aria-label="Choisir une heure"></div>
+          <div class="rdv-champs">
+            <label class="champ" for="v-nom">Nom complet
+              <input id="v-nom" name="nom" type="text" autocomplete="name" required></label>
+            <label class="champ" for="v-tel">Téléphone
+              <input id="v-tel" name="tel" type="tel" autocomplete="tel" required></label>
+          </div>
+          <button class="btn orange" type="submit" id="rdv-valider">Choisissez une heure</button>
+          <p id="retour-visite" role="status"></p>
         </form>
       </div>
     </section>
@@ -534,15 +568,63 @@ document.getElementById('form-connexion').addEventListener('submit', function(e)
   document.getElementById('retour-connexion').textContent = "La connexion n'est pas encore branchée : c'est le squelette.";
 });
 
-// Réservation de visite : pas encore branchée
-document.getElementById('form-visite').addEventListener('submit', function(e){
-  e.preventDefault();
-  var f = e.target, r = document.getElementById('retour-visite');
-  if (!f.nom.value.trim() || !f.tel.value.trim() || !f.date.value){
-    r.textContent = 'Indiquez votre nom, votre téléphone et la date souhaitée.'; return;
+// Réservation de visite : calendrier + créneaux (envoi pas encore branché)
+(function(){
+  var MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  var JOURS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  var auj=new Date(); auj.setHours(0,0,0,0);
+  var premier=new Date(auj); premier.setDate(auj.getDate()+1);      // première date réservable : demain
+  var vue=new Date(premier.getFullYear(),premier.getMonth(),1);
+  var choixDate=new Date(premier), choixHeure=null;
+  var grille=document.getElementById('cal-grille'), titre=document.getElementById('cal-titre');
+  var prec=document.getElementById('cal-prec'), suiv=document.getElementById('cal-suiv');
+  var zone=document.getElementById('creneaux'), lblDate=document.getElementById('rdv-date');
+  var bouton=document.getElementById('rdv-valider'), retour=document.getElementById('retour-visite');
+
+  function texteDate(d){ return JOURS[d.getDay()]+' '+d.getDate()+(d.getDate()===1?'er':'')+' '+MOIS[d.getMonth()]+' '+d.getFullYear(); }
+  function majBouton(){
+    bouton.textContent = choixHeure ? 'Confirmer la visite du '+choixDate.getDate()+' '+MOIS[choixDate.getMonth()]+' à '+choixHeure : 'Choisissez une heure';
   }
-  r.textContent = "Formulaire prêt, mais l'envoi n'est pas encore branché : aucune demande n'est partie.";
-});
+  function dessinerMois(){
+    titre.textContent=MOIS[vue.getMonth()]+' '+vue.getFullYear();
+    prec.disabled = vue.getFullYear()===premier.getFullYear() && vue.getMonth()===premier.getMonth();
+    grille.innerHTML='';
+    var decal=(new Date(vue.getFullYear(),vue.getMonth(),1).getDay()+6)%7;   // semaine qui commence le lundi
+    for(var i=0;i<decal;i++) grille.appendChild(document.createElement('span'));
+    var nb=new Date(vue.getFullYear(),vue.getMonth()+1,0).getDate();
+    for(var j=1;j<=nb;j++){ (function(j){
+      var d=new Date(vue.getFullYear(),vue.getMonth(),j), b=document.createElement('button');
+      b.type='button'; b.textContent=j; b.disabled=d<premier;
+      b.setAttribute('aria-label',texteDate(d));
+      b.setAttribute('aria-pressed', d.getTime()===choixDate.getTime());
+      b.addEventListener('click',function(){ choixDate=d; choixHeure=null; dessinerMois(); dessinerCreneaux(); });
+      grille.appendChild(b);
+    })(j); }
+  }
+  function dessinerCreneaux(){
+    lblDate.textContent=texteDate(choixDate); zone.innerHTML=''; retour.textContent='';
+    for(var m=9*60;m<=19*60;m+=30){ (function(m){           // exemples : 09:00 à 19:00, toutes les 30 min
+      var h=('0'+Math.floor(m/60)).slice(-2)+':'+('0'+m%60).slice(-2), b=document.createElement('button');
+      b.type='button'; b.textContent=h; b.setAttribute('aria-pressed', h===choixHeure);
+      b.addEventListener('click',function(){
+        choixHeure=h; zone.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x===b); });
+        majBouton(); retour.textContent='';
+      });
+      zone.appendChild(b);
+    })(m); }
+    majBouton();
+  }
+  prec.addEventListener('click',function(){ vue.setMonth(vue.getMonth()-1); dessinerMois(); });
+  suiv.addEventListener('click',function(){ vue.setMonth(vue.getMonth()+1); dessinerMois(); });
+  document.getElementById('form-visite').addEventListener('submit',function(e){
+    e.preventDefault();
+    var f=e.target;
+    if(!choixHeure){ retour.textContent='Choisissez une heure pour votre visite.'; return; }
+    if(!f.nom.value.trim() || !f.tel.value.trim()){ retour.textContent='Indiquez votre nom et votre téléphone.'; return; }
+    retour.textContent="Visite choisie : "+texteDate(choixDate)+" à "+choixHeure+". L'envoi n'est pas encore branché : aucune demande n'est partie.";
+  });
+  dessinerMois(); dessinerCreneaux();
+})();
 
 // --- Fond : semis de petits carrés aux couleurs du logo ---
 (function(){
