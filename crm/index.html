@@ -6,7 +6,7 @@
 <title>CRM Marketing Moov Up</title>
 <link rel="icon" href="../assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* Plan : outil de travail dense. Barre d'onglets en haut, tableau en 3 colonnes pour les tâches,
    fiches datées pour les tournages. Neutres froids tirés vers le bleu nuit, un seul accent bleu vif,
@@ -57,6 +57,39 @@ select,input[type=text],input[type=date],input[type=time],textarea{
 textarea{width:100%;min-height:64px;resize:vertical}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 13px;cursor:pointer;font-weight:500}
 .btn{text-decoration:none;display:inline-block}
+.gate-on header.top,.gate-on #note{display:none}
+.gate-on .wrap{max-width:none;padding:0}
+.lux{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);min-height:100vh;background:#fff}
+.lux-photo{background:linear-gradient(160deg,rgba(6,38,54,.55) 0%,rgba(6,38,54,.82) 55%,rgba(4,26,38,.96) 100%),url(../assets/salle.jpg) center/cover no-repeat #062636;color:#fff;display:flex;align-items:flex-end;padding:clamp(28px,6vw,72px)}
+.lux-photo>div{max-width:520px;border-left:2px solid var(--brand-orange);padding-left:22px}
+.lux-eyebrow{font:600 11.5px/1.2 var(--body);letter-spacing:.22em;text-transform:uppercase;margin:0 0 14px;color:var(--brand-orange)}
+.lux-photo .lux-eyebrow{color:rgba(255,255,255,.82)}
+.lux-title{font:500 clamp(34px,4.4vw,58px)/1.04 "Cormorant Garamond",Georgia,serif;margin:0 0 16px;letter-spacing:-.01em;text-wrap:balance}
+.lux-sub{margin:0;font-size:16px;line-height:1.55;color:rgba(255,255,255,.84)}
+.lux-panel{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(24px,5vw,64px) 24px;background:linear-gradient(180deg,#fff 0%,#f4f8fa 100%)}
+.lux-card{width:100%;max-width:400px;display:flex;flex-direction:column}
+.lux-card img{height:57px;width:auto;align-self:flex-start;margin-bottom:34px}
+.lux-card h2{font:600 40px/1.05 "Cormorant Garamond",Georgia,serif;color:#0a3447;margin:0 0 10px;letter-spacing:-.01em}
+.lux-p{margin:0 0 22px;color:var(--muted);line-height:1.55}
+.lux-form{display:flex;flex-direction:column}
+.lux-form label{font:600 11.5px/1.2 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 7px}
+.lux-form input{border:0;border-bottom:1.5px solid var(--line);border-radius:0;padding:9px 2px 11px;margin-bottom:22px;font-size:16px;background:transparent}
+.lux-form input:focus{outline:0;border-bottom-color:var(--brand-blue)}
+.lux-form input:focus-visible{outline:0;box-shadow:0 2px 0 var(--brand-blue)}
+.lux-btn{display:flex;gap:10px;align-items:center;justify-content:center;width:100%;border:1.5px solid #0a3447;background:#0a3447;color:#fff;font:600 14px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:16px 18px;border-radius:2px;cursor:pointer;transition:background .2s,border-color .2s}
+.lux-btn:hover{background:var(--brand-blue);border-color:var(--brand-blue)}
+.lux-btn[disabled]{opacity:.6;cursor:wait}
+.lux-btn.ghost{background:#fff;color:#0a3447;border-color:var(--line);text-transform:none;letter-spacing:0;font-size:15px;font-weight:500}
+.lux-btn.ghost:hover{background:#fff;border-color:#0a3447}
+.lux-links{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px}
+.lux-links button{background:none;border:0;padding:2px 0;color:var(--brand-blue);cursor:pointer;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.lux-or{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:24px 0 18px}
+.lux-or::before,.lux-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.lux-msg{margin:0 0 18px;padding:11px 14px;border-radius:2px;font-size:14px;border-left:3px solid}
+.lux-msg.bad{background:var(--bad-soft);color:var(--bad)}
+.lux-msg.ok{background:var(--ok-soft);color:var(--ok)}
+.lux-foot{margin:34px 0 0;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:860px){.lux{grid-template-columns:minmax(0,1fr)}.lux-photo{min-height:220px;padding:28px 24px}.lux-title{font-size:32px}.lux-sub{display:none}.lux-panel{justify-content:flex-start}}
 .chat .msgs{display:flex;flex-direction:column;gap:8px;max-height:56vh;min-height:220px;overflow-y:auto;padding:4px}
 .msg{max-width:min(78%,560px);background:var(--sunken);border-radius:12px;padding:8px 12px;align-self:flex-start}
 .msg.mine{align-self:flex-end;background:var(--accent-soft)}
@@ -316,13 +349,14 @@ function init(){
   render();
   if (!window.firebase) { phase = 'error'; note("Le CRM n'a pas pu se charger. Vérifiez la connexion puis rechargez la page."); render(); return; }
   firebase.initializeApp(firebaseConfig);
-  auth = firebase.auth(); db = firebase.firestore();
+  auth = firebase.auth(); auth.languageCode = 'fr'; db = firebase.firestore();
   auth.onAuthStateChanged(u => {
     unsub.forEach(f => f()); unsub = [];
     clearTimeout(loadTimer); note('');
     me = u; canWrite = true;
     Object.keys(loaded).forEach(k => loaded[k] = false);
     if (!u) { phase = 'login'; render(); return; }
+    if (!u.emailVerified) { phase = 'verify'; render(); return; }
     phase = 'app'; subscribe(); render();
   });
 }
@@ -370,8 +404,8 @@ function render(){
   document.querySelectorAll('#nav a').forEach(a => a.getAttribute('href') === '#' + cur ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current'));
   if (phase === 'loading') { $('#main').innerHTML = '<p class="empty">Chargement…</p>'; return; }
   if (phase === 'error') { $('#main').innerHTML = ''; return; }
-  if (phase === 'login') { $('#main').innerHTML = `<section class="block gate"><h2>Espace réservé à l'équipe marketing</h2><p>Connectez-vous avec votre compte Google pour voir les tâches et les tournages.</p><button type="button" class="btn primary" data-act="login">Se connecter avec Google</button></section>`; return; }
-  if (phase === 'denied') { $('#main').innerHTML = `<section class="block gate"><h2>Accès pas encore ouvert</h2><p>L'adresse ${esc(me ? me.email : '')} n'est pas dans la liste de l'équipe. Demandez à Aya de l'ajouter dans l'onglet Équipe, puis rechargez la page.</p><button type="button" class="btn" data-act="logout">Changer de compte</button></section>`; return; }
+  document.body.classList.toggle('gate-on', phase === 'login' || phase === 'verify' || phase === 'denied');
+  if (phase === 'login' || phase === 'verify' || phase === 'denied') { const ke = $('#lgEmail'); if (ke) gate.email = ke.value; $('#main').innerHTML = vGate(); return; }
   const ready = loaded.members && loaded.tasks && loaded.shoots;
   if (!ready) { $('#main').innerHTML = '<p class="empty">Chargement des données de l\'équipe…</p>'; return; }
   const ci = $('#chatText'), keep = ci ? {v: ci.value, f: document.activeElement === ci} : null;
@@ -571,6 +605,46 @@ function vDash(){
     <section class="block"><h2>Avancement par univers</h2><div class="load">${PROJECTS.map(p => `<div class="r"><span>${projChip(p.k)}</span>${stack(counts(state.tasks.filter(x => x.project === p.k)))}</div>`).join('')}</div></section>
     <section class="block"><h2>À rendre cette semaine</h2><ul class="items">${urgent.map(x => `<li><span class="g">${esc(x.title)}</span>${projChip(x.project)}<span class="pill ${isLate(x) ? 'bad' : ''}">${isLate(x) ? 'En retard, ' : ''}${esc(fdate(x.due))}</span></li>`).join('') || '<li class="empty">Rien à rendre dans les 7 jours.</li>'}</ul>
       <h2 style="margin-top:16px">Prochains tournages</h2><ul class="items">${upcoming.slice(0,5).map(s => `<li><span class="g">${esc(s.title || 'Tournage')}</span>${arr(s.projects).map(projChip).join('')}<span class="pill ${conflicts(s).length ? 'bad' : ''}">${esc(fdate(s.date))}${s.start ? ' ' + esc(s.start) : ''}</span></li>`).join('') || '<li class="empty">Aucun tournage prévu.</li>'}</ul></section>
+  </div>`;
+}
+
+/* connexion */
+const gate = {mode:'in', email:'', msg:'', ok:'', busy:false};
+function authMsg(e){
+  const c = (e && e.code) || '';
+  if (/invalid-credential|wrong-password|user-not-found|invalid-login/.test(c)) return "E-mail ou mot de passe incorrect.";
+  if (/email-already-in-use/.test(c)) return "Un compte existe déjà avec cette adresse. Connectez-vous, ou utilisez « Mot de passe oublié ».";
+  if (/weak-password/.test(c)) return "Choisissez un mot de passe d'au moins 8 caractères.";
+  if (/invalid-email|missing-email/.test(c)) return "Cette adresse e-mail n'est pas valide.";
+  if (/too-many-requests/.test(c)) return "Trop d'essais. Patientez quelques minutes avant de réessayer.";
+  if (/popup/.test(c)) return "La fenêtre Google a été fermée ou bloquée. Autorisez les fenêtres pop-up puis réessayez.";
+  if (/network/.test(c)) return "Pas de connexion. Vérifiez internet puis réessayez.";
+  return "La connexion n'a pas abouti. Réessayez.";
+}
+function vGate(){
+  const msg = (gate.msg ? `<p class="lux-msg bad" role="alert">${esc(gate.msg)}</p>` : '') + (gate.ok ? `<p class="lux-msg ok" role="status">${esc(gate.ok)}</p>` : '');
+  let body;
+  if (phase === 'verify') body = `<p class="lux-eyebrow">Dernière étape</p><h2>Validez votre adresse</h2>
+    <p class="lux-p">Un e-mail de validation a été envoyé à <b>${esc(me ? me.email : '')}</b>. Ouvrez-le, cliquez sur le lien, puis revenez ici. Pensez à regarder dans les courriers indésirables.</p>${msg}
+    <button type="button" class="lux-btn" data-act="verified"${gate.busy ? ' disabled' : ''}>J'ai validé mon adresse</button>
+    <div class="lux-links"><button type="button" data-act="resend">Renvoyer l'e-mail</button><button type="button" data-act="logout">Changer de compte</button></div>`;
+  else if (phase === 'denied') body = `<p class="lux-eyebrow">Accès réservé</p><h2>Votre accès n'est pas encore ouvert</h2>
+    <p class="lux-p">L'adresse <b>${esc(me ? me.email : '')}</b> n'est pas dans la liste de l'équipe. Demandez à Aya de l'ajouter dans l'onglet Équipe, puis rechargez la page.</p>
+    <button type="button" class="lux-btn" data-act="logout">Changer de compte</button>`;
+  else { const up = gate.mode === 'up';
+    body = `<p class="lux-eyebrow">Équipe marketing</p><h2>${up ? 'Créer votre compte' : 'Bienvenue'}</h2>
+    <p class="lux-p">${up ? 'Utilisez l\'adresse e-mail que vous avez donnée à Aya. Un lien de validation vous sera envoyé.' : 'Connectez-vous pour retrouver les tâches, les tournages et la discussion de l\'équipe.'}</p>${msg}
+    <form id="loginForm" class="lux-form" novalidate>
+      <label for="lgEmail">Adresse e-mail</label><input type="email" id="lgEmail" autocomplete="username" value="${esc(gate.email)}" placeholder="vous@exemple.com">
+      <label for="lgPass">Mot de passe${up ? ' (8 caractères minimum)' : ''}</label><input type="password" id="lgPass" autocomplete="${up ? 'new-password' : 'current-password'}">
+      <button class="lux-btn"${gate.busy ? ' disabled' : ''}>${gate.busy ? 'Un instant…' : up ? 'Créer mon compte' : 'Se connecter'}</button>
+    </form>
+    <div class="lux-links">${up ? '' : '<button type="button" data-act="forgot">Mot de passe oublié ?</button>'}<button type="button" data-act="gmode">${up ? 'J\'ai déjà un compte' : 'Première visite ? Créer mon compte'}</button></div>
+    <div class="lux-or"><span>ou</span></div>
+    <button type="button" class="lux-btn ghost" data-act="login"><svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.8H9v3.4h4.8a4.1 4.1 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.7-3.9 2.7-6.5z"/><path fill="#34A853" d="M9 18c2.4 0 4.5-.8 6-2.2l-3-2.3c-.8.6-1.8.9-3 .9-2.3 0-4.3-1.6-5-3.7H1v2.3A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M4 10.7a5.4 5.4 0 0 1 0-3.4V5H1a9 9 0 0 0 0 8z"/><path fill="#EA4335" d="M9 3.6c1.3 0 2.5.5 3.4 1.3L15 2.3A9 9 0 0 0 1 5l3 2.3c.7-2.1 2.7-3.7 5-3.7z"/></svg>Continuer avec Google</button>`; }
+  return `<div class="lux">
+    <div class="lux-photo"><div><p class="lux-eyebrow">Complexe Moov'Up Sports · Agadir</p><p class="lux-title">L'espace de travail de l'équipe marketing</p><p class="lux-sub">Six univers, une seule équipe : tâches, tournages et coordination au même endroit.</p></div></div>
+    <div class="lux-panel"><div class="lux-card"><img src="../assets/logo.png" alt="Complexe Moov'Up Sports" width="190" height="57">${body}</div><p class="lux-foot">Accès réservé aux membres autorisés</p></div>
   </div>`;
 }
 
@@ -826,8 +900,24 @@ document.addEventListener('click', async e => {
   const b = e.target.closest('[data-act]'); if (!b) return;
   const a = b.dataset.act, id = b.dataset.id;
   if (a === 'kind') { ui.kind = b.dataset.v; keepFilters(); render(); }
-  else if (a === 'login') { try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); } catch (err) { note("La connexion n'a pas abouti. Autorisez les fenêtres pop-up pour cette page puis réessayez."); } }
-  else if (a === 'logout') { if (auth) await auth.signOut(); }
+  else if (a === 'login') { gate.msg = gate.ok = ''; try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); } catch (err) { gate.msg = authMsg(err); render(); } }
+  else if (a === 'gmode') { gate.mode = gate.mode === 'up' ? 'in' : 'up'; gate.msg = gate.ok = ''; render(); }
+  else if (a === 'forgot') {
+    const em = ($('#lgEmail').value || '').trim(); gate.email = em; gate.ok = '';
+    if (!em) { gate.msg = "Écrivez d'abord votre adresse e-mail, puis cliquez de nouveau sur « Mot de passe oublié »."; render(); return; }
+    try { await auth.sendPasswordResetEmail(em); gate.msg = ''; gate.ok = "Si un compte existe avec cette adresse, un e-mail pour choisir un nouveau mot de passe vient d'être envoyé."; }
+    catch (err) { if (/user-not-found/.test(err.code || '')) { gate.msg = ''; gate.ok = "Si un compte existe avec cette adresse, un e-mail pour choisir un nouveau mot de passe vient d'être envoyé."; } else gate.msg = authMsg(err); }
+    render();
+  }
+  else if (a === 'resend') { gate.msg = gate.ok = ''; try { await me.sendEmailVerification(); gate.ok = "E-mail de validation renvoyé."; } catch (err) { gate.msg = authMsg(err); } render(); }
+  else if (a === 'verified') {
+    gate.busy = true; gate.msg = gate.ok = ''; render();
+    try { await me.reload(); await auth.currentUser.getIdToken(true); } catch (err) {}
+    gate.busy = false; me = auth.currentUser;
+    if (me && me.emailVerified) { phase = 'app'; subscribe(); } else gate.msg = "L'adresse n'est pas encore validée. Cliquez sur le lien reçu par e-mail, puis réessayez.";
+    render();
+  }
+  else if (a === 'logout') { gate.msg = gate.ok = ''; gate.mode = 'in'; if (auth) await auth.signOut(); }
   else if (a === 'delAccess') {
     if (b.dataset.sure) await write(() => db.collection('access').doc(id).delete(), 'access');
     else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; }
@@ -885,6 +975,18 @@ document.addEventListener('change', async e => {
 document.addEventListener('submit', async e => {
   e.preventDefault();
   if (e.target.id === 'dlgForm') return saveDraft();
+  if (e.target.id === 'loginForm') {
+    const em = $('#lgEmail').value.trim(), pw = $('#lgPass').value; gate.email = em; gate.ok = '';
+    if (!em || !pw) { gate.msg = "Écrivez votre adresse e-mail et votre mot de passe."; render(); return; }
+    if (gate.mode === 'up' && pw.length < 8) { gate.msg = "Choisissez un mot de passe d'au moins 8 caractères."; render(); return; }
+    gate.busy = true; gate.msg = ''; render();
+    try {
+      if (gate.mode === 'up') { const cr = await auth.createUserWithEmailAndPassword(em, pw); try { await cr.user.sendEmailVerification(); } catch (x) {} }
+      else await auth.signInWithEmailAndPassword(em, pw);
+      gate.busy = false; render();
+    } catch (err) { gate.busy = false; gate.msg = authMsg(err); render(); }
+    return;
+  }
   if (e.target.id === 'askForm') { const q = $('#askText').value.trim(); if (q) askAI(q); return; }
   if (e.target.id === 'chatForm') {
     const inp = $('#chatText'), text = inp.value.trim();
