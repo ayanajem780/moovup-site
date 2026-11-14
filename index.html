@@ -136,6 +136,15 @@ img{max-width:100%}
 .projet .bas{display:flex;justify-content:space-between;align-items:flex-end;width:100%;gap:14px}
 .projet p{margin:8px 0 0;font-size:.98rem;max-width:34ch;opacity:.92}
 .projet .badge{width:64px;height:64px;border-radius:50%;border:3px solid #fff;object-fit:cover;background:#fff}
+.evenements{background:var(--surface);border-radius:var(--rayon);padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(24px,4vw,56px);align-items:center}
+.ev-texte{display:flex;flex-direction:column;gap:18px}
+.ev-texte h2{font-size:clamp(2rem,4.4vw,3.2rem);color:var(--encre)}
+.ev-texte p{margin:0;max-width:44ch}
+.ev-types{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 0;color:var(--gris)}
+.ev-types li:not(:last-child)::after{content:"·";margin:0 12px;color:var(--orange);font-weight:700}
+.mosaique{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-radius:var(--rayon);overflow:hidden}
+.mosaique .photo{border-radius:0;min-height:170px;font-size:1.05rem}
+.mosaique .grande{grid-column:1/-1;min-height:280px}
 .hero .reelle{background:var(--salle) center/cover no-repeat;border-radius:var(--rayon);min-height:340px}
 .visite{background:var(--bleu-fonce);color:#fff;border-radius:var(--rayon);padding:clamp(24px,4vw,44px);display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(24px,4vw,48px);align-items:center}
 .visite-texte{display:flex;flex-direction:column;gap:14px}
@@ -177,7 +186,7 @@ img{max-width:100%}
   .defile>*,.defile.quatre>*{flex-basis:calc((100% - 22px)/2)}
   .g4{grid-template-columns:repeat(2,1fr)}
   .g3{grid-template-columns:repeat(2,1fr)}
-  .hero,.contact,.membre-page,.visite{grid-template-columns:1fr}
+  .hero,.contact,.membre-page,.visite,.evenements{grid-template-columns:1fr}
 }
 @media (max-width:620px){
   .g3,.g4,.modules{grid-template-columns:1fr}
@@ -216,6 +225,7 @@ img{max-width:100%}
       <a href="#activites" data-ancre>Activités</a>
       <a href="#coachs" data-ancre>Coachs</a>
       <a href="#projets" data-ancre>Projets</a>
+      <a href="#evenements" data-ancre>Événements</a>
       <a href="#tarifs" data-ancre>Tarifs</a>
       <a href="#contact" data-ancre>Contact</a>
     </nav>
@@ -348,6 +358,25 @@ img{max-width:100%}
           <span class="marque">Photo à ajouter</span>
           <div class="corps"><img class="badge" src="assets/projet-anais-institut.png" alt=""><div class="bas"><div><h3>Anaïs Institut</h3><p>Présentation à écrire.</p><span class="puce">@anaisinstitut_</span></div><span class="rond" aria-hidden="true">→</span></div></div>
         </a>
+      </div>
+    </section>
+
+    <section class="bloc" id="evenements">
+      <div class="evenements">
+        <div class="ev-texte">
+          <h2>Événements privés</h2>
+          <p>Emplacement pour deux phrases : les espaces du complexe que l'on peut privatiser et ce que l'équipe prend en charge.</p>
+          <ul class="ev-types" aria-label="Types d'événements">
+            <li>Anniversaires</li><li>Team building</li><li>Événements d'entreprise</li><li>Tournois</li>
+          </ul>
+          <p class="note"><b>Exemples à remplacer :</b> les types d'événements réellement proposés.</p>
+          <div><a class="btn" href="#contact" data-ancre>En savoir plus</a></div>
+        </div>
+        <div class="mosaique">
+          <div class="photo grande"><small>Photo à ajouter</small>Grande photo d'un événement</div>
+          <div class="photo"><small>Photo à ajouter</small>Photo 2</div>
+          <div class="photo"><small>Photo à ajouter</small>Photo 3</div>
+        </div>
       </div>
     </section>
 
