@@ -60,7 +60,7 @@ textarea{width:100%;min-height:64px;resize:vertical}
 .gate-on header.top,.gate-on #note{display:none}
 .gate-on .wrap{max-width:none;padding:0}
 .lux{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);min-height:100vh;background:#fff}
-.lux-photo{position:relative;overflow:hidden;background:#000;min-height:260px}
+.lux-photo{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 46%,#f39447 0%,#ea6d2a 52%,#d85c1c 100%);min-height:260px}
 .lux-photo canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .lux-eyebrow{font:600 11.5px/1.2 var(--body);letter-spacing:.22em;text-transform:uppercase;margin:0 0 14px;color:var(--brand-orange)}
 .lux-panel{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(24px,5vw,64px) 24px;background:linear-gradient(180deg,#fff 0%,#f4f8fa 100%)}
@@ -768,9 +768,9 @@ function orbStart(){
     ctx.clearRect(0, 0, cv.width, cv.height);
     for (const p of orb.pts) {
       const x = p[0] * ca + p[2] * sa, z0 = -p[0] * sa + p[2] * ca, y = p[1] * ct - z0 * st, z = p[1] * st + z0 * ct;
-      const persp = 1 + z * .12, a = (.28 + (z + 1) * .36) * p[4];
-      ctx.fillStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')';
-      const sz = p[3] * dpr * persp * .8;
+      const persp = 1 + z * .12, a = Math.min(1, (.5 + (z + 1) * .32) * p[4]);
+      ctx.fillStyle = 'rgba(9,86,120,' + a.toFixed(3) + ')';
+      const sz = p[3] * dpr * persp;
       ctx.fillRect(cx + x * R * persp, cy - y * R * persp, sz, sz);
     }
     if (!still) orb.raf = requestAnimationFrame(frame);
