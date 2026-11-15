@@ -353,6 +353,76 @@ a.tile:hover{transform:translateY(-2px);border-color:var(--brand-blue);box-shado
 a.tile:hover::after,a.tile:focus-visible::after{opacity:1;transform:none}
 .back{display:inline-flex;gap:6px;align-items:center;margin:-6px 0 14px;background:none;border:0;padding:0;color:var(--brand-blue);cursor:pointer;font-size:14px}
 .rep h3{margin:16px 0 6px;font:600 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+/* ===== Tableau de bord façon tableau analytique ===== */
+:root{--chart-cur:#0c6c94;--chart-prev:#7b868c}
+:root[data-theme="dark"]{--chart-cur:#5cc3ea;--chart-prev:#7a8a92}
+.dhead{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:-4px 0 18px}
+.hello{margin:0 0 4px;font:600 26px/1.15 var(--body);letter-spacing:-.015em;color:var(--ink)}
+.dhead .meta{margin:0}
+.dctl{display:flex;gap:8px;flex-wrap:wrap}
+.dctl select,.dctl .btn{padding:9px 14px;border-radius:10px;font-weight:500;background:var(--surface)}
+.dctl .btn[aria-pressed="true"]{border-color:var(--brand-blue);color:var(--brand-blue)}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:16px}
+.kpi{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(10,52,71,.04);transition:transform .18s,border-color .18s,box-shadow .18s}
+.kpi:hover{transform:translateY(-2px);border-color:var(--brand-blue);box-shadow:0 16px 36px -22px rgba(10,52,71,.45)}
+.kl{color:var(--muted);font-size:14px}
+.kpi b{font:600 34px/1.1 var(--body);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.kpi b small{font-size:16px;font-weight:400;color:var(--muted);margin-left:2px}
+.ks{font-size:13.5px}
+.up{color:var(--ok);font-weight:600}.down{color:var(--bad);font-weight:600}.dl{color:var(--muted)}
+.dgrid{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(0,1fr);gap:14px}
+.dgrid section.block{margin:0}
+.dgrid .wide2{grid-column:1/-1}
+.dgrid h2{font-size:18px!important}
+.lg{display:inline-flex;gap:7px;align-items:center;font-size:14px;color:var(--ink)}
+.lcur,.lprev{display:inline-block;width:16px;height:0;border-top:2.5px solid var(--chart-cur)}
+.lprev{border-top:2px dashed var(--chart-prev)}
+.chart{position:relative;margin-top:6px}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.cg{stroke:var(--line);stroke-width:1}
+.ct{fill:var(--muted);font:12px var(--body)}
+.ccur{stroke:var(--chart-cur);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.cprev{stroke:var(--chart-prev);stroke-width:2;stroke-dasharray:6 6;stroke-linecap:round}
+.cxl{stroke:var(--muted);stroke-dasharray:3 4}
+.cdot{fill:var(--chart-cur);stroke:var(--surface);stroke-width:2}
+.cdot2{fill:var(--chart-prev);stroke:var(--surface);stroke-width:2}
+.ctip{position:absolute;pointer-events:none;background:#0f1a24;color:#fff;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;min-width:200px;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);z-index:2}
+.ctip[hidden]{display:none}
+.ctip b{text-transform:capitalize;font-size:14px}
+.ctip span{display:flex;align-items:center;gap:8px}
+.ctip em{font-style:normal;font-weight:600;margin-left:auto;padding-left:16px;font-variant-numeric:tabular-nums}
+.ctip .lcur{border-top-color:#7fc4e8}.ctip .up{color:#62d39c}.ctip .down{color:#ff8fa3}
+.dist{display:flex;flex-direction:column;gap:14px;margin:8px 0 18px}
+.dr{display:grid;grid-template-columns:86px minmax(0,1fr) 34px;gap:12px;align-items:center;text-decoration:none;color:var(--ink);font-size:15px}
+.dr b{text-align:right;font-variant-numeric:tabular-nums}
+.tr{height:10px;background:var(--sunken);border-radius:99px;overflow:hidden}
+.tr i{display:block;height:100%;background:var(--chart-cur);border-radius:99px}
+.dr:hover .tr i{background:var(--brand-orange)}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;border-top:1px solid var(--line);padding-top:16px}
+.trio a{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--muted);font-size:14px}
+.trio b{font:600 26px/1.1 var(--body);color:var(--ink);font-variant-numeric:tabular-nums}
+.trio b.up{color:var(--ok)}.trio b.down{color:var(--bad)}
+.flush{padding:0!important;overflow:hidden}
+.pad{padding:20px 22px 14px}
+.lnk{color:var(--brand-blue);font-weight:500;text-decoration:none;white-space:nowrap}
+.lnk:hover{text-decoration:underline}
+table.tt{min-width:560px}
+table.tt th{background:var(--sunken);padding:12px 22px;border-bottom:1px solid var(--line)}
+table.tt td{padding:14px 22px;font-size:15px}
+table.tt .t{background:none;border:0;padding:0;text-align:left;cursor:pointer;color:var(--ink);font-size:15px}
+table.tt .t:hover{color:var(--brand-blue)}
+.chg{display:inline-block;border-radius:6px;padding:3px 8px;font-size:13px;font-weight:600;white-space:nowrap}
+.chg.up{background:var(--ok-soft)}.chg.down{background:var(--bad-soft)}.chg.warn{background:var(--warn-soft);color:var(--warn)}
+.att{list-style:none;margin:0;padding:0}
+.att li{border-bottom:1px solid var(--line)}
+.att li:last-child{border-bottom:0}
+.att a{display:flex;gap:14px;align-items:flex-start;padding:14px 0;text-decoration:none;color:inherit}
+.att a:hover b{color:var(--brand-blue)}
+.att b{display:block;font-size:15px;margin-bottom:3px}
+.ai{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none}
+.ai.bad{background:var(--bad-soft);color:var(--bad)}.ai.warn{background:var(--warn-soft);color:var(--warn)}.ai.info{background:var(--accent-soft);color:var(--brand-blue)}
+@media (max-width:1180px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.dgrid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.chartc .seg{width:100%}}
 </style>
 </head>
 <body>
@@ -689,49 +759,118 @@ function stack(c){
     <small>${c.total ? `${c.todo} à faire · ${c.doing} en cours · ${c.done} terminée${c.done > 1 ? 's' : ''}${c.late ? ` · <span style="color:var(--bad)">${c.late} en retard</span>` : ''}` : 'Aucune tâche'}</small>`;
 }
 function vDash(){
-  const all = counts(state.tasks), t = today(), end = addDays(t, 6);
+  const all = counts(state.tasks), t = today(), N = ui.per === 30 ? 30 : 7, DAY = 864e5;
+  const t0 = dayStart() - (N - 1) * DAY, p0 = t0 - N * DAY, now = Date.now();
+  const inR = (ts, a, b) => ts >= a && ts < b, dIn = (d, a, b) => { if (!d) return false; const [y,m,dd] = d.split('-').map(Number), x = new Date(y, m-1, dd).getTime(); return x >= a && x < b; };
+  const cnt = (f) => [f(t0, t0 + N * DAY), f(p0, t0)];
+  const kDone = cnt((a,b) => state.tasks.filter(x => inR(x.doneAt || 0, a, b)).length);
+  const kNew = cnt((a,b) => state.tasks.filter(x => inR(x.createdAt || 0, a, b)).length);
+  const kShoot = cnt((a,b) => state.shoots.filter(s => dIn(s.date, a, b)).length);
+  const kMsg = cnt((a,b) => state.messages.filter(x => inR(x.at || 0, a, b)).length);
+  const open = all.todo + all.doing, health = open ? Math.round((open - all.late) / open * 100) : 100;
+  const delta = (k, unit) => { const [c, p] = k, d = c - p; if (!p && !c) return '<span class="dl">aucune activité sur les deux périodes</span>';
+    if (!p) return `<span class="up">▲ ${c}</span> <span class="dl">${unit} de plus qu'avant</span>`;
+    const pc = Math.round(d / p * 1000) / 10; return `<span class="${d >= 0 ? 'up' : 'down'}">${d >= 0 ? '▲' : '▼'} ${Math.abs(pc).toString().replace('.', ',')} %</span> <span class="dl">vs ${N} jours précédents</span>`; };
+  const kpi = (href, label, val, sub, tip) => `<a class="kpi" href="${href}"${tip ? ` title="${esc(tip)}"` : ''}><span class="kl">${label}</span><b>${val}</b><span class="ks">${sub}</span></a>`;
+  // série quotidienne pour le graphique
+  const metric = ui.met || 'done', pick = {done: x => state.tasks.map(z => z.doneAt || 0), created: x => state.tasks.map(z => z.createdAt || 0), msg: x => state.messages.map(z => z.at || 0)}[metric]();
+  const cur = [], prev = [], labels = [];
+  for (let i = 0; i < N; i++) { const a = t0 + i * DAY, pa = p0 + i * DAY; cur.push(pick.filter(ts => inR(ts, a, a + DAY)).length); prev.push(pick.filter(ts => inR(ts, pa, pa + DAY)).length); labels.push(a); }
+  live.chart = {cur, prev, labels, N, metric};
+  // à régler
   const upcoming = state.shoots.filter(s => s.date && s.date >= t).sort((a,b) => (a.date + (a.start || '')).localeCompare(b.date + (b.start || '')));
-  const C = 2 * Math.PI * 42; let off = 0;
-  const arc = (n, col) => { if (!n || !all.total) return ''; const len = n / all.total * C; const h = `<circle cx="60" cy="60" r="42" fill="none" stroke="${col}" stroke-width="14" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-off}" transform="rotate(-90 60 60)"/>`; off += len; return h; };
-  const donut = `<svg viewBox="0 0 120 120" role="img" aria-label="${all.pct} % des tâches terminées"><circle cx="60" cy="60" r="42" fill="none" stroke="var(--sunken)" stroke-width="14"/>${arc(all.done,'var(--s-done)')}${arc(all.doing,'var(--s-doing)')}${arc(all.todo,'var(--s-todo)')}<text x="60" y="62" text-anchor="middle">${all.pct} %</text><text class="s" x="60" y="76" text-anchor="middle">terminé</text></svg>`;
-  const urgent = state.tasks.filter(x => x.status !== 'done' && x.due && x.due <= end).sort((a,b) => a.due.localeCompare(b.due)).slice(0, 8);
   const noOwner = state.tasks.filter(x => x.status !== 'done' && !arr(x.who).length).length;
-  const clash = upcoming.filter(s => conflicts(s).length).length;
-  const gearMissing = upcoming.reduce((n,s) => n + arr(s.gear).filter(g => !g.who).length, 0);
-  const lateDay = new Date().getHours() >= 18 && !state.reports.some(r => r.id === t);
-  const toWarn = upcoming.reduce((n,s) => n + pending(s).length, 0);
-  const alerts = [
-    toWarn ? `${toWarn} espace${toWarn > 1 ? 's' : ''} pas encore prévenu${toWarn > 1 ? 's' : ''} d'un tournage` : '',
-    all.late ? `${all.late} tâche${all.late > 1 ? 's' : ''} en retard` : '',
-    clash ? `${clash} tournages se chevauchent` : '',
-    gearMissing ? `${gearMissing} matériel${gearMissing > 1 ? 's' : ''} sans personne pour l'apporter` : '',
-    noOwner ? `${noOwner} tâche${noOwner > 1 ? 's' : ''} sans responsable` : ''
+  const toWarn = upcoming.reduce((n,s) => n + pending(s).length, 0), clash = upcoming.filter(s => conflicts(s).length).length;
+  const gear = upcoming.reduce((n,s) => n + arr(s.gear).filter(g => !g.who).length, 0), noRep = new Date().getHours() >= 18 && !state.reports.some(r => r.id === t);
+  const IC = {warn:'<path d="M12 4 21 20H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 17v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>', clock:'<circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>', user:'<circle cx="12" cy="9" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c1.5-3.5 4-5 7-5s5.5 1.5 7 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>', box:'<path d="M4 8l8-4 8 4v8l-8 4-8-4z M4 8l8 4 8-4M12 12v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>', doc:'<path d="M7 3h7l4 4v14H7z M14 3v4h4M10 12h5M10 16h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'};
+  const att = [
+    all.late && {i:'warn', c:'bad', t:`${all.late} tâche${all.late > 1 ? 's' : ''} en retard`, d:'Échéance dépassée, statut pas encore « Terminé ».', h:'#liste-en-retard'},
+    toWarn && {i:'clock', c:'warn', t:`${toWarn} espace${toWarn > 1 ? 's' : ''} pas encore prévenu${toWarn > 1 ? 's' : ''}`, d:'Un tournage approche et le responsable de l\'espace n\'a pas été averti.', h:'#tournages'},
+    clash && {i:'clock', c:'bad', t:`${clash} tournages se chevauchent`, d:'Même créneau, à replanifier ou à répartir.', h:'#tournages'},
+    gear && {i:'box', c:'warn', t:`${gear} matériel${gear > 1 ? 's' : ''} sans personne`, d:'Personne n\'est désigné pour l\'apporter au tournage.', h:'#tournages'},
+    noOwner && {i:'user', c:'warn', t:`${noOwner} tâche${noOwner > 1 ? 's' : ''} sans responsable`, d:'Personne n\'est nommé sur ces tâches.', h:'#liste-sans-responsable'},
+    noRep && {i:'doc', c:'info', t:'Rapport du jour pas encore généré', d:'Fin de journée : lancez le rapport pour suivre l\'utilité du CRM.', h:'#rapport'}
   ].filter(Boolean);
+  // tâches à suivre
+  const follow = state.tasks.filter(x => x.status !== 'done').sort((a,b) => (a.due || '9999').localeCompare(b.due || '9999')).slice(0, 6);
+  const dueTxt = x => { if (!x.due) return '<span class="meta">—</span>'; const [y,m,d] = x.due.split('-').map(Number), n = Math.round((new Date(y, m-1, d) - new Date(dayStart())) / DAY);
+    return n < 0 ? `<span class="chg down">▼ ${-n} j de retard</span>` : n === 0 ? '<span class="chg warn">aujourd\'hui</span>' : `<span class="chg up">dans ${n} j</span>`; };
+  // répartition par univers
+  const per = PROJECTS.map(p => [p, state.tasks.filter(x => x.project === p.k && x.status !== 'done').length]), mx = Math.max(1, ...per.map(z => z[1]));
+  const first = (() => { const id = myId(), m = id && member(id); return String((m && m.name) || (me && me.displayName) || '').trim().split(/\s+/)[0] || ''; })();
+  const metLbl = {done:'Tâches terminées', created:'Tâches créées', msg:'Messages échangés'};
   const days = Array.from({length:7}, (_,i) => addDays(t, i)).map(d => {
-    const sh = state.shoots.filter(s => s.date === d), tk = state.tasks.filter(x => x.status !== 'done' && x.due === d);
-    const [y,m,dd] = d.split('-').map(Number);
-    return `<div class="day${d === t ? ' today' : ''}"><h3>${esc(new Date(y, m-1, dd).toLocaleDateString('fr-FR', {weekday:'short', day:'numeric'}))}</h3>
-      ${sh.map(s => `<div class="ev sh">${s.start ? esc(s.start) + ' ' : ''}${esc(s.title || 'Tournage')}</div>`).join('')}
-      ${tk.slice(0,3).map(x => `<div class="ev">${esc(x.title)}</div>`).join('')}${tk.length > 3 ? `<div class="meta">+ ${tk.length - 3} autres</div>` : ''}</div>`;
+    const sh = state.shoots.filter(s => s.date === d), tk = state.tasks.filter(x => x.status !== 'done' && x.due === d), [y,m,dd] = d.split('-').map(Number);
+    return `<div class="day${d === t ? ' today' : ''}"><h3>${esc(new Date(y, m-1, dd).toLocaleDateString('fr-FR', {weekday:'short', day:'numeric'}))}</h3>${sh.map(s => `<div class="ev sh">${s.start ? esc(s.start) + ' ' : ''}${esc(s.title || 'Tournage')}</div>`).join('')}${tk.slice(0,3).map(x => `<div class="ev">${esc(x.title)}</div>`).join('')}${tk.length > 3 ? `<div class="meta">+ ${tk.length - 3} autres</div>` : ''}</div>`;
   }).join('');
-  return `<div class="tiles">
-    <a class="tile" href="#liste-ouvertes"><b>${all.todo + all.doing}</b><span>tâches ouvertes</span></a>
-    <a class="tile${all.late ? ' bad' : ''}" href="#liste-en-retard"><b>${all.late}</b><span>en retard</span></a>
-    <a class="tile" href="#liste-terminees"><b>${all.done}</b><span>terminées</span></a>
-    <a class="tile" href="#tournages"><b>${upcoming.length}</b><span>tournages à venir</span></a>
+  return `<div class="dhead"><div><h2 class="hello">${new Date().getHours() >= 18 ? 'Bonsoir' : 'Bonjour'}${first ? ', ' + esc(first) : ''}</h2>
+      <p class="meta">Activité de l'équipe marketing Moov'Up · mis à jour à ${esc(new Date(lastSync || now).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}))} depuis le CRM</p></div>
+    <div class="dctl"><select id="perSel" data-chg="per" aria-label="Période">${[[7,'7 derniers jours'],[30,'30 derniers jours']].map(([v,l]) => `<option value="${v}"${N === v ? ' selected' : ''}>${l}</option>`).join('')}</select>
+      <button type="button" class="btn" data-act="cmp" aria-pressed="${ui.cmp !== false}">Comparer : période précédente</button>
+      <button type="button" class="btn" data-act="export">Exporter</button></div></div>
+  <div class="kpis">
+    ${kpi('#liste-terminees-7j', 'Tâches terminées', kDone[0], delta(kDone, 'terminées'))}
+    ${kpi('#liste-creees-aujourdhui', 'Tâches créées', kNew[0], delta(kNew, 'créées'))}
+    ${kpi('#tournages', 'Tournages', kShoot[0], delta(kShoot, 'tournages'))}
+    ${kpi('#discussion', 'Messages échangés', kMsg[0], delta(kMsg, 'messages'))}
+    ${kpi('#liste-en-retard', 'Santé de l\'équipe', health + '<small>/100</small>', all.late ? `<span class="down">▼ ${all.late}</span> <span class="dl">tâche${all.late > 1 ? 's' : ''} en retard</span>` : '<span class="up">▲</span> <span class="dl">aucune tâche en retard</span>', 'Part des tâches ouvertes qui ne sont pas en retard')}
   </div>
-  ${alerts.length ? `<p class="note" style="background:var(--bad-soft);color:var(--bad)">À régler : ${esc(alerts.join(' · '))}.</p>` : ''}
-  ${lateDay ? '<p class="note" style="background:var(--accent-soft);color:var(--brand-blue)">Fin de journée : le rapport du jour n\'est pas encore généré. <a href="#rapport">Ouvrir le rapport</a></p>' : ''}
-  <div class="dash">
-    <section class="block wide"><h2>Les 7 prochains jours</h2><div class="week">${days}</div></section>
-    <section class="block third"><h2>État des tâches</h2><div class="donut">${donut}<div class="legend">
-      <span><i class="sq c-todo"></i>À faire<b>${all.todo}</b></span><span><i class="sq c-doing"></i>En cours<b>${all.doing}</b></span><span><i class="sq c-done"></i>Terminé<b>${all.done}</b></span></div></div></section>
-    <section class="block two3"><h2>Charge par personne</h2><div class="load">${state.members.map(m => `<div class="r"><span>${esc(m.name)}</span>${stack(counts(state.tasks.filter(x => arr(x.who).includes(m.id))))}</div>`).join('') || '<p class="empty">Ajoutez les membres dans l\'onglet Équipe.</p>'}</div></section>
-    <section class="block"><h2>Avancement par univers</h2><div class="load">${PROJECTS.map(p => `<div class="r"><span>${projChip(p.k)}</span>${stack(counts(state.tasks.filter(x => x.project === p.k)))}</div>`).join('')}</div></section>
-    <section class="block"><h2>À rendre cette semaine</h2><ul class="items">${urgent.map(x => `<li><span class="g">${esc(x.title)}</span>${projChip(x.project)}<span class="pill ${isLate(x) ? 'bad' : ''}">${isLate(x) ? 'En retard, ' : ''}${esc(fdate(x.due))}</span></li>`).join('') || '<li class="empty">Rien à rendre dans les 7 jours.</li>'}</ul>
-      <h2 style="margin-top:16px">Prochains tournages</h2><ul class="items">${upcoming.slice(0,5).map(s => `<li><span class="g">${esc(s.title || 'Tournage')}</span>${arr(s.projects).map(projChip).join('')}<span class="pill ${conflicts(s).length ? 'bad' : ''}">${esc(fdate(s.date))}${s.start ? ' ' + esc(s.start) : ''}</span></li>`).join('') || '<li class="empty">Aucun tournage prévu.</li>'}</ul></section>
-    ${meetBlock()}
-  </div>`;
+  <div class="dgrid">
+    <section class="block chartc"><div class="bh"><div style="flex:1"><h2>Activité de l'équipe</h2><p class="meta" style="margin:2px 0 0">${metLbl[metric]} par jour, ${N} derniers jours</p></div>
+      <span class="lg"><i class="lcur"></i>Cette période</span>${ui.cmp !== false ? '<span class="lg"><i class="lprev"></i>Période précédente</span>' : ''}
+      <div class="seg" role="group" aria-label="Mesure">${Object.keys(metLbl).map(k => `<button type="button" data-act="met" data-v="${k}" aria-pressed="${metric === k}">${{done:'Terminées', created:'Créées', msg:'Messages'}[k]}</button>`).join('')}</div></div>
+      <div class="chart" id="chart">${chartSvg()}<div class="ctip" id="ctip" hidden></div></div></section>
+    <section class="block"><div class="bh"><div><h2>Répartition des tâches</h2><p class="meta" style="margin:2px 0 0">Tâches ouvertes par univers · ${open} au total</p></div></div>
+      <div class="dist">${per.map(([p,n]) => `<a class="dr" href="#univers-${p.k}"><span>${esc(p.s)}</span><span class="tr"><i style="width:${n ? Math.max(3, n / mx * 100) : 0}%"></i></span><b>${n}</b></a>`).join('')}</div>
+      <div class="trio"><a href="#liste-terminees"><span>Terminées</span><b class="up">${all.done}</b></a><a href="#liste-en-retard"><span>En retard</span><b class="down">${all.late}</b></a><a href="#liste-ouvertes"><span>En cours</span><b>${all.doing}</b></a></div></section>
+    <section class="block flush"><div class="bh pad"><div style="flex:1"><h2>Tâches à suivre</h2><p class="meta" style="margin:2px 0 0">Les prochaines échéances de l'équipe</p></div><a class="lnk" href="#taches">Voir toutes les tâches →</a></div>
+      ${follow.length ? `<table class="tt"><thead><tr><th>Tâche</th><th>Univers</th><th>Personne</th><th>Échéance</th><th>Statut</th></tr></thead><tbody>${follow.map(x => `<tr><td><button type="button" class="t" data-act="editTask" data-id="${esc(x.id)}">${esc(x.title)}</button></td><td>${projChip(x.project) || '<span class="meta">—</span>'}</td><td>${arr(x.who).map(id => esc(mname(id))).join(', ') || '<span class="chg down">personne</span>'}</td><td>${dueTxt(x)}</td><td class="meta">${(STATUS.find(z => z[0] === (x.status || 'todo')) || [])[1]}</td></tr>`).join('')}</tbody></table>` : '<p class="empty pad">Aucune tâche ouverte.</p>'}</section>
+    <section class="block"><div class="bh"><h2 style="flex:1">À régler</h2><a class="lnk" href="#suivi">Ouvrir le suivi →</a></div>
+      <ul class="att">${att.map(x => `<li><a href="${x.h}"><span class="ai ${x.c}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">${IC[x.i]}</svg></span><span><b>${x.t}</b><span class="meta">${x.d}</span></span></a></li>`).join('') || '<li class="empty">Rien à régler pour le moment.</li>'}</ul></section>
+    <section class="block wide2"><h2>Les 7 prochains jours</h2><div class="week">${days}</div></section>
+  </div>
+  <div class="dash" style="margin-top:14px">${meetBlock()}</div>`;
+}
+function chartSvg(){
+  const c = live.chart; if (!c) return '';
+  const W = 760, H = 260, L = 40, R = 12, T = 12, B = 30, cmp = ui.cmp !== false;
+  const top = Math.max(4, ...c.cur, ...(cmp ? c.prev : [0])), step = Math.ceil(top / 4), ymax = step * 4;
+  const x = i => L + (c.N === 1 ? 0 : i * (W - L - R) / (c.N - 1)), y = v => T + (H - T - B) * (1 - v / ymax);
+  const pts = v => v.map((n,i) => `${x(i).toFixed(1)},${y(n).toFixed(1)}`).join(' ');
+  const grid = [0,1,2,3,4].map(k => `<line x1="${L}" x2="${W - R}" y1="${y(k * step)}" y2="${y(k * step)}" class="cg"/><text x="${L - 8}" y="${y(k * step) + 4}" text-anchor="end" class="ct">${k * step}</text>`).join('');
+  const every = c.N <= 7 ? 1 : 5;
+  const xl = c.labels.map((ts,i) => (i % every === 0 || i === c.N - 1) && !(c.N > 7 && i === c.N - 1 && i % every !== 0 && i % every < 3) ? `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" class="ct">${esc(new Date(ts).toLocaleDateString('fr-FR', c.N <= 7 ? {weekday:'short'} : {day:'numeric', month:'short'}))}</text>` : '').join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graphique de l'activité par jour"><defs><linearGradient id="cfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--chart-cur)" stop-opacity=".18"/><stop offset="1" stop-color="var(--chart-cur)" stop-opacity="0"/></linearGradient></defs>
+    ${grid}${xl}
+    <polygon points="${x(0)},${y(0)} ${pts(c.cur)} ${x(c.N - 1)},${y(0)}" fill="url(#cfill)"/>
+    ${cmp ? `<polyline points="${pts(c.prev)}" fill="none" class="cprev"/>` : ''}
+    <polyline points="${pts(c.cur)}" fill="none" class="ccur"/>
+    <line id="cx" class="cxl" x1="0" x2="0" y1="${T}" y2="${H - B}" visibility="hidden"/><circle id="cdot" r="5" class="cdot" visibility="hidden"/>${cmp ? '<circle id="cdot2" r="4" class="cdot2" visibility="hidden"/>' : ''}
+    <rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="chit"/></svg>`;
+}
+function chartHover(e){
+  const c = live.chart, svg = document.querySelector('#chart svg'), tip = $('#ctip'); if (!c || !svg || !tip) return;
+  const r = svg.getBoundingClientRect(), W = 760, L = 40, R = 12, T = 12, H = 260, B = 30, sx = (e.clientX - r.left) / r.width * W;
+  if (sx < L - 10 || sx > W - R + 10) { chartOut(); return; }
+  const i = Math.max(0, Math.min(c.N - 1, Math.round((sx - L) / ((W - L - R) / Math.max(1, c.N - 1))))), cmp = ui.cmp !== false;
+  const top = Math.max(4, ...c.cur, ...(cmp ? c.prev : [0])), ymax = Math.ceil(top / 4) * 4, X = L + i * (W - L - R) / Math.max(1, c.N - 1), Y = v => T + (H - T - B) * (1 - v / ymax);
+  const cx = svg.querySelector('#cx'), d1 = svg.querySelector('#cdot'), d2 = svg.querySelector('#cdot2');
+  cx.setAttribute('x1', X); cx.setAttribute('x2', X); cx.setAttribute('visibility', 'visible');
+  d1.setAttribute('cx', X); d1.setAttribute('cy', Y(c.cur[i])); d1.setAttribute('visibility', 'visible');
+  if (d2) { d2.setAttribute('cx', X); d2.setAttribute('cy', Y(c.prev[i])); d2.setAttribute('visibility', 'visible'); }
+  const a = c.cur[i], p = c.prev[i], pc = p ? Math.round((a - p) / p * 1000) / 10 : null;
+  tip.innerHTML = `<b>${esc(new Date(c.labels[i]).toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}))}</b><span><i class="lcur"></i>Cette période<em>${a}</em></span>${cmp ? `<span><i class="lprev"></i>Période précédente<em>${p}</em></span>${pc != null ? `<span class="${pc >= 0 ? 'up' : 'down'}">${pc >= 0 ? '▲' : '▼'} ${Math.abs(pc).toString().replace('.', ',')} %</span>` : ''}` : ''}`;
+  tip.hidden = false;
+  const px = X / W * r.width, tw = tip.offsetWidth; tip.style.left = Math.min(r.width - tw - 4, Math.max(4, px + 14 + tw > r.width ? px - tw - 14 : px + 14)) + 'px'; tip.style.top = Math.max(0, Y(a) / H * r.height - 30) + 'px';
+}
+function chartOut(){ const svg = document.querySelector('#chart svg'), tip = $('#ctip'); if (tip) tip.hidden = true; if (svg) ['#cx','#cdot','#cdot2'].forEach(q => { const el = svg.querySelector(q); if (el) el.setAttribute('visibility', 'hidden'); }); }
+document.addEventListener('pointermove', e => { if (e.target.closest && e.target.closest('#chart')) chartHover(e); });
+document.addEventListener('pointerleave', e => { if (e.target && e.target.id === 'chart') chartOut(); }, true);
+function exportCsv(){
+  const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const rows = [['Tâche','Univers','Personnes','Type','Statut','Échéance','Créée le','Créée par','Terminée le','Note']].concat(state.tasks.map(x => [x.title, (proj(x.project) || {}).n || '', arr(x.who).map(mname).join(', '), x.kind === 'collectif' ? 'Collective' : 'Individuelle', (STATUS.find(z => z[0] === (x.status || 'todo')) || [])[1], x.due || '', x.createdAt ? new Date(x.createdAt).toLocaleDateString('fr-FR') : '', x.createdBy || '', x.doneAt ? new Date(x.doneAt).toLocaleDateString('fr-FR') : '', x.note || '']));
+  const blob = new Blob(['﻿' + rows.map(r => r.map(q).join(';')).join('\n')], {type: 'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'crm-moovup-taches-' + today() + '.csv'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
 
 /* alertes de nouveaux messages, sur toutes les pages */
@@ -1489,6 +1628,9 @@ document.addEventListener('click', async e => {
   else if (a === 'notify') { const sh = state.shoots.find(x => x.id === id), k = b.dataset.k; if (sh && canWrite) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: Date.now(), ok: !!((sh.notified || {})[k] || {}).ok}})); }
   else if (a === 'notif') askNotif();
   else if (a === 'claim' && me) await write(() => db.collection('members').doc(id).update({email: String(me.email || '').toLowerCase()}));
+  else if (a === 'met') { ui.met = b.dataset.v; keepFilters(); render(); }
+  else if (a === 'cmp') { ui.cmp = ui.cmp === false; keepFilters(); render(); }
+  else if (a === 'export') exportCsv();
   else if (a === 'genRep') genAIReport(b.dataset.k);
   else if (a === 'back') { if (history.length > 1) history.back(); else location.hash = '#tableau'; }
   else if (a === 'palette') palOpen();
@@ -1548,6 +1690,7 @@ document.addEventListener('change', async e => {
   else if (c === 'confirm') { const sh = state.shoots.find(x => x.id === id), k = el.dataset.k; if (sh) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: ((sh.notified || {})[k] || {}).at || Date.now(), ok: el.checked}})); }
   else if (SPF[c]) await write(() => db.collection('spaces').doc(id).set({[SPF[c]]: el.value.trim()}, {merge: true}));
   else if (c === 'mName') { const v = el.value.trim(); if (v) await write(() => db.collection('members').doc(id).update({name: v})); else render(); }
+  else if (c === 'per') { ui.per = +el.value; keepFilters(); render(); }
   else if (c === 'accRole') await write(() => db.collection('access').doc(id).update({role: el.value}), 'access');
   else if (c === 'supNote') await write(() => db.collection('supnotes').doc(id).set({text: el.value.trim(), at: Date.now()}));
   else if (c === 'mEmail') await write(() => db.collection('members').doc(id).update({email: el.value.trim().toLowerCase()}));
