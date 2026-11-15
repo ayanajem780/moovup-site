@@ -274,6 +274,10 @@ body{letter-spacing:.005em}
 .navh{letter-spacing:.2em;font-size:10.5px;color:rgba(255,255,255,.5);padding:20px 12px 8px}
 nav a{font-weight:400;color:rgba(255,255,255,.82);padding:9px 12px;border-radius:6px;border-left:2px solid transparent;transition:background .18s,color .18s}
 nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+nav a[hidden]{display:none}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px}
+@media (max-width:760px){.two{grid-template-columns:minmax(0,1fr)}}
+.role{font:600 10.5px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;padding:5px 8px;border-radius:4px;background:var(--accent-soft);color:var(--brand-blue)}
 nav a[aria-current="page"]{background:rgba(255,255,255,.1);color:#fff;border-left-color:var(--brand-orange);font-weight:500}
 .wrap{max-width:1560px;margin:0;padding:0 clamp(18px,3vw,44px) 64px}
 header.top{background:none;box-shadow:none;border-radius:0;border-bottom:1px solid var(--line);margin:0 0 22px;padding:22px 0 16px;gap:12px 14px}
@@ -367,6 +371,8 @@ dialog h2{font:600 21px/1.2 var(--body)}
       <a href="#assistant">Assistant IA</a>
       <span class="navh">Pilotage</span>
       <a href="#rapport">Rapport du jour</a>
+      <a href="#supervision" id="navSup" hidden>Supervision</a>
+      <a href="#fondateur" id="navFound" hidden>Espace fondateur</a>
       <a href="#suivi">Suivi</a>
       <a href="#equipe">Équipe</a>
     </nav>
@@ -408,11 +414,15 @@ const PROJECTS = [
   {k:'anais',  n:'Anaïs',                   s:'Anaïs',     c:'#8a5bd1'}
 ];
 const STATUS = [['todo','À faire'],['doing','En cours'],['done','Terminé']];
-const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[], ai:[], meetings:[], reports:[]};
+const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[], ai:[], meetings:[], reports:[], supnotes:[]};
 const loaded = {members:false, tasks:false, shoots:false};
 const ui = {kind:'all', person:'', project:'', ch:'general', seen:0, u:'sports', utab:'ia'};
 const live = {aiBusy:'', qa:[], asking:false, repBusy:false};
-const TITLES = {tableau:'Tableau de bord', 'mes-taches':'Mes tâches', taches:'Tâches', tournages:'Tournages', reunions:'Réunions', discussion:'Discussion', assistant:'Assistant IA', rapport:'Rapport du jour', suivi:'Suivi', equipe:'Équipe'};
+const ADMIN_EMAIL = 'ayanajem780@gmail.com';
+const isAdminMe = () => !!me && String(me.email || '').toLowerCase() === ADMIN_EMAIL;
+const myRole = () => isAdminMe() ? 'admin' : ((state.access.find(a => a.id === String((me && me.email) || '').toLowerCase()) || {}).role || 'membre');
+const allowed = k => k === 'supervision' ? isAdminMe() : k === 'fondateur' ? (isAdminMe() || myRole() === 'fondateur') : true;
+const TITLES = {tableau:'Tableau de bord', 'mes-taches':'Mes tâches', taches:'Tâches', tournages:'Tournages', reunions:'Réunions', discussion:'Discussion', assistant:'Assistant IA', rapport:'Rapport du jour', supervision:'Supervision', fondateur:'Espace fondateur', suivi:'Suivi', equipe:'Équipe'};
 let lastView = '', lastSync = 0;
 try { if (localStorage.getItem('moovcrm-theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
 const whoAmI = () => (me && (me.displayName || me.email)) || '';
@@ -456,7 +466,7 @@ function init(){
 }
 function subscribe(){
   loadTimer = setTimeout(() => note("Les données ne sont pas encore joignables. Vérifiez la connexion, elles s'afficheront dès que possible."), 10000);
-  ['members','tasks','shoots','access','spaces','messages','ai','meetings','reports'].forEach(name => {
+  ['members','tasks','shoots','access','spaces','messages','ai','meetings','reports'].concat(isAdminMe() ? ['supnotes'] : []).forEach(name => {
     const q = name === 'messages' ? db.collection(name).orderBy('at', 'desc').limit(200) : db.collection(name);
     unsub.push(q.onSnapshot(snap => {
       state[name] = snap.docs.map(d => Object.assign({id: d.id}, d.data()));
@@ -490,7 +500,7 @@ async function write(fn, what){
 function view(){ const h = location.hash.replace('#','');
   if (h.startsWith('univers-') && proj(h.slice(8))) { ui.u = h.slice(8); return 'univers'; }
   if (h === 'assistant') return 'assistant';
-  return ['tableau','mes-taches','taches','tournages','reunions','discussion','rapport','suivi','equipe'].includes(h) ? h : 'tableau'; }
+  return ['tableau','supervision','fondateur','mes-taches','taches','tournages','reunions','discussion','rapport','suivi','equipe'].includes(h) ? h : 'tableau'; }
 function render(){
   const v = view(), app = phase === 'app';
   $('#side').hidden = !app;
@@ -515,8 +525,9 @@ function render(){
   $('#navChat').innerHTML = 'Discussion' + (unread ? `<span class="nbadge" aria-label="${unread} non lu${unread > 1 ? 's' : ''}">${unread > 99 ? '99+' : unread}</span>` : '');
   const mid = myId(), mineOpen = mid ? state.tasks.filter(x => x.status !== 'done' && arr(x.who).includes(mid)).length : 0, mineLate = mid ? state.tasks.filter(x => isLate(x) && arr(x.who).includes(mid)).length : 0;
   $('#navMine').innerHTML = 'Mes tâches' + (mineOpen ? `<span class="nbadge"${mineLate ? '' : ' style="background:rgba(255,255,255,.18)"'}>${mineOpen}</span>` : '');
+  $('#navSup').hidden = !(app && allowed('supervision')); $('#navFound').hidden = !(app && allowed('fondateur'));
   document.title = (app && unread ? '(' + unread + ') ' : '') + 'CRM Marketing Moov Up';
-  $('#main').innerHTML = ({tableau: vDash, 'mes-taches': vMine, reunions: vMeet, rapport: vReport, univers: vUnivers, assistant: vAssistant, discussion: vChat, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
+  $('#main').innerHTML = ({tableau: vDash, supervision: vSup, fondateur: vFounder, 'mes-taches': vMine, reunions: vMeet, rapport: vReport, univers: vUnivers, assistant: vAssistant, discussion: vChat, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
   if (cur !== lastView) { lastView = cur; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); countUp(); }
   if (v === 'discussion') {
     const box = $('#chatBox'); if (box) box.scrollTop = box.scrollHeight;
@@ -712,6 +723,7 @@ function vDash(){
     <section class="block"><h2>Avancement par univers</h2><div class="load">${PROJECTS.map(p => `<div class="r"><span>${projChip(p.k)}</span>${stack(counts(state.tasks.filter(x => x.project === p.k)))}</div>`).join('')}</div></section>
     <section class="block"><h2>À rendre cette semaine</h2><ul class="items">${urgent.map(x => `<li><span class="g">${esc(x.title)}</span>${projChip(x.project)}<span class="pill ${isLate(x) ? 'bad' : ''}">${isLate(x) ? 'En retard, ' : ''}${esc(fdate(x.due))}</span></li>`).join('') || '<li class="empty">Rien à rendre dans les 7 jours.</li>'}</ul>
       <h2 style="margin-top:16px">Prochains tournages</h2><ul class="items">${upcoming.slice(0,5).map(s => `<li><span class="g">${esc(s.title || 'Tournage')}</span>${arr(s.projects).map(projChip).join('')}<span class="pill ${conflicts(s).length ? 'bad' : ''}">${esc(fdate(s.date))}${s.start ? ' ' + esc(s.start) : ''}</span></li>`).join('') || '<li class="empty">Aucun tournage prévu.</li>'}</ul></section>
+    ${meetBlock()}
   </div>`;
 }
 
@@ -778,7 +790,7 @@ function palItems(q){
     {l:'Générer le rapport du jour', k:'Action IA', run: () => { location.hash = '#rapport'; genReport(); }},
     {l:'Activer les alertes de bureau pour la discussion', k:'Réglage', run: askNotif},
     {l: document.documentElement.dataset.theme === 'dark' ? 'Passer en mode jour' : 'Passer en mode nuit', k:'Affichage', run: toggleTheme}
-  ].concat(Object.keys(TITLES).map(k => ({l: TITLES[k], k:'Page', run: go(k)})))
+  ].concat(Object.keys(TITLES).filter(allowed).map(k => ({l: TITLES[k], k:'Page', run: go(k)})))
    .concat(PROJECTS.map(p => ({l: p.n, k:'Univers', run: go('univers-' + p.k)})))
    .concat(state.tasks.map(x => ({l: x.title, k:'Tâche', run: () => openTask(x)})))
    .concat(state.shoots.map(x => ({l: (x.title || 'Tournage') + (x.date ? ' · ' + fdate(x.date) : ''), k:'Tournage', run: go('tournages')})))
@@ -1016,6 +1028,95 @@ function vChat(){
   </section>`;
 }
 
+/* réunions sur le tableau de bord */
+function meetBlock(){
+  const t = today(), nowHM = new Date().toTimeString().slice(0, 5);
+  const up = state.meetings.filter(m => m.date && (m.date > t || (m.date === t && (!m.start || m.start >= nowHM)))).sort((a,b) => (a.date + (a.start || '')).localeCompare(b.date + (b.start || '')));
+  const last = state.meetings.filter(m => m.date && m.date <= t).sort((a,b) => (b.date + (b.start || '')).localeCompare(a.date + (a.start || '')))[0];
+  return `<section class="block wide"><div class="bh"><h2>Réunions</h2><a class="btn small" href="#reunions">Ouvrir les réunions</a></div><div class="two">
+    <div><h3 style="margin:0 0 6px;font:600 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)">À venir</h3><ul class="items">${up.slice(0, 4).map(m => `<li><span class="g">${esc(m.title)}</span><span class="pill">${m.date === t ? 'Aujourd\'hui' : esc(fdate(m.date))}${m.start ? ' · ' + esc(m.start) : ''}</span>${arr(m.people).length ? `<span class="meta">${arr(m.people).length} participant${arr(m.people).length > 1 ? 's' : ''}</span>` : ''}</li>`).join('') || '<li class="empty">Aucune réunion prévue.</li>'}</ul></div>
+    <div><h3 style="margin:0 0 6px;font:600 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)">${last ? 'Dernière réunion · ' + esc(last.title) : 'Dernière réunion'}</h3>${last ? `<ul class="items">${arr(last.decisions).map(d => `<li><span class="g">${esc(d)}</span></li>`).join('') || `<li class="empty">${last.note ? 'Compte rendu écrit, aucune décision listée.' : 'Compte rendu pas encore écrit.'}</li>`}</ul>` : '<p class="empty">Aucune réunion passée.</p>'}</div>
+  </div></section>`;
+}
+
+/* accès et rôles */
+const ROLES = [['membre','Membre'],['fondateur','Fondateur']];
+function accessBlock(){
+  const adm = isAdminMe();
+  return `<section class="block"><h2>Accès au CRM et rôles</h2>
+    <p class="meta" style="margin:0 0 8px">Les adresses autorisées à ouvrir le CRM. Aya est superviseure. Le rôle Fondateur ouvre l'Espace fondateur. Seule la superviseure peut modifier cette liste.</p>
+    <div class="member"><span style="flex:1;overflow-wrap:anywhere">${esc(ADMIN_EMAIL)}</span><span class="role">Superviseure</span></div>
+    ${state.access.map(a => `<div class="member"><span style="flex:1;overflow-wrap:anywhere">${esc(a.id)}</span>
+      ${adm ? `<select data-chg="accRole" data-id="${esc(a.id)}" aria-label="Rôle de ${esc(a.id)}">${ROLES.map(([k,l]) => `<option value="${k}"${(a.role || 'membre') === k ? ' selected' : ''}>${l}</option>`).join('')}</select>
+      <button type="button" class="btn small danger" data-act="delAccess" data-id="${esc(a.id)}">Retirer</button>` : `<span class="role">${a.role === 'fondateur' ? 'Fondateur' : 'Membre'}</span>`}</div>`).join('') || '<p class="empty">Aucune adresse ajoutée pour le moment.</p>'}
+    ${adm ? `<form class="bar" id="addAccess" style="margin-bottom:0">
+      <input type="text" inputmode="email" id="newEmail" placeholder="adresse@gmail.com" aria-label="Adresse à autoriser" required style="flex:1 1 220px">
+      <button class="btn primary">Autoriser</button>
+    </form>` : ''}
+  </section>`;
+}
+const restricted = who => `<section class="block gate" style="max-width:560px"><h2>Page réservée</h2><p>Cette page est réservée ${who}.</p><a class="btn" href="#tableau">Revenir au tableau de bord</a></section>`;
+
+/* supervision (Aya seule) */
+function vSup(){
+  if (!isAdminMe()) return restricted('à la superviseure');
+  const t = today(), u = usage(t), all = counts(state.tasks), wk = Date.now() - 7 * 864e5;
+  const reps = state.reports, avg = reps.length ? reps.reduce((n,r) => n + (r.score || 0), 0) / reps.length : null;
+  const noOwner = state.tasks.filter(x => x.status !== 'done' && !arr(x.who).length).length;
+  const rows = state.members.map(m => {
+    const mine = state.tasks.filter(x => arr(x.who).includes(m.id)), c = counts(mine);
+    const doneW = mine.filter(x => (x.doneAt || 0) > wk).length;
+    const last = Math.max(0, ...mine.map(x => x.updatedAt || x.createdAt || 0), ...state.messages.filter(x => m.email && x.email === m.email).map(x => x.at || 0));
+    const note = (state.supnotes.find(x => x.id === m.id) || {}).text || '';
+    return `<tr><td><b>${esc(m.name)}</b>${m.role ? `<br><span class="meta">${esc(m.role)}</span>` : ''}</td><td class="n">${c.todo + c.doing}</td><td class="n">${c.late ? `<span class="pill bad">${c.late}</span>` : '0'}</td><td class="n">${doneW}</td>
+      <td>${last ? esc(new Date(last).toLocaleDateString('fr-FR', {day:'numeric', month:'short'})) + ' ' + esc(new Date(last).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'})) : '<span class="meta">jamais</span>'}</td>
+      <td style="min-width:220px"><textarea data-chg="supNote" data-id="${esc(m.id)}" placeholder="Note privée, visible par vous seule" aria-label="Note privée sur ${esc(m.name)}" style="min-height:44px">${esc(note)}</textarea></td></tr>`;
+  }).join('');
+  const ev = [];
+  state.tasks.forEach(x => { if (x.createdAt) ev.push([x.createdAt, x.createdBy, 'a créé la tâche', x.title]); if (x.doneAt) ev.push([x.doneAt, x.updatedBy, 'a terminé', x.title]); else if (x.updatedAt && x.updatedAt !== x.createdAt) ev.push([x.updatedAt, x.updatedBy, 'a modifié', x.title]); });
+  state.shoots.forEach(x => { if (x.updatedAt) ev.push([x.updatedAt, x.updatedBy, 'a mis à jour le tournage', x.title]); });
+  state.meetings.forEach(x => { if (x.updatedAt) ev.push([x.updatedAt, x.updatedBy, 'a mis à jour la réunion', x.title]); });
+  state.reports.forEach(x => { if (x.at) ev.push([x.at, x.by, 'a généré le rapport du', fdate(x.id)]); });
+  ev.sort((p,q) => q[0] - p[0]);
+  return `<div class="tiles">
+    <div class="tile"><b>${u.people.length}/${u.total}</b><span>membres actifs aujourd'hui</span></div>
+    <div class="tile${all.late ? ' bad' : ''}"><b>${all.late}</b><span>tâches en retard</span></div>
+    <div class="tile${noOwner ? ' bad' : ''}"><b>${noOwner}</b><span>tâches sans responsable</span></div>
+    <div class="tile"><b>${avg == null ? '–' : avg.toFixed(1).replace('.', ',')}</b><span>note moyenne du CRM</span></div>
+  </div>
+  <section class="block"><div class="bh"><h2>Suivi de l'équipe</h2><span class="role">Visible par vous seule</span></div>
+    ${rows ? `<table><thead><tr><th>Membre</th><th class="n">Ouvertes</th><th class="n">En retard</th><th class="n">Terminées 7 j</th><th>Dernière activité</th><th>Notes privées</th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="empty">Ajoutez les membres dans l\'onglet Équipe.</p>'}
+    <p class="meta" style="margin:10px 0 0">Les notes privées sont protégées dans la base : seul votre compte peut les lire.</p></section>
+  <div class="dash">
+    <section class="block"><h2>Journal d'activité</h2><ul class="items">${ev.slice(0, 18).map(e => `<li><span class="meta" style="min-width:92px">${esc(new Date(e[0]).toLocaleDateString('fr-FR', {day:'numeric', month:'short'}))} ${esc(new Date(e[0]).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}))}</span><span class="g"><b>${esc(e[1] || 'Quelqu\'un')}</b> ${esc(e[2])} « ${esc(e[3] || '')} »</span></li>`).join('') || '<li class="empty">Aucune activité enregistrée pour le moment.</li>'}</ul></section>
+    <div>${accessBlock()}</div>
+  </div>`;
+}
+
+/* espace fondateur (Omar et Aya) */
+function vFounder(){
+  if (!allowed('fondateur')) return restricted('au fondateur et à la superviseure');
+  const t = today(), wk = Date.now() - 7 * 864e5, mon = t.slice(0, 7);
+  const doneW = state.tasks.filter(x => (x.doneAt || 0) > wk).length, all = counts(state.tasks);
+  const up = state.shoots.filter(s => s.date && s.date >= t).sort((a,b) => (a.date + (a.start || '')).localeCompare(b.date + (b.start || '')));
+  const meetMonth = state.meetings.filter(m => (m.date || '').slice(0, 7) === mon).length;
+  const past = state.meetings.filter(m => m.date && m.date <= t && arr(m.decisions).length).sort((a,b) => b.date.localeCompare(a.date));
+  const rep = state.reports.slice().sort((a,b) => b.id.localeCompare(a.id))[0];
+  return `<p class="meta" style="margin:-8px 0 18px">Vue d'ensemble du travail de l'équipe marketing sur les 6 univers, pour la direction.</p>
+  <div class="tiles">
+    <div class="tile"><b>${doneW}</b><span>tâches terminées en 7 jours</span></div>
+    <div class="tile"><b>${all.todo + all.doing}</b><span>tâches en cours ou à faire</span></div>
+    <div class="tile"><b>${up.length}</b><span>tournages à venir</span></div>
+    <div class="tile"><b>${meetMonth}</b><span>réunions ce mois-ci</span></div>
+  </div>
+  <div class="dash">
+    <section class="block"><h2>Avancement par univers</h2><div class="load">${PROJECTS.map(p => `<div class="r"><span>${projChip(p.k)}</span>${stack(counts(state.tasks.filter(x => x.project === p.k)))}</div>`).join('')}</div></section>
+    <section class="block"><h2>Dernier point de l'équipe</h2>${rep ? `<p class="meta" style="margin:0 0 6px;text-transform:capitalize">${esc(fdate(rep.id, true))}</p><p class="aitxt">${esc(rep.resume)}</p><p class="facts"><b>Note du CRM : ${rep.score}/10.</b> ${esc(rep.verdict)}</p>` : '<p class="empty">Aucun rapport du jour généré pour le moment.</p>'}</section>
+    <section class="block"><h2>Prochains tournages</h2><ul class="items">${up.slice(0, 6).map(s => `<li><span class="g">${esc(s.title || 'Tournage')}</span>${arr(s.projects).map(projChip).join('')}<span class="pill">${esc(fdate(s.date))}${s.start ? ' · ' + esc(s.start) : ''}</span></li>`).join('') || '<li class="empty">Aucun tournage prévu.</li>'}</ul></section>
+    <section class="block"><h2>Décisions récentes</h2><ul class="items">${past.slice(0, 3).map(m => arr(m.decisions).map(d => `<li><span class="g">${esc(d)}</span><span class="pill">${esc(m.title)} · ${esc(fdate(m.date))}</span></li>`).join('')).join('') || '<li class="empty">Aucune décision enregistrée en réunion.</li>'}</ul></section>
+  </div>`;
+}
+
 /* mes tâches */
 function myId(){ const e = String((me && me.email) || '').toLowerCase(); if (!e) return null; const m = state.members.find(x => String(x.email || '').toLowerCase() === e); return m ? m.id : null; }
 function vMine(){
@@ -1156,14 +1257,7 @@ function vTeam(){
       <input type="text" inputmode="tel" value="${esc(c.phone || '')}" placeholder="WhatsApp, ex. 06 12 34 56 78" data-chg="spPhone" data-id="${p.k}" aria-label="Numéro WhatsApp ${esc(p.s)}"${dis()}>
       ${c.phone && !waNumber(c.phone) ? '<span class="pill bad">Numéro incomplet</span>' : ''}</div>`; }).join('')}
   </section>
-  <section class="block"><h2>Accès au CRM</h2>
-    <p class="meta" style="margin:0 0 8px">Les adresses Google autorisées à ouvrir le CRM, en plus de l'administratrice. Elle seule peut modifier cette liste.</p>
-    ${state.access.map(a => `<div class="member"><span style="flex:1;overflow-wrap:anywhere">${esc(a.id)}</span><button type="button" class="btn small danger" data-act="delAccess" data-id="${esc(a.id)}">Retirer</button></div>`).join('') || '<p class="empty">Aucune adresse ajoutée pour le moment.</p>'}
-    <form class="bar" id="addAccess" style="margin-bottom:0">
-      <input type="text" inputmode="email" id="newEmail" placeholder="adresse@gmail.com" aria-label="Adresse Google à autoriser" required style="flex:1 1 220px">
-      <button class="btn primary">Autoriser</button>
-    </form>
-  </section>`;
+  ${accessBlock()}`;
 }
 
 /* ---------- fenêtres ---------- */
@@ -1361,6 +1455,8 @@ document.addEventListener('change', async e => {
   else if (c === 'confirm') { const sh = state.shoots.find(x => x.id === id), k = el.dataset.k; if (sh) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: ((sh.notified || {})[k] || {}).at || Date.now(), ok: el.checked}})); }
   else if (SPF[c]) await write(() => db.collection('spaces').doc(id).set({[SPF[c]]: el.value.trim()}, {merge: true}));
   else if (c === 'mName') { const v = el.value.trim(); if (v) await write(() => db.collection('members').doc(id).update({name: v})); else render(); }
+  else if (c === 'accRole') await write(() => db.collection('access').doc(id).update({role: el.value}), 'access');
+  else if (c === 'supNote') await write(() => db.collection('supnotes').doc(id).set({text: el.value.trim(), at: Date.now()}));
   else if (c === 'mEmail') await write(() => db.collection('members').doc(id).update({email: el.value.trim().toLowerCase()}));
   else if (c === 'mRole') await write(() => db.collection('members').doc(id).update({role: el.value.trim()}));
 });
