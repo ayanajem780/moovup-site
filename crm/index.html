@@ -1089,7 +1089,7 @@ function vSup(){
     <p class="meta" style="margin:10px 0 0">Les notes privées sont protégées dans la base : seul votre compte peut les lire.</p></section>
   <div class="dash">
     <section class="block"><h2>Journal d'activité</h2><ul class="items">${ev.slice(0, 18).map(e => `<li><span class="meta" style="min-width:92px">${esc(new Date(e[0]).toLocaleDateString('fr-FR', {day:'numeric', month:'short'}))} ${esc(new Date(e[0]).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}))}</span><span class="g"><b>${esc(e[1] || 'Quelqu\'un')}</b> ${esc(e[2])} « ${esc(e[3] || '')} »</span></li>`).join('') || '<li class="empty">Aucune activité enregistrée pour le moment.</li>'}</ul></section>
-    <div>${accessBlock()}</div>
+    ${accessBlock()}
   </div>`;
 }
 
