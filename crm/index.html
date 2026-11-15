@@ -770,7 +770,8 @@ function vDash(){
   const open = all.todo + all.doing, health = open ? Math.round((open - all.late) / open * 100) : 100;
   const delta = (k, unit) => { const [c, p] = k, d = c - p; if (!p && !c) return '<span class="dl">aucune activité sur les deux périodes</span>';
     if (!p) return `<span class="up">▲ ${c}</span> <span class="dl">${unit} de plus qu'avant</span>`;
-    const pc = Math.round(d / p * 1000) / 10; return `<span class="${d >= 0 ? 'up' : 'down'}">${d >= 0 ? '▲' : '▼'} ${Math.abs(pc).toString().replace('.', ',')} %</span> <span class="dl">vs ${N} jours précédents</span>`; };
+    if (!d) return `<span class="dl">= stable vs ${N} jours précédents</span>`;
+    const pc = Math.round(d / p * 1000) / 10; return `<span class="${d > 0 ? 'up' : 'down'}">${d > 0 ? '▲' : '▼'} ${Math.abs(pc).toString().replace('.', ',')} %</span> <span class="dl">vs ${N} jours précédents</span>`; };
   const kpi = (href, label, val, sub, tip) => `<a class="kpi" href="${href}"${tip ? ` title="${esc(tip)}"` : ''}><span class="kl">${label}</span><b>${val}</b><span class="ks">${sub}</span></a>`;
   // série quotidienne pour le graphique
   const metric = ui.met || 'done', pick = {done: x => state.tasks.map(z => z.doneAt || 0), created: x => state.tasks.map(z => z.createdAt || 0), msg: x => state.messages.map(z => z.at || 0)}[metric]();
@@ -816,7 +817,7 @@ function vDash(){
     ${kpi('#liste-en-retard', 'Santé de l\'équipe', health + '<small>/100</small>', all.late ? `<span class="down">▼ ${all.late}</span> <span class="dl">tâche${all.late > 1 ? 's' : ''} en retard</span>` : '<span class="up">▲</span> <span class="dl">aucune tâche en retard</span>', 'Part des tâches ouvertes qui ne sont pas en retard')}
   </div>
   <div class="dgrid">
-    <section class="block chartc"><div class="bh"><div style="flex:1"><h2>Activité de l'équipe</h2><p class="meta" style="margin:2px 0 0">${metLbl[metric]} par jour, ${N} derniers jours</p></div>
+    <section class="block chartc"><div class="bh" style="flex-wrap:wrap;row-gap:10px"><div style="flex:1 1 260px;min-width:220px"><h2>Activité de l'équipe</h2><p class="meta" style="margin:2px 0 0">${metLbl[metric]} par jour, ${N} derniers jours</p></div>
       <span class="lg"><i class="lcur"></i>Cette période</span>${ui.cmp !== false ? '<span class="lg"><i class="lprev"></i>Période précédente</span>' : ''}
       <div class="seg" role="group" aria-label="Mesure">${Object.keys(metLbl).map(k => `<button type="button" data-act="met" data-v="${k}" aria-pressed="${metric === k}">${{done:'Terminées', created:'Créées', msg:'Messages'}[k]}</button>`).join('')}</div></div>
       <div class="chart" id="chart">${chartSvg()}<div class="ctip" id="ctip" hidden></div></div></section>
@@ -859,7 +860,7 @@ function chartHover(e){
   d1.setAttribute('cx', X); d1.setAttribute('cy', Y(c.cur[i])); d1.setAttribute('visibility', 'visible');
   if (d2) { d2.setAttribute('cx', X); d2.setAttribute('cy', Y(c.prev[i])); d2.setAttribute('visibility', 'visible'); }
   const a = c.cur[i], p = c.prev[i], pc = p ? Math.round((a - p) / p * 1000) / 10 : null;
-  tip.innerHTML = `<b>${esc(new Date(c.labels[i]).toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}))}</b><span><i class="lcur"></i>Cette période<em>${a}</em></span>${cmp ? `<span><i class="lprev"></i>Période précédente<em>${p}</em></span>${pc != null ? `<span class="${pc >= 0 ? 'up' : 'down'}">${pc >= 0 ? '▲' : '▼'} ${Math.abs(pc).toString().replace('.', ',')} %</span>` : ''}` : ''}`;
+  tip.innerHTML = `<b>${esc(new Date(c.labels[i]).toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}))}</b><span><i class="lcur"></i>Cette période<em>${a}</em></span>${cmp ? `<span><i class="lprev"></i>Période précédente<em>${p}</em></span>${pc != null ? (pc === 0 ? '<span class="dl">= stable</span>' : `<span class="${pc > 0 ? 'up' : 'down'}">${pc > 0 ? '▲' : '▼'} ${Math.abs(pc).toString().replace('.', ',')} %</span>`) : ''}` : ''}`;
   tip.hidden = false;
   const px = X / W * r.width, tw = tip.offsetWidth; tip.style.left = Math.min(r.width - tw - 4, Math.max(4, px + 14 + tw > r.width ? px - tw - 14 : px + 14)) + 'px'; tip.style.top = Math.max(0, Y(a) / H * r.height - 30) + 'px';
 }
