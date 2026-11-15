@@ -351,6 +351,7 @@ dialog h2{font:600 21px/1.2 var(--body)}
     <div class="brand"><img src="icon.png" alt="Complexe Moov'Up Sports" width="168" height="135"></div>
     <nav id="nav" aria-label="Sections">
       <a href="#tableau">Tableau de bord</a>
+      <a href="#mes-taches" id="navMine">Mes tâches</a>
       <span class="navh">Univers</span>
       <a href="#univers-sports"><i class="dot" style="background:#2f6fde"></i>Sports</a>
       <a href="#univers-lady"><i class="dot" style="background:#d6408f"></i>Lady</a>
@@ -411,7 +412,7 @@ const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[
 const loaded = {members:false, tasks:false, shoots:false};
 const ui = {kind:'all', person:'', project:'', ch:'general', seen:0, u:'sports', utab:'ia'};
 const live = {aiBusy:'', qa:[], asking:false, repBusy:false};
-const TITLES = {tableau:'Tableau de bord', taches:'Tâches', tournages:'Tournages', reunions:'Réunions', discussion:'Discussion', assistant:'Assistant IA', rapport:'Rapport du jour', suivi:'Suivi', equipe:'Équipe'};
+const TITLES = {tableau:'Tableau de bord', 'mes-taches':'Mes tâches', taches:'Tâches', tournages:'Tournages', reunions:'Réunions', discussion:'Discussion', assistant:'Assistant IA', rapport:'Rapport du jour', suivi:'Suivi', equipe:'Équipe'};
 let lastView = '', lastSync = 0;
 try { if (localStorage.getItem('moovcrm-theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
 const whoAmI = () => (me && (me.displayName || me.email)) || '';
@@ -489,7 +490,7 @@ async function write(fn, what){
 function view(){ const h = location.hash.replace('#','');
   if (h.startsWith('univers-') && proj(h.slice(8))) { ui.u = h.slice(8); return 'univers'; }
   if (h === 'assistant') return 'assistant';
-  return ['tableau','taches','tournages','reunions','discussion','rapport','suivi','equipe'].includes(h) ? h : 'tableau'; }
+  return ['tableau','mes-taches','taches','tournages','reunions','discussion','rapport','suivi','equipe'].includes(h) ? h : 'tableau'; }
 function render(){
   const v = view(), app = phase === 'app';
   $('#side').hidden = !app;
@@ -512,8 +513,10 @@ function render(){
   if (v === 'discussion' && state.messages.length) { const last = state.messages[state.messages.length - 1].at || 0; if (last > ui.seen) { ui.seen = last; keepFilters(); } }
   const unread = state.messages.filter(m => (m.at || 0) > ui.seen && m.email !== (me && me.email)).length;
   $('#navChat').innerHTML = 'Discussion' + (unread ? `<span class="nbadge" aria-label="${unread} non lu${unread > 1 ? 's' : ''}">${unread > 99 ? '99+' : unread}</span>` : '');
+  const mid = myId(), mineOpen = mid ? state.tasks.filter(x => x.status !== 'done' && arr(x.who).includes(mid)).length : 0, mineLate = mid ? state.tasks.filter(x => isLate(x) && arr(x.who).includes(mid)).length : 0;
+  $('#navMine').innerHTML = 'Mes tâches' + (mineOpen ? `<span class="nbadge"${mineLate ? '' : ' style="background:rgba(255,255,255,.18)"'}>${mineOpen}</span>` : '');
   document.title = (app && unread ? '(' + unread + ') ' : '') + 'CRM Marketing Moov Up';
-  $('#main').innerHTML = ({tableau: vDash, reunions: vMeet, rapport: vReport, univers: vUnivers, assistant: vAssistant, discussion: vChat, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
+  $('#main').innerHTML = ({tableau: vDash, 'mes-taches': vMine, reunions: vMeet, rapport: vReport, univers: vUnivers, assistant: vAssistant, discussion: vChat, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
   if (cur !== lastView) { lastView = cur; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); countUp(); }
   if (v === 'discussion') {
     const box = $('#chatBox'); if (box) box.scrollTop = box.scrollHeight;
@@ -1013,6 +1016,50 @@ function vChat(){
   </section>`;
 }
 
+/* mes tâches */
+function myId(){ const e = String((me && me.email) || '').toLowerCase(); if (!e) return null; const m = state.members.find(x => String(x.email || '').toLowerCase() === e); return m ? m.id : null; }
+function vMine(){
+  const id = myId();
+  if (!id) {
+    const free = state.members.filter(m => !m.email);
+    return `<section class="block" style="max-width:720px"><h2>Qui êtes-vous dans l'équipe ?</h2>
+      <p class="meta" style="margin:0 0 14px">Pour afficher vos tâches, le CRM doit relier votre compte (${esc(me ? me.email : '')}) à votre nom dans l'équipe. Choisissez votre nom, une seule fois.</p>
+      <div class="acts">${free.map(m => `<button type="button" class="btn" data-act="claim" data-id="${esc(m.id)}"${dis()}>${esc(m.name)}${m.role ? ' · ' + esc(m.role) : ''}</button>`).join('') || '<p class="empty">Votre nom n\'est pas encore dans l\'onglet Équipe. Demandez à Aya de vous ajouter.</p>'}</div></section>`;
+  }
+  const t = today(), wk = addDays(t, 7), mine = state.tasks.filter(x => arr(x.who).includes(id));
+  const open = mine.filter(x => x.status !== 'done').sort((a,b) => (a.due || '9999').localeCompare(b.due || '9999'));
+  const groups = [
+    ['En retard', open.filter(x => x.due && x.due < t), 'bad'],
+    ['Aujourd\'hui', open.filter(x => x.due === t), 'warn'],
+    ['Cette semaine', open.filter(x => x.due && x.due > t && x.due <= wk), ''],
+    ['Plus tard', open.filter(x => x.due && x.due > wk), ''],
+    ['Sans échéance', open.filter(x => !x.due), '']
+  ].filter(g => g[1].length);
+  const done = mine.filter(x => x.status === 'done').sort((a,b) => (b.doneAt || 0) - (a.doneAt || 0));
+  const doneWeek = done.filter(x => (x.doneAt || 0) > Date.now() - 7 * 864e5).length;
+  const shoots = state.shoots.filter(s => s.date && s.date >= t && arr(s.people).includes(id)).sort((a,b) => (a.date + (a.start || '')).localeCompare(b.date + (b.start || '')));
+  const row = x => `<li><button type="button" class="t g" style="background:none;border:0;padding:0;text-align:left;cursor:pointer;font-weight:500" data-act="editTask" data-id="${esc(x.id)}">${esc(x.title)}</button>
+      ${projChip(x.project)}<span class="pill ${x.kind === 'collectif' ? 'kind-c' : ''}">${x.kind === 'collectif' ? 'Collective' : 'Individuelle'}</span>
+      ${x.due ? `<span class="pill ${isLate(x) ? 'bad' : ''}">${esc(fdate(x.due))}</span>` : ''}
+      <select data-chg="status" data-id="${esc(x.id)}" aria-label="Statut de ${esc(x.title)}"${dis()}>${STATUS.map(([k,l]) => `<option value="${k}"${(x.status || 'todo') === k ? ' selected' : ''}>${l}</option>`).join('')}</select></li>`;
+  return `<div class="tiles">
+    <div class="tile"><b>${open.filter(x => (x.status || 'todo') === 'todo').length}</b><span>à faire</span></div>
+    <div class="tile"><b>${open.filter(x => x.status === 'doing').length}</b><span>en cours</span></div>
+    <div class="tile${open.filter(isLate).length ? ' bad' : ''}"><b>${open.filter(isLate).length}</b><span>en retard</span></div>
+    <div class="tile"><b>${doneWeek}</b><span>terminées en 7 jours</span></div>
+  </div>
+  <div class="bar"><span class="meta">Bonjour ${esc(mname(id))}, voici uniquement les tâches où vous êtes nommé${mine.some(x => x.kind === 'collectif') ? ', seul ou avec d\'autres' : ''}.</span><span class="grow"></span><button type="button" class="btn primary" data-act="newMine"${dis()}>Nouvelle tâche pour moi</button></div>
+  <div class="dash">
+    <section class="block two3"><h2>Mes tâches ouvertes (${open.length})</h2>
+      ${groups.map(g => `<h3 style="margin:16px 0 4px;font:600 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--${g[2] || 'muted'})">${g[0]} · ${g[1].length}</h3><ul class="items">${g[1].map(row).join('')}</ul>`).join('') || '<p class="empty">Aucune tâche ouverte. Beau travail.</p>'}
+    </section>
+    <section class="block third"><h2>Mes prochains tournages</h2>
+      <ul class="items">${shoots.slice(0, 6).map(s => `<li><span class="g">${esc(s.title || 'Tournage')}</span><span class="pill">${esc(fdate(s.date))}${s.start ? ' · ' + esc(s.start) : ''}</span></li>`).join('') || '<li class="empty">Aucun tournage prévu pour vous.</li>'}</ul>
+      ${done.length ? `<h2 style="margin-top:18px">Terminées récemment</h2><ul class="items">${done.slice(0, 6).map(x => `<li><span class="g" style="text-decoration:line-through;color:var(--muted)">${esc(x.title)}</span>${projChip(x.project)}</li>`).join('')}</ul>` : ''}
+    </section>
+  </div>`;
+}
+
 /* réunions */
 function vMeet(){
   const t = today(), sorted = state.meetings.slice().sort((a,b) => ((b.date || '') + (b.start || '')).localeCompare((a.date || '') + (a.start || '')));
@@ -1093,6 +1140,7 @@ function vTeam(){
     ${state.members.map(m => `<div class="member">
       <input type="text" value="${esc(m.name)}" data-chg="mName" data-id="${esc(m.id)}" aria-label="Nom"${dis()}>
       <input type="text" value="${esc(m.role || '')}" placeholder="Rôle (ex. tournage, montage)" data-chg="mRole" data-id="${esc(m.id)}" aria-label="Rôle"${dis()}>
+      <input type="email" value="${esc(m.email || '')}" placeholder="E-mail de connexion" data-chg="mEmail" data-id="${esc(m.id)}" aria-label="E-mail de connexion de ${esc(m.name)}"${dis()}>
       <button type="button" class="btn small danger" data-act="delMember" data-id="${esc(m.id)}"${dis()}>Retirer</button>
     </div>`).join('') || '<p class="empty">Aucun membre pour le moment.</p>'}
     <form class="bar" id="addMember" style="margin-bottom:0">
@@ -1255,6 +1303,7 @@ document.addEventListener('click', async e => {
   }
   else if (a === 'notify') { const sh = state.shoots.find(x => x.id === id), k = b.dataset.k; if (sh && canWrite) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: Date.now(), ok: !!((sh.notified || {})[k] || {}).ok}})); }
   else if (a === 'notif') askNotif();
+  else if (a === 'claim' && me) await write(() => db.collection('members').doc(id).update({email: String(me.email || '').toLowerCase()}));
   else if (a === 'palette') palOpen();
   else if (a === 'theme') toggleTheme();
   else if (a === 'utab') { ui.utab = b.dataset.v; keepFilters(); render(); }
@@ -1269,6 +1318,7 @@ document.addEventListener('click', async e => {
     if (b.dataset.sure) await write(() => db.collection('messages').doc(id).delete());
     else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; }
   }
+  else if (a === 'newMine') { const mid = myId(); openTask(null); if (mid) { draft.who = [mid]; draft.kind = 'indiv'; drawDialog(); } }
   else if (a === 'newTask') openTask(null);
   else if (a === 'editTask') { const t = state.tasks.find(x => x.id === id); if (t && canWrite) openTask(t); }
   else if (a === 'newShoot') openShoot(null);
@@ -1311,6 +1361,7 @@ document.addEventListener('change', async e => {
   else if (c === 'confirm') { const sh = state.shoots.find(x => x.id === id), k = el.dataset.k; if (sh) await write(() => db.collection('shoots').doc(id).update({['notified.' + k]: {at: ((sh.notified || {})[k] || {}).at || Date.now(), ok: el.checked}})); }
   else if (SPF[c]) await write(() => db.collection('spaces').doc(id).set({[SPF[c]]: el.value.trim()}, {merge: true}));
   else if (c === 'mName') { const v = el.value.trim(); if (v) await write(() => db.collection('members').doc(id).update({name: v})); else render(); }
+  else if (c === 'mEmail') await write(() => db.collection('members').doc(id).update({email: el.value.trim().toLowerCase()}));
   else if (c === 'mRole') await write(() => db.collection('members').doc(id).update({role: el.value.trim()}));
 });
 document.addEventListener('submit', async e => {
