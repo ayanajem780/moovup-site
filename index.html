@@ -146,13 +146,14 @@ img{max-width:100%}
 .mosaique{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-radius:var(--rayon);overflow:hidden}
 .mosaique .photo{border-radius:0;min-height:170px;font-size:1.05rem}
 .mosaique .grande{grid-column:1/-1;min-height:280px}
-.apropos-tete{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
-.apropos-tete h2{font-size:clamp(1.8rem,4vw,2.8rem);color:var(--encre)}
-.apropos-tete p{margin:0;max-width:60ch;color:var(--gris);font-size:1.08rem}
-.carte.centre{align-items:center;justify-content:center;min-height:360px}
-.carte.centre::after{background:rgba(0,0,0,.28)}
-.carte.centre:hover::after,.carte.centre:focus-visible::after{background:rgba(0,0,0,.45)}
-.carte.centre h3{position:relative;z-index:1;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;text-align:center;padding:0 16px}
+.tuile{position:relative;aspect-ratio:2.4/1;min-width:0;border-radius:var(--rayon);overflow:hidden;display:flex;align-items:flex-end;color:#fff;text-decoration:none;background:repeating-linear-gradient(135deg,#3F6E8E 0 14px,#467695 14px 28px)}
+.tuile.o{background:repeating-linear-gradient(135deg,#C4672F 0 14px,#CC6F37 14px 28px)}
+.tuile.n{background:repeating-linear-gradient(135deg,#2C2E34 0 14px,#34373E 14px 28px)}
+.tuile.reelle{background:var(--salle) center/cover no-repeat}
+.tuile::after{content:"";position:absolute;inset:0;background:linear-gradient(60deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.25) 38%,rgba(0,0,0,0) 62%);transition:background-color .25s}
+.tuile:hover::after,.tuile:focus-visible::after{background-color:rgba(0,0,0,.18)}
+.tuile .marque{position:absolute;top:14px;right:18px;z-index:1;font:700 .68rem var(--texte);letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.tuile h3{position:relative;z-index:1;margin:0;padding:18px 24px;font-size:clamp(1.3rem,2.2vw,1.7rem);font-weight:600}
 .visite-bandeau{background:var(--bleu-fonce);color:#fff;border-radius:var(--rayon);padding:clamp(24px,4vw,44px);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
 .visite-bandeau .etiquette{color:#F2A772}
 .visite-bandeau h2{color:#fff;font-size:clamp(1.6rem,3.2vw,2.3rem);margin-top:8px}
@@ -240,7 +241,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
   .barre nav{margin-left:0}
   .hero-texte{padding:26px}
 }
-@media (prefers-reduced-motion:reduce){.entree .sous,.carte .desc,.carte::after{transition:none}}
+@media (prefers-reduced-motion:reduce){.entree .sous,.carte .desc,.carte::after,.tuile::after{transition:none}}
 </style>
 </head>
 <body>
@@ -486,17 +487,13 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
         <div class="photo"><small>Carte</small>Plan d'accès</div>
       </div>
     </section>
-    <section class="bloc apropos" id="a-propos">
-      <div class="apropos-tete">
-        <h2>Une histoire, une communauté</h2>
-        <p>Emplacement pour deux ou trois phrases sur le parcours de Moov'Up et sur celles et ceux qui le font vivre : adhérents, coachs, équipe.</p>
-      </div>
+    <section class="bloc" id="a-propos">
+      <div class="bloc-tete"><h2>Explorer Moov'Up</h2></div>
       <div class="grille g3">
-        <a class="carte centre" href="#contact" data-ancre><span class="marque">Photo à ajouter</span><h3>Notre histoire</h3></a>
-        <a class="carte o centre" href="#coachs" data-ancre><span class="marque">Photo à ajouter</span><h3>L'équipe</h3></a>
-        <a class="carte n centre" href="#projets" data-ancre><span class="marque">Photo à ajouter</span><h3>Notre impact</h3></a>
+        <a class="tuile reelle" href="#activites" data-ancre><h3>Fitness</h3></a>
+        <a class="tuile o" href="#projets" data-ancre><span class="marque">Photo à ajouter</span><h3>Bien-être</h3></a>
+        <a class="tuile n" href="#projets" data-ancre><span class="marque">Photo à ajouter</span><h3>Beauté</h3></a>
       </div>
-      <p class="note" style="text-align:center"><b>À écrire :</b> le titre, le texte et le contenu de ces trois rubriques.</p>
     </section>
   </main>
   <footer class="pied"><div><span>Complexe Moov'Up Sports</span><a href="#accueil">Changer d'accès</a></div></footer>
