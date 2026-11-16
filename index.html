@@ -78,6 +78,10 @@ img{max-width:100%}
 .volet{scroll-margin-top:0}
 .volet .seuil-video{filter:none}
 .volet .seuil-video.couleur{filter:none;object-position:center 28%}
+.mur-coachs{position:absolute;inset:0;z-index:-2;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;background:#0b0b0c}
+.mur-coachs img{width:14.2857%;height:50%;object-fit:cover;object-position:center 22%;filter:grayscale(1);display:block}
+#volet-coachs::before{background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.08) 55%,rgba(0,0,0,.7) 80%,rgba(0,0,0,.9) 100%)}
+@media (max-width:620px){.mur-coachs img{width:25%;height:21.5%}#volet-coachs::before{background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.08) 66%,rgba(0,0,0,.75) 88%,rgba(0,0,0,.92) 100%)}}
 .volet::before{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.18) 40%,rgba(0,0,0,.72) 82%,rgba(0,0,0,.92) 100%)}
 .volet .seuil-bas{gap:14px}
 html.defile-ecrans{scroll-snap-type:y proximity}
@@ -303,7 +307,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     </div>
   </div>
   <section class="seuil volet" id="volet-coachs">
-    <video class="seuil-video couleur" src="assets/volet-coachs.mp4" poster="assets/volet-coachs.jpg" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+    <div class="mur-coachs" aria-hidden="true"><img src="assets/coachs/m-ahlam.jpg" alt="" loading="lazy"><img src="assets/coachs/m-anas.jpg" alt="" loading="lazy"><img src="assets/coachs/m-brahim.jpg" alt="" loading="lazy"><img src="assets/coachs/m-chadiya.jpg" alt="" loading="lazy"><img src="assets/coachs/m-hamid.jpg" alt="" loading="lazy"><img src="assets/coachs/m-hannan.jpg" alt="" loading="lazy"><img src="assets/coachs/m-hassna.jpg" alt="" loading="lazy"><img src="assets/coachs/m-khadija.jpg" alt="" loading="lazy"><img src="assets/coachs/m-khalid.jpg" alt="" loading="lazy"><img src="assets/coachs/m-khalid-natation.jpg" alt="" loading="lazy"><img src="assets/coachs/m-manal.jpg" alt="" loading="lazy"><img src="assets/coachs/m-mouad.jpg" alt="" loading="lazy"><img src="assets/coachs/m-yassin.jpg" alt="" loading="lazy"><img src="assets/coachs/m-zahra.jpg" alt="" loading="lazy"></div>
     <div class="seuil-bas">
       <h2>Découvrez vos coachs</h2>
       <div class="seuil-acces"><a href="#equipe">Découvrir</a></div>
