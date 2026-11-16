@@ -36,21 +36,24 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--encre);outline-offset:3px}
 img{max-width:100%}
 
-/* ---------- Accueil : photo plein écran, deux accès ---------- */
-.seuil{position:relative;min-height:100vh;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(20px,5vw,80px);padding:40px clamp(20px,5vw,70px);background:#1b1d22 var(--salle) center/cover no-repeat;color:#fff;isolation:isolate}
-.seuil::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(18,34,48,.78),rgba(20,22,26,.45) 50%,rgba(60,26,8,.72))}
-.seuil a.entree{text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:14px;padding:26px 0}
-.seuil a.gauche{text-align:right;align-items:flex-end}
-.seuil a.droite{text-align:left;align-items:flex-start}
-.entree h2{font-size:clamp(1.7rem,3.6vw,3rem);font-weight:700;text-transform:uppercase;letter-spacing:.01em;text-shadow:0 2px 18px rgba(0,0,0,.5)}
-.entree .sous{display:inline-flex;align-items:center;gap:14px;font-size:clamp(.85rem,1.3vw,1.05rem);letter-spacing:.24em;text-transform:uppercase;padding-bottom:8px;border-bottom:2px solid transparent;transition:border-color .2s,gap .2s}
-.entree.gauche:hover .sous,.entree.gauche:focus-visible .sous{border-color:#6FB0DB;gap:22px}
-.entree.droite:hover .sous,.entree.droite:focus-visible .sous{border-color:var(--orange);gap:22px}
-.entree .chev{font-size:1.3em;line-height:1}
+/* ---------- Accueil : photo plein écran, logo centré, accès en bas ---------- */
+.seuil{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;background:#0a1420 var(--salle) center/cover no-repeat;color:#fff;isolation:isolate}
+.seuil::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,14,26,.94) 0%,rgba(16,42,66,.72) 34%,rgba(46,105,144,.38) 62%,rgba(8,18,30,.9) 84%,rgba(4,8,14,.98) 100%)}
+.seuil-haut{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;padding:26px clamp(20px,3.4vw,84px)}
+.seuil-haut nav{display:flex;gap:clamp(16px,2.4vw,38px);flex-wrap:wrap}
+.seuil-haut nav:last-child{justify-content:flex-end}
+.seuil-haut nav a{color:#fff;text-decoration:none;text-transform:uppercase;font-size:clamp(.82rem,1.05vw,1rem);letter-spacing:.06em;padding:6px 0;border-bottom:1px solid transparent;transition:border-color .2s}
+.seuil-haut nav a:hover,.seuil-haut nav a:focus-visible{border-color:#fff}
+.sceau{margin:0;line-height:0}
+.sceau img{display:block;width:clamp(170px,17vw,270px);height:auto}
+.seuil-bas{margin-top:auto;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;padding:0 20px clamp(40px,9vh,110px)}
+.seuil-bas h1{font-size:clamp(1.9rem,4.2vw,3.4rem);font-weight:800;text-transform:uppercase;letter-spacing:.02em;text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.seuil-acces{display:flex;gap:26px;flex-wrap:wrap;justify-content:center}
+.seuil-acces a{color:#fff;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(.9rem,1.15vw,1.08rem);text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;padding:6px 0;transition:color .2s}
+.seuil-acces a:hover,.seuil-acces a:focus-visible{color:#F0A877}
+.seuil-fleche{color:#fff;text-decoration:none;font-size:1.5rem;line-height:1;padding:6px 14px;animation:flotte 2s ease-in-out infinite}
+@keyframes flotte{50%{transform:translateY(7px)}}
 .seuil :focus-visible{outline-color:#fff}
-.sceau{background:#fff;border-radius:999px;padding:16px 30px;box-shadow:0 14px 40px -10px rgba(0,0,0,.6)}
-.sceau img{display:block;width:clamp(190px,20vw,290px);height:auto}
-.sceau h1{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 
 /* ---------- Barre commune aux pages intérieures ---------- */
 .barre{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);border-bottom:1px solid var(--trait)}
@@ -222,10 +225,8 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
 .module p{margin:0;color:var(--gris);font-size:.92rem}
 
 @media (max-width:820px){
-  .seuil{grid-template-columns:1fr;justify-items:center;align-content:center;gap:10px}
-  .seuil::before{background:linear-gradient(180deg,rgba(18,34,48,.8),rgba(20,22,26,.5) 50%,rgba(60,26,8,.75))}
-  .sceau{order:-1;margin-bottom:24px}
-  .seuil a.gauche,.seuil a.droite{text-align:center;align-items:center}
+  .seuil-haut{grid-template-columns:1fr;justify-items:center}
+  .seuil-haut nav{display:none}
 }
 @media (max-width:900px){
   .defile>*,.defile.quatre>*{flex-basis:calc((100% - 22px)/2)}
@@ -241,7 +242,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
   .barre nav{margin-left:0}
   .hero-texte{padding:26px}
 }
-@media (prefers-reduced-motion:reduce){.entree .sous,.carte .desc,.carte::after,.tuile::after{transition:none}}
+@media (prefers-reduced-motion:reduce){.carte .desc,.carte::after,.tuile::after,.seuil a{transition:none}.seuil-fleche{animation:none}}
 </style>
 </head>
 <body>
@@ -250,15 +251,27 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
 <!-- ================= PAGE 1 : CHOIX DE L'ACCÈS ================= -->
 <main class="vue active" id="vue-accueil">
   <div class="seuil">
-    <a class="entree gauche" href="#membre">
-      <h2>Espace membre</h2>
-      <span class="sous"><span class="chev" aria-hidden="true">‹</span>Accès membres</span>
-    </a>
-    <div class="sceau"><h1>Complexe Moov'Up Sports</h1><img src="assets/logo.png" alt="Complexe Moov'Up Sports"></div>
-    <a class="entree droite" href="#visiteur">
-      <h2>Découvrir le complexe</h2>
-      <span class="sous">Accès visiteurs<span class="chev" aria-hidden="true">›</span></span>
-    </a>
+    <header class="seuil-haut">
+      <nav aria-label="Découvrir">
+        <a href="#visiteur" data-vers="#activites">Activités</a>
+        <a href="#visiteur" data-vers="#coachs">Coachs</a>
+        <a href="#visiteur" data-vers="#projets">Projets</a>
+      </nav>
+      <p class="sceau"><img src="assets/logo-blanc.png" alt="Complexe Moov'Up Sports"></p>
+      <nav aria-label="Accès">
+        <a href="#visiteur" data-vers="#evenements">Événements</a>
+        <a href="#visiteur" data-vers="#contact">Contact</a>
+        <a href="#membre">Connexion</a>
+      </nav>
+    </header>
+    <div class="seuil-bas">
+      <h1>Entrez dans le mouvement</h1>
+      <div class="seuil-acces">
+        <a href="#membre">Espace membre</a>
+        <a href="#visiteur">Espace visiteur</a>
+      </div>
+      <a class="seuil-fleche" href="#visiteur" aria-label="Découvrir le complexe">⌄</a>
+    </div>
   </div>
 </main>
 
@@ -553,6 +566,17 @@ document.querySelectorAll('a[data-ancre]').forEach(function(a){
     var cible = document.querySelector(a.getAttribute('href'));
     var doux = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (cible) cible.scrollIntoView({behavior: doux ? 'smooth' : 'auto'});
+  });
+});
+
+// Liens de la page d'entrée vers une section de l'espace visiteur
+document.querySelectorAll('a[data-vers]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    if (location.hash !== '#visiteur') history.pushState(null, '', '#visiteur');
+    afficher('visiteur');
+    var cible = document.querySelector(a.dataset.vers);
+    if (cible) cible.scrollIntoView();
   });
 });
 
