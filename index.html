@@ -57,6 +57,7 @@ img{max-width:100%}
 .seuil :focus-visible{outline-color:#fff}
 .volet{scroll-margin-top:0}
 .volet .seuil-video{filter:grayscale(1) contrast(1.05)}
+.volet .seuil-video.couleur{filter:none;object-position:center 28%}
 .volet::before{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.18) 40%,rgba(0,0,0,.72) 82%,rgba(0,0,0,.92) 100%)}
 .volet .seuil-bas{gap:14px}
 html.defile-ecrans{scroll-snap-type:y proximity}
@@ -282,7 +283,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     </div>
   </div>
   <section class="seuil volet" id="volet-coachs">
-    <img class="seuil-video" src="assets/volet-coachs.jpg" alt="" loading="lazy">
+    <video class="seuil-video couleur" src="assets/volet-coachs.mp4" poster="assets/volet-coachs.jpg" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
     <div class="seuil-bas">
       <h2>Découvrez vos coachs</h2>
       <div class="seuil-acces"><a href="#visiteur" data-vers="#coachs">Découvrir</a></div>
@@ -585,12 +586,20 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
 <script>
 // --- Navigation entre les trois vues (accueil, visiteur, membre) ---
 var VUES = ['accueil','visiteur','membre'];
+function lire(f){ var j = f.play(); if (j && j.catch) j.catch(function(){}); }
+// Les vidéos de l'accueil ne tournent que lorsqu'elles sont à l'écran
+if ('IntersectionObserver' in window){
+  var guet = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) lire(e.target); else e.target.pause(); });
+  }, {threshold: .15});
+  document.querySelectorAll('#vue-accueil video').forEach(function(f){ guet.observe(f); });
+}
 function afficher(nom){
   VUES.forEach(function(v){ document.getElementById('vue-'+v).classList.toggle('active', v===nom); });
   document.documentElement.classList.toggle('defile-ecrans', nom==='accueil');
   window.scrollTo(0,0);
-  var film = document.getElementById('video-accueil');
-  if (film){ if (nom==='accueil'){ var j = film.play(); if (j && j.catch) j.catch(function(){}); } else film.pause(); }
+  if (nom!=='accueil') document.querySelectorAll('#vue-accueil video').forEach(function(f){ f.pause(); });
+  else if (!('IntersectionObserver' in window)) lire(document.getElementById('video-accueil'));
 }
 function route(){
   var h = location.hash.replace('#','');
