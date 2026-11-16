@@ -36,6 +36,26 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--encre);outline-offset:3px}
 img{max-width:100%}
 
+/* ---------- Page des coachs ---------- */
+#vue-equipe{background:#fff;min-height:100vh;color:#000}
+.eq-noms{display:flex;flex-wrap:wrap;justify-content:center;gap:6px clamp(14px,2.6vw,40px);max-width:1250px;margin:0 auto;padding:clamp(34px,6vw,70px) 20px 0}
+.eq-noms button{border:0;background:none;cursor:pointer;color:#000;font:400 clamp(.9rem,1.25vw,1.12rem) var(--texte);text-transform:uppercase;letter-spacing:.03em;padding:8px 2px;border-bottom:2px solid transparent}
+.eq-noms button:hover{border-color:#000}
+.eq-noms button[aria-pressed="true"]{font-weight:800}
+.eq-titre{text-align:center;padding:clamp(40px,7vw,90px) 20px clamp(34px,5vw,70px);display:flex;flex-direction:column;gap:14px}
+.eq-titre h1,.eq-titre p{margin:0;font:800 clamp(1rem,1.5vw,1.2rem) var(--texte);text-transform:uppercase;letter-spacing:.05em}
+.eq-bandeau{position:relative;height:clamp(300px,62vw,720px);max-height:82vh;background:#0b0b0c;overflow:hidden}
+.eq-bandeau video,.eq-bandeau img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%;filter:grayscale(1) brightness(.55) contrast(1.1)}
+.eq-fiche{display:flex;flex-direction:column;align-items:center;gap:clamp(30px,5vw,60px);padding:clamp(50px,8vw,110px) 20px clamp(60px,9vw,120px)}
+.eq-portrait{width:min(620px,100%);aspect-ratio:1;background:repeating-linear-gradient(135deg,#e9e9ea 0 14px,#f2f2f3 14px 28px);display:grid;place-items:center;overflow:hidden;color:#6A717B;font:700 .75rem var(--texte);letter-spacing:.14em;text-transform:uppercase}
+.eq-portrait img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+.eq-fiche h2{font-size:clamp(1.7rem,3.6vw,2.8rem);font-weight:800;text-transform:uppercase;text-align:center}
+.eq-bio{margin:0;max-width:56ch;text-align:center;color:#444;font-size:1.05rem}
+.eq-bio:empty{display:none}
+.eq-boutons{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.eq-boutons a{min-width:230px;text-align:center;background:#000;color:#fff;text-decoration:none;text-transform:uppercase;letter-spacing:.05em;font:500 1.05rem var(--texte);padding:16px 26px;transition:background .2s}
+.eq-boutons a:hover,.eq-boutons a:focus-visible{background:var(--orange)}
+
 /* ---------- Accueil : photo plein écran, logo centré, accès en bas ---------- */
 .seuil{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;background:#0b0b0c;color:#fff;isolation:isolate;overflow:hidden}
 .seuil-video{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08)}
@@ -263,7 +283,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     <header class="seuil-haut">
       <nav aria-label="Découvrir">
         <a href="#visiteur" data-vers="#activites">Activités</a>
-        <a href="#visiteur" data-vers="#coachs">Coachs</a>
+        <a href="#equipe">Coachs</a>
         <a href="#visiteur" data-vers="#projets">Projets</a>
       </nav>
       <p class="sceau"><img src="assets/logo-blanc.png" alt="Complexe Moov'Up Sports"></p>
@@ -286,7 +306,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     <video class="seuil-video couleur" src="assets/volet-coachs.mp4" poster="assets/volet-coachs.jpg" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
     <div class="seuil-bas">
       <h2>Découvrez vos coachs</h2>
-      <div class="seuil-acces"><a href="#visiteur" data-vers="#coachs">Découvrir</a></div>
+      <div class="seuil-acces"><a href="#equipe">Découvrir</a></div>
     </div>
   </section>
   <section class="seuil volet" id="volet-projets">
@@ -551,6 +571,30 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
   <footer class="pied"><div><span>Complexe Moov'Up Sports</span><a href="#accueil">Changer d'accès</a></div></footer>
 </div>
 
+<!-- ================= PAGE DES COACHS ================= -->
+<div class="vue" id="vue-equipe">
+  <header class="barre"><div class="barre-in">
+    <a href="#accueil" aria-label="Retour à l'accueil"><img src="assets/logo.png" alt="Complexe Moov'Up Sports"></a>
+    <nav aria-label="Navigation"><a href="#accueil">Accueil</a><a href="#visiteur">Espace visiteur</a></nav>
+    <a class="btn bleu" href="#membre">Accès membre</a>
+  </div></header>
+  <main>
+    <div class="eq-noms" id="eq-noms" role="group" aria-label="Choisir un coach"></div>
+    <div class="eq-titre" aria-live="polite"><h1 id="eq-nom"></h1><p id="eq-role"></p></div>
+    <div class="eq-bandeau" id="eq-bandeau"></div>
+    <section class="eq-fiche">
+      <div class="eq-portrait" id="eq-portrait"></div>
+      <h2 id="eq-appel"></h2>
+      <p class="eq-bio" id="eq-bio"></p>
+      <div class="eq-boutons">
+        <a href="#visiteur" data-vers="#activites">Voir les cours</a>
+        <a href="#visiteur" data-vers="#visite">Réserver une visite</a>
+      </div>
+    </section>
+  </main>
+  <footer class="pied"><div><span>Complexe Moov'Up Sports</span><a href="#accueil">Retour à l'accueil</a></div></footer>
+</div>
+
 <!-- ================= ESPACE MEMBRE ================= -->
 <div class="vue" id="vue-membre">
   <header class="barre"><div class="barre-in">
@@ -585,7 +629,44 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
 
 <script>
 // --- Navigation entre les trois vues (accueil, visiteur, membre) ---
-var VUES = ['accueil','visiteur','membre'];
+var VUES = ['accueil','visiteur','membre','equipe'];
+// --- Page des coachs : les 19 coachs ---
+// Pour chaque coach : nom, role, bio, portrait (photo carrée), bandeau (photo ou vidéo .mp4 large).
+// Laisser portrait ou bandeau vide tant que le fichier n'est pas prêt.
+var COACHS = [];
+for (var n = 1; n <= 19; n++) COACHS.push({nom: 'Coach ' + n, role: 'Spécialité à préciser', bio: '', portrait: '', bandeau: ''});
+var BANDEAU_DEFAUT = 'assets/volet-coachs.mp4';
+function montrerCoach(i){
+  var c = COACHS[i];
+  document.querySelectorAll('#eq-noms button').forEach(function(b, k){ b.setAttribute('aria-pressed', k === i); });
+  document.getElementById('eq-nom').textContent = c.nom;
+  document.getElementById('eq-role').textContent = c.role;
+  document.getElementById('eq-appel').textContent = "S'entraîner avec " + c.nom;
+  document.getElementById('eq-bio').textContent = c.bio;
+  var p = document.getElementById('eq-portrait');
+  p.textContent = '';
+  if (c.portrait){ var im = document.createElement('img'); im.src = c.portrait; im.alt = 'Portrait de ' + c.nom; p.appendChild(im); }
+  else p.textContent = 'Portrait à ajouter';
+  var z = document.getElementById('eq-bandeau'), src = c.bandeau || BANDEAU_DEFAUT, actuel = z.firstElementChild;
+  if (!actuel || actuel.getAttribute('src') !== src){
+    z.textContent = '';
+    var el;
+    if (/\.mp4$/.test(src)){ el = document.createElement('video'); el.muted = true; el.loop = true; el.playsInline = true; el.setAttribute('muted',''); el.setAttribute('playsinline',''); el.preload = 'metadata'; el.poster = src.replace(/\.mp4$/, '.jpg'); }
+    else { el = document.createElement('img'); el.alt = ''; }
+    el.src = src; el.setAttribute('aria-hidden','true'); z.appendChild(el);
+    if (el.tagName === 'VIDEO' && document.getElementById('vue-equipe').classList.contains('active')) lire(el);
+  }
+}
+(function(){
+  var zone = document.getElementById('eq-noms');
+  COACHS.forEach(function(c, i){
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = c.nom;
+    b.addEventListener('click', function(){ montrerCoach(i); });
+    zone.appendChild(b);
+  });
+  montrerCoach(0);
+})();
+
 function lire(f){ var j = f.play(); if (j && j.catch) j.catch(function(){}); }
 // Les vidéos de l'accueil ne tournent que lorsqu'elles sont à l'écran
 if ('IntersectionObserver' in window){
@@ -600,6 +681,8 @@ function afficher(nom){
   window.scrollTo(0,0);
   if (nom!=='accueil') document.querySelectorAll('#vue-accueil video').forEach(function(f){ f.pause(); });
   else if (!('IntersectionObserver' in window)) lire(document.getElementById('video-accueil'));
+  var bandeau = document.querySelector('#eq-bandeau video');
+  if (bandeau){ if (nom==='equipe') lire(bandeau); else bandeau.pause(); }
 }
 function route(){
   var h = location.hash.replace('#','');
