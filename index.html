@@ -374,7 +374,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     <video class="seuil-video" id="video-accueil" src="assets/accueil.mp4" poster="assets/accueil.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
     <header class="seuil-haut">
       <nav aria-label="Découvrir">
-        <a href="#visiteur" data-vers="#planning">Cours</a>
+        <a href="#visiteur" data-vers="#activites">Activités</a>
         <a href="#equipe">Coachs</a>
         <a href="#visiteur" data-vers="#projets">Projets</a>
       </nav>
@@ -399,13 +399,6 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     <div class="seuil-bas">
       <h2>Découvrez vos coachs</h2>
       <div class="seuil-acces"><a href="#equipe">Découvrir</a></div>
-    </div>
-  </section>
-  <section class="seuil volet" id="volet-cours">
-    <img class="seuil-video" src="assets/volet-cours.jpg" alt="" loading="lazy" style="object-position:center 62%">
-    <div class="seuil-bas">
-      <h2>Découvrez nos cours</h2>
-      <div class="seuil-acces"><a href="#visiteur" data-vers="#planning">Découvrir</a></div>
     </div>
   </section>
   <section class="seuil volet" id="volet-projets">
@@ -456,7 +449,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     </section>
 
     <section class="bloc" id="activites">
-      <div class="bloc-tete"><h2>Nos activités</h2><p class="note"><b>Exemples à remplacer :</b> noms, catégories, descriptions et photos.</p></div>
+      <div class="bloc-tete"><h2>Nos activités</h2><p class="note"><b>À compléter :</b> les cours collectifs viennent du planning ; il reste les photos, et les descriptions des autres activités.</p></div>
       <div class="bloc-tete">
         <div class="pastilles" role="group" aria-label="Filtrer les activités">
           <button type="button" aria-pressed="true" data-filtre="tous">Toutes</button>
@@ -476,10 +469,6 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
           <span class="marque">Photo à ajouter</span>
           <div class="corps"><div><h3>Musculation</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Cardio & musculation</span></div><span class="rond" aria-hidden="true">→</span></div>
         </a>
-        <a class="carte o" href="#contact" data-ancre data-cat="co">
-          <span class="marque">Photo à ajouter</span>
-          <div class="corps"><div><h3>Cours collectifs</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Cours collectifs</span></div><span class="rond" aria-hidden="true">→</span></div>
-        </a>
         <a class="carte " href="#contact" data-ancre data-cat="eau">
           <span class="marque">Photo à ajouter</span>
           <div class="corps"><div><h3>Natation</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Piscine</span></div><span class="rond" aria-hidden="true">→</span></div>
@@ -487,10 +476,6 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
         <a class="carte o" href="#contact" data-ancre data-cat="eau">
           <span class="marque">Photo à ajouter</span>
           <div class="corps"><div><h3>Aquagym</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Piscine</span></div><span class="rond" aria-hidden="true">→</span></div>
-        </a>
-        <a class="carte n" href="#contact" data-ancre data-cat="co">
-          <span class="marque">Photo à ajouter</span>
-          <div class="corps"><div><h3>Sports de combat</h3><p class="desc">Description courte de l'activité : pour qui, quel bénéfice, quelle durée.</p><span class="puce">Cours collectifs</span></div><span class="rond" aria-hidden="true">→</span></div>
         </a>
         <a class="carte " href="#contact" data-ancre data-cat="kids">
           <span class="marque">Photo à ajouter</span>
@@ -855,6 +840,24 @@ GRILLE_WE.forEach(function(l){ COURS.push([[6], l[0], null, 'complexe', l[1], ''
     var suite = i > 0 && GRILLE[i - 1][0] === l[0], double = i + 1 < GRILLE.length && GRILLE[i + 1][0] === l[0];
     var tr = ligne(l[0], l[1], !suite, double); if (suite) tr.className = 'suite';
     corps.appendChild(tr);
+  });
+  // Une carte par cours collectif dans « Nos activités », avec ses créneaux
+  var JC = ['Dim.','Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.'], ORDRE = [1,2,3,4,5,6,0];
+  var PHOTOS = {'BodyCombat': 'assets/volet-cours.jpg', 'BodyAttack': 'assets/accueil.jpg'};
+  var noms = [], creneaux = {};
+  COURS.forEach(function(c){ if (!creneaux[c[4]]){ creneaux[c[4]] = []; noms.push(c[4]); } creneaux[c[4]].push([c[0][0], c[1]]); });
+  var piste = document.getElementById('defile-activites'), avant = piste.querySelector('[data-cat="eau"]'), teintes = ['o', 'n', ''];
+  noms.forEach(function(nom, i){
+    var liste = creneaux[nom].sort(function(a, b){ return ORDRE.indexOf(a[0]) - ORDRE.indexOf(b[0]) || (a[1] < b[1] ? -1 : 1); })
+      .map(function(x){ return JC[x[0]] + ' ' + x[1].replace(':00', 'h').replace(':', 'h'); }).join(' · ');
+    var a = document.createElement('a'); a.className = 'carte ' + teintes[i % 3]; a.href = '#planning'; a.setAttribute('data-ancre', ''); a.dataset.cat = 'co';
+    var photo = PHOTOS[nom];
+    if (photo) a.style.background = 'url("' + photo + '") center/cover no-repeat';
+    a.innerHTML = '<span class="marque"></span><div class="corps"><div><h3></h3><p class="desc"></p><span class="puce">Cours collectifs</span></div><span class="rond" aria-hidden="true">→</span></div>';
+    a.querySelector('.marque').textContent = photo ? typeDe(nom) : 'Photo à ajouter';
+    a.querySelector('h3').textContent = nom;
+    a.querySelector('.desc').textContent = liste;
+    piste.insertBefore(a, avant);
   });
   var we = document.getElementById('pv-weekend');
   GRILLE_WE.forEach(function(l){ we.appendChild(ligne(l[0], [l[1], l[2]], true, false)); });
