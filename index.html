@@ -630,11 +630,26 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
 <script>
 // --- Navigation entre les trois vues (accueil, visiteur, membre) ---
 var VUES = ['accueil','visiteur','membre','equipe'];
-// --- Page des coachs : les 19 coachs ---
+// --- Page des coachs ---
 // Pour chaque coach : nom, role, bio, portrait (photo carrée), bandeau (photo ou vidéo .mp4 large).
 // Laisser portrait ou bandeau vide tant que le fichier n'est pas prêt.
-var COACHS = [];
-for (var n = 1; n <= 19; n++) COACHS.push({nom: 'Coach ' + n, role: 'Spécialité à préciser', bio: '', portrait: '', bandeau: ''});
+// onglet : libellé du bouton quand deux coachs portent le même prénom.
+var COACHS = [
+  {nom: 'Ahlam',   role: 'Spécialité à préciser'},
+  {nom: 'Anas',    role: 'Natation'},
+  {nom: 'Brahim',  role: 'Spécialité à préciser'},
+  {nom: 'Chadiya', role: 'Spécialité à préciser'},
+  {nom: 'Hamid',   role: 'Spécialité à préciser'},
+  {nom: 'Hannan',  role: 'Spécialité à préciser'},
+  {nom: 'Hassna',  role: 'Spécialité à préciser'},
+  {nom: 'Khadija', role: 'Natation'},
+  {nom: 'Khalid',  role: 'Spécialité à préciser'},
+  {nom: 'Khalid',  role: 'Natation', onglet: 'Khalid · Natation'},
+  {nom: 'Manal',   role: 'Spécialité à préciser'},
+  {nom: 'Mouad',   role: 'Spécialité à préciser'},
+  {nom: 'Yassin',  role: 'Spécialité à préciser'},
+  {nom: 'Zahra',   role: 'Spécialité à préciser'}
+];
 var BANDEAU_DEFAUT = 'assets/volet-coachs.mp4';
 function montrerCoach(i){
   var c = COACHS[i];
@@ -642,7 +657,7 @@ function montrerCoach(i){
   document.getElementById('eq-nom').textContent = c.nom;
   document.getElementById('eq-role').textContent = c.role;
   document.getElementById('eq-appel').textContent = "S'entraîner avec " + c.nom;
-  document.getElementById('eq-bio').textContent = c.bio;
+  document.getElementById('eq-bio').textContent = c.bio || '';
   var p = document.getElementById('eq-portrait');
   p.textContent = '';
   if (c.portrait){ var im = document.createElement('img'); im.src = c.portrait; im.alt = 'Portrait de ' + c.nom; p.appendChild(im); }
@@ -660,7 +675,7 @@ function montrerCoach(i){
 (function(){
   var zone = document.getElementById('eq-noms');
   COACHS.forEach(function(c, i){
-    var b = document.createElement('button'); b.type = 'button'; b.textContent = c.nom;
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = c.onglet || c.nom;
     b.addEventListener('click', function(){ montrerCoach(i); });
     zone.appendChild(b);
   });
