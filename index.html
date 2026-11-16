@@ -48,13 +48,19 @@ img{max-width:100%}
 .sceau{margin:0;line-height:0}
 .sceau img{display:block;width:clamp(170px,17vw,270px);height:auto}
 .seuil-bas{margin-top:auto;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;padding:0 20px clamp(40px,9vh,110px)}
-.seuil-bas h1{font-size:clamp(1.9rem,4.2vw,3.4rem);font-weight:800;text-transform:uppercase;letter-spacing:.02em;text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.seuil-bas h1,.seuil-bas h2{font-size:clamp(1.9rem,4.2vw,3.4rem);font-weight:800;text-transform:uppercase;letter-spacing:.02em;text-shadow:0 2px 24px rgba(0,0,0,.55)}
 .seuil-acces{display:flex;gap:26px;flex-wrap:wrap;justify-content:center}
 .seuil-acces a{color:#fff;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(.9rem,1.15vw,1.08rem);text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;padding:6px 0;transition:color .2s}
 .seuil-acces a:hover,.seuil-acces a:focus-visible{color:#F0A877}
 .seuil-fleche{color:#fff;text-decoration:none;font-size:1.5rem;line-height:1;padding:6px 14px;animation:flotte 2s ease-in-out infinite}
 @keyframes flotte{50%{transform:translateY(7px)}}
 .seuil :focus-visible{outline-color:#fff}
+.volet{scroll-margin-top:0}
+.volet .seuil-video{filter:grayscale(1) contrast(1.05)}
+.volet::before{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.18) 40%,rgba(0,0,0,.72) 82%,rgba(0,0,0,.92) 100%)}
+.volet .seuil-bas{gap:14px}
+html.defile-ecrans{scroll-snap-type:y proximity}
+html.defile-ecrans .seuil{scroll-snap-align:start}
 
 /* ---------- Barre commune aux pages intérieures ---------- */
 .barre{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);border-bottom:1px solid var(--trait)}
@@ -272,9 +278,30 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
         <a href="#membre">Espace membre</a>
         <a href="#visiteur">Espace visiteur</a>
       </div>
-      <a class="seuil-fleche" href="#visiteur" aria-label="Découvrir le complexe">⌄</a>
+      <a class="seuil-fleche" href="#volet-coachs" data-ancre aria-label="Voir la suite">⌄</a>
     </div>
   </div>
+  <section class="seuil volet" id="volet-coachs">
+    <img class="seuil-video" src="assets/volet-coachs.jpg" alt="" loading="lazy">
+    <div class="seuil-bas">
+      <h2>Découvrez vos coachs</h2>
+      <div class="seuil-acces"><a href="#visiteur" data-vers="#coachs">Découvrir</a></div>
+    </div>
+  </section>
+  <section class="seuil volet" id="volet-projets">
+    <img class="seuil-video" src="assets/volet-projets.jpg" alt="" loading="lazy">
+    <div class="seuil-bas">
+      <h2>Découvrez nos projets</h2>
+      <div class="seuil-acces"><a href="#visiteur" data-vers="#projets">Découvrir</a></div>
+    </div>
+  </section>
+  <section class="seuil volet" id="volet-collabs">
+    <img class="seuil-video" src="assets/volet-collabs.jpg" alt="" loading="lazy">
+    <div class="seuil-bas">
+      <h2>Découvrez nos collabs</h2>
+      <div class="seuil-acces"><a href="#visiteur" data-vers="#collabs">Découvrir</a></div>
+    </div>
+  </section>
 </main>
 
 <!-- ================= ESPACE VISITEUR ================= -->
@@ -421,6 +448,15 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
       </div>
     </section>
 
+    <section class="bloc" id="collabs">
+      <div class="bloc-tete"><h2>Nos collabs</h2></div>
+      <p class="note"><b>À remplir :</b> marques et partenaires avec lesquels Moov'Up collabore, avec une photo par collaboration.</p>
+      <div class="grille g3">
+        <div class="tuile"><span class="marque">Photo à ajouter</span><h3>Collab 1</h3></div>
+        <div class="tuile o"><span class="marque">Photo à ajouter</span><h3>Collab 2</h3></div>
+        <div class="tuile n"><span class="marque">Photo à ajouter</span><h3>Collab 3</h3></div>
+      </div>
+    </section>
     <section class="bloc" id="evenements">
       <div class="evenements">
         <div class="ev-texte">
@@ -551,6 +587,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
 var VUES = ['accueil','visiteur','membre'];
 function afficher(nom){
   VUES.forEach(function(v){ document.getElementById('vue-'+v).classList.toggle('active', v===nom); });
+  document.documentElement.classList.toggle('defile-ecrans', nom==='accueil');
   window.scrollTo(0,0);
   var film = document.getElementById('video-accueil');
   if (film){ if (nom==='accueil'){ var j = film.play(); if (j && j.catch) j.catch(function(){}); } else film.pause(); }
