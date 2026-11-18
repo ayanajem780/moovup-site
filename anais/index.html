@@ -340,7 +340,7 @@
   .flr.tl{top:0;left:0;width:min(380px,34vw)}
   .flr.tr{top:0;right:0;width:min(260px,24vw)}
   .flr.bl{bottom:0;left:0;width:min(300px,28vw)}
-  .x2 .flr{opacity:.35}
+  .x2 .flr{opacity:.16}
   .gallery .flr{opacity:.55}
   .contact .flr{opacity:.5}
   .menu .flr{opacity:.6}
@@ -359,6 +359,35 @@
   .fhead img:first-child{height:64px}
   .fhead img:last-child{height:46px}
   @media (max-width:760px){ .flr.tl{width:46vw} .flr.tr{width:34vw} .flr.bl{width:40vw} }
+
+
+  /* ---------- PAGES D'ÉTAPES EN SUPERPOSITION ---------- */
+  .stepview{position:fixed;left:0;right:0;top:var(--hh);bottom:0;z-index:58;background:#0B1022;overflow-y:auto;display:none;overscroll-behavior:contain}
+  .stepview.open{display:block;animation:svIn .45s ease}
+  @keyframes svIn{from{opacity:0;transform:translateY(16px)}}
+  .stepview > section{display:none}
+  .stepview > section.cur{display:block}
+  .sv-bar{position:sticky;top:0;z-index:5;height:58px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 24px;background:rgba(247,245,240,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .sv-back{border:0;background:none;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--sage-deep);cursor:pointer;padding:8px 0}
+  .sv-dots{display:flex;gap:6px}
+  .sv-dots button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-family:var(--sans);font-size:13px;cursor:pointer;color:var(--ink);transition:.3s}
+  .sv-dots button span{color:var(--muted);margin-left:4px}
+  .sv-dots button.on{background:var(--sage-deep);border-color:var(--sage-deep);color:#fff}
+  .sv-dots button.on span{color:rgba(255,255,255,.75)}
+  .sv-nav{display:flex;gap:8px}
+  .sv-nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--ink);background:none;cursor:pointer;font-size:15px}
+  .sv-nav button:disabled{opacity:.25;cursor:default}
+  @media (min-width:961px){
+    .stepview .scan,.stepview .xs{height:calc(100svh - var(--hh) - 58px)}
+  }
+  @media (max-width:960px){
+    .sv-dots button span,.sv-back span{display:none}
+    .sv-dots button{padding:7px 11px}
+    .sv-back{font-size:13px}
+    .sv-bar{padding:0 12px}
+    .sv-nav{display:none}
+  }
+  .sidebtns.hide-sv{opacity:0!important;pointer-events:none!important}
 
   /* ---------- GALLERY ---------- */
   .gallery{padding:130px 0 120px}
@@ -654,7 +683,7 @@
       <a href="#parcours">Le parcours</a>
       <a href="#trajet">Le jeu du trajet</a>
       <a href="#soins">Soins médicaux</a>
-      <a href="#scanner">Le scanner</a>
+      <a href="#scanner">Le scanner InBody</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="hacts2">
@@ -692,10 +721,33 @@
   <div class="hero-in">
     <h1 class="tt"><i>Maigrir</i><b>en santé</b></h1>
     <p>Votre corps mérite mieux qu'un simple régime. Chez Anaïs Beauty Clinic, nutrition, coaching, technologies et suivi médical se réunissent en un seul parcours, pensé pour vous.</p>
-    <a href="#scanner" class="down" aria-label="Défiler">↓</a>
+    <a href="#parcours" class="down" aria-label="Défiler">↓</a>
   </div>
 </header>
 
+<!-- STEPS -->
+<section class="steps" id="parcours">
+  <div class="wrap">
+    <div class="steps-head rv">
+      <h2 class="tt left"><i>Étape par étape</i><b>Votre parcours</b></h2>
+      <div class="ctrl">
+        <button class="cbtn" id="prev" aria-label="Précédent">←</button>
+        <button class="cbtn" id="next" aria-label="Suivant">→</button>
+      </div>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<!-- PAGES DES ÉTAPES (s'ouvrent au clic sur une carte) -->
+<div class="stepview" id="stepview" aria-hidden="true">
+  <div class="sv-bar">
+    <button class="sv-back" id="svBack">← Retour<span> au parcours</span></button>
+    <div class="sv-dots" id="svDots">
+      <button data-i="0">01 <span>Bilan</span></button><button data-i="1">02 <span>Nutrition</span></button><button data-i="2">03 <span>Coaching</span></button><button data-i="3">04 <span>Technologies</span></button><button data-i="4">05 <span>Suivi</span></button>
+    </div>
+    <div class="sv-nav"><button id="svPrev" aria-label="Étape précédente">←</button><button id="svNext" aria-label="Étape suivante">→</button></div>
+  </div>
 <!-- SCANNER -->
 <section class="scan" id="scanner">
   <div class="wrap">
@@ -889,6 +941,8 @@
   </div>
 </section>
 
+</div>
+
 <!-- GALLERY -->
 <section class="gallery deco" id="clinique">
   <img class="flr tl" src="img/br-fl_tl.webp" alt="" aria-hidden="true">
@@ -950,19 +1004,7 @@
   </div>
 </section>
 
-<!-- STEPS -->
-<section class="steps" id="parcours">
-  <div class="wrap">
-    <div class="steps-head rv">
-      <h2 class="tt left"><i>Étape par étape</i><b>Votre parcours</b></h2>
-      <div class="ctrl">
-        <button class="cbtn" id="prev" aria-label="Précédent">←</button>
-        <button class="cbtn" id="next" aria-label="Suivant">→</button>
-      </div>
-    </div>
-    <div class="cards" id="cards"></div>
-  </div>
-</section>
+
 
 
 
@@ -1160,7 +1202,7 @@
   addEventListener('scroll',()=>{
     head.classList.toggle('scrolled',scrollY>10);
     let cur='';
-    navLinks.forEach(a=>{const sec=document.querySelector(a.getAttribute('href')); if(sec && sec.getBoundingClientRect().top<200) cur=a.getAttribute('href');});
+    navLinks.forEach(a=>{const sec=document.querySelector(a.getAttribute('href')); if(sec && sec.offsetParent && sec.getBoundingClientRect().top<200) cur=a.getAttribute('href');});
     navLinks.forEach(a=>a.classList.toggle('cur',a.getAttribute('href')===cur));
   },{passive:true});
 
@@ -1378,15 +1420,43 @@
   cards.addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
 
   const modal=document.getElementById('modal');
-  cards.addEventListener('click',e=>{
-    const b=e.target.closest('[data-step]'); if(!b) return;
-    const i=+b.dataset.step, s=STEPS[i];
-    const im=document.getElementById('mImg'); im.src=s.img; im.alt=s.t;
-    document.getElementById('mTag').textContent='Étape 0'+(i+1);
-    document.getElementById('mTitle').textContent=s.t;
-    document.getElementById('mList').innerHTML=s.li.map(x=>`<li>${x}</li>`).join('');
-    modal.classList.add('open'); document.body.style.overflow='hidden';
-  });
+  // ---------- OUVRIR LA PAGE D'UNE ÉTAPE ----------
+  const sv=document.getElementById('stepview');
+  const PAGES=['scanner','etape-2','etape-3','etape-4','etape-5'];
+  const svSecs=PAGES.map(id=>document.getElementById(id));
+  const svDots=[...document.querySelectorAll('#svDots button')], svPrev=document.getElementById('svPrev'), svNext=document.getElementById('svNext');
+  let svCur=-1;
+  const openStep=(i,push=true)=>{
+    svCur=i; sv.classList.add('open'); sv.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden';
+    svSecs.forEach((sec,k)=>sec.classList.toggle('cur',k===i));
+    sv.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));
+    svDots.forEach((d,k)=>d.classList.toggle('on',k===i));
+    svPrev.disabled=i===0; svNext.disabled=i===PAGES.length-1;
+    sv.scrollTop=0;
+    document.getElementById('sidebtns').classList.add('hide-sv');
+    if(push && location.hash!=='#'+PAGES[i]) history.pushState(null,'','#'+PAGES[i]);
+  };
+  const closeStep=(push=true)=>{
+    if(svCur<0) return; svCur=-1;
+    sv.classList.remove('open'); sv.setAttribute('aria-hidden','true'); document.documentElement.style.overflow='';
+    document.getElementById('sidebtns').classList.remove('hide-sv');
+    if(push) history.pushState(null,'','#parcours');
+    document.getElementById('parcours').scrollIntoView({behavior:'instant',block:'start'});
+  };
+  cards.addEventListener('click',e=>{ const b=e.target.closest('[data-step]'); if(b) openStep(+b.dataset.step); });
+  document.getElementById('svBack').onclick=()=>closeStep();
+  svDots.forEach(d=>d.onclick=()=>openStep(+d.dataset.i));
+  svPrev.onclick=()=>svCur>0&&openStep(svCur-1);
+  svNext.onclick=()=>svCur<PAGES.length-1&&openStep(svCur+1);
+  // les boutons « Réserver » d'une page d'étape ramènent au formulaire
+  sv.addEventListener('click',e=>{ const a=e.target.closest('a[href="#contact"]'); if(a){ e.preventDefault(); closeStep(false); history.pushState(null,'','#contact'); document.getElementById('contact').scrollIntoView({behavior:'smooth'}); } });
+  // liens du site (menu, recherche, en-tête) vers une étape
+  const route=()=>{ const i=PAGES.indexOf(location.hash.slice(1)); if(i>=0) openStep(i,false); else if(svCur>=0) closeStep(false); };
+  addEventListener('hashchange',route); addEventListener('popstate',route);
+  document.addEventListener('click',e=>{ const a=e.target.closest('a[href^="#"]'); if(!a||sv.contains(a)) return; const i=PAGES.indexOf(a.getAttribute('href').slice(1)); if(i>=0){ e.preventDefault(); openStep(i); } });
+  if(PAGES.includes(location.hash.slice(1))) setTimeout(route,50);
+  addEventListener('keydown',e=>{ if(svCur<0) return; if(e.key==='Escape') closeStep(); if(e.key==='ArrowRight'&&svCur<4) openStep(svCur+1); if(e.key==='ArrowLeft'&&svCur>0) openStep(svCur-1); });
+
   const closeModal=()=>{modal.classList.remove('open'); document.body.style.overflow='';};
   document.getElementById('mClose').onclick=closeModal;
   document.getElementById('mBtn').onclick=closeModal;
