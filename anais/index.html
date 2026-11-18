@@ -434,12 +434,16 @@
   .h2-word span:nth-child(2){animation-delay:.08s}.h2-word span:nth-child(3){animation-delay:.16s}.h2-word span:nth-child(4){animation-delay:.24s}.h2-word span:nth-child(5){animation-delay:.32s}
   @keyframes h2up{to{opacity:1;transform:none}}
   .h2-star{position:absolute;left:50%;top:6%;transform:translateX(-50%);color:#8E6B4E;font-size:20px;animation:spinb 12s linear infinite}
-  .h2-person{position:absolute;left:50%;bottom:0;height:86%;width:auto;transform:translateX(-50%);z-index:2;opacity:0;animation:h2in 1.4s cubic-bezier(.2,.8,.2,1) .35s forwards}
+  .h2-person{position:absolute;left:50%;bottom:0;height:80%;aspect-ratio:692/864;transform:translateX(-50%);z-index:2;border-radius:999px 999px 0 0;overflow:hidden;box-shadow:0 30px 60px -30px rgba(30,50,40,.45);opacity:0;animation:h2in 1.4s cubic-bezier(.2,.8,.2,1) .35s forwards}
   @keyframes h2in{from{opacity:0;transform:translate(-50%,30px)}to{opacity:1;transform:translate(-50%,0)}}
   .h2-fade{position:absolute;left:0;right:0;bottom:0;height:22%;z-index:2;background:linear-gradient(180deg,rgba(203,219,207,0) 0%,#CBDBCF 85%);pointer-events:none}
-  .h2-left{position:absolute;left:3.2%;bottom:7%;z-index:3;max-width:290px;opacity:0;animation:h2up 1s ease .7s forwards}
-  .h2-k{font-family:'Belleza',serif;font-size:22px;color:#2F4A3E;margin-bottom:8px}
-  .h2-left p{font-size:13.5px;line-height:1.6;color:#3d4a44;margin-bottom:22px}
+  .h2-left{position:absolute;left:3.2%;bottom:7%;z-index:3;max-width:340px;opacity:0;animation:h2up 1s ease .7s forwards}
+  .h2-person img{width:100%;height:100%;object-fit:cover;object-position:center top}
+  .h2-slogan{font-family:'Belleza',serif;font-weight:400;color:#2F4A3E;font-size:clamp(28px,2.6vw,42px);line-height:1.05;margin:0 0 12px;text-transform:none}
+  .h2-slogan span{display:block}
+  .h2-slogan span:last-child{color:var(--sage)}
+  .h2-left p{font-size:15px;line-height:1.55;color:#3d4a44;margin-bottom:22px}
+  .h2-left p b{font-weight:600;color:#2F4A3E}
   .h2-btn{display:inline-block;background:#2F4A3E;color:#fff;border-radius:999px;padding:13px 26px;font-size:14.5px;font-weight:500;transition:background .3s}
   .h2-btn:hover{background:var(--sage-deep)}
   .h2-explore{position:absolute;left:50%;bottom:3%;transform:translateX(-50%);z-index:3;font-family:'Belleza',serif;font-size:15px;color:#2F4A3E;display:flex;flex-direction:column;align-items:center;gap:2px}
@@ -455,7 +459,7 @@
     .hero2{padding:10px;height:auto;min-height:0}
     .h2-frame{height:calc(100svh - var(--hh) - 20px);min-height:640px}
     .h2-word{top:6%;font-size:24vw}
-    .h2-person{height:62%;bottom:24%}
+    .h2-person{height:50%;bottom:34%;border-radius:999px 999px 24px 24px}
     .h2-left{left:6%;right:6%;bottom:4%;max-width:none;text-align:center}
     .h2-explore,.h2-card{display:none}
   }
@@ -926,11 +930,11 @@
     <div class="h2-rays" aria-hidden="true"></div>
     <h1 class="h2-word" aria-label="Anaïs Beauty Clinic"><span>A</span><span>N</span><span>A</span><span>Ï</span><span>S</span></h1>
     <span class="h2-star" aria-hidden="true">✦</span>
-    <img class="h2-person" src="img/hero-person.png" alt="Cliente Anaïs Beauty Clinic">
+    <div class="h2-person"><img src="img/hero-duo.jpg" alt="Deux clientes Anaïs Beauty Clinic en tenue de sport"></div>
     <div class="h2-fade" aria-hidden="true"></div>
     <div class="h2-left">
-      <div class="h2-k">Maigrir en santé</div>
-      <p>Votre corps mérite mieux qu'un simple régime. Nutrition, coaching, technologies et suivi médical, réunis en un seul parcours pensé pour vous.</p>
+      <h2 class="h2-slogan"><span>Lose Weight.</span><span>Gain Control.</span></h2>
+      <p>Feel Like Yourself Again<br>With <b>Anaïs Clinic</b>.</p>
       <a href="#contact" class="h2-btn" data-pre="Bilan corporel InBody">Réserver mon bilan</a>
     </div>
     <a href="#parcours" class="h2-explore">Découvrir le parcours<span>⌄</span></a>
