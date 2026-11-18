@@ -147,6 +147,70 @@
   .min li::before{content:"";position:absolute;left:2px;top:21px;width:12px;height:1px;background:var(--sage-deep)}
   .mx{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:0;background:var(--bg);cursor:pointer;font-size:15px}
 
+
+  /* ---------- JEU DU TRAJET ---------- */
+  .trip{padding:140px 0 130px;background:linear-gradient(180deg,var(--bg) 0%,#ECEEEC 100%)}
+  .trip .sub{max-width:56ch;margin-left:auto;margin-right:auto}
+  .game{margin-top:56px;display:grid;grid-template-columns:1.45fr 1fr;background:var(--white);border-radius:28px;overflow:hidden;box-shadow:0 40px 80px -50px rgba(0,0,0,.35)}
+  .board{position:relative;background:radial-gradient(120% 90% at 20% 100%,#E3EAE5 0%,#F3F5F3 55%,#FAFAFA 100%);min-height:520px}
+  .board svg{width:100%;height:100%;display:block}
+  .hud{position:absolute;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none}
+  .hud .chip{pointer-events:auto;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-radius:999px;padding:7px 14px;font-size:13px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 18px -12px rgba(0,0,0,.3)}
+  .meter{width:110px;height:6px;border-radius:9px;background:var(--sage-mist);overflow:hidden}
+  .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sage),var(--sage-deep));border-radius:9px;transition:width .9s cubic-bezier(.6,.1,.2,1)}
+  .badges{display:flex;gap:6px}
+  .badges span{width:26px;height:26px;border-radius:50%;background:var(--tile);display:grid;place-items:center;font-size:12px;color:#fff;transition:background .5s, transform .5s}
+  .badges span.on{background:var(--sage-deep);transform:scale(1.12)}
+  .pin{cursor:pointer;transition:transform .4s}
+  .pin .drop{transition:fill .5s}
+  .pin.done .drop{fill:var(--sage-deep)}
+  .pin.cur .drop{fill:#C8553D}
+  .pin.cur{animation:pinb 1.4s ease-in-out infinite}
+  @keyframes pinb{50%{transform:translateY(-6px)}}
+  .lbl-pin{font-family:var(--sans);font-size:15px;fill:var(--ink);font-weight:500;letter-spacing:.04em;paint-order:stroke;stroke:#fff;stroke-width:6px;stroke-linejoin:round}
+  .tree{transform-box:fill-box;transform-origin:bottom center;animation:sway 5s ease-in-out infinite}
+  @keyframes sway{50%{transform:rotate(3deg)}}
+  .cloud{animation:drift 26s linear infinite}
+  @keyframes drift{from{transform:translateX(-120px)}to{transform:translateX(1100px)}}
+  .spark{position:absolute;width:9px;height:9px;border-radius:2px;pointer-events:none;animation:fall 1.8s ease-out forwards}
+  @keyframes fall{to{transform:translate(var(--dx),var(--dy)) rotate(540deg);opacity:0}}
+
+  .side{padding:40px 38px;display:flex;flex-direction:column;min-height:520px}
+  .side .n{font-family:var(--serif);font-style:italic;color:var(--sage-deep);font-size:19px}
+  .side h3{font-weight:400;text-transform:uppercase;letter-spacing:.03em;font-size:25px;line-height:1.15;margin:6px 0 12px}
+  .side p.d{color:var(--muted);font-size:15px}
+  .quest{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+  .quest b{display:block;font-weight:500;font-size:14px;margin-bottom:12px}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opt{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:9px 16px;font-size:14px;cursor:pointer;transition:.25s;color:var(--ink)}
+  .opt:hover{border-color:var(--sage)}
+  .opt.sel{background:var(--sage-deep);border-color:var(--sage-deep);color:#fff}
+  .reveal-txt{margin-top:16px;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--sage-deep);min-height:52px;opacity:0;transform:translateY(8px);transition:.5s}
+  .reveal-txt.on{opacity:1;transform:none}
+  .side .go{margin-top:auto;padding-top:26px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .side .go .pill-btn{padding:11px 22px}
+  .side .go .pill-btn:disabled{opacity:.3;cursor:not-allowed}
+  .side .hint{font-size:12.5px;color:var(--muted)}
+  .side .fade{animation:sidein .55s ease}
+  @keyframes sidein{from{opacity:0;transform:translateX(14px)}}
+  .recap{list-style:none;margin:18px 0 6px}
+  .recap li{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+  .recap li span{color:var(--muted)}
+  .intro-big{font-family:var(--serif);font-style:italic;font-size:30px;line-height:1.2;margin:8px 0 16px}
+  @media (max-width:960px){
+    .game{grid-template-columns:1fr}
+    .board{min-height:0;aspect-ratio:1000/620}
+    .side{min-height:0;padding:32px 24px}
+    .board{aspect-ratio:auto;display:flex;flex-direction:column}
+    .board svg{height:auto}
+    .hud .chip{white-space:nowrap}
+    .hud{position:static;padding:12px 16px 0;background:transparent}
+    .hud .chip{padding:6px 12px;font-size:12.5px;box-shadow:none;background:#fff}
+    .meter{width:70px}
+    .badges span{width:20px;height:20px;font-size:10px}
+    .lbl-pin{font-size:22px}
+  }
+
   /* ---------- SOINS (team-like grid) ---------- */
   .soins{padding:140px 0 120px;background:var(--white)}
   .doc{display:flex;justify-content:center;margin-top:18px}
@@ -222,6 +286,7 @@
     .fbox{grid-template-columns:1fr}
     .sgrid{gap:24px 12px}
     .soin .hov{display:none}
+    .badges{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
@@ -252,8 +317,9 @@
   <a href="#clinique"><i>02</i>La clinique</a>
   <a href="#programme"><i>03</i>Le programme</a>
   <a href="#parcours"><i>04</i>Le parcours</a>
-  <a href="#soins"><i>05</i>Soins médicaux</a>
-  <a href="#contact"><i>06</i>Contact</a>
+  <a href="#trajet"><i>05</i>Le jeu du trajet</a>
+  <a href="#soins"><i>06</i>Soins médicaux</a>
+  <a href="#contact"><i>07</i>Contact</a>
 </nav>
 
 <!-- HERO -->
@@ -331,6 +397,56 @@
       </div>
     </div>
     <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+
+<!-- JEU DU TRAJET -->
+<section class="trip" id="trajet">
+  <div class="wrap">
+    <div class="rv">
+      <h2 class="tt"><i>Faites le trajet</i><b>Votre parcours en jeu</b></h2>
+      <p class="sub">Avancez sur la route d'Anaïs : à chaque arrêt, un petit défi. À l'arrivée, votre parcours personnalisé, prêt à être réservé.</p>
+    </div>
+    <div class="game rv">
+      <div class="board" id="board">
+        <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet" aria-label="Route du parcours Anaïs">
+          <defs>
+            <filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity=".18"/></filter>
+            <radialGradient id="glow"><stop offset="0" stop-color="#7E9A88" stop-opacity=".55"/><stop offset="1" stop-color="#7E9A88" stop-opacity="0"/></radialGradient>
+          </defs>
+          <!-- nuages -->
+          <g class="cloud" opacity=".7"><ellipse cx="60" cy="90" rx="46" ry="15" fill="#fff"/><ellipse cx="90" cy="80" rx="30" ry="14" fill="#fff"/></g>
+          <g class="cloud" style="animation-duration:38s;animation-delay:-14s" opacity=".55"><ellipse cx="40" cy="150" rx="36" ry="11" fill="#fff"/></g>
+          <!-- collines -->
+          <path d="M0 470 C 180 400, 320 440, 470 410 S 780 360, 1000 400 L1000 620 L0 620Z" fill="#DCE5DF" opacity=".55"/>
+          <!-- arbres -->
+          <g id="trees"></g>
+          <!-- route -->
+          <path id="roadShadow" d="" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="70" stroke-linecap="round" transform="translate(0,10)"/>
+          <path id="roadEdge" d="" fill="none" stroke="#fff" stroke-width="66" stroke-linecap="round"/>
+          <path id="road" d="" fill="none" stroke="#2B2E33" stroke-width="56" stroke-linecap="round"/>
+          <path id="roadProg" d="" fill="none" stroke="#7E9A88" stroke-width="56" stroke-linecap="round" opacity=".35"/>
+          <path id="roadLine" d="" fill="none" stroke="#fff" stroke-width="3.5" stroke-dasharray="18 16" stroke-linecap="round"/>
+          <!-- arrivée -->
+          <g id="finish"></g>
+          <!-- arrêts -->
+          <g id="pins"></g>
+          <!-- voyageuse -->
+          <g id="traveler" filter="url(#sh)">
+            <circle r="34" fill="url(#glow)"/>
+            <circle r="17" fill="#fff"/>
+            <circle r="12" fill="#56705F"/>
+            <text y="4.5" text-anchor="middle" font-family="Newsreader, serif" font-style="italic" font-size="13" fill="#fff">A</text>
+          </g>
+        </svg>
+        <div class="hud">
+          <div class="chip">Énergie <span class="meter"><i id="meter"></i></span></div>
+          <div class="chip"><span id="stepTxt">Départ</span><span class="badges" id="badges"></span></div>
+        </div>
+      </div>
+      <div class="side" id="side"></div>
+    </div>
   </div>
 </section>
 
@@ -517,6 +633,164 @@
   document.getElementById('mBtn').onclick=closeModal;
   modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
   addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeMenu(); } });
+
+
+  // ---------- JEU DU TRAJET ----------
+  (function(){
+    const NS='http://www.w3.org/2000/svg';
+    const D='M 70 565 C 240 565, 310 490, 255 430 S 150 330, 310 300 S 610 370, 700 300 S 620 200, 760 190 S 880 215, 860 180';
+    ['road','roadShadow','roadEdge','roadProg','roadLine'].forEach(id=>document.getElementById(id).setAttribute('d',D));
+    const road=document.getElementById('road'), prog=document.getElementById('roadProg');
+    const L=road.getTotalLength();
+    prog.style.strokeDasharray=L; prog.style.strokeDashoffset=L;
+    const STOPS=[.11,.31,.52,.72,.9];
+    const END=1;
+    const pt=f=>road.getPointAtLength(L*f);
+
+    // arbres décoratifs
+    const trees=document.getElementById('trees');
+    [[120,420,1],[430,500,.8],[520,230,.9],[900,330,1.1],[170,220,.7],[620,540,.9],[960,520,.8],[400,180,.6],[960,200,.7]].forEach(([x,y,k])=>{
+      const g=document.createElementNS(NS,'g'); g.setAttribute('class','tree');
+      g.style.animationDelay=(-x/90)+'s';
+      g.innerHTML=`<rect x="${x-2.5*k}" y="${y-6*k}" width="${5*k}" height="${16*k}" fill="#8b7d6b"/><circle cx="${x}" cy="${y-22*k}" r="${20*k}" fill="#7E9A88"/><circle cx="${x-10*k}" cy="${y-14*k}" r="${13*k}" fill="#6D8A77"/>`;
+      trees.appendChild(g);
+    });
+
+    // drapeau d'arrivée
+    const e=pt(END);
+    document.getElementById('finish').innerHTML=`<g transform="translate(${e.x+6},${e.y-70})"><rect x="0" y="0" width="3" height="74" fill="#1B1D21"/><path d="M3 2 h62 l-12 14 l12 14 h-62z" fill="#56705F"/><text x="31" y="21" text-anchor="middle" font-family="Mukta" font-size="11" font-weight="600" letter-spacing="1.5" fill="#fff">ANAÏS</text></g>`;
+
+    // arrêts
+    const pins=document.getElementById('pins');
+    const NAMES=['Bilan','Nutrition','Coaching','Technologies','Suivi'];
+    STOPS.forEach((f,i)=>{
+      const p=pt(f); const g=document.createElementNS(NS,'g');
+      g.setAttribute('class','pin'); g.dataset.i=i;
+      const up=true;
+      g.innerHTML=`<g transform="translate(${p.x},${p.y-30})">
+        <path class="drop" d="M0 18 C -16 0,-22 -8,-22 -22 a22 22 0 1 1 44 0 C 22 -8,16 0,0 18z" fill="#2B2E33" filter="url(#sh)"/>
+        <circle cy="-22" r="12" fill="#fff"/>
+        <text y="-17.5" text-anchor="middle" font-family="Newsreader, serif" font-style="italic" font-size="14" fill="#1B1D21">${i+1}</text>
+        <text class="lbl-pin" y="${up?-56:44}" text-anchor="middle">${NAMES[i]}</text></g>`;
+      pins.appendChild(g);
+    });
+
+    const tr=document.getElementById('traveler');
+    let pos=0.0;
+    const place=f=>{const p=pt(f); tr.setAttribute('transform',`translate(${p.x},${p.y})`); prog.style.strokeDashoffset=L*(1-f);};
+    place(pos);
+    const travel=(to,done)=>{
+      const from=pos, t0=performance.now(), dur=900+Math.abs(to-from)*2600;
+      const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+      const tick=now=>{const k=Math.min(1,(now-t0)/dur); pos=from+(to-from)*ease(k); place(pos); k<1?requestAnimationFrame(tick):done&&done();};
+      requestAnimationFrame(tick);
+    };
+
+    // contenu du jeu
+    const Q=[
+      {q:'Votre objectif principal ?', key:'Objectif', o:['Perdre du poids','Affiner ma silhouette','Retrouver de l\'énergie','Prendre de bonnes habitudes'],
+       r:a=>`Noté : « ${a.toLowerCase()} ». C'est le cap de tout votre parcours.`},
+      {q:'Votre plus grand défi à table ?', key:'Défi à table', o:['Le grignotage','Les repas sautés','Le sucre','Manger trop vite'],
+       r:a=>`La nutritionniste en tiendra compte pour construire un programme qui vous ressemble.`},
+      {q:'Votre rapport au sport aujourd\'hui ?', key:'Niveau sportif', o:['Je débute','Je reprends','Je bouge déjà','Je veux me dépasser'],
+       r:a=>`Parfait : les séances privées partent de là où vous êtes, sans brûler les étapes.`},
+      {q:'La zone que vous voulez travailler ?', key:'Zone ciblée', o:['Ventre','Cuisses','Bras','Fessiers','Silhouette globale'],
+       r:a=>`Le protocole des machines sera adapté à cette zone, selon les contre-indications.`},
+      {q:'Comment voulez-vous suivre vos progrès ?', key:'Suivi', o:['Mes chiffres InBody','Mes photos avant/après','Mon énergie au quotidien','Un peu de tout'],
+       r:a=>`Des contrôles réguliers vous montreront le chemin parcouru, étape après étape.`}
+    ];
+    const answers={};
+    const side=document.getElementById('side'), meter=document.getElementById('meter'), stepTxt=document.getElementById('stepTxt'), badges=document.getElementById('badges');
+    badges.innerHTML=STOPS.map(()=>'<span>✓</span>').join('');
+    let cur=-1;
+
+    const setPins=()=>pins.querySelectorAll('.pin').forEach((g,i)=>{g.classList.toggle('done',i<cur||(i===cur&&answers[Q[i].key])); g.classList.toggle('cur',i===cur&&!answers[Q[i].key]);});
+
+    const intro=()=>{
+      side.innerHTML=`<div class="fade">
+        <div class="n">Départ</div>
+        <div class="intro-big">Et si vous testiez votre parcours avant de commencer ?</div>
+        <p class="d">5 arrêts, 5 petites questions, moins d'une minute. À l'arrivée : votre parcours Anaïs personnalisé.</p>
+        </div>
+        <div class="go"><button class="pill-btn" id="start">Prendre la route →</button><span class="hint">Cliquez, la route vous attend.</span></div>`;
+      document.getElementById('start').onclick=()=>goTo(0);
+    };
+
+    const goTo=i=>{
+      cur=i; stepTxt.textContent='Arrêt '+(i+1)+'/5';
+      side.innerHTML=`<div class="fade"><div class="n">En route…</div><div class="intro-big">Direction ${NAMES[i].toLowerCase()}.</div></div>`;
+      setPins();
+      travel(STOPS[i],()=>showStop(i));
+    };
+
+    const showStop=i=>{
+      const s=STEPS[i], q=Q[i];
+      side.innerHTML=`<div class="fade">
+        <div class="n">Arrêt 0${i+1}</div>
+        <h3>${s.t}</h3>
+        <p class="d">${s.d}</p>
+        <div class="quest"><b>${q.q}</b><div class="opts">${q.o.map(o=>`<button class="opt">${o}</button>`).join('')}</div>
+        <div class="reveal-txt" id="rv"></div></div></div>
+        <div class="go"><button class="pill-btn" id="adv" disabled>${i<4?'Arrêt suivant →':'Franchir l\'arrivée →'}</button><button class="pill-btn ghost" id="det">Détail de l'étape</button></div>`;
+      side.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+        side.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel')); b.classList.add('sel');
+        const first=!answers[q.key]; answers[q.key]=b.textContent;
+        const rv=document.getElementById('rv'); rv.textContent=q.r(b.textContent); rv.classList.add('on');
+        document.getElementById('adv').disabled=false;
+        if(first){ badges.children[i].classList.add('on'); meter.style.width=((i+1)*20)+'%'; burst(i); }
+        setPins();
+      });
+      if(answers[q.key]){ [...side.querySelectorAll('.opt')].find(b=>b.textContent===answers[q.key])?.click(); }
+      document.getElementById('adv').onclick=()=> i<4?goTo(i+1):finish();
+      document.getElementById('det').onclick=()=>cards.querySelector(`[data-step="${i}"]`).click();
+    };
+
+    const burst=(i,n=14)=>{
+      const board=document.getElementById('board'), svg=board.querySelector('svg');
+      const p=pt(i<0?END:STOPS[i]); const r=svg.getBoundingClientRect(), br=board.getBoundingClientRect();
+      const sc=r.width/1000, ox=r.left-br.left+(r.width-1000*Math.min(sc,r.height/620))/2;
+      const s2=Math.min(sc,r.height/620), oy=r.top-br.top+(r.height-620*s2)/2;
+      const cols=['#7E9A88','#56705F','#DCE5DF','#C8553D','#1B1D21'];
+      for(let k=0;k<n;k++){
+        const d=document.createElement('i'); d.className='spark';
+        d.style.left=(ox+p.x*s2)+'px'; d.style.top=(oy+(p.y-40)*s2)+'px';
+        d.style.background=cols[k%cols.length];
+        d.style.setProperty('--dx',(Math.random()*160-80)+'px'); d.style.setProperty('--dy',(Math.random()*-120-20)+'px');
+        board.appendChild(d); setTimeout(()=>d.remove(),1900);
+      }
+    };
+
+    const finish=()=>{
+      cur=5; setPins(); stepTxt.textContent='Arrivée ✦';
+      side.innerHTML=`<div class="fade"><div class="n">Dernier virage…</div></div>`;
+      travel(END,()=>{
+        burst(-1,40);
+        side.innerHTML=`<div class="fade">
+          <div class="n">Arrivée</div>
+          <h3>Votre parcours Anaïs</h3>
+          <p class="d">Voici le trajet que nous construirions ensemble. Il commence par un bilan corporel InBody.</p>
+          <ul class="recap">${Q.map(q=>`<li><span>${q.key}</span>${answers[q.key]}</li>`).join('')}</ul></div>
+          <div class="go"><button class="pill-btn" id="book">Réserver ce parcours →</button><button class="pill-btn ghost" id="again">Rejouer</button></div>`;
+        document.getElementById('book').onclick=()=>{
+          document.getElementById('objectif').value='Bilan corporel InBody';
+          document.getElementById('note').value='Mon parcours (jeu du trajet) — '+Q.map(q=>q.key+' : '+answers[q.key]).join(' · ');
+          document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+        };
+        document.getElementById('again').onclick=reset;
+      });
+    };
+
+    const reset=()=>{
+      Object.keys(answers).forEach(k=>delete answers[k]); cur=-1;
+      [...badges.children].forEach(b=>b.classList.remove('on')); meter.style.width='0';
+      stepTxt.textContent='Départ'; setPins(); travel(0); intro();
+    };
+
+    // cliquer un arrêt déjà atteint pour y revenir
+    pins.addEventListener('click',e=>{const g=e.target.closest('.pin'); if(!g) return; const i=+g.dataset.i; if(i<=Object.keys(answers).length && i<5 && cur!==i) goTo(i);});
+
+    intro();
+  })();
 
   // ---------- SOINS ----------
   const SOINS = [
