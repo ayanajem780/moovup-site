@@ -389,6 +389,40 @@
   }
   .sidebtns.hide-sv{opacity:0!important;pointer-events:none!important}
 
+
+  /* ---------- PARCOURS EN COVER-FLOW ---------- */
+  .cflow{position:relative;padding:70px 0 70px;overflow:hidden}
+  .cf-corners .c{position:absolute;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;letter-spacing:.14em;color:var(--muted);opacity:.75}
+  .cf-corners .tl{top:24px;left:28px}.cf-corners .tm{top:24px;left:50%;transform:translateX(-50%)}.cf-corners .tr{top:24px;right:28px}
+  .cf-corners .bl{bottom:24px;left:28px}.cf-corners .bm{bottom:24px;left:50%;transform:translateX(-50%)}.cf-corners .br{bottom:24px;right:28px}
+  .cf-stage{position:relative;height:440px;margin-top:6px}
+  .cf-card{position:absolute;top:50%;left:50%;border-radius:22px;overflow:hidden;cursor:pointer;background:var(--tile);
+    transition:left .85s cubic-bezier(.65,.05,.25,1),width .85s cubic-bezier(.65,.05,.25,1),height .85s cubic-bezier(.65,.05,.25,1),opacity .6s,box-shadow .85s,filter .85s;
+    transform:translateY(-50%);will-change:left,width,height}
+  .cf-card img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:100%;width:auto;min-width:100%;object-fit:cover;max-width:none}
+  .cf-card .play{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .4s}
+  .cf-card .play i{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.85);display:grid;place-items:center;font-style:normal;color:var(--sage-deep);font-size:18px;box-shadow:0 10px 30px -10px rgba(0,0,0,.4)}
+  .cf-card.c0:hover .play{opacity:1}
+  .cf-card.c0{z-index:5}
+  .cf-card.c1{z-index:4;filter:saturate(.9)}
+  .cf-card.c2{z-index:3;filter:saturate(.75) brightness(.97)}
+  .cf-card.c3{z-index:1;opacity:0;pointer-events:none}
+  .cf-info{text-align:center;min-height:150px;margin-top:6px}
+  .cf-info .cf-n{font-style:italic;color:var(--sage-deep);font-size:16px}
+  .cf-info h3{font-weight:500;font-size:clamp(22px,2vw,28px);margin:2px 0 6px;letter-spacing:.01em}
+  .cf-info p{color:var(--muted);font-size:14.5px;max-width:46ch;margin:0 auto 16px}
+  .cf-info.swap > *{animation:cfIn .6s ease both}
+  .cf-info.swap h3{animation-delay:.05s}.cf-info.swap p{animation-delay:.1s}.cf-info.swap button{animation-delay:.15s}
+  @keyframes cfIn{from{opacity:0;transform:translateY(8px)}}
+  .cf-dots{display:flex;justify-content:center;gap:8px;margin-top:8px}
+  .cf-dots button{width:8px;height:8px;border-radius:9px;border:0;background:rgba(27,29,33,.18);cursor:pointer;padding:0;transition:width .4s,background .4s}
+  .cf-dots button.on{width:26px;background:var(--sage-deep)}
+  @media (max-width:760px){
+    .cflow{padding:80px 0 70px}
+    .cf-stage{height:380px}
+    .cf-corners .tm,.cf-corners .bm{display:none}
+  }
+
   /* ---------- GALLERY ---------- */
   .gallery{padding:130px 0 120px}
   .gal{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:330px 330px;gap:10px;margin-top:56px}
@@ -726,7 +760,11 @@
 </header>
 
 <!-- STEPS -->
-<section class="steps" id="parcours">
+<section class="steps cflow" id="parcours">
+  <div class="cf-corners" aria-hidden="true">
+    <span class="c tl">ANAÏS</span><span class="c tm">VOTRE PARCOURS</span><span class="c tr">5 ÉTAPES</span>
+    <span class="c bl">ÉTAPE</span><span class="c bm">PAR ÉTAPE</span><span class="c br">POUR VOUS</span>
+  </div>
   <div class="wrap">
     <div class="steps-head rv">
       <h2 class="tt left"><i>Étape par étape</i><b>Votre parcours</b></h2>
@@ -735,7 +773,14 @@
         <button class="cbtn" id="next" aria-label="Suivant">→</button>
       </div>
     </div>
-    <div class="cards" id="cards"></div>
+    <div class="cf-stage" id="cards" aria-roledescription="carrousel"></div>
+    <div class="cf-info" id="cfInfo">
+      <div class="cf-n" id="cfN"></div>
+      <h3 id="cfT"></h3>
+      <p id="cfD"></p>
+      <button class="pill-btn ghost" id="cfBtn">Voir le détail →</button>
+    </div>
+    <div class="cf-dots" id="cfDots"></div>
   </div>
 </section>
 
@@ -1402,22 +1447,54 @@
      li:['Contrôles InBody périodiques.','Comparaison de vos résultats.','Réévaluation du programme alimentaire et sportif.','Ajustement des séances.','Bilan final et conseils pour maintenir les habitudes acquises.']}
   ];
   const cards = document.getElementById('cards');
-  cards.innerHTML = STEPS.map((s,i)=>`
-    <article class="card">
-      <div class="card-img"><img src="${s.img}" alt="${s.t}" loading="lazy"></div>
-      <div class="card-b">
-        <div class="n">Étape 0${i+1}</div>
-        <h3>${s.t}</h3>
-        <p>${s.d}</p>
-        <button class="pill-btn ghost" data-step="${i}">Voir le détail →</button>
-      </div>
-    </article>`).join('');
+  const GLOW=['rgba(40,80,200,.45)','rgba(110,160,100,.45)','rgba(232,131,107,.5)','rgba(120,110,220,.45)','rgba(60,150,170,.45)'];
+  cards.innerHTML = STEPS.map((s,i)=>`<div class="cf-card" data-step="${i}" role="button" tabindex="0" aria-label="Étape 0${i+1} : ${s.t}"><img src="${s.img}" alt="" loading="lazy"><span class="play"><i>▶</i></span></div>`).join('');
+  const cfCards=[...cards.children], N=cfCards.length;
+  const cfDots=document.getElementById('cfDots'); cfDots.innerHTML=STEPS.map((_,i)=>`<button aria-label="Étape 0${i+1}"></button>`).join('');
+  const dots=[...cfDots.children], info=document.getElementById('cfInfo');
+  let cfCur=0, cfTimer=null, cfHover=false, cfVis=false;
+  const geo=()=>{
+    const W=cards.clientWidth, mob=W<600;
+    const cw=mob?Math.min(250,W*.62):320, ch=mob?340:400;
+    return {cw,ch,s1:mob?34:74,s2:mob?20:44,gap:mob?10:16,h1:ch*.82,h2:ch*.7};
+  };
+  const layout=()=>{
+    const g=geo(), W=cards.clientWidth, cx=W/2;
+    cfCards.forEach((c,i)=>{
+      let d=((i-cfCur)%N+N)%N; if(d>N/2) d-=N;
+      const a=Math.abs(d), side=Math.sign(d);
+      c.className='cf-card c'+Math.min(a,3);
+      let w,h,left;
+      if(a===0){ w=g.cw; h=g.ch; left=cx-g.cw/2; }
+      else if(a===1){ w=g.s1; h=g.h1; left= side>0 ? cx+g.cw/2+g.gap : cx-g.cw/2-g.gap-g.s1; }
+      else { w=g.s2; h=g.h2; left= side>0 ? cx+g.cw/2+g.gap+g.s1-g.s2*.35 : cx-g.cw/2-g.gap-g.s1-g.s2*.65; }
+      c.style.width=w+'px'; c.style.height=h+'px'; c.style.left=left+'px';
+      c.style.boxShadow = a===0 ? `0 40px 70px -26px ${GLOW[i]}, 0 18px 40px -24px rgba(0,0,0,.35)` : '0 14px 30px -20px rgba(0,0,0,.35)';
+    });
+    dots.forEach((d,k)=>d.classList.toggle('on',k===cfCur));
+    const s=STEPS[cfCur];
+    document.getElementById('cfN').textContent='Étape 0'+(cfCur+1);
+    document.getElementById('cfT').textContent=s.t;
+    document.getElementById('cfD').textContent=s.d;
+    info.classList.remove('swap'); void info.offsetWidth; info.classList.add('swap');
+  };
+  const go=i=>{ cfCur=((i%N)+N)%N; layout(); };
   const prev=document.getElementById('prev'), next=document.getElementById('next');
-  const stepW=()=>cards.querySelector('.card').offsetWidth+20;
-  prev.onclick=()=>cards.scrollBy({left:-stepW(),behavior:'smooth'});
-  next.onclick=()=>cards.scrollBy({left:stepW(),behavior:'smooth'});
-  const upd=()=>{prev.disabled=cards.scrollLeft<5; next.disabled=cards.scrollLeft+cards.clientWidth>=cards.scrollWidth-5;};
-  cards.addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
+  prev.onclick=()=>{go(cfCur-1); restart();};
+  next.onclick=()=>{go(cfCur+1); restart();};
+  dots.forEach((d,k)=>d.onclick=()=>{go(k); restart();});
+  const restart=()=>{ clearInterval(cfTimer); cfTimer=setInterval(()=>{ if(cfVis && !cfHover && !document.hidden) go(cfCur+1); },2800); };
+  cards.addEventListener('mouseenter',()=>cfHover=true); cards.addEventListener('mouseleave',()=>cfHover=false);
+  new IntersectionObserver(es=>es.forEach(e=>cfVis=e.isIntersecting),{threshold:.3}).observe(cards);
+  // clic sur une bande latérale = la ramener au centre ; clic sur la carte centrale = ouvrir l'étape
+  cards.addEventListener('click',e=>{ const c=e.target.closest('.cf-card'); if(!c) return; const i=+c.dataset.step; if(i!==cfCur){ e.stopImmediatePropagation(); go(i); restart(); } },true);
+  cards.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const c=e.target.closest('.cf-card'); if(c) c.click(); } });
+  document.getElementById('cfBtn').onclick=()=>cfCards[cfCur].click();
+  // glisser au doigt
+  let sx=null; cards.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  cards.addEventListener('touchend',e=>{ if(sx===null) return; const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40){ go(cfCur+(dx<0?1:-1)); restart(); } sx=null; });
+  addEventListener('resize',layout);
+  layout(); restart();
 
   const modal=document.getElementById('modal');
   // ---------- OUVRIR LA PAGE D'UNE ÉTAPE ----------
@@ -1597,7 +1674,7 @@
       });
       if(answers[q.key]){ [...side.querySelectorAll('.opt')].find(b=>b.textContent===answers[q.key])?.click(); }
       document.getElementById('adv').onclick=()=> i<4?goTo(i+1):finish();
-      document.getElementById('det').onclick=()=>cards.querySelector(`[data-step="${i}"]`).click();
+      document.getElementById('det').onclick=()=>openStep(i);
     };
 
     const burst=(i,n=14)=>{
