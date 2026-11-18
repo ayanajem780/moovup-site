@@ -350,6 +350,75 @@
   .mc-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
   @media (max-width:860px){ .mapbox{grid-template-columns:1fr} .mapframe{min-height:320px} .mapcard{padding:32px 24px} }
 
+
+  /* ---------- PARCOURS ÉDITORIAL ---------- */
+  .ed{position:relative;height:calc(100svh - var(--hh));min-height:600px;max-height:900px;background:#FAF9F6;overflow:hidden;padding:0}
+  .ed-top{position:absolute;top:22px;left:4vw;right:4vw;display:flex;justify-content:space-between;z-index:6;pointer-events:none}
+  .ed-kick{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:500}
+  .ed-stage{position:absolute;inset:0}
+  .slide{position:absolute;inset:0;visibility:hidden}
+  .slide.on{visibility:visible}
+  .slide > *{position:absolute}
+  .blob{border-radius:50%;filter:blur(2px);opacity:0;transform:scale(.6)}
+  .blob.sq{border-radius:0}
+  .sl-ph{overflow:hidden;cursor:pointer;opacity:0;background:var(--tile)}
+  .sl-ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.15);transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
+  .sl-ph.sm{cursor:default}
+  .sl-title{font-family:'Belleza',sans-serif;color:var(--ink);line-height:.86;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;z-index:3;pointer-events:none}
+  .sl-title span{display:block;overflow:hidden}
+  .sl-title span i{display:block;font-style:normal;transform:translateY(105%)}
+  .sl-title.v{writing-mode:vertical-rl;transform:rotate(180deg)}
+  .sl-title.v span i{transform:translateX(-105%)}
+  .sl-title .soft{color:var(--sage)}
+  .sl-txt{max-width:300px;z-index:4;opacity:0;transform:translateY(20px)}
+  .sl-txt .k{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink);margin-bottom:8px}
+  .sl-txt p{font-size:13px;line-height:1.6;color:var(--muted)}
+  .sl-txt .go{display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:none;border:0;cursor:pointer;padding:0}
+  .sl-txt .go::after{content:"";width:46px;height:1px;background:var(--ink);transition:width .3s}
+  .sl-txt .go:hover::after{width:70px}
+  .sl-badge{width:120px;height:120px;z-index:4;opacity:0}
+  .sl-badge svg{width:100%;height:100%;animation:spinb 18s linear infinite}
+  .sl-badge b{position:absolute;inset:0;display:grid;place-items:center;font-size:26px;font-weight:300;color:var(--ink)}
+  /* état visible */
+  .slide.in .blob{opacity:1;transform:none;transition:opacity 1s ease .05s,transform 1.2s cubic-bezier(.2,.7,.2,1) .05s}
+  .slide.in .sl-ph{opacity:1;transition:opacity .9s ease .15s, clip-path 1s cubic-bezier(.7,0,.2,1) .15s;clip-path:inset(0 0 0 0)}
+  .slide .sl-ph{clip-path:inset(0 0 0 100%)}
+  .slide.in .sl-ph img{transform:none}
+  .slide.in .sl-ph.sm{transition-delay:.35s}
+  .slide.in .sl-title span i{transform:none;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+  .slide.in .sl-title span:nth-child(2) i{transition-delay:.12s}
+  .slide.in .sl-title span:nth-child(3) i{transition-delay:.24s}
+  .slide.in .sl-txt{opacity:1;transform:none;transition:opacity .8s ease .45s,transform .8s ease .45s}
+  .slide.in .sl-badge{opacity:1;transition:opacity .8s ease .5s}
+  /* sortie */
+  .slide.out{visibility:visible;z-index:1}
+  .slide.out > *{transition:transform .7s cubic-bezier(.7,0,.3,1),opacity .6s ease;opacity:0!important;transform:translateX(calc(var(--d,1) * -8vw))!important}
+  /* barre bas */
+  .ed-bar{position:absolute;left:4vw;right:4vw;bottom:22px;display:flex;justify-content:space-between;align-items:flex-end;z-index:7}
+  .ed-prog{display:flex;gap:8px;align-items:center}
+  .ed-prog button{width:26px;height:26px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;padding:0;cursor:pointer;transition:width .5s cubic-bezier(.6,.1,.2,1),background .4s;position:relative;overflow:hidden}
+  .ed-prog button.on{width:72px}
+  .ed-prog button.on::after{content:"";position:absolute;inset:0;background:var(--sage);transform-origin:left;animation:edfill var(--dur,6s) linear forwards}
+  @keyframes edfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .ed-ctrl{display:flex;align-items:center;gap:14px}
+  .ed-arr{width:34px;height:34px;border:0;background:none;font-size:26px;cursor:pointer;color:var(--ink);line-height:1}
+  .ed-num{font-family:'Belleza',sans-serif;font-size:44px;line-height:1;color:var(--ink);display:flex;align-items:flex-start;min-width:84px}
+  .ed-num b{font-weight:400;font-size:30px;margin-right:2px}
+  @media (max-width:860px){
+    .ed{height:auto;min-height:0;max-height:none}
+    .ed-stage{position:relative;height:700px}
+    .slide .sl-title{left:6%!important;top:9%!important;font-size:13vw!important;writing-mode:horizontal-tb!important;transform:none!important;white-space:normal}
+    .slide .sl-title.v span i{transform:translateY(105%)}
+    .slide.in .sl-title.v span i{transform:none}
+    .slide .sl-ph[data-step]{left:6%!important;width:88%!important;top:33%!important;height:38%!important}
+    .slide .sl-ph.sm{display:none}
+    .slide .sl-txt{left:6%!important;top:74%!important;max-width:88%}
+    .sl-badge{display:none}
+    .ed-num{font-size:32px}
+    .ed-kick:last-child,.ed-arr{display:none}
+    .ed-prog button{width:20px;height:20px}.ed-prog button.on{width:52px}
+  }
+
   /* ---------- IDENTITÉ OFFICIELLE (anaisbeautyclinic.com) ---------- */
   h1,h2,h3,.tt i,.tt b,.cf-info h3,.card-b h3,.min h3,.menu a,.xs h2 b,.xs h2 i,.scan h2 b,.scan h2 i{font-family:'Belleza','DM Sans',sans-serif}
   .tt i,.xs h2 i,.scan h2 i{font-style:normal;color:var(--sage)}
@@ -819,28 +888,20 @@
   </div>
 </header>
 
-<!-- STEPS -->
-<section class="steps cflow" id="parcours">
-  <div class="cf-corners" aria-hidden="true">
-    <span class="c tl">ANAÏS</span><span class="c tm">VOTRE PARCOURS</span><span class="c tr">5 ÉTAPES</span>
-    <span class="c bl">ÉTAPE</span><span class="c bm">PAR ÉTAPE</span><span class="c br">POUR VOUS</span>
+<!-- STEPS (éditorial) -->
+<section class="ed" id="parcours" aria-roledescription="carrousel" aria-label="Votre parcours en 5 étapes">
+  <div class="ed-top">
+    <span class="ed-kick">Étape par étape · Votre parcours</span>
+    <span class="ed-kick">Anaïs Beauty Clinic</span>
   </div>
-  <div class="wrap">
-    <div class="steps-head rv">
-      <h2 class="tt left"><i>Étape par étape</i><b>Votre parcours</b></h2>
-      <div class="ctrl">
-        <button class="cbtn" id="prev" aria-label="Précédent">←</button>
-        <button class="cbtn" id="next" aria-label="Suivant">→</button>
-      </div>
+  <div class="ed-stage" id="cards"></div>
+  <div class="ed-bar">
+    <div class="ed-prog" id="edProg"></div>
+    <div class="ed-ctrl">
+      <button class="ed-arr" id="prev" aria-label="Étape précédente">‹</button>
+      <button class="ed-arr" id="next" aria-label="Étape suivante">›</button>
+      <span class="ed-num"><b>*</b><span id="edNum">01</span></span>
     </div>
-    <div class="cf-stage" id="cards" aria-roledescription="carrousel"></div>
-    <div class="cf-info" id="cfInfo">
-      <div class="cf-n" id="cfN"></div>
-      <h3 id="cfT"></h3>
-      <p id="cfD"></p>
-      <button class="pill-btn ghost" id="cfBtn">Voir le détail →</button>
-    </div>
-    <div class="cf-dots" id="cfDots"></div>
   </div>
 </section>
 
@@ -1486,60 +1547,76 @@
      li:['Contrôles InBody périodiques.','Comparaison de vos résultats.','Réévaluation du programme alimentaire et sportif.','Ajustement des séances.','Bilan final et conseils pour maintenir les habitudes acquises.']}
   ];
   const cards = document.getElementById('cards');
-  const GLOW=['rgba(40,80,200,.45)','rgba(110,160,100,.45)','rgba(232,131,107,.5)','rgba(120,110,220,.45)','rgba(60,150,170,.45)'];
-  cards.innerHTML = STEPS.map((s,i)=>`<div class="cf-card" data-step="${i}" role="button" tabindex="0" aria-label="Étape 0${i+1} : ${s.t}"><img src="${s.img}" alt="" loading="lazy"><span class="play"><i>▶</i></span></div>`).join('');
-  const cfCards=[...cards.children], N=cfCards.length;
-  const cfDots=document.getElementById('cfDots'); cfDots.innerHTML=STEPS.map((_,i)=>`<button aria-label="Étape 0${i+1}"></button>`).join('');
-  const dots=[...cfDots.children], info=document.getElementById('cfInfo');
-  let cfCur=0, cfTimer=null, cfHover=false, cfVis=false;
-  const geo=()=>{
-    const W=cards.clientWidth, mob=W<700;
-    const cw=mob?Math.min(250,W*.64):360, ch=mob?330:440;
-    return {cw,ch,w1:mob?200:300,h1:mob?270:370,w2:mob?180:280,h2:mob?240:330,gap:mob?14:26};
+  // mise en page éditoriale : une composition différente par étape (positions en % de la scène)
+  const SAGE='var(--sage)', MIST='#DCE8E1', SAND='#EFE4D6', BLUSH='#F3DCD4';
+  const ED=[
+    { w:['Bilan','Corporel'], v:true, soft:1,
+      big:{img:0,x:58,y:9,w:22,h:60}, sm:{img:4,x:8,y:50,w:18,h:30},
+      t:{x:84,y:7,size:8.6}, txt:{x:8,y:20},
+      blobs:[{x:29,y:44,w:24,h:30,c:MIST,sq:1},{x:70,y:62,w:14,h:20,c:SAND}], badge:{x:55,y:70}, lead:'Le point de départ',
+      d:"Entretien individuel et analyse InBody : nous mesurons masse grasse et masse musculaire, puis fixons vos objectifs." },
+    { w:['Manger','en conscience'], v:false, soft:2,
+      big:{img:1,x:42,y:8,w:24,h:66}, sm:null,
+      t:{x:8,y:20,size:8.4}, txt:{x:8,y:64},
+      blobs:[{x:34,y:14,w:16,h:28,c:BLUSH},{x:86,y:6,w:9,h:15,c:MIST},{x:0,y:70,w:12,h:14,c:SAND,sq:1}], badge:null, lead:'Nutrition personnalisée',
+      d:"Avec notre nutritionniste, un programme alimentaire adapté à vos habitudes, ajusté selon votre évolution." },
+    { w:['Bouger','à votre','rythme'], v:false, soft:2,
+      big:{img:2,x:20,y:38,w:20,h:46}, sm:null,
+      t:{x:34,y:8,size:7}, txt:{x:44,y:62},
+      blobs:[{x:24,y:6,w:22,h:34,c:MIST},{x:62,y:18,w:12,h:20,c:SAND}], badge:{x:80,y:26}, lead:'Coaching sportif privé',
+      d:"Des séances individuelles encadrées, adaptées à votre niveau, pour le travail musculaire et cardio." },
+    { w:['Sculpter','la silhouette'], v:true, soft:2,
+      big:{img:3,x:36,y:12,w:30,h:56}, sm:{img:1,x:8,y:12,w:15,h:26},
+      t:{x:74,y:6,size:5.8}, txt:{x:8,y:60},
+      blobs:[{x:30,y:4,w:20,h:26,c:SAND,sq:1},{x:58,y:60,w:16,h:26,c:BLUSH}], badge:{x:24,y:42}, lead:"Technologies d'amincissement",
+      d:"Les machines d'Anaïs Clinic, intégrées à votre parcours, avec des protocoles adaptés aux zones ciblées." },
+    { w:['Mesurer','pour durer'], v:false, soft:2,
+      big:{img:4,x:56,y:30,w:22,h:54}, sm:{img:0,x:30,y:58,w:14,h:26},
+      t:{x:8,y:10,size:8.6}, txt:{x:8,y:52},
+      blobs:[{x:52,y:8,w:28,h:30,c:MIST,sq:1},{x:80,y:70,w:12,h:18,c:SAND}], badge:{x:84,y:10}, lead:'Suivi & réajustement',
+      d:"Contrôles InBody réguliers, comparaison des résultats et bilan final pour garder les bonnes habitudes." }
+  ];
+  const badgeSVG=`<svg viewBox="0 0 120 120"><defs><path id="bdg" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text font-family="DM Sans" font-size="9.4" font-weight="600" letter-spacing="3" fill="#1B1D21"><textPath href="#bdg">TIME TO CHANGE · ANAÏS · TIME TO CHANGE · </textPath></text></svg><b>+</b>`;
+  const pct=(o)=>`left:${o.x}%;top:${o.y}%;width:${o.w}%;height:${o.h}%`;
+  cards.innerHTML = ED.map((e,i)=>{
+    const st=STEPS[i];
+    const title=`<h3 class="sl-title${e.v?' v':''}" style="left:${e.t.x}%;top:${e.t.y}%;font-size:clamp(34px,${e.t.size}vw,${e.t.size*14}px)">${e.w.map((w,k)=>`<span><i class="${k+1===e.soft?'soft':''}">${w}</i></span>`).join('')}</h3>`;
+    return `<article class="slide" data-i="${i}" aria-label="Étape 0${i+1}">
+      ${e.blobs.map(b=>`<span class="blob${b.sq?' sq':''}" style="${pct(b)};background:${b.c}"></span>`).join('')}
+      <div class="sl-ph" data-step="${i}" role="button" tabindex="0" aria-label="Voir l'étape 0${i+1} : ${st.t}" style="${pct(e.big)}"><img src="${STEPS[e.big.img].img}" alt="${st.t}"></div>
+      ${e.sm?`<div class="sl-ph sm" style="${pct(e.sm)}"><img src="${STEPS[e.sm.img].img}" alt=""></div>`:''}
+      ${title}
+      <div class="sl-txt" style="left:${e.txt.x}%;top:${e.txt.y}%"><div class="k">${e.lead}</div><p>${e.d}</p><button class="go" data-open="${i}">Découvrir l'étape</button></div>
+      ${e.badge?`<div class="sl-badge" style="left:${e.badge.x}%;top:${e.badge.y}%">${badgeSVG}</div>`:''}
+    </article>`;
+  }).join('');
+  const slides=[...cards.children], N=slides.length;
+  const prog=document.getElementById('edProg'); prog.innerHTML=ED.map((_,i)=>`<button aria-label="Étape 0${i+1}"></button>`).join('');
+  const pbtn=[...prog.children], num=document.getElementById('edNum');
+  const DUR=6000; prog.style.setProperty('--dur',DUR+'ms');
+  let edCur=-1, edTimer=null, edVis=false, edHover=false;
+  const show=(i,dir=1)=>{
+    i=((i%N)+N)%N; if(i===edCur) return;
+    const old=slides[edCur];
+    if(old){ old.style.setProperty('--d',dir); old.classList.remove('in'); old.classList.add('out'); setTimeout(()=>old.classList.remove('out','on'),720); }
+    const nw=slides[i]; nw.classList.add('on'); void nw.offsetWidth;
+    setTimeout(()=>nw.classList.add('in'), old?260:60);
+    edCur=i; num.textContent=String(i+1).padStart(2,'0');
+    pbtn.forEach((b,k)=>{ b.classList.remove('on'); void b.offsetWidth; b.classList.toggle('on',k===i); });
   };
-  const prevD=new Array(N).fill(null);
-  const layout=()=>{
-    const g=geo(), W=cards.clientWidth, cx=W/2;
-    cfCards.forEach((c,i)=>{
-      let d=((i-cfCur)%N+N)%N; if(d>N/2) d-=N;
-      const a=Math.abs(d), side=Math.sign(d);
-      // une carte qui passe d'un bord à l'autre ne traverse pas l'écran
-      if(prevD[i]!==null && Math.abs(d-prevD[i])>2){ c.style.transition='none'; }
-      c.className='cf-card c'+Math.min(a,3);
-      let w,h,left;
-      if(a===0){ w=g.cw; h=g.ch; left=cx-g.cw/2; }
-      else if(a===1){ w=g.w1; h=g.h1; left= side>0 ? cx+g.cw/2+g.gap : cx-g.cw/2-g.gap-g.w1; }
-      else { w=g.w2; h=g.h2; left= side>0 ? cx+g.cw/2+g.gap+g.w1+g.gap : cx-g.cw/2-g.gap-g.w1-g.gap-g.w2; }
-      c.style.width=w+'px'; c.style.height=h+'px'; c.style.left=left+'px';
-      c.style.opacity= a>=2 ? .85 : 1;
-      c.style.boxShadow = a===0 ? `0 40px 70px -26px ${GLOW[i]}, 0 18px 40px -24px rgba(0,0,0,.35)` : '0 16px 34px -22px rgba(0,0,0,.35)';
-      if(c.style.transition==='none'){ void c.offsetWidth; requestAnimationFrame(()=>c.style.transition=''); }
-      prevD[i]=d;
-    });
-    dots.forEach((d,k)=>d.classList.toggle('on',k===cfCur));
-    const s=STEPS[cfCur];
-    document.getElementById('cfN').textContent='Étape 0'+(cfCur+1);
-    document.getElementById('cfT').textContent=s.t;
-    document.getElementById('cfD').textContent=s.d;
-    info.classList.remove('swap'); void info.offsetWidth; info.classList.add('swap');
-  };
-  const go=i=>{ cfCur=((i%N)+N)%N; layout(); };
-  const prev=document.getElementById('prev'), next=document.getElementById('next');
-  prev.onclick=()=>{go(cfCur-1); restart();};
-  next.onclick=()=>{go(cfCur+1); restart();};
-  dots.forEach((d,k)=>d.onclick=()=>{go(k); restart();});
-  const restart=()=>{ clearInterval(cfTimer); cfTimer=setInterval(()=>{ if(cfVis && !cfHover && !document.hidden) go(cfCur+1); },2800); };
-  cards.addEventListener('mouseenter',()=>cfHover=true); cards.addEventListener('mouseleave',()=>cfHover=false);
-  new IntersectionObserver(es=>es.forEach(e=>cfVis=e.isIntersecting),{threshold:.3}).observe(cards);
-  // clic sur une bande latérale = la ramener au centre ; clic sur la carte centrale = ouvrir l'étape
-  cards.addEventListener('click',e=>{ const c=e.target.closest('.cf-card'); if(!c) return; const i=+c.dataset.step; if(i!==cfCur){ e.stopImmediatePropagation(); go(i); restart(); } },true);
-  cards.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const c=e.target.closest('.cf-card'); if(c) c.click(); } });
-  document.getElementById('cfBtn').onclick=()=>cfCards[cfCur].click();
-  // glisser au doigt
+  const restart=()=>{ clearInterval(edTimer); edTimer=setInterval(()=>{ if(edVis && !edHover && !document.hidden) show(edCur+1,1); },DUR); };
+  document.getElementById('prev').onclick=()=>{ show(edCur-1,-1); restart(); };
+  document.getElementById('next').onclick=()=>{ show(edCur+1,1); restart(); };
+  pbtn.forEach((b,k)=>b.onclick=()=>{ show(k,k>edCur?1:-1); restart(); });
+  const edSec=document.getElementById('parcours');
+  edSec.addEventListener('mouseenter',()=>edHover=true); edSec.addEventListener('mouseleave',()=>edHover=false);
+  new IntersectionObserver(es=>es.forEach(e=>edVis=e.isIntersecting),{threshold:.3}).observe(edSec);
+  cards.addEventListener('click',e=>{ const g=e.target.closest('[data-open]'); if(g){ e.stopPropagation(); slides[+g.dataset.open].querySelector('.sl-ph[data-step]').click(); } });
+  cards.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const c=e.target.closest('[data-step]'); if(c) c.click(); } });
   let sx=null; cards.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
-  cards.addEventListener('touchend',e=>{ if(sx===null) return; const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40){ go(cfCur+(dx<0?1:-1)); restart(); } sx=null; });
-  addEventListener('resize',layout);
-  layout(); restart();
+  cards.addEventListener('touchend',e=>{ if(sx===null) return; const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40){ show(edCur+(dx<0?1:-1),dx<0?1:-1); restart(); } sx=null; });
+  addEventListener('keydown',e=>{ if(document.getElementById('stepview').classList.contains('open')) return; const r=edSec.getBoundingClientRect(); if(r.top<innerHeight*.5&&r.bottom>innerHeight*.5){ if(e.key==='ArrowRight'){show(edCur+1,1);restart();} if(e.key==='ArrowLeft'){show(edCur-1,-1);restart();} } });
+  show(0); restart();
 
   const modal=document.getElementById('modal');
   // ---------- OUVRIR LA PAGE D'UNE ÉTAPE ----------
