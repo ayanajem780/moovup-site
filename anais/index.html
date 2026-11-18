@@ -10,15 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F4F4F5;
+    --bg:#F7F5F0;
     --white:#FFFFFF;
     --ink:#1B1D21;
     --muted:#6E737D;
     --line:rgba(27,29,33,.1);
-    --tile:#E4E5E7;
-    --sage:#7E9A88;
-    --sage-deep:#56705F;
-    --sage-mist:#DCE5DF;
+    --tile:#ECE9E2;
+    --sage:#3B4FA0;
+    --sage-deep:#1F2B6E;
+    --sage-mist:#E4E8F5;
     --serif:'Poppins', system-ui, sans-serif;
     --sans:'Poppins', system-ui, sans-serif;
   }
@@ -53,7 +53,7 @@
   .hburger i{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px}
   .hlogo{display:flex;flex-direction:column;line-height:1;flex-shrink:0}
   .hl-top{font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--sage-deep)}
-  .hl-main{font-size:34px;font-weight:700;letter-spacing:.06em;color:var(--sage-deep);padding:4px 0 5px;border-bottom:1.5px solid var(--sage-deep)}
+  .hl-main{display:block;height:46px;width:auto;margin:5px 0 4px}
   .hl-sub{font-size:10.5px;color:var(--muted);margin-top:5px}
   .hbadge{width:70px;height:70px;flex-shrink:0;margin-left:-8px}
   .hbadge svg{width:100%;height:100%;animation:spinb 30s linear infinite}
@@ -72,7 +72,7 @@
   .hacts,.hacts2{display:flex;gap:10px;align-items:center;flex-shrink:0}
   .hb{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:0 24px;height:50px;font-size:14.5px;font-weight:500;cursor:pointer;border:1px solid transparent;font-family:var(--sans);transition:filter .3s, background .3s;white-space:nowrap;background:none;color:var(--ink)}
   .hb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}
-  .hb-dark{background:linear-gradient(90deg,#2F4237,var(--sage-deep));color:#fff}
+  .hb-dark{background:linear-gradient(90deg,#141C4E,var(--sage-deep));color:#fff}
   .hb-light{background:var(--sage);color:#fff}
   .hb-out{border-color:#dcdde0;color:var(--ink)}
   .hb:hover{filter:brightness(1.08)}
@@ -109,14 +109,14 @@
     :root{--hh:74px}
     .hrow1{height:74px;gap:14px;padding-right:14px;border-bottom:0}
     .hburger{width:64px}
-    .hl-main{font-size:24px}
+    .hl-main{height:34px;margin:0}
     .hl-top,.hl-sub{display:none}
     .hsearch,.hrow2{display:none}
     .hmob{display:inline-flex;margin-left:auto;height:42px;padding:0 18px}
   }
 
   /* menu overlay */
-  .menu{position:fixed;inset:0;z-index:70;background:rgba(244,244,245,.97);backdrop-filter:blur(10px);display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px}
+  .menu{position:fixed;inset:0;z-index:70;background:rgba(247,245,240,.98);backdrop-filter:blur(10px);display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px}
   .menu.open{display:flex;animation:fade .35s}
   .menu a{font-size:clamp(28px,4vw,46px);text-transform:uppercase;letter-spacing:.05em;font-weight:300;transition:color .3s}
   .menu a:hover{color:var(--sage-deep)}
@@ -262,7 +262,7 @@
   @media (max-width:960px){ .xs h2 .typed{text-align:center} .xstage{height:auto;padding:10px 0} .chart .top{flex-direction:column;gap:6px} }
 
   /* étape 02 — assiette */
-  .x2{--xbg:#F3EFE7;--xink:#1B1D21;--xacc:#56705F;--xmut:#5d6168;--xline:rgba(27,29,33,.1);--xcard:#fff}
+  .x2{--xbg:#F3EFE7;--xink:#1B1D21;--xacc:#1F2B6E;--xmut:#5d6168;--xline:rgba(27,29,33,.1);--xcard:#fff}
   .plate{position:relative;width:min(400px,86%);aspect-ratio:1}
   .plate svg{width:100%;height:100%;overflow:visible}
   .plate .seg{fill:none;stroke-width:92;transition:stroke-dasharray 1.1s cubic-bezier(.6,.1,.2,1)}
@@ -280,15 +280,15 @@
   .week span.on b{color:#fff}
 
   /* étape 03 — coaching */
-  .x3{--xbg:#15110F;--xink:#fff;--xacc:#E8836B;--xmut:rgba(255,255,255,.7);--xline:rgba(232,131,107,.25);--xcard:rgba(255,255,255,.04);--xbtnink:#15110F}
+  .x3{--xbg:#121733;--xink:#fff;--xacc:#E8836B;--xmut:rgba(255,255,255,.7);--xline:rgba(232,131,107,.25);--xcard:rgba(255,255,255,.04);--xbtnink:#121733}
   .x3::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 60% at 50% 50%,rgba(232,131,107,.14),transparent 70%)}
   .cframe{position:relative;width:100%;aspect-ratio:3/2;border-radius:24px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
   .cframe img{width:100%;height:100%;object-fit:cover}
-  .cframe::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,17,15,.1) 40%,rgba(21,17,15,.85) 100%)}
+  .cframe::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,23,51,.1) 40%,rgba(18,23,51,.85) 100%)}
   .ecg{position:absolute;left:0;right:0;bottom:14px;height:70px;z-index:2}
   .ecg path{fill:none;stroke:var(--xacc);stroke-width:2.5;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(232,131,107,.8));stroke-dasharray:1400;stroke-dashoffset:1400;animation:ecg 2.8s linear infinite}
   @keyframes ecg{to{stroke-dashoffset:0}}
-  .chipd{position:absolute;z-index:3;display:flex;align-items:center;gap:8px;background:rgba(21,17,15,.65);backdrop-filter:blur(8px);border:1px solid var(--xline);border-radius:999px;padding:7px 14px;font-size:12.5px;color:#fff}
+  .chipd{position:absolute;z-index:3;display:flex;align-items:center;gap:8px;background:rgba(18,23,51,.65);backdrop-filter:blur(8px);border:1px solid var(--xline);border-radius:999px;padding:7px 14px;font-size:12.5px;color:#fff}
   .heart{color:var(--xacc);display:inline-block;animation:beat 1s ease-in-out infinite}
   @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.35)}30%{transform:scale(1)}45%{transform:scale(1.2)}}
   .bars{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -297,16 +297,16 @@
   .bars .t i{display:block;height:100%;width:8%;background:linear-gradient(90deg,#C9614A,var(--xacc));border-radius:6px;transition:width 1.4s cubic-bezier(.6,.1,.2,1)}
 
   /* étape 04 — technologies */
-  .x4{--xbg:#F1EEF7;--xink:#1B1D21;--xacc:#7A5CC8;--xmut:#5d6168;--xline:rgba(122,92,200,.18);--xcard:#fff}
-  .tframe{position:relative;width:100%;aspect-ratio:16/9;border-radius:24px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(60,40,120,.45)}
+  .x4{--xbg:#EEF1FA;--xink:#1B1D21;--xacc:#2E3F8A;--xmut:#5d6168;--xline:rgba(46,63,138,.18);--xcard:#fff}
+  .tframe{position:relative;width:100%;aspect-ratio:16/9;border-radius:24px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(30,42,110,.45)}
   .tframe img{width:100%;height:100%;object-fit:cover}
-  .tframe::after{content:"";position:absolute;inset:0;background:rgba(40,25,90,.12)}
-  .ring{position:absolute;z-index:2;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(122,92,200,.9)}
-  .ring::before,.ring::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(160,130,240,.9);animation:ping 2.2s ease-out infinite}
+  .tframe::after{content:"";position:absolute;inset:0;background:rgba(20,30,90,.1)}
+  .ring{position:absolute;z-index:2;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(46,63,138,.9)}
+  .ring::before,.ring::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(110,135,230,.9);animation:ping 2.2s ease-out infinite}
   .ring::after{animation-delay:1.1s}
   @keyframes ping{from{transform:scale(1);opacity:1}to{transform:scale(4.2);opacity:0}}
   .ring b{position:absolute;left:24px;top:50%;transform:translateY(-50%);white-space:nowrap;background:rgba(255,255,255,.92);color:var(--xink);font-size:12px;font-weight:500;padding:5px 11px;border-radius:999px;box-shadow:0 8px 18px -10px rgba(0,0,0,.4)}
-  .panel4{display:flex;gap:18px;align-items:center;background:#fff;border:1px solid var(--xline);border-radius:20px;padding:14px 20px;box-shadow:0 16px 36px -24px rgba(60,40,120,.4);width:100%}
+  .panel4{display:flex;gap:18px;align-items:center;background:#fff;border:1px solid var(--xline);border-radius:20px;padding:14px 20px;box-shadow:0 16px 36px -24px rgba(30,42,110,.4);width:100%}
   .pring{width:64px;height:64px;flex-shrink:0;position:relative}
   .pring svg{width:100%;height:100%;transform:rotate(-90deg)}
   .pring circle{fill:none;stroke-width:6}
@@ -318,8 +318,8 @@
   .zchips em.on{background:var(--xacc);border-color:var(--xacc);color:#fff}
 
   /* étape 05 — suivi */
-  .x5{--xbg:#0E1A17;--xink:#fff;--xacc:#8FC1A6;--xmut:rgba(255,255,255,.7);--xline:rgba(143,193,166,.22);--xcard:rgba(255,255,255,.04);--xbtnink:#0E1A17}
-  .x5::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 60% at 50% 50%,rgba(143,193,166,.12),transparent 70%)}
+  .x5{--xbg:#0D1230;--xink:#fff;--xacc:#9DB4F2;--xmut:rgba(255,255,255,.7);--xline:rgba(157,180,242,.22);--xcard:rgba(255,255,255,.04);--xbtnink:#0D1230}
+  .x5::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 60% at 50% 50%,rgba(157,180,242,.12),transparent 70%)}
   .chart{position:relative;width:100%;background:rgba(255,255,255,.03);border:1px solid var(--xline);border-radius:24px;padding:22px 22px 14px}
   .chart .top{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--xmut);margin-bottom:10px}
   .chart .lg{display:flex;gap:14px}
@@ -328,9 +328,37 @@
   .chart .ln{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
   .chart .pt{transition:r .4s, opacity .4s}
   .chart .xl{font-size:11px;fill:rgba(255,255,255,.55);font-family:Poppins}
-  .final{display:flex;align-items:center;gap:10px;background:var(--xacc);color:#0E1A17;font-weight:500;font-size:13.5px;border-radius:999px;padding:9px 18px;opacity:0;transform:translateY(10px);transition:.6s}
+  .final{display:flex;align-items:center;gap:10px;background:var(--xacc);color:#0D1230;font-weight:500;font-size:13.5px;border-radius:999px;padding:9px 18px;opacity:0;transform:translateY(10px);transition:.6s}
   .final.on{opacity:1;transform:none}
   .note5{font-size:11px;color:var(--xmut);opacity:.7}
+
+
+  /* ---------- IDENTITÉ ANAÏS (brochure) ---------- */
+  .deco{position:relative;overflow:hidden}
+  .deco > .wrap{position:relative;z-index:1}
+  .flr{position:absolute;pointer-events:none;z-index:0;opacity:.85;user-select:none}
+  .flr.tl{top:0;left:0;width:min(380px,34vw)}
+  .flr.tr{top:0;right:0;width:min(260px,24vw)}
+  .flr.bl{bottom:0;left:0;width:min(300px,28vw)}
+  .x2 .flr{opacity:.35}
+  .gallery .flr{opacity:.55}
+  .contact .flr{opacity:.5}
+  .menu .flr{opacity:.6}
+  .menu-logo{height:70px;margin-bottom:26px}
+  .portrait.cover{aspect-ratio:1;position:relative;background:#FAF8F3;overflow:hidden;box-shadow:0 30px 60px -36px rgba(20,30,90,.35);gap:0}
+  .cover .fl{position:absolute;pointer-events:none}
+  .cover .fl.tl{top:0;left:0;width:62%}
+  .cover .fl.tr{top:0;right:0;width:40%}
+  .cover .fl.bl{bottom:0;left:0;width:48%}
+  .cover .c-logo{position:relative;width:56%;margin-top:-6%}
+  .cover .c-exp{position:relative;width:44%;margin-top:9%}
+  .cover .c-relax{position:absolute;right:8%;bottom:7%;width:44%}
+  .soin .disc img{width:70%;height:auto;filter:none}
+  .soin .disc small{font-family:var(--sans);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+  .fhead{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:34px}
+  .fhead img:first-child{height:64px}
+  .fhead img:last-child{height:46px}
+  @media (max-width:760px){ .flr.tl{width:46vw} .flr.tr{width:34vw} .flr.bl{width:40vw} }
 
   /* ---------- GALLERY ---------- */
   .gallery{padding:130px 0 120px}
@@ -507,7 +535,7 @@
   .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 20px;margin-top:60px}
   .soin{cursor:pointer;text-align:left;background:none;border:0;color:var(--ink)}
   .soin .tile{aspect-ratio:4/4.4;background:var(--tile);display:grid;place-items:center;overflow:hidden;position:relative;transition:background .5s}
-  .soin .disc{width:46%;aspect-ratio:1;border-radius:50%;background:var(--sage);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;line-height:1;outline:6px solid rgba(126,154,136,.25);outline-offset:6px;transition:transform .6s}
+  .soin .disc{width:46%;aspect-ratio:1;border-radius:50%;background:var(--sage);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;line-height:1;outline:6px solid rgba(59,79,160,.25);outline-offset:6px;transition:transform .6s}
   .soin .disc b{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.6vw,40px)}
   .soin .disc small{font-family:var(--serif);font-size:12px;margin-top:4px;opacity:.9}
   .soin .hov{position:absolute;inset:auto 0 0 0;padding:22px 24px;background:linear-gradient(0deg,rgba(27,29,33,.78),rgba(27,29,33,0));color:#fff;font-size:14px;transform:translateY(100%);transition:transform .5s}
@@ -591,13 +619,13 @@
     <button class="hburger" id="openMenu" aria-label="Menu"><i></i><i></i><i></i></button>
     <a href="#accueil" class="hlogo">
       <span class="hl-top">COMPLEXE MOOV'UP SPORTS</span>
-      <span class="hl-main">ANAÏS</span>
-      <span class="hl-sub">Beauty Clinic · Médecine esthétique &amp; minceur</span>
+      <img class="hl-main" src="img/br-logo.png" alt="Anaïs">
+      <span class="hl-sub">Beauty Clinic · Explore Agadir</span>
     </a>
     <div class="hbadge" aria-hidden="true">
       <svg viewBox="0 0 100 100"><defs><path id="bc" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs>
-        <text font-family="Poppins" font-size="9.5" font-weight="600" letter-spacing="2.4" fill="#56705F"><textPath href="#bc" startOffset="2%">MAIGRIR EN SANTÉ ·</textPath></text>
-        <circle cx="50" cy="50" r="27" fill="#7E9A88"/>
+        <text font-family="Poppins" font-size="9.5" font-weight="600" letter-spacing="2.4" fill="#1F2B6E"><textPath href="#bc" startOffset="2%">MAIGRIR EN SANTÉ ·</textPath></text>
+        <circle cx="50" cy="50" r="27" fill="#3B4FA0"/>
         <text x="50" y="49" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="15" fill="#fff">5</text>
         <text x="50" y="62" text-anchor="middle" font-family="Poppins" font-weight="500" font-size="8.5" fill="#fff">étapes</text>
       </svg>
@@ -645,6 +673,9 @@
 </div>
 
 <nav class="menu" id="menu" aria-label="Menu principal">
+  <img class="flr tr" src="img/br-fl_tr.webp" alt="" aria-hidden="true">
+  <img class="flr bl" src="img/br-fl_bl.webp" alt="" aria-hidden="true">
+  <img class="menu-logo" src="img/br-logo.png" alt="Anaïs">
   <button class="x" id="closeMenu" aria-label="Fermer">✕</button>
   <a href="#accueil"><i>01</i>Accueil</a>
   <a href="#clinique"><i>02</i>La clinique</a>
@@ -703,7 +734,9 @@
 </section>
 
 <!-- ÉTAPE 02 -->
-<section class="xs x2" id="etape-2">
+<section class="xs x2 deco" id="etape-2">
+  <img class="flr tl" src="img/br-fl_tl.webp" alt="" aria-hidden="true">
+  <img class="flr bl" src="img/br-fl_bl.webp" alt="" aria-hidden="true">
   <div class="wrap">
     <div class="rv">
       <div class="k">Étape 02 · Programme nutritionnel personnalisé</div>
@@ -718,15 +751,15 @@
           <circle cx="250" cy="250" r="215" fill="#fff" filter="url(#psh)"/>
           <circle cx="250" cy="250" r="182" fill="none" stroke="#EFEBE3" stroke-width="2"/>
           <g transform="rotate(-90 250 250)">
-            <circle class="seg" data-f=".5" data-o="0" cx="250" cy="250" r="120" stroke="#7E9A88" stroke-dasharray="0 754"/>
+            <circle class="seg" data-f=".5" data-o="0" cx="250" cy="250" r="120" stroke="#8FAF8A" stroke-dasharray="0 754"/>
             <circle class="seg" data-f=".25" data-o=".5" cx="250" cy="250" r="120" stroke="#D98E73" stroke-dasharray="0 754"/>
             <circle class="seg" data-f=".25" data-o=".75" cx="250" cy="250" r="120" stroke="#E3C98F" stroke-dasharray="0 754"/>
           </g>
           <circle cx="250" cy="250" r="72" fill="#fff"/>
           <text x="250" y="245" text-anchor="middle" font-family="Poppins" font-size="17" font-weight="600" fill="#1B1D21">Votre assiette</text>
-          <text x="250" y="270" text-anchor="middle" font-family="Poppins" font-size="14" font-style="italic" fill="#56705F">sur mesure</text>
+          <text x="250" y="270" text-anchor="middle" font-family="Poppins" font-size="14" font-style="italic" fill="#1F2B6E">sur mesure</text>
         </svg>
-        <div class="chip" style="left:-4%;top:58%"><i style="background:#7E9A88"></i>Légumes</div>
+        <div class="chip" style="left:-4%;top:58%"><i style="background:#8FAF8A"></i>Légumes</div>
         <div class="chip" style="right:-2%;top:70%"><i style="background:#D98E73"></i>Protéines</div>
         <div class="chip" style="left:6%;top:12%"><i style="background:#E3C98F"></i>Féculents</div>
         <div class="tablet"><b>Votre programme</b><div class="ln"><i></i></div><div class="ln"><i></i></div><div class="ln"><i></i></div><div class="ln"><i></i></div></div>
@@ -798,7 +831,7 @@
         <div class="ring" style="left:28%;top:27%"><b>Protocole</b></div>
       </div>
       <div class="panel4" id="panel4">
-        <div class="pring"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" stroke="#EAE4F7"/><circle id="pr" cx="32" cy="32" r="27" stroke="#7A5CC8" stroke-linecap="round" stroke-dasharray="0 170"/></svg><span id="prt">0%</span></div>
+        <div class="pring"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" stroke="#E2E7F5"/><circle id="pr" cx="32" cy="32" r="27" stroke="#2E3F8A" stroke-linecap="round" stroke-dasharray="0 170"/></svg><span id="prt">0%</span></div>
         <div class="info"><b id="p4t">Séance en cours</b>Protocole adapté à vos besoins
           <div class="zchips"><em>Ventre</em><em>Cuisses</em><em>Bras</em><em>Fessiers</em></div>
         </div>
@@ -827,10 +860,10 @@
     </div>
     <div class="xstage">
       <div class="chart" id="chart">
-        <div class="top"><span>Vos contrôles InBody</span><span class="lg"><span><i style="background:#8FC1A6"></i>Masse musculaire</span><span><i style="background:#E8836B"></i>Masse grasse</span></span></div>
+        <div class="top"><span>Vos contrôles InBody</span><span class="lg"><span><i style="background:#9DB4F2"></i>Masse musculaire</span><span><i style="background:#E8836B"></i>Masse grasse</span></span></div>
         <svg viewBox="0 0 560 230">
           <g stroke="rgba(255,255,255,.07)"><line x1="20" y1="30" x2="540" y2="30"/><line x1="20" y1="90" x2="540" y2="90"/><line x1="20" y1="150" x2="540" y2="150"/><line x1="20" y1="200" x2="540" y2="200"/></g>
-          <path id="lUp" class="ln" stroke="#8FC1A6" d="M40 150 C 120 145, 160 128, 165 125 S 260 100, 290 98 S 390 70, 415 68 S 500 52, 520 48"/>
+          <path id="lUp" class="ln" stroke="#9DB4F2" d="M40 150 C 120 145, 160 128, 165 125 S 260 100, 290 98 S 390 70, 415 68 S 500 52, 520 48"/>
           <path id="lDn" class="ln" stroke="#E8836B" d="M40 60 C 120 66, 160 82, 165 85 S 260 110, 290 112 S 390 136, 415 138 S 500 150, 520 154"/>
           <g id="pts"></g>
           <text class="xl" x="40" y="225" text-anchor="middle">Bilan</text>
@@ -857,7 +890,9 @@
 </section>
 
 <!-- GALLERY -->
-<section class="gallery" id="clinique">
+<section class="gallery deco" id="clinique">
+  <img class="flr tl" src="img/br-fl_tl.webp" alt="" aria-hidden="true">
+  <img class="flr tr" src="img/br-fl_tr.webp" alt="" aria-hidden="true">
   <div class="wrap">
     <div class="rv">
       <h2 class="tt"><i>Un aperçu de</i><b>Anaïs Beauty Clinic</b></h2>
@@ -876,8 +911,13 @@
 <!-- WELCOME -->
 <section class="welcome">
   <div class="wrap">
-    <div class="portrait rv">
-      <div class="mono"><b>Anaïs</b><small>Beauty Clinic</small></div>
+    <div class="portrait cover rv">
+      <img class="fl tl" src="img/br-fl_tl.webp" alt="" aria-hidden="true">
+      <img class="fl tr" src="img/br-fl_tr.webp" alt="" aria-hidden="true">
+      <img class="fl bl" src="img/br-fl_bl.webp" alt="" aria-hidden="true">
+      <img class="c-logo" src="img/br-logo.png" alt="Anaïs">
+      <img class="c-exp" src="img/br-explore.png" alt="Explore Agadir">
+      <img class="c-relax" src="img/br-relax.png" alt="Time to relax">
     </div>
     <div class="txt rv">
       <h2 class="tt left"><i>Bienvenue chez</i><b>Anaïs Beauty Clinic</b></h2>
@@ -955,20 +995,20 @@
         <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet" aria-label="Route du parcours Anaïs">
           <defs>
             <filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity=".18"/></filter>
-            <radialGradient id="glow"><stop offset="0" stop-color="#7E9A88" stop-opacity=".55"/><stop offset="1" stop-color="#7E9A88" stop-opacity="0"/></radialGradient>
+            <radialGradient id="glow"><stop offset="0" stop-color="#3B4FA0" stop-opacity=".55"/><stop offset="1" stop-color="#3B4FA0" stop-opacity="0"/></radialGradient>
           </defs>
           <!-- nuages -->
           <g class="cloud" opacity=".7"><ellipse cx="60" cy="90" rx="46" ry="15" fill="#fff"/><ellipse cx="90" cy="80" rx="30" ry="14" fill="#fff"/></g>
           <g class="cloud" style="animation-duration:38s;animation-delay:-14s" opacity=".55"><ellipse cx="40" cy="150" rx="36" ry="11" fill="#fff"/></g>
           <!-- collines -->
-          <path d="M0 470 C 180 400, 320 440, 470 410 S 780 360, 1000 400 L1000 620 L0 620Z" fill="#DCE5DF" opacity=".55"/>
+          <path d="M0 470 C 180 400, 320 440, 470 410 S 780 360, 1000 400 L1000 620 L0 620Z" fill="#E2E7F5" opacity=".55"/>
           <!-- arbres -->
           <g id="trees"></g>
           <!-- route -->
           <path id="roadShadow" d="" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="70" stroke-linecap="round" transform="translate(0,10)"/>
           <path id="roadEdge" d="" fill="none" stroke="#fff" stroke-width="66" stroke-linecap="round"/>
           <path id="road" d="" fill="none" stroke="#2B2E33" stroke-width="56" stroke-linecap="round"/>
-          <path id="roadProg" d="" fill="none" stroke="#7E9A88" stroke-width="56" stroke-linecap="round" opacity=".35"/>
+          <path id="roadProg" d="" fill="none" stroke="#3B4FA0" stroke-width="56" stroke-linecap="round" opacity=".35"/>
           <path id="roadLine" d="" fill="none" stroke="#fff" stroke-width="3.5" stroke-dasharray="18 16" stroke-linecap="round"/>
           <!-- arrivée -->
           <g id="finish"></g>
@@ -978,7 +1018,7 @@
           <g id="traveler" filter="url(#sh)">
             <circle r="34" fill="url(#glow)"/>
             <circle r="17" fill="#fff"/>
-            <circle r="12" fill="#56705F"/>
+            <circle r="12" fill="#1F2B6E"/>
             <text y="4.5" text-anchor="middle" font-family="Poppins, sans-serif" font-style="italic" font-size="13" fill="#fff">A</text>
           </g>
         </svg>
@@ -1019,7 +1059,9 @@
 </section>
 
 <!-- CONTACT -->
-<section class="contact" id="contact">
+<section class="contact deco" id="contact">
+  <img class="flr bl" src="img/br-fl_bl.webp" alt="" aria-hidden="true">
+  <img class="flr tr" src="img/br-fl_tr.webp" alt="" aria-hidden="true">
   <div class="wrap">
     <h2 class="tt rv"><i>Une question sur</i><b>votre parcours ?</b></h2>
     <p class="rv">Que vous souhaitiez commencer le programme Maigrir en santé ou prendre rendez-vous pour un soin, notre équipe vous répond et vous propose le créneau qui vous convient.</p>
@@ -1068,6 +1110,7 @@
 
 <footer>
   <div class="wrap">
+    <div class="fhead"><img src="img/br-logo.png" alt="Anaïs"><img src="img/br-relax.png" alt="Time to relax"></div>
     <div class="fbox">
       <div><h4>Programme</h4><ul>
         <li><a href="#programme">Maigrir en santé</a></li>
@@ -1394,13 +1437,13 @@
     [[120,420,1],[430,500,.8],[520,230,.9],[900,330,1.1],[170,220,.7],[620,540,.9],[960,520,.8],[400,180,.6],[960,200,.7]].forEach(([x,y,k])=>{
       const g=document.createElementNS(NS,'g'); g.setAttribute('class','tree');
       g.style.animationDelay=(-x/90)+'s';
-      g.innerHTML=`<rect x="${x-2.5*k}" y="${y-6*k}" width="${5*k}" height="${16*k}" fill="#8b7d6b"/><circle cx="${x}" cy="${y-22*k}" r="${20*k}" fill="#7E9A88"/><circle cx="${x-10*k}" cy="${y-14*k}" r="${13*k}" fill="#6D8A77"/>`;
+      g.innerHTML=`<rect x="${x-2.5*k}" y="${y-6*k}" width="${5*k}" height="${16*k}" fill="#8b7d6b"/><circle cx="${x}" cy="${y-22*k}" r="${20*k}" fill="#3B4FA0"/><circle cx="${x-10*k}" cy="${y-14*k}" r="${13*k}" fill="#2E3F8A"/>`;
       trees.appendChild(g);
     });
 
     // drapeau d'arrivée
     const e=pt(END);
-    document.getElementById('finish').innerHTML=`<g transform="translate(${e.x+6},${e.y-70})"><rect x="0" y="0" width="3" height="74" fill="#1B1D21"/><path d="M3 2 h62 l-12 14 l12 14 h-62z" fill="#56705F"/><text x="31" y="21" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" letter-spacing="1.5" fill="#fff">ANAÏS</text></g>`;
+    document.getElementById('finish').innerHTML=`<g transform="translate(${e.x+6},${e.y-70})"><rect x="0" y="0" width="3" height="74" fill="#1B1D21"/><path d="M3 2 h62 l-12 14 l12 14 h-62z" fill="#1F2B6E"/><text x="31" y="21" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" letter-spacing="1.5" fill="#fff">ANAÏS</text></g>`;
 
     // arrêts
     const pins=document.getElementById('pins');
@@ -1492,7 +1535,7 @@
       const p=pt(i<0?END:STOPS[i]); const r=svg.getBoundingClientRect(), br=board.getBoundingClientRect();
       const sc=r.width/1000, ox=r.left-br.left+(r.width-1000*Math.min(sc,r.height/620))/2;
       const s2=Math.min(sc,r.height/620), oy=r.top-br.top+(r.height-620*s2)/2;
-      const cols=['#7E9A88','#56705F','#DCE5DF','#C8553D','#1B1D21'];
+      const cols=['#3B4FA0','#1F2B6E','#E2E7F5','#C8553D','#1B1D21'];
       for(let k=0;k<n;k++){
         const d=document.createElement('i'); d.className='spark';
         d.style.left=(ox+p.x*s2)+'px'; d.style.top=(oy+(p.y-40)*s2)+'px';
@@ -1547,7 +1590,7 @@
   sgrid.innerHTML=SOINS.map(s=>`
     <button class="soin rv" data-soin="${s.n}">
       <div class="tile">
-        <div class="disc"><b>Anaïs</b><small>Beauty Clinic</small></div>
+        <div class="disc"><img src="img/br-logo_white.png" alt="Anaïs"><small>Beauty Clinic</small></div>
         <div class="hov">Prendre rendez-vous →</div>
       </div>
       <h3>${s.n}</h3>
