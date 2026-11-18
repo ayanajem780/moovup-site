@@ -95,7 +95,7 @@
   .hcall b{font-weight:500;font-size:14px}
   .hcall small{font-size:12px;color:var(--muted)}
   .hlang{cursor:default}
-  section,header.hero,header.hero2{scroll-margin-top:var(--hh)}
+  section,header.hero,header.hero2,header.hero3{scroll-margin-top:var(--hh)}
   @media (max-width:1280px){
     .hbadge{display:none}
     .hnav{gap:22px;font-size:14px}
@@ -464,6 +464,72 @@
     .h2-explore,.h2-card{display:none}
   }
   @media (prefers-reduced-motion:reduce){.h2-word span,.h2-person,.h2-left,.h2-card{opacity:1;animation:none;transform:none}.h2-person{transform:translateX(-50%)}}
+
+
+  /* ---------- NOUVEL EN-TÊTE (transparent sur la photo) ---------- */
+  :root{--hh:78px}
+  .site-head.nh{position:fixed;top:0;left:0;right:0;height:var(--hh);display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:transparent;border:0;box-shadow:none;transition:background .4s, box-shadow .4s, backdrop-filter .4s;z-index:60}
+  .site-head.nh.scrolled, body:has(.stepview.open) .site-head.nh{background:rgba(47,74,62,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 30px -20px rgba(0,0,0,.5)}
+  .nh-logo{display:flex;align-items:baseline;gap:10px;color:#fff}
+  .nh-logo img{height:38px;width:auto}
+  .nh-logo span{font-family:'Belleza',sans-serif;font-size:14px;letter-spacing:.06em;opacity:.85}
+  .nh-pill{display:flex;align-items:center;gap:4px;padding:5px 5px 5px 16px;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#fff}
+  .nh-pill .hnav{display:flex;gap:2px;align-items:center;font-size:14px}
+  .nh-link{color:#fff;background:none;border:0;font-family:var(--sans);font-size:14px;padding:9px 13px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .3s}
+  .nh-link:hover,.nh-link.cur{background:rgba(255,255,255,.14)}
+  .nh-pill .hnav a::after{display:none}
+  .nh-pill .hnav .nh-link{padding:9px 13px}
+  .nh-logo{align-items:center}
+  .nh-pill .chev{font-size:13px;line-height:0;margin-top:-4px}
+  .nh-pill .hdrop-menu{top:46px;left:0;right:auto;color:var(--ink)}
+  .nh-sep{width:1px;height:22px;background:rgba(255,255,255,.25);margin:0 8px}
+  .nh-ic{width:38px;height:38px;display:grid;place-items:center;border-radius:8px;color:#fff;background:none;border:0;cursor:pointer;transition:background .3s}
+  .nh-ic:hover{background:rgba(255,255,255,.14)}
+  .nh-ic svg,.nh-tel svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6}
+  .nh-tel{display:flex;align-items:center;gap:8px;color:#fff;font-size:14px;padding:0 14px 0 8px;white-space:nowrap}
+  .nh-book{background:var(--sage);color:#fff;font-weight:500;font-size:15px;padding:12px 22px;border-radius:9px;transition:background .3s;white-space:nowrap}
+  .nh-book:hover{background:#86AE9C}
+  .nh-search{position:relative;max-width:none;margin:0;flex:none}
+  .nh-qbox{position:absolute;right:0;top:50px;width:320px;display:none}
+  .nh-qbox.open{display:block}
+  .nh-qbox input{height:48px;border-radius:12px;padding:0 18px}
+  .nh-qbox .hres{top:54px}
+  .nh-qbox .hres a,.nh-qbox input,.nh-pill .hdrop-menu a{color:var(--ink)}
+  .nh-mob{display:none;align-items:center;gap:10px}
+  .nh-burger{width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer}
+  .nh-burger i{display:block;width:20px;height:1.6px;background:#fff}
+  @media (max-width:1180px){ .nh-tel{display:none} }
+  @media (max-width:960px){ .nh-pill{display:none} .nh-mob{display:flex} .nh-book{padding:10px 16px;font-size:14px} :root{--hh:68px} .nh-logo img{height:32px} .nh-logo span{display:none} }
+  .sidebtns{display:none!important}
+
+  /* ---------- HERO plein écran (photo) ---------- */
+  .hero3{position:relative;height:100svh;min-height:640px;overflow:hidden;background:#4F7565;color:#fff}
+  .h3-photo{position:absolute;top:0;bottom:0;right:0;width:62%}
+  .h3-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;transform:scale(1.06);animation:h3zoom 14s ease-out forwards}
+  @keyframes h3zoom{to{transform:scale(1)}}
+  .h3-shade{position:absolute;inset:0;background:linear-gradient(90deg,#4F7565 0%,#4F7565 34%,rgba(79,117,101,.82) 46%,rgba(79,117,101,.25) 66%,rgba(79,117,101,.08) 100%),linear-gradient(0deg,rgba(47,74,62,.45),rgba(47,74,62,0) 40%),linear-gradient(180deg,rgba(47,74,62,.55),rgba(47,74,62,0) 22%)}
+  .h3-fl{position:absolute;left:-40px;bottom:-30px;width:min(420px,36vw);opacity:.14;pointer-events:none}
+  .h3-in{position:absolute;left:clamp(22px,3vw,48px);bottom:clamp(56px,11vh,120px);max-width:min(720px,58vw);z-index:2}
+  .h3-title{font-family:'Belleza',sans-serif;font-weight:400;font-size:clamp(42px,5.4vw,84px);line-height:1.02;letter-spacing:-.005em;margin:0 0 22px;color:#fff}
+  .h3-title span{display:inline;opacity:0;animation:h3up 1s cubic-bezier(.2,.8,.2,1) forwards}
+  .h3-title span:nth-child(2){animation-delay:.12s}.h3-title span:nth-child(3){animation-delay:.24s}
+  @keyframes h3up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .h3-sub{font-size:clamp(15px,1.15vw,17px);line-height:1.55;max-width:60ch;color:rgba(255,255,255,.92);margin-bottom:18px;opacity:0;animation:h3up .9s ease .45s forwards}
+  .h3-chip{display:inline-flex;align-items:center;gap:12px;padding:9px 14px;border-radius:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);font-size:14.5px;margin-bottom:28px;opacity:0;animation:h3up .9s ease .6s forwards}
+  .h3-chip i{width:1px;height:16px;background:rgba(255,255,255,.5)}
+  .h3-btn{display:inline-flex;align-items:center;gap:14px;background:var(--sage);color:#fff;padding:15px 24px;border-radius:9px;font-size:15.5px;font-weight:500;box-shadow:0 14px 30px -14px rgba(0,0,0,.45);transition:background .3s, transform .3s;opacity:0;animation:h3up .9s ease .75s forwards}
+  .h3-btn:hover{background:#86AE9C;transform:translateY(-2px)}
+  .h3-btn b{font-weight:400;transition:transform .3s}.h3-btn:hover b{transform:translateX(4px)}
+  .h3-down{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);color:#fff;font-size:22px;opacity:.8;animation:bob 2.4s ease-in-out infinite;z-index:2}
+  @media (max-width:860px){
+    .h3-photo{width:100%;height:58%;bottom:auto}
+    .h3-shade{background:linear-gradient(180deg,rgba(47,74,62,.55) 0%,rgba(79,117,101,0) 22%,rgba(79,117,101,.2) 40%,#4F7565 58%,#4F7565 100%)}
+    .h3-in{left:20px;right:20px;bottom:42px;max-width:none}
+    .h3-title{font-size:38px}
+    .h3-chip{font-size:12.5px;gap:8px}
+    .h3-chip span:last-child,.h3-chip i{display:none}
+    .h3-down{display:none}
+  }
 
   /* ---------- IDENTITÉ OFFICIELLE (anaisbeautyclinic.com) ---------- */
   h1,h2,h3,.tt i,.tt b,.cf-info h3,.card-b h3,.min h3,.menu a,.xs h2 b,.xs h2 i,.scan h2 b,.scan h2 i{font-family:'Belleza','DM Sans',sans-serif}
@@ -852,55 +918,35 @@
 <body>
 
 <!-- EN-TÊTE -->
-<header class="site-head" id="sitehead">
-  <div class="hrow1">
-    <div class="hflowers" aria-hidden="true"><img class="hf a" src="img/br-fl_tl.webp" alt=""><img class="hf b" src="img/br-fl_bl.webp" alt=""><img class="hf c" src="img/br-fl_tr.webp" alt=""><img class="hf d" src="img/br-fl_tl.webp" alt=""></div>
-    <button class="hburger" id="openMenu" aria-label="Menu"><i></i><i></i><i></i></button>
-    <a href="#accueil" class="hlogo">
-      <span class="hl-top">COMPLEXE MOOV'UP SPORTS</span>
-      <img class="hl-main" src="img/br-logo.png" alt="Anaïs">
-      <span class="hl-sub">Beauty Clinic · Explore Agadir</span>
-    </a>
-    <div class="hbadge" aria-hidden="true">
-      <svg viewBox="0 0 100 100"><defs><path id="bc" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs>
-        <text font-family="DM Sans" font-size="9.5" font-weight="600" letter-spacing="2.4" fill="#4F7565"><textPath href="#bc" startOffset="2%">MAIGRIR EN SANTÉ ·</textPath></text>
-        <circle cx="50" cy="50" r="27" fill="#729B89"/>
-        <text x="50" y="49" text-anchor="middle" font-family="DM Sans" font-weight="600" font-size="15" fill="#fff">5</text>
-        <text x="50" y="62" text-anchor="middle" font-family="DM Sans" font-weight="500" font-size="8.5" fill="#fff">étapes</text>
-      </svg>
-    </div>
-    <div class="hsearch">
-      <input id="q" type="search" placeholder="Soin, étape, programme…" autocomplete="off" aria-label="Rechercher">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-      <div class="hres" id="qres"></div>
-    </div>
-    <div class="hacts">
-      <a href="#acces" class="hb hb-dark"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>Accès et contact</a>
-      <a href="#contact" class="hb hb-light">Réserver en ligne</a>
+<header class="site-head nh" id="sitehead">
+  <a href="#accueil" class="nh-logo"><img src="img/br-logo_white.png" alt="Anaïs"><span>Beauty Clinic</span></a>
+  <div class="nh-pill">
+    <nav class="hnav">
       <div class="hdrop">
-        <button class="hb hb-out" id="dropBtn">Mini-tests <span class="chev">⌄</span></button>
+        <button class="nh-link" id="dropBtn">Soins <span class="chev">⌄</span></button>
         <div class="hdrop-menu" id="dropMenu">
+          <a href="#parcours">Programme Maigrir en santé</a>
+          <a href="#scanner">Bilan &amp; scanner InBody</a>
+          <a href="#soins">Soins avec le médecin</a>
           <a href="#trajet">Le jeu du trajet</a>
-          <a href="#contact" data-pre="Bilan corporel InBody">Réserver mon bilan InBody</a>
         </div>
       </div>
-    </div>
-    <a href="#contact" class="hb hb-dark hmob">Réserver</a>
-  </div>
-  <div class="hrow2">
-    <nav class="hnav">
-      <a href="#parcours">Le parcours</a>
-      <a href="#trajet">Le jeu du trajet</a>
-      <a href="#soins">Soins médicaux</a>
-      <a href="#scanner">Le scanner InBody</a>
-      <a href="#contact">Contact</a>
-      <a href="#acces">Nous trouver</a>
+      <a href="#parcours" class="nh-link">Parcours</a>
+      <a href="#contact" class="nh-link">Contact</a>
+      <a href="#acces" class="nh-link">Nous trouver</a>
     </nav>
-    <div class="hacts2">
-      <a href="#contact" class="hb hb-out hcall"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span><b>Rendez-vous</b><small>par WhatsApp</small></span></a>
-      <a href="https://www.instagram.com/anaisbeautyclinic/" target="_blank" rel="noopener" class="hb hb-dark">@anaisclinic</a>
-      <span class="hb hb-out hlang">🇫🇷 FR</span>
+    <span class="nh-sep"></span>
+    <div class="hsearch nh-search">
+      <button class="nh-ic" id="qBtn" aria-label="Rechercher"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+      <div class="nh-qbox" id="qBox"><input id="q" type="search" placeholder="Soin, étape, programme…" autocomplete="off" aria-label="Rechercher"><div class="hres" id="qres"></div></div>
     </div>
+    <a href="https://www.instagram.com/anaisbeautyclinic/" target="_blank" rel="noopener" class="nh-ic" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor"/></svg></a>
+    <a href="tel:+212525236754" class="nh-tel"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>05 25 23 67 54</a>
+    <a href="#contact" class="nh-book">Réserver</a>
+  </div>
+  <div class="nh-mob">
+    <a href="#contact" class="nh-book">Réserver</a>
+    <button class="nh-burger" id="openMenu" aria-label="Menu"><i></i><i></i></button>
   </div>
 </header>
 
@@ -925,26 +971,17 @@
 </nav>
 
 <!-- HERO -->
-<header class="hero2" id="accueil">
-  <div class="h2-frame">
-    <div class="h2-rays" aria-hidden="true"></div>
-    <h1 class="h2-word" aria-label="Anaïs Beauty Clinic"><span>A</span><span>N</span><span>A</span><span>Ï</span><span>S</span></h1>
-    <span class="h2-star" aria-hidden="true">✦</span>
-    <div class="h2-person"><img src="img/hero-duo.jpg" alt="Deux clientes Anaïs Beauty Clinic en tenue de sport"></div>
-    <div class="h2-fade" aria-hidden="true"></div>
-    <div class="h2-left">
-      <h2 class="h2-slogan"><span>Lose Weight.</span><span>Gain Control.</span></h2>
-      <p>Feel Like Yourself Again<br>With <b>Anaïs Clinic</b>.</p>
-      <a href="#contact" class="h2-btn" data-pre="Bilan corporel InBody">Réserver mon bilan</a>
-    </div>
-    <a href="#parcours" class="h2-explore">Découvrir le parcours<span>⌄</span></a>
-    <a href="#scanner" class="h2-card">
-      <div class="h2-card-img"><img src="img/bilan-inbody.jpg" alt=""></div>
-      <b>Bilan InBody.</b>
-      <small>Votre point de départ, en quelques minutes.</small>
-      <em>Étape 01 →</em>
-    </a>
+<header class="hero3" id="accueil">
+  <div class="h3-photo"><img src="img/hero-duo.jpg" alt="Deux clientes Anaïs Beauty Clinic en tenue de sport"></div>
+  <div class="h3-shade" aria-hidden="true"></div>
+  <img class="h3-fl" src="img/br-fl_bl-w.webp" alt="" aria-hidden="true">
+  <div class="h3-in">
+    <h1 class="h3-title"><span>Lose Weight. Gain</span> <span>Control. Feel Like</span> <span>Yourself Again.</span></h1>
+    <p class="h3-sub">Le programme « Maigrir en santé » d'Anaïs Clinic associe bilan InBody, nutrition, coaching privé et technologies d'amincissement — guidé par des professionnels qui adaptent chaque étape à vous.</p>
+    <div class="h3-chip"><span>Programme personnalisé</span><i></i><span>Sur place à Agadir · Complexe Moov'Up</span></div>
+    <a href="#contact" class="h3-btn" data-pre="Bilan corporel InBody">Réserver une consultation <b>→</b></a>
   </div>
+  <a href="#parcours" class="h3-down" aria-label="Découvrir le parcours">⌄</a>
 </header>
 
 <!-- STEPS (éditorial) -->
@@ -1420,6 +1457,10 @@
     ['Notre médecin','Médecine esthétique','#soins'],['Nutritionniste','Étape 2','#parcours'],['Prendre rendez-vous','Contact','#contact'],['Adresse','Carte','#acces'],['Itinéraire','Carte','#acces'],['Horaires','Accès','#acces'],['WhatsApp','Contact','#contact'],['Nutrition','Étape 2','#etape-2'],['Coaching','Étape 3','#etape-3'],['Machines','Étape 4','#etape-4'],['Suivi InBody','Étape 5','#etape-5'],['Scanner InBody','Démonstration','#scanner'],['Analyse corporelle','Démonstration','#scanner']
   ];
   const q=document.getElementById('q'), qres=document.getElementById('qres');
+  const qBox=document.getElementById('qBox');
+  document.getElementById('qBtn').onclick=e=>{e.stopPropagation(); qBox.classList.toggle('open'); if(qBox.classList.contains('open')) q.focus();};
+  qBox.addEventListener('click',e=>e.stopPropagation());
+  document.addEventListener('click',()=>qBox.classList.remove('open'));
   const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
   q.addEventListener('input',()=>{
     const v=norm(q.value.trim());
@@ -1429,7 +1470,7 @@
     qres.classList.add('open');
   });
   q.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const f=qres.querySelector('a'); if(f){ f.click(); } } });
-  qres.addEventListener('click',e=>{ if(e.target.closest('a')){ qres.classList.remove('open'); q.value=''; } });
+  qres.addEventListener('click',e=>{ if(e.target.closest('a')){ qres.classList.remove('open'); qBox.classList.remove('open'); q.value=''; } });
   document.addEventListener('click',e=>{ if(!e.target.closest('.hsearch')) qres.classList.remove('open'); });
 
   // menu overlay
@@ -1479,7 +1520,7 @@
   });
 
   // pré-remplir le formulaire depuis les boutons d'étape
-  document.querySelectorAll('.xbtn[data-pre],.h2-btn[data-pre]').forEach(a=>a.addEventListener('click',()=>{document.getElementById('objectif').value=a.dataset.pre;}));
+  document.querySelectorAll('.xbtn[data-pre],.h2-btn[data-pre],.h3-btn[data-pre]').forEach(a=>a.addEventListener('click',()=>{document.getElementById('objectif').value=a.dataset.pre;}));
 
   const whenVisible=(el,fn)=>{let v=false; new IntersectionObserver(es=>es.forEach(e=>v=e.isIntersecting),{threshold:.25}).observe(el); return ()=>v;};
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
