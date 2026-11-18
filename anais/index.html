@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anaïs Clinic — Maigrir en santé</title>
+<meta name="description" content="Anaïs Clinic : un programme global pour maigrir en santé — bilan InBody, nutrition, coaching sportif privé et technologies d'amincissement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F2EB;
+    --sand:#EDE3D6;
+    --linen:#FBF8F4;
+    --taupe:#8B7866;
+    --espresso:#2A221D;
+    --ink:#3D332C;
+    --gold:#B48E57;
+    --gold-soft:#D9C3A0;
+    --line:rgba(42,34,29,.12);
+    --serif:'Cormorant Garamond', Georgia, serif;
+    --sans:'Jost', system-ui, sans-serif;
+    --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{overflow-x:clip}
+  body{font-family:var(--sans);font-weight:300;color:var(--ink);background:var(--cream);line-height:1.7;font-size:17px;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:min(1180px,92vw);margin:0 auto}
+  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:500}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--espresso);line-height:1.08}
+  em{font-style:italic;color:var(--gold)}
+
+  /* ---------- NAV ---------- */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s, box-shadow .4s, padding .4s;padding:22px 0}
+  header.scrolled{background:rgba(247,242,235,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding:14px 0}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .logo{display:flex;flex-direction:column;line-height:1}
+  .logo b{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:.04em;color:var(--espresso)}
+  .logo span{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--taupe);margin-top:4px}
+  .nav ul{display:flex;gap:34px;list-style:none;font-size:14px;letter-spacing:.06em}
+  .nav ul a{position:relative;padding:4px 0}
+  .nav ul a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+  .nav ul a:hover::after{width:100%}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-size:14px;letter-spacing:.08em;font-weight:400;transition:all .3s;cursor:pointer;border:1px solid transparent;font-family:var(--sans)}
+  .btn-dark{background:var(--espresso);color:var(--cream)}
+  .btn-dark:hover{background:var(--gold)}
+  .btn-ghost{border-color:var(--espresso);color:var(--espresso)}
+  .btn-ghost:hover{background:var(--espresso);color:var(--cream)}
+  .btn .arr{transition:transform .3s}
+  .btn:hover .arr{transform:translateX(4px)}
+  .burger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer}
+  .burger i{display:block;width:24px;height:1px;background:var(--espresso);margin:6px auto;transition:.3s}
+
+  /* ---------- HERO ---------- */
+  .hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:6vw;padding:130px 0 80px}
+  .hero h1{font-size:clamp(54px,7.4vw,108px);font-weight:400;letter-spacing:-.01em;margin:22px 0 26px}
+  .hero h1 em{display:block}
+  .hero p.lead{font-family:var(--serif);font-size:clamp(21px,2vw,26px);font-style:italic;color:var(--taupe);max-width:30ch;margin-bottom:38px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .hero-visual{position:relative}
+  .arch{border-radius:999px 999px var(--radius) var(--radius);overflow:hidden;aspect-ratio:4/5;box-shadow:0 40px 80px -30px rgba(42,34,29,.35)}
+  .arch img{width:100%;height:100%;object-fit:cover;object-position:62% center;transform:scale(1.08);animation:zoom 14s ease-out forwards}
+  @keyframes zoom{to{transform:scale(1)}}
+  .badge{position:absolute;left:-34px;bottom:56px;background:var(--linen);border-radius:18px;padding:18px 22px;box-shadow:0 20px 50px -20px rgba(42,34,29,.3);display:flex;align-items:center;gap:14px}
+  .badge .dot{width:46px;height:46px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-family:var(--serif);font-size:22px;color:var(--gold)}
+  .badge small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe)}
+  .badge strong{font-family:var(--serif);font-weight:500;font-size:20px;color:var(--espresso)}
+  .ring{position:absolute;right:-28px;top:40px;width:120px;height:120px;animation:spin 22s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto{padding:120px 0;background:var(--linen);text-align:center}
+  .manifesto h2{font-size:clamp(34px,4.4vw,58px);font-weight:400;max-width:20ch;margin:20px auto 30px}
+  .manifesto p{max-width:60ch;margin:0 auto;color:var(--taupe);font-size:18px}
+
+  /* ---------- PILLARS ---------- */
+  .pillars{padding:120px 0}
+  .sec-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:60px;flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(36px,4.2vw,56px);font-weight:400;max-width:16ch;margin-top:14px}
+  .sec-head p{max-width:42ch;color:var(--taupe)}
+  .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .pillar{background:var(--linen);border:1px solid var(--line);border-radius:var(--radius);padding:34px 26px 30px;transition:transform .4s, box-shadow .4s, background .4s;min-height:260px;display:flex;flex-direction:column}
+  .pillar:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(42,34,29,.3);background:#fff}
+  .pillar .ico{width:54px;height:54px;border-radius:50%;background:var(--sand);display:grid;place-items:center;margin-bottom:auto}
+  .pillar .ico svg{width:24px;height:24px;stroke:var(--gold);fill:none;stroke-width:1.4}
+  .pillar .n{font-family:var(--serif);font-size:15px;color:var(--gold);margin:30px 0 6px}
+  .pillar h3{font-size:24px;line-height:1.15}
+
+  /* ---------- OBJECTIVE ---------- */
+  .objective{background:var(--espresso);color:var(--cream);padding:110px 0;overflow:hidden;position:relative}
+  .objective .eyebrow{color:var(--gold-soft)}
+  .obj-lines{margin-top:28px}
+  .obj-lines div{font-family:var(--serif);font-size:clamp(38px,5.6vw,80px);line-height:1.12;font-weight:400;color:var(--cream);opacity:.25;transition:opacity .8s, transform .8s;transform:translateX(-20px)}
+  .obj-lines div.on{opacity:1;transform:none}
+  .obj-lines div em{color:var(--gold-soft)}
+
+  /* ---------- PROTOCOL ---------- */
+  .protocol{padding:130px 0 60px}
+  .steps{margin-top:30px;position:relative}
+  .step{display:grid;grid-template-columns:1fr 1fr;gap:7vw;align-items:center;padding:70px 0;border-top:1px solid var(--line)}
+  .step:nth-child(even) .step-img{order:2}
+  .step-img{border-radius:var(--radius);overflow:hidden;aspect-ratio:5/4;background:var(--sand)}
+  .step-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s ease}
+  .step:hover .step-img img{transform:scale(1.04)}
+  .step-num{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .step-num b{font-family:var(--serif);font-weight:400;font-size:64px;line-height:1;color:var(--gold)}
+  .step-num span{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--taupe)}
+  .step h3{font-size:clamp(30px,3.2vw,44px);font-weight:400;margin-bottom:26px}
+  .step ul{list-style:none}
+  .step li{padding:13px 0 13px 34px;border-bottom:1px solid var(--line);position:relative;font-size:16.5px}
+  .step li::before{content:"";position:absolute;left:4px;top:24px;width:14px;height:1px;background:var(--gold)}
+
+  /* progress rail */
+  .rail{position:fixed;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:40;opacity:0;pointer-events:none;transition:opacity .4s}
+  .rail.show{opacity:1;pointer-events:auto}
+  .rail a{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;color:var(--taupe);background:var(--cream);transition:.3s}
+  .rail a.active{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
+
+  /* ---------- BOOKING ---------- */
+  .booking{padding:120px 0 130px}
+  .book-card{display:grid;grid-template-columns:1fr 1.1fr;border-radius:32px;overflow:hidden;background:var(--linen);border:1px solid var(--line)}
+  .book-left{background:var(--sand);padding:64px 56px;display:flex;flex-direction:column;justify-content:space-between;gap:40px}
+  .book-left h2{font-size:clamp(36px,4vw,54px);font-weight:400;margin:16px 0 20px}
+  .book-left p{color:var(--taupe)}
+  .incl{list-style:none;display:grid;gap:10px;font-size:15px}
+  .incl li{display:flex;gap:12px;align-items:center}
+  .incl li::before{content:"✦";color:var(--gold);font-size:12px}
+  form{padding:64px 56px;display:grid;gap:20px}
+  .field{display:grid;gap:8px}
+  .field label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe)}
+  .field input,.field select,.field textarea{font-family:var(--sans);font-size:16px;font-weight:300;color:var(--espresso);background:transparent;border:0;border-bottom:1px solid rgba(42,34,29,.25);padding:10px 0;outline:none;transition:border-color .3s;border-radius:0;-webkit-appearance:none;appearance:none}
+  .field select{background-image:linear-gradient(45deg,transparent 50%,var(--taupe) 50%),linear-gradient(135deg,var(--taupe) 50%,transparent 50%);background-position:calc(100% - 12px) 20px,calc(100% - 7px) 20px;background-size:5px 5px;background-repeat:no-repeat}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+  .field textarea{resize:vertical;min-height:70px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .form-note{font-size:13px;color:var(--taupe)}
+  .msg{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;font-size:15px}
+  .msg.show{display:block}
+  .msg pre{white-space:pre-wrap;font-family:var(--sans);font-size:14px;color:var(--ink);margin:10px 0 14px;background:var(--cream);padding:14px;border-radius:10px}
+  .msg .acts{display:flex;gap:10px;flex-wrap:wrap}
+  .msg .btn{padding:11px 20px;font-size:13px}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--espresso);color:rgba(247,242,235,.7);padding:70px 0 34px;font-size:14px}
+  .foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:50px;border-bottom:1px solid rgba(247,242,235,.12)}
+  footer .logo b{color:var(--cream)}
+  footer .logo span{color:var(--gold-soft)}
+  footer h4{font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:16px}
+  footer ul{list-style:none;display:grid;gap:8px}
+  footer a:hover{color:var(--cream)}
+  .copy{display:flex;justify-content:space-between;gap:20px;padding-top:28px;font-size:12px;letter-spacing:.06em;flex-wrap:wrap}
+
+  /* ---------- REVEAL ---------- */
+  .rv{opacity:0;transform:translateY(30px);transition:opacity 1s ease, transform 1s ease}
+  .rv.in{opacity:1;transform:none}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1080px){
+    .grid5{grid-template-columns:repeat(3,1fr)}
+    .rail{display:none}
+  }
+  @media (max-width:860px){
+    body{font-size:16px}
+    .nav ul,.nav .btn{display:none}
+    .burger{display:block}
+    header.open{background:var(--cream)}
+    header.open .nav ul{display:flex;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--cream);padding:10px 4vw 24px;border-bottom:1px solid var(--line)}
+    header.open .nav ul li a{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
+    header.open .burger i:first-child{transform:translateY(3.5px) rotate(45deg)}
+    header.open .burger i:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+    .hero{grid-template-columns:1fr;padding-top:120px;gap:50px}
+    .hero-visual{max-width:440px;margin:0 auto;width:100%}
+    .badge{left:-8px}
+    .ring{right:-6px;width:90px;height:90px}
+    .grid5{grid-template-columns:1fr 1fr}
+    .step{grid-template-columns:1fr;gap:34px;padding:56px 0}
+    .step:nth-child(even) .step-img{order:0}
+    .book-card{grid-template-columns:1fr}
+    .book-left,form{padding:44px 28px}
+    .foot{grid-template-columns:1fr}
+  }
+  @media (max-width:520px){
+    .grid5{grid-template-columns:1fr}
+    .pillar{min-height:auto}
+    .row2{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#accueil" class="logo"><b>Anaïs Clinic</b><span>Maigrir en santé</span></a>
+    <ul>
+      <li><a href="#approche">Notre approche</a></li>
+      <li><a href="#programme">Le programme</a></li>
+      <li><a href="#protocole">Le protocole</a></li>
+      <li><a href="#bilan">Bilan</a></li>
+    </ul>
+    <a href="#bilan" class="btn btn-dark">Réserver mon bilan <span class="arr">→</span></a>
+    <button class="burger" aria-label="Menu" id="burger"><i></i><i></i></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="wrap hero" id="accueil">
+  <div class="rv">
+    <div class="eyebrow">Programme minceur · Anaïs Clinic</div>
+    <h1>Maigrir <em>en santé.</em></h1>
+    <p class="lead">Votre corps mérite mieux qu'un simple régime.</p>
+    <div class="hero-cta">
+      <a href="#bilan" class="btn btn-dark">Réserver mon bilan corporel <span class="arr">→</span></a>
+      <a href="#protocole" class="btn btn-ghost">Découvrir le protocole</a>
+    </div>
+  </div>
+  <div class="hero-visual rv">
+    <div class="arch"><img src="img/technologies.jpg" alt="Séance d'amincissement à Anaïs Clinic"></div>
+    <div class="badge">
+      <div class="dot">5</div>
+      <div><small>Un parcours en</small><strong>5 étapes encadrées</strong></div>
+    </div>
+    <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+      <defs><path id="c" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+      <circle cx="60" cy="60" r="58" fill="#FBF8F4"/>
+      <text font-family="Jost" font-size="9.6" letter-spacing="3.2" fill="#8B7866"><textPath href="#c">NUTRITION · COACHING · TECHNOLOGIES · SUIVI ·</textPath></text>
+      <text x="60" y="68" text-anchor="middle" font-family="Cormorant Garamond" font-size="24" fill="#B48E57">A</text>
+    </svg>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="approche">
+  <div class="wrap rv">
+    <div class="eyebrow">Notre conviction</div>
+    <h2>Perdre du poids, <em>sans privation</em> ni solutions extrêmes.</h2>
+    <p>Chez Anaïs Clinic, nous croyons que perdre du poids ne doit pas être synonyme de privation, de frustration ou de solutions extrêmes. C'est pourquoi nous avons conçu un programme global, pensé autour de vous.</p>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars wrap" id="programme">
+  <div class="sec-head rv">
+    <div>
+      <div class="eyebrow">Un programme global</div>
+      <h2>Cinq expertises réunies en un seul parcours</h2>
+    </div>
+    <p>Chaque dimension compte. Notre programme associe le savoir-faire de plusieurs spécialistes pour une transformation durable et encadrée.</p>
+  </div>
+  <div class="grid5">
+    <div class="pillar rv">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21c-4-2-7-6-7-11a7 7 0 0 1 14 0c0 5-3 9-7 11z"/><path d="M12 8v6M9 11h6"/></svg></div>
+      <div class="n">01</div><h3>L'expertise nutritionnelle</h3>
+    </div>
+    <div class="pillar rv">
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 15l3-3 2 2 3-4"/></svg></div>
+      <div class="n">02</div><h3>L'analyse de la composition corporelle</h3>
+    </div>
+    <div class="pillar rv">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h3M18 12h3M6 8v8M18 8v8M9 10v4M15 10v4M9 12h6"/></svg></div>
+      <div class="n">03</div><h3>Le coaching sportif privé</h3>
+    </div>
+    <div class="pillar rv">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></div>
+      <div class="n">04</div><h3>Les technologies d'amincissement</h3>
+    </div>
+    <div class="pillar rv">
+      <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/></svg></div>
+      <div class="n">05</div><h3>Un accompagnement personnalisé</h3>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIVE -->
+<section class="objective">
+  <div class="wrap">
+    <div class="eyebrow">Notre objectif</div>
+    <div class="obj-lines" id="obj">
+      <div>Un accompagnement <em>complet.</em></div>
+      <div>Un programme <em>personnalisé.</em></div>
+      <div>Une transformation <em>encadrée.</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROTOCOL -->
+<section class="protocol wrap" id="protocole">
+  <div class="sec-head rv">
+    <div>
+      <div class="eyebrow">Le protocole de prise en charge</div>
+      <h2>Votre parcours, étape par étape</h2>
+    </div>
+    <p>Du premier bilan au maintien des résultats, chaque étape est planifiée, mesurée et ajustée selon votre évolution.</p>
+  </div>
+
+  <div class="steps">
+    <article class="step" id="etape-1">
+      <div class="step-img rv"><img src="img/bilan-inbody.jpg" alt="Analyse de la composition corporelle InBody" loading="lazy"></div>
+      <div class="rv">
+        <div class="step-num"><b>01</b><span>Étape</span></div>
+        <h3>Bilan corporel &amp; diagnostic initial</h3>
+        <ul>
+          <li>Accueil et entretien individuel.</li>
+          <li>Analyse de la composition corporelle avec InBody.</li>
+          <li>Évaluation de la masse grasse, de la masse musculaire et des autres indicateurs disponibles.</li>
+          <li>Définition de vos objectifs personnalisés.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="step" id="etape-2">
+      <div class="step-img rv"><img src="img/nutrition.jpg" alt="Consultation avec la nutritionniste" loading="lazy"></div>
+      <div class="rv">
+        <div class="step-num"><b>02</b><span>Étape</span></div>
+        <h3>Programme nutritionnel personnalisé</h3>
+        <ul>
+          <li>Consultation avec la nutritionniste.</li>
+          <li>Étude de vos habitudes alimentaires.</li>
+          <li>Élaboration d'un programme alimentaire adapté.</li>
+          <li>Conseils pratiques et suivi nutritionnel.</li>
+          <li>Ajustements selon votre évolution.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="step" id="etape-3">
+      <div class="step-img rv"><img src="img/coaching.jpg" alt="Séance de coaching sportif privé" loading="lazy"></div>
+      <div class="rv">
+        <div class="step-num"><b>03</b><span>Étape</span></div>
+        <h3>Coaching sportif privé</h3>
+        <ul>
+          <li>Séances individuelles encadrées.</li>
+          <li>Exercices adaptés à votre niveau et à vos capacités.</li>
+          <li>Travail musculaire et cardiovasculaire selon vos objectifs.</li>
+          <li>Progression et motivation à chaque séance.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="step" id="etape-4">
+      <div class="step-img rv"><img src="img/technologies.jpg" alt="Technologies d'amincissement" loading="lazy"></div>
+      <div class="rv">
+        <div class="step-num"><b>04</b><span>Étape</span></div>
+        <h3>Technologies d'amincissement</h3>
+        <ul>
+          <li>Intégration des machines disponibles à Anaïs Clinic.</li>
+          <li>Protocoles adaptés à vos besoins et aux contre-indications.</li>
+          <li>Travail complémentaire sur les zones ciblées et la silhouette, selon les technologies utilisées.</li>
+          <li>Séances planifiées dans votre parcours global.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="step" id="etape-5">
+      <div class="step-img rv"><img src="img/suivi.jpg" alt="Suivi et évaluation des résultats" loading="lazy"></div>
+      <div class="rv">
+        <div class="step-num"><b>05</b><span>Étape</span></div>
+        <h3>Suivi, évaluation &amp; réajustement</h3>
+        <ul>
+          <li>Contrôles InBody périodiques.</li>
+          <li>Comparaison de vos résultats.</li>
+          <li>Réévaluation du programme alimentaire et sportif.</li>
+          <li>Ajustement des séances.</li>
+          <li>Bilan final et conseils pour maintenir les habitudes acquises.</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<nav class="rail" id="rail" aria-label="Étapes">
+  <a href="#etape-1">01</a><a href="#etape-2">02</a><a href="#etape-3">03</a><a href="#etape-4">04</a><a href="#etape-5">05</a>
+</nav>
+
+<!-- BOOKING -->
+<section class="booking wrap" id="bilan">
+  <div class="book-card rv">
+    <div class="book-left">
+      <div>
+        <div class="eyebrow">Première étape</div>
+        <h2>Réservez votre <em>bilan corporel</em></h2>
+        <p>Commencez par un entretien individuel et une analyse InBody. Nous définissons ensemble vos objectifs et le parcours qui vous correspond.</p>
+      </div>
+      <ul class="incl">
+        <li>Entretien individuel</li>
+        <li>Analyse InBody de la composition corporelle</li>
+        <li>Objectifs personnalisés</li>
+      </ul>
+    </div>
+
+    <form id="form" novalidate>
+      <div class="row2">
+        <div class="field"><label for="nom">Nom &amp; prénom</label><input id="nom" required autocomplete="name"></div>
+        <div class="field"><label for="tel">Téléphone</label><input id="tel" type="tel" required autocomplete="tel"></div>
+      </div>
+      <div class="field">
+        <label for="objectif">Votre objectif principal</label>
+        <select id="objectif">
+          <option>Perdre du poids</option>
+          <option>Affiner ma silhouette</option>
+          <option>Retrouver une alimentation équilibrée</option>
+          <option>Reprendre le sport accompagné(e)</option>
+          <option>Je ne sais pas encore, je veux être conseillé(e)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="dispo">Disponibilités</label>
+        <select id="dispo">
+          <option>En matinée</option>
+          <option>L'après-midi</option>
+          <option>En soirée</option>
+          <option>Le week-end</option>
+        </select>
+      </div>
+      <div class="field"><label for="note">Message (facultatif)</label><textarea id="note"></textarea></div>
+      <button class="btn btn-dark" type="submit" style="justify-self:start">Envoyer ma demande sur WhatsApp <span class="arr">→</span></button>
+      <p class="form-note">Votre demande s'ouvre dans WhatsApp : il vous suffit de l'envoyer à notre équipe.</p>
+      <div class="msg" id="msg">
+        <strong style="font-family:var(--serif);font-size:20px;color:var(--espresso)">Votre message est prêt</strong>
+        <pre id="msgtxt"></pre>
+        <div class="acts">
+          <a class="btn btn-dark" id="walink" href="#" target="_blank" rel="noopener">Ouvrir WhatsApp →</a>
+          <button type="button" class="btn btn-ghost" id="copybtn">Copier le message</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#accueil" class="logo"><b>Anaïs Clinic</b><span>Maigrir en santé</span></a>
+        <p style="margin-top:18px;max-width:34ch">Un programme global qui associe nutrition, analyse corporelle, coaching privé et technologies d'amincissement.</p>
+      </div>
+      <div>
+        <h4>Le programme</h4>
+        <ul>
+          <li><a href="#etape-1">Bilan &amp; diagnostic</a></li>
+          <li><a href="#etape-2">Nutrition</a></li>
+          <li><a href="#etape-3">Coaching privé</a></li>
+          <li><a href="#etape-4">Technologies</a></li>
+          <li><a href="#etape-5">Suivi</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Nous suivre</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/anaisclinic/" target="_blank" rel="noopener">Instagram · @anaisclinic</a></li>
+          <li><a href="https://www.instagram.com/complexemoovup/" target="_blank" rel="noopener">Complexe Moov'Up Sports</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© <span id="yr"></span> Anaïs Clinic — Tous droits réservés</span>
+      <span>Un univers Complexe Moov'Up Sports</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ⚠️ À compléter : numéro WhatsApp de la clinique, format international sans + ni espaces (ex. 2126XXXXXXXX).
+     Laissé vide, WhatsApp demande à qui envoyer le message. */
+  const WHATSAPP = "";
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // header + rail
+  const header = document.querySelector('header');
+  const rail = document.getElementById('rail');
+  const proto = document.getElementById('protocole');
+  addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', scrollY > 40);
+    const r = proto.getBoundingClientRect();
+    rail.classList.toggle('show', r.top < innerHeight * .5 && r.bottom > innerHeight * .5);
+  }, {passive:true});
+
+  // burger
+  document.getElementById('burger').addEventListener('click', () => header.classList.toggle('open'));
+  document.querySelectorAll('.nav ul a').forEach(a => a.addEventListener('click', () => header.classList.remove('open')));
+
+  // reveal
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.15});
+  document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 5) * 70 + 'ms'; io.observe(el); });
+
+  // objective lines light up one by one
+  const lines = [...document.querySelectorAll('#obj div')];
+  new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) lines.forEach((l, i) => setTimeout(() => l.classList.add('on'), i * 450));
+  }), {threshold:.4}).observe(document.getElementById('obj'));
+
+  // active step in rail
+  const links = [...rail.querySelectorAll('a')];
+  const so = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+  }), {rootMargin:'-45% 0px -45% 0px'});
+  document.querySelectorAll('.step').forEach(s => so.observe(s));
+
+  // booking form -> WhatsApp message
+  const form = document.getElementById('form');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const nom = document.getElementById('nom'), tel = document.getElementById('tel');
+    let ok = true;
+    [nom, tel].forEach(f => { const bad = !f.value.trim(); f.style.borderColor = bad ? '#b5543c' : ''; if (bad) ok = false; });
+    if (!ok) return;
+    const txt =
+`Bonjour Anaïs Clinic,
+Je souhaite réserver mon bilan corporel (programme « Maigrir en santé »).
+
+Nom : ${nom.value.trim()}
+Téléphone : ${tel.value.trim()}
+Objectif : ${document.getElementById('objectif').value}
+Disponibilités : ${document.getElementById('dispo').value}` +
+      (document.getElementById('note').value.trim() ? `\nMessage : ${document.getElementById('note').value.trim()}` : '');
+    document.getElementById('msgtxt').textContent = txt;
+    document.getElementById('walink').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(txt);
+    document.getElementById('msg').classList.add('show');
+    document.getElementById('msg').scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+  document.getElementById('copybtn').addEventListener('click', async e => {
+    try { await navigator.clipboard.writeText(document.getElementById('msgtxt').textContent); e.target.textContent = 'Copié ✓'; }
+    catch { e.target.textContent = 'Sélectionnez le texte pour copier'; }
+  });
+</script>
+</body>
+</html>
