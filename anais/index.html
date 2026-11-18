@@ -139,7 +139,7 @@
 
 
   /* ---------- SCANNER ---------- */
-  .scan{position:relative;background:radial-gradient(60% 70% at 70% 50%,#0B1B3A 0%,#050810 60%,#03050A 100%);color:#E8EEF8;overflow:hidden;padding:110px 0}
+  .scan{position:relative;background:radial-gradient(60% 70% at 50% 55%,#0B1B3A 0%,#050810 60%,#03050A 100%);color:#E8EEF8;overflow:hidden;padding:110px 0}
   .scan .wrap{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:center}
   .scan .k{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#7FB2FF;font-weight:500}
   .scan h2{color:#fff;line-height:1.08;margin:18px 0 22px}
@@ -150,6 +150,9 @@
   .scan .stats div{font-size:13px;color:rgba(232,238,248,.6)}
   .scan .stats b{display:block;font-size:22px;font-weight:600;color:#fff}
   .scan .pill-btn.light{background:#fff}
+  .s-steps{list-style:none;display:grid;gap:0;margin-bottom:32px;max-width:520px}
+  .s-steps li{display:flex;gap:14px;align-items:baseline;padding:11px 0;border-bottom:1px solid rgba(127,178,255,.15);font-size:14.5px;color:rgba(232,238,248,.9)}
+  .s-steps li span{flex-shrink:0;width:24px;height:24px;border-radius:50%;border:1px solid rgba(127,178,255,.5);color:#9CC7FF;font-size:12px;display:grid;place-items:center;transform:translateY(5px)}
   .stage{position:relative;height:min(82vh,760px);display:flex;justify-content:center}
   .stage .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(90,150,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(90,150,255,.07) 1px,transparent 1px);background-size:38px 38px;-webkit-mask:radial-gradient(closest-side,#000 40%,transparent);mask:radial-gradient(closest-side,#000 40%,transparent)}
   .body{position:relative;height:100%;aspect-ratio:450/1513}
@@ -180,6 +183,24 @@
     .tag2 .ln,.tag2 .box small{display:none}
     .tag2{font-size:10.5px;gap:6px;white-space:normal}
     .tag2 .box{padding:5px 8px;max-width:96px;line-height:1.25}
+  }
+
+
+  /* scanner centré */
+  .scan .wrap{grid-template-columns:1fr;justify-items:center;text-align:center;gap:30px}
+  .scan .wrap > .rv:first-child{max-width:820px}
+  .scan p.lead2{margin:0 auto;max-width:62ch}
+  .scan h2 b{font-size:clamp(30px,3.4vw,50px)}
+  .stage{width:100%;max-width:900px;height:min(80vh,720px)}
+  .scan-foot{display:flex;flex-direction:column;align-items:center;gap:28px;width:100%}
+  .scan-foot .s-steps{grid-template-columns:repeat(4,1fr);gap:14px;max-width:1100px;margin:0}
+  .scan-foot .s-steps li{flex-direction:column;align-items:center;text-align:center;gap:10px;border:1px solid rgba(127,178,255,.18);border-radius:16px;padding:18px 16px;background:rgba(10,25,55,.35);font-size:13.5px}
+  .scan-foot .s-steps li span{transform:none}
+  @media (max-width:860px){
+    .scan-foot .s-steps{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:520px){
+    .scan-foot .s-steps{grid-template-columns:1fr}
   }
 
   /* ---------- GALLERY ---------- */
@@ -519,15 +540,10 @@
 <section class="scan" id="scanner">
   <div class="wrap">
     <div class="rv">
-      <div class="k">Démonstration · Analyse InBody</div>
+      <div class="k">Étape 01 · Bilan corporel &amp; diagnostic initial</div>
       <h2><i>Nous sommes là</i><b>pour transformer votre vie, en profondeur.</b></h2>
-      <p class="lead2">Tout commence par un scan. En quelques minutes, l'analyse de votre composition corporelle révèle ce que le miroir ne montre pas. Ensuite, nous construisons votre transformation, ensemble.</p>
-      <div class="stats">
-        <div><b>1</b>scan complet</div>
-        <div><b>5</b>étapes encadrées</div>
-        <div><b>100%</b>personnalisé</div>
-      </div>
-      <a href="#contact" class="pill-btn light" data-pre="Bilan corporel InBody" id="scanCta">Réserver mon scan →</a>
+      <p class="lead2">Tout commence par un entretien individuel, puis l'analyse InBody de votre composition corporelle. Masse grasse, masse musculaire et autres indicateurs disponibles : nous mesurons ce que le miroir ne montre pas, puis nous définissons ensemble vos objectifs personnalisés.</p>
+
     </div>
     <div class="stage" id="stage">
       <div class="grid"></div>
@@ -536,13 +552,22 @@
         <img class="band" src="img/scan-xray.png" alt="" aria-hidden="true">
         <img class="real" src="img/scan-body.png" alt="" aria-hidden="true">
         <div class="sline" id="sline"></div>
-        <div class="tag2 r" style="top:9%;left:72%" data-y=".12"><span class="dot"></span><span class="ln"></span><span class="box"><small>Zone 1</small>Haut du corps</span></div>
-        <div class="tag2 l" style="top:24%;right:78%" data-y=".27"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Masse musculaire</span></div>
-        <div class="tag2 r" style="top:36%;left:80%" data-y=".39"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Masse grasse</span></div>
-        <div class="tag2 l" style="top:52%;right:82%" data-y=".55"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Eau corporelle</span></div>
-        <div class="tag2 r" style="top:72%;left:76%" data-y=".75"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Répartition segmentaire</span></div>
+        <div class="tag2 r" style="top:9%;left:72%" data-y=".12"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Composition corporelle</span></div>
+        <div class="tag2 l" style="top:24%;right:78%" data-y=".27"><span class="dot"></span><span class="ln"></span><span class="box"><small>Évaluation</small>Masse musculaire</span></div>
+        <div class="tag2 r" style="top:36%;left:80%" data-y=".39"><span class="dot"></span><span class="ln"></span><span class="box"><small>Évaluation</small>Masse grasse</span></div>
+        <div class="tag2 l" style="top:52%;right:82%" data-y=".55"><span class="dot"></span><span class="ln"></span><span class="box"><small>Évaluation</small>Autres indicateurs</span></div>
+        <div class="tag2 r" style="top:72%;left:76%" data-y=".75"><span class="dot"></span><span class="ln"></span><span class="box"><small>Résultat</small>Objectifs personnalisés</span></div>
       </div>
-      <div class="meter2"><span id="scanTxt">Analyse en cours… 0%</span><div class="bar"><i id="scanBar"></i></div></div>
+      <div class="meter2"><span id="scanTxt">Analyse InBody en cours… 0%</span><div class="bar"><i id="scanBar"></i></div></div>
+    </div>
+    <div class="scan-foot rv">
+        <ul class="s-steps">
+        <li><span>1</span>Accueil et entretien individuel</li>
+        <li><span>2</span>Analyse de la composition corporelle avec InBody</li>
+        <li><span>3</span>Évaluation de la masse grasse, de la masse musculaire et des autres indicateurs disponibles</li>
+        <li><span>4</span>Définition de vos objectifs personnalisés</li>
+      </ul>
+      <a href="#contact" class="pill-btn light" data-pre="Bilan corporel InBody" id="scanCta">Réserver mon bilan corporel →</a>
     </div>
   </div>
 </section>
@@ -882,9 +907,9 @@
       tags.forEach(tg=>tg.classList.toggle('on', prog>0 && (dir>0 ? yy>=+tg.dataset.y : yy>=+tg.dataset.y)));
       const pc=Math.round(Math.min(1,Math.max(0,prog))*100);
       bar.style.width=pc+'%';
-      txt.textContent= dir>0 && pc<100 ? `Analyse en cours… ${pc}%` : (pc>=100 && dir>0 ? 'Analyse terminée ✓' : 'Nouvelle analyse…');
+      txt.textContent= dir>0 && pc<100 ? `Analyse InBody en cours… ${pc}%` : (pc>=100 && dir>0 ? 'Analyse terminée ✓ — objectifs à définir ensemble' : 'Nouvelle analyse…');
     };
-    if(reduce){ real.style.clipPath='inset(0 0 0 0)'; tags.forEach(t=>t.classList.add('on')); line.style.display='none'; txt.textContent='Analyse terminée ✓'; bar.style.width='100%'; }
+    if(reduce){ real.style.clipPath='inset(0 0 0 0)'; tags.forEach(t=>t.classList.add('on')); line.style.display='none'; txt.textContent='Analyse terminée ✓ — objectifs à définir ensemble'; bar.style.width='100%'; }
     else requestAnimationFrame(frame);
     document.getElementById('scanCta').addEventListener('click',()=>{document.getElementById('objectif').value='Bilan corporel InBody';});
   })();
