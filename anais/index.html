@@ -137,6 +137,51 @@
   .down{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.3);backdrop-filter:blur(8px);display:inline-grid;place-items:center;color:#fff;font-size:14px;animation:bob 2.4s ease-in-out infinite}
   @keyframes bob{50%{transform:translateY(5px)}}
 
+
+  /* ---------- SCANNER ---------- */
+  .scan{position:relative;background:radial-gradient(60% 70% at 70% 50%,#0B1B3A 0%,#050810 60%,#03050A 100%);color:#E8EEF8;overflow:hidden;padding:110px 0}
+  .scan .wrap{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:center}
+  .scan .k{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#7FB2FF;font-weight:500}
+  .scan h2{color:#fff;line-height:1.08;margin:18px 0 22px}
+  .scan h2 i{display:block;font-style:italic;font-weight:300;font-size:clamp(28px,3vw,42px);color:#BFD6FF}
+  .scan h2 b{display:block;font-weight:600;font-size:clamp(32px,3.6vw,54px);letter-spacing:.01em;background:linear-gradient(90deg,#fff 0%,#9CC7FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .scan p.lead2{max-width:46ch;color:rgba(232,238,248,.75);font-size:15.5px;margin-bottom:30px}
+  .scan .stats{display:grid;grid-template-columns:repeat(3,auto);gap:10px 26px;justify-content:start;margin-bottom:34px}
+  .scan .stats div{font-size:13px;color:rgba(232,238,248,.6)}
+  .scan .stats b{display:block;font-size:22px;font-weight:600;color:#fff}
+  .scan .pill-btn.light{background:#fff}
+  .stage{position:relative;height:min(82vh,760px);display:flex;justify-content:center}
+  .stage .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(90,150,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(90,150,255,.07) 1px,transparent 1px);background-size:38px 38px;-webkit-mask:radial-gradient(closest-side,#000 40%,transparent);mask:radial-gradient(closest-side,#000 40%,transparent)}
+  .body{position:relative;height:100%;aspect-ratio:450/1513}
+  .body img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+  .body .holo{filter:drop-shadow(0 0 18px rgba(70,140,255,.55)) drop-shadow(0 0 40px rgba(40,90,255,.35));opacity:.9;animation:flick 4s infinite}
+  @keyframes flick{0%,100%{opacity:.9}47%{opacity:.9}48%{opacity:.7}50%{opacity:.92}}
+  .body .real{clip-path:inset(0);filter:saturate(1.05) brightness(1.05)}
+  .body .band{clip-path:inset(0 0 100% 0);filter:hue-rotate(-40deg) saturate(2.2) brightness(1.7);mix-blend-mode:screen}
+  .sline{position:absolute;left:-28%;right:-28%;height:2px;background:linear-gradient(90deg,transparent,#5FA8FF 20%,#E6F3FF 50%,#5FA8FF 80%,transparent);box-shadow:0 0 14px 3px rgba(80,160,255,.75),0 0 40px 8px rgba(60,120,255,.35);border-radius:2px;pointer-events:none}
+  .sline::after{content:"";position:absolute;left:10%;right:10%;top:-38px;height:38px;background:linear-gradient(0deg,rgba(90,160,255,.22),transparent);filter:blur(2px)}
+  .sline.up::after{top:2px;transform:scaleY(-1)}
+  .tag2{position:absolute;display:flex;align-items:center;gap:10px;font-size:12.5px;color:#DCEBFF;white-space:nowrap;opacity:0;transform:translateX(var(--tx,10px));transition:opacity .5s, transform .5s}
+  .tag2.on{opacity:1;transform:none}
+  .tag2 .ln{width:56px;height:1px;background:linear-gradient(90deg,#5FA8FF,transparent)}
+  .tag2.l{flex-direction:row-reverse;--tx:-10px}
+  .tag2.l .ln{background:linear-gradient(270deg,#5FA8FF,transparent)}
+  .tag2 .dot{width:8px;height:8px;border-radius:50%;background:#7FB2FF;box-shadow:0 0 10px #7FB2FF}
+  .tag2 .box{background:rgba(10,25,55,.7);border:1px solid rgba(95,168,255,.35);backdrop-filter:blur(6px);padding:7px 12px;border-radius:10px}
+  .tag2 .box small{display:block;font-size:10.5px;color:#7FB2FF;letter-spacing:.08em;text-transform:uppercase}
+  .meter2{position:absolute;bottom:4%;left:50%;transform:translateX(-50%);width:min(320px,80%);font-size:12px;color:#BFD6FF;display:flex;flex-direction:column;gap:8px;align-items:center}
+  .meter2 .bar{width:100%;height:4px;background:rgba(95,168,255,.15);border-radius:4px;overflow:hidden}
+  .meter2 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5FA8FF,#E6F3FF);box-shadow:0 0 10px #5FA8FF}
+  @media (max-width:860px){
+    .scan{padding:80px 0 60px}
+    .scan .wrap{grid-template-columns:1fr}
+    .stage{height:620px}
+    .stage{height:560px}
+    .tag2 .ln,.tag2 .box small{display:none}
+    .tag2{font-size:10.5px;gap:6px;white-space:normal}
+    .tag2 .box{padding:5px 8px;max-width:96px;line-height:1.25}
+  }
+
   /* ---------- GALLERY ---------- */
   .gallery{padding:130px 0 120px}
   .gal{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:330px 330px;gap:10px;margin-top:56px}
@@ -431,7 +476,7 @@
       <a href="#parcours">Le parcours</a>
       <a href="#trajet">Le jeu du trajet</a>
       <a href="#soins">Soins médicaux</a>
-      <a href="#clinique">La clinique</a>
+      <a href="#scanner">Le scanner</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="hacts2">
@@ -466,9 +511,41 @@
   <div class="hero-in">
     <h1 class="tt"><i>Maigrir</i><b>en santé</b></h1>
     <p>Votre corps mérite mieux qu'un simple régime. Chez Anaïs Beauty Clinic, nutrition, coaching, technologies et suivi médical se réunissent en un seul parcours, pensé pour vous.</p>
-    <a href="#clinique" class="down" aria-label="Défiler">↓</a>
+    <a href="#scanner" class="down" aria-label="Défiler">↓</a>
   </div>
 </header>
+
+<!-- SCANNER -->
+<section class="scan" id="scanner">
+  <div class="wrap">
+    <div class="rv">
+      <div class="k">Démonstration · Analyse InBody</div>
+      <h2><i>Nous sommes là</i><b>pour transformer votre vie, en profondeur.</b></h2>
+      <p class="lead2">Tout commence par un scan. En quelques minutes, l'analyse de votre composition corporelle révèle ce que le miroir ne montre pas. Ensuite, nous construisons votre transformation, ensemble.</p>
+      <div class="stats">
+        <div><b>1</b>scan complet</div>
+        <div><b>5</b>étapes encadrées</div>
+        <div><b>100%</b>personnalisé</div>
+      </div>
+      <a href="#contact" class="pill-btn light" data-pre="Bilan corporel InBody" id="scanCta">Réserver mon scan →</a>
+    </div>
+    <div class="stage" id="stage">
+      <div class="grid"></div>
+      <div class="body" id="scanBody">
+        <img class="holo" src="img/scan-xray.png" alt="Démonstration du scanner corporel">
+        <img class="band" src="img/scan-xray.png" alt="" aria-hidden="true">
+        <img class="real" src="img/scan-body.png" alt="" aria-hidden="true">
+        <div class="sline" id="sline"></div>
+        <div class="tag2 r" style="top:9%;left:72%" data-y=".12"><span class="dot"></span><span class="ln"></span><span class="box"><small>Zone 1</small>Haut du corps</span></div>
+        <div class="tag2 l" style="top:24%;right:78%" data-y=".27"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Masse musculaire</span></div>
+        <div class="tag2 r" style="top:36%;left:80%" data-y=".39"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Masse grasse</span></div>
+        <div class="tag2 l" style="top:52%;right:82%" data-y=".55"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Eau corporelle</span></div>
+        <div class="tag2 r" style="top:72%;left:76%" data-y=".75"><span class="dot"></span><span class="ln"></span><span class="box"><small>Analyse</small>Répartition segmentaire</span></div>
+      </div>
+      <div class="meter2"><span id="scanTxt">Analyse en cours… 0%</span><div class="bar"><i id="scanBar"></i></div></div>
+    </div>
+  </div>
+</section>
 
 <!-- GALLERY -->
 <section class="gallery" id="clinique">
@@ -747,7 +824,7 @@
     ['Coaching sportif privé','Étape 3','#parcours'],["Technologies d'amincissement",'Étape 4','#parcours'],['Suivi & réajustement','Étape 5','#parcours'],
     ['Le jeu du trajet','Interactif','#trajet'],['Laser','Soin médical','#soins'],['Filler','Soin médical','#soins'],['Skin booster','Soin médical','#soins'],
     ['PRP cheveux','Soin médical','#soins'],['Hydrafacial','Soin médical','#soins'],['Microneedling','Soin médical','#soins'],
-    ['Notre médecin','Médecine esthétique','#soins'],['Nutritionniste','Étape 2','#parcours'],['Prendre rendez-vous','Contact','#contact'],['WhatsApp','Contact','#contact'],['La clinique','Galerie','#clinique']
+    ['Notre médecin','Médecine esthétique','#soins'],['Nutritionniste','Étape 2','#parcours'],['Prendre rendez-vous','Contact','#contact'],['WhatsApp','Contact','#contact'],['La clinique','Galerie','#clinique'],['Scanner InBody','Démonstration','#scanner'],['Analyse corporelle','Démonstration','#scanner']
   ];
   const q=document.getElementById('q'), qres=document.getElementById('qres');
   const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
@@ -774,6 +851,43 @@
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12});
   const observe = root => root.querySelectorAll('.rv').forEach(el => io.observe(el));
   observe(document);
+
+
+  // ---------- SCANNER ----------
+  (function(){
+    const body=document.getElementById('scanBody'), line=document.getElementById('sline');
+    const real=body.querySelector('.real'), band=body.querySelector('.band');
+    const tags=[...body.querySelectorAll('.tag2')], bar=document.getElementById('scanBar'), txt=document.getElementById('scanTxt');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let t0=null, visible=false;
+    new IntersectionObserver(es=>es.forEach(e=>visible=e.isIntersecting),{threshold:.1}).observe(body);
+    const DOWN=4200, UP=4200, HOLD=1600, CYCLE=DOWN+HOLD+UP+HOLD;
+    const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+    const frame=now=>{
+      requestAnimationFrame(frame);
+      if(!visible) return;
+      if(t0===null) t0=now;
+      let t=(now-t0)%CYCLE, y, dir, prog;
+      if(t<DOWN){ y=ease(t/DOWN); dir=1; prog=y; }
+      else if(t<DOWN+HOLD){ y=1; dir=1; prog=1; }
+      else if(t<DOWN+HOLD+UP){ y=1-ease((t-DOWN-HOLD)/UP); dir=-1; prog=1; }
+      else { y=0; dir=-1; prog=0; }
+      const yy=-.02+y*1.04;
+      line.style.top=(yy*100)+'%'; line.classList.toggle('up',dir<0);
+            const cut=Math.max(0,Math.min(100,yy*100));
+      // au-dessus de la ligne : vue scanner (hologramme) ; en dessous : la vraie photo
+      real.style.clipPath=`inset(${cut}% 0 0 0)`;
+      const b1=Math.max(0,cut-7), b2=Math.min(100,cut+7);
+      band.style.clipPath=`inset(${b1}% 0 ${100-b2}% 0)`;
+      tags.forEach(tg=>tg.classList.toggle('on', prog>0 && (dir>0 ? yy>=+tg.dataset.y : yy>=+tg.dataset.y)));
+      const pc=Math.round(Math.min(1,Math.max(0,prog))*100);
+      bar.style.width=pc+'%';
+      txt.textContent= dir>0 && pc<100 ? `Analyse en cours… ${pc}%` : (pc>=100 && dir>0 ? 'Analyse terminée ✓' : 'Nouvelle analyse…');
+    };
+    if(reduce){ real.style.clipPath='inset(0 0 0 0)'; tags.forEach(t=>t.classList.add('on')); line.style.display='none'; txt.textContent='Analyse terminée ✓'; bar.style.width='100%'; }
+    else requestAnimationFrame(frame);
+    document.getElementById('scanCta').addEventListener('click',()=>{document.getElementById('objectif').value='Bilan corporel InBody';});
+  })();
 
   // ---------- ÉTAPES ----------
   const STEPS = [
