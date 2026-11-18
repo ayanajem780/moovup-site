@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Anaïs Clinic — Maigrir en santé</title>
+<title>Anaïs Beauty Clinic — Maigrir en santé</title>
 <meta name="description" content="Anaïs Clinic : un programme global pour maigrir en santé — bilan InBody, nutrition, coaching sportif privé et technologies d'amincissement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,8 +16,9 @@
     --taupe:#8B7866;
     --espresso:#2A221D;
     --ink:#3D332C;
-    --gold:#B48E57;
-    --gold-soft:#D9C3A0;
+    --gold:#5F7F6B;
+    --sage:#7E9A88;
+    --gold-soft:#B8CDBF;
     --line:rgba(42,34,29,.12);
     --serif:'Cormorant Garamond', Georgia, serif;
     --sans:'Jost', system-ui, sans-serif;
@@ -99,26 +100,60 @@
   .obj-lines div em{color:var(--gold-soft)}
 
   /* ---------- PROTOCOL ---------- */
-  .protocol{padding:130px 0 60px}
-  .steps{margin-top:30px;position:relative}
-  .step{display:grid;grid-template-columns:1fr 1fr;gap:7vw;align-items:center;padding:70px 0;border-top:1px solid var(--line)}
-  .step:nth-child(even) .step-img{order:2}
-  .step-img{border-radius:var(--radius);overflow:hidden;aspect-ratio:5/4;background:var(--sand)}
-  .step-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s ease}
-  .step:hover .step-img img{transform:scale(1.04)}
-  .step-num{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-  .step-num b{font-family:var(--serif);font-weight:400;font-size:64px;line-height:1;color:var(--gold)}
-  .step-num span{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--taupe)}
-  .step h3{font-size:clamp(30px,3.2vw,44px);font-weight:400;margin-bottom:26px}
-  .step ul{list-style:none}
-  .step li{padding:13px 0 13px 34px;border-bottom:1px solid var(--line);position:relative;font-size:16.5px}
-  .step li::before{content:"";position:absolute;left:4px;top:24px;width:14px;height:1px;background:var(--gold)}
+  .protocol{padding:130px 0 90px}
+  .carousel-ctrl{display:flex;gap:10px}
+  .cbtn{width:52px;height:52px;border-radius:50%;border:1px solid var(--espresso);background:transparent;color:var(--espresso);font-size:20px;cursor:pointer;transition:.3s;display:grid;place-items:center}
+  .cbtn:hover{background:var(--espresso);color:var(--cream)}
+  .cbtn:disabled{opacity:.25;cursor:default;background:transparent;color:var(--espresso)}
+  .cards{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 3*24px)/4);gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 4px 40px;scrollbar-width:none}
+  .cards::-webkit-scrollbar{display:none}
+  .card{scroll-snap-align:start;background:var(--linen);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 50px -28px rgba(42,34,29,.28);transition:transform .4s, box-shadow .4s}
+  .card:hover{transform:translateY(-6px);box-shadow:0 34px 60px -28px rgba(42,34,29,.35)}
+  .card-img{aspect-ratio:3/2;overflow:hidden;border-radius:28px;background:var(--sand)}
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform 1s ease}
+  .card:hover .card-img img{transform:scale(1.05)}
+  .card-body{padding:28px 28px 30px;display:flex;flex-direction:column;flex:1}
+  .card-body .tag{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+  .card-body h3{font-size:27px;line-height:1.12;margin-bottom:12px}
+  .card-body p{color:var(--taupe);font-size:15.5px;margin-bottom:30px}
+  .card-body .btn{margin-top:auto;align-self:flex-start;border-color:var(--espresso);color:var(--espresso);padding:13px 24px}
+  .card-body .btn:hover{background:var(--espresso);color:var(--cream)}
 
-  /* progress rail */
-  .rail{position:fixed;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:40;opacity:0;pointer-events:none;transition:opacity .4s}
-  .rail.show{opacity:1;pointer-events:auto}
-  .rail a{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;color:var(--taupe);background:var(--cream);transition:.3s}
-  .rail a.active{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(42,34,29,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .modal.open{display:flex;animation:fade .3s}
+  @keyframes fade{from{opacity:0}}
+  .modal-box{background:var(--linen);border-radius:28px;max-width:860px;width:100%;max-height:90vh;overflow:auto;display:grid;grid-template-columns:.9fr 1.1fr}
+  .modal-box img{width:100%;height:100%;object-fit:cover;min-height:260px}
+  .modal-in{padding:44px 40px;position:relative}
+  .modal-in .tag{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:500}
+  .modal-in h3{font-size:34px;font-weight:400;margin:10px 0 18px}
+  .modal-in ul{list-style:none;margin-bottom:28px}
+  .modal-in li{padding:11px 0 11px 30px;border-bottom:1px solid var(--line);position:relative;font-size:15.5px}
+  .modal-in li::before{content:"";position:absolute;left:2px;top:22px;width:14px;height:1px;background:var(--gold)}
+  .modal-in p.ms{color:var(--taupe);margin-bottom:24px}
+  .close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--cream);cursor:pointer;font-size:18px;color:var(--espresso)}
+
+  /* soins médicaux */
+  .soins{background:var(--espresso);color:var(--cream);padding:120px 0}
+  .soins .sec-head h2{color:var(--cream)}
+  .soins .sec-head p{color:rgba(247,242,235,.65)}
+  .soins .eyebrow{color:var(--gold-soft)}
+  .doc{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:9px 18px;border:1px solid rgba(247,242,235,.25);border-radius:999px;font-size:13px;letter-spacing:.06em;color:var(--gold-soft)}
+  .bubbles{display:grid;grid-template-columns:repeat(6,1fr);gap:22px}
+  .bubble{background:none;border:0;cursor:pointer;color:var(--cream);font-family:var(--sans);text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .bubble .disc{width:100%;max-width:150px;aspect-ratio:1;border-radius:50%;padding:7px;border:2px solid rgba(247,242,235,.18);transition:border-color .4s, transform .4s}
+  .bubble .disc span{width:100%;height:100%;border-radius:50%;background:var(--sage);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+  .bubble .disc b{font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,34px);color:#fff}
+  .bubble .disc small{font-family:var(--serif);font-size:11px;color:rgba(255,255,255,.85);margin-top:3px}
+  .bubble:hover .disc,.bubble.active .disc{border-color:var(--gold-soft);transform:translateY(-4px)}
+  .bubble strong{font-weight:500;font-size:16px;letter-spacing:.02em}
+  .soin-detail{margin-top:50px;border-top:1px solid rgba(247,242,235,.15);padding-top:40px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;min-height:150px}
+  .soin-detail h3{color:var(--cream);font-size:36px;font-weight:400;margin-bottom:10px}
+  .soin-detail p{color:rgba(247,242,235,.72);max-width:62ch}
+  .soin-detail .btn{background:var(--cream);color:var(--espresso)}
+  .soin-detail .btn:hover{background:var(--gold-soft)}
+  .soins-note{margin-top:26px;font-size:13px;color:rgba(247,242,235,.5)}
 
   /* ---------- BOOKING ---------- */
   .booking{padding:120px 0 130px}
@@ -161,7 +196,8 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:1080px){
     .grid5{grid-template-columns:repeat(3,1fr)}
-    .rail{display:none}
+    .cards{grid-auto-columns:calc((100% - 2*24px)/2.4)}
+    .bubbles{grid-template-columns:repeat(3,1fr);row-gap:34px}
   }
   @media (max-width:860px){
     body{font-size:16px}
@@ -177,8 +213,11 @@
     .badge{left:-8px}
     .ring{right:-6px;width:90px;height:90px}
     .grid5{grid-template-columns:1fr 1fr}
-    .step{grid-template-columns:1fr;gap:34px;padding:56px 0}
-    .step:nth-child(even) .step-img{order:0}
+    .cards{grid-auto-columns:82%}
+    .modal-box{grid-template-columns:1fr}
+    .modal-box img{max-height:220px;min-height:0}
+    .modal-in{padding:34px 26px}
+    .soin-detail{grid-template-columns:1fr}
     .book-card{grid-template-columns:1fr}
     .book-left,form{padding:44px 28px}
     .foot{grid-template-columns:1fr}
@@ -187,6 +226,7 @@
     .grid5{grid-template-columns:1fr}
     .pillar{min-height:auto}
     .row2{grid-template-columns:1fr}
+    .bubbles{grid-template-columns:repeat(2,1fr)}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
@@ -198,11 +238,12 @@
 
 <header id="top">
   <div class="wrap nav">
-    <a href="#accueil" class="logo"><b>Anaïs Clinic</b><span>Maigrir en santé</span></a>
+    <a href="#accueil" class="logo"><b>Anaïs</b><span>Beauty Clinic</span></a>
     <ul>
       <li><a href="#approche">Notre approche</a></li>
       <li><a href="#programme">Le programme</a></li>
       <li><a href="#protocole">Le protocole</a></li>
+      <li><a href="#soins">Soins médicaux</a></li>
       <li><a href="#bilan">Bilan</a></li>
     </ul>
     <a href="#bilan" class="btn btn-dark">Réserver mon bilan <span class="arr">→</span></a>
@@ -231,7 +272,7 @@
       <defs><path id="c" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
       <circle cx="60" cy="60" r="58" fill="#FBF8F4"/>
       <text font-family="Jost" font-size="9.6" letter-spacing="3.2" fill="#8B7866"><textPath href="#c">NUTRITION · COACHING · TECHNOLOGIES · SUIVI ·</textPath></text>
-      <text x="60" y="68" text-anchor="middle" font-family="Cormorant Garamond" font-size="24" fill="#B48E57">A</text>
+      <text x="60" y="68" text-anchor="middle" font-family="Cormorant Garamond" font-size="24" fill="#5F7F6B">A</text>
     </svg>
   </div>
 </section>
@@ -297,87 +338,46 @@
       <div class="eyebrow">Le protocole de prise en charge</div>
       <h2>Votre parcours, étape par étape</h2>
     </div>
-    <p>Du premier bilan au maintien des résultats, chaque étape est planifiée, mesurée et ajustée selon votre évolution.</p>
+    <div class="carousel-ctrl">
+      <button class="cbtn" id="prev" aria-label="Précédent">←</button>
+      <button class="cbtn" id="next" aria-label="Suivant">→</button>
+    </div>
   </div>
+  <div class="cards" id="cards"></div>
+</section>
 
-  <div class="steps">
-    <article class="step" id="etape-1">
-      <div class="step-img rv"><img src="img/bilan-inbody.jpg" alt="Analyse de la composition corporelle InBody" loading="lazy"></div>
-      <div class="rv">
-        <div class="step-num"><b>01</b><span>Étape</span></div>
-        <h3>Bilan corporel &amp; diagnostic initial</h3>
-        <ul>
-          <li>Accueil et entretien individuel.</li>
-          <li>Analyse de la composition corporelle avec InBody.</li>
-          <li>Évaluation de la masse grasse, de la masse musculaire et des autres indicateurs disponibles.</li>
-          <li>Définition de vos objectifs personnalisés.</li>
-        </ul>
+<!-- SOINS MÉDICAUX -->
+<section class="soins" id="soins">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow">Médecine esthétique</div>
+        <h2>Nos soins réalisés avec le médecin</h2>
+        <div class="doc">✚ Consultation et soins encadrés par notre médecin</div>
       </div>
-    </article>
-
-    <article class="step" id="etape-2">
-      <div class="step-img rv"><img src="img/nutrition.jpg" alt="Consultation avec la nutritionniste" loading="lazy"></div>
-      <div class="rv">
-        <div class="step-num"><b>02</b><span>Étape</span></div>
-        <h3>Programme nutritionnel personnalisé</h3>
-        <ul>
-          <li>Consultation avec la nutritionniste.</li>
-          <li>Étude de vos habitudes alimentaires.</li>
-          <li>Élaboration d'un programme alimentaire adapté.</li>
-          <li>Conseils pratiques et suivi nutritionnel.</li>
-          <li>Ajustements selon votre évolution.</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="step" id="etape-3">
-      <div class="step-img rv"><img src="img/coaching.jpg" alt="Séance de coaching sportif privé" loading="lazy"></div>
-      <div class="rv">
-        <div class="step-num"><b>03</b><span>Étape</span></div>
-        <h3>Coaching sportif privé</h3>
-        <ul>
-          <li>Séances individuelles encadrées.</li>
-          <li>Exercices adaptés à votre niveau et à vos capacités.</li>
-          <li>Travail musculaire et cardiovasculaire selon vos objectifs.</li>
-          <li>Progression et motivation à chaque séance.</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="step" id="etape-4">
-      <div class="step-img rv"><img src="img/technologies.jpg" alt="Technologies d'amincissement" loading="lazy"></div>
-      <div class="rv">
-        <div class="step-num"><b>04</b><span>Étape</span></div>
-        <h3>Technologies d'amincissement</h3>
-        <ul>
-          <li>Intégration des machines disponibles à Anaïs Clinic.</li>
-          <li>Protocoles adaptés à vos besoins et aux contre-indications.</li>
-          <li>Travail complémentaire sur les zones ciblées et la silhouette, selon les technologies utilisées.</li>
-          <li>Séances planifiées dans votre parcours global.</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="step" id="etape-5">
-      <div class="step-img rv"><img src="img/suivi.jpg" alt="Suivi et évaluation des résultats" loading="lazy"></div>
-      <div class="rv">
-        <div class="step-num"><b>05</b><span>Étape</span></div>
-        <h3>Suivi, évaluation &amp; réajustement</h3>
-        <ul>
-          <li>Contrôles InBody périodiques.</li>
-          <li>Comparaison de vos résultats.</li>
-          <li>Réévaluation du programme alimentaire et sportif.</li>
-          <li>Ajustement des séances.</li>
-          <li>Bilan final et conseils pour maintenir les habitudes acquises.</li>
-        </ul>
-      </div>
-    </article>
+      <p>Au-delà du programme minceur, Anaïs Beauty Clinic propose des soins médico-esthétiques pour le visage, la peau et les cheveux.</p>
+    </div>
+    <div class="bubbles rv" id="bubbles"></div>
+    <div class="soin-detail" id="soinDetail">
+      <div><h3 id="sdTitle"></h3><p id="sdText"></p></div>
+      <a href="#bilan" class="btn" id="sdBtn">Prendre rendez-vous <span class="arr">→</span></a>
+    </div>
+    <p class="soins-note">Chaque soin commence par une consultation : le médecin vérifie qu'il vous convient et définit le protocole adapté.</p>
   </div>
 </section>
 
-<nav class="rail" id="rail" aria-label="Étapes">
-  <a href="#etape-1">01</a><a href="#etape-2">02</a><a href="#etape-3">03</a><a href="#etape-4">04</a><a href="#etape-5">05</a>
-</nav>
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <img id="mImg" alt="">
+    <div class="modal-in">
+      <button class="close" id="mClose" aria-label="Fermer">✕</button>
+      <div class="tag" id="mTag"></div>
+      <h3 id="mTitle"></h3>
+      <ul id="mList"></ul>
+      <a href="#bilan" class="btn btn-dark" id="mBtn">Réserver mon bilan <span class="arr">→</span></a>
+    </div>
+  </div>
+</div>
 
 <!-- BOOKING -->
 <section class="booking wrap" id="bilan">
@@ -385,13 +385,13 @@
     <div class="book-left">
       <div>
         <div class="eyebrow">Première étape</div>
-        <h2>Réservez votre <em>bilan corporel</em></h2>
-        <p>Commencez par un entretien individuel et une analyse InBody. Nous définissons ensemble vos objectifs et le parcours qui vous correspond.</p>
+        <h2>Prenez <em>rendez-vous</em></h2>
+        <p>Pour le programme minceur, tout commence par un bilan corporel avec analyse InBody. Pour un soin, par une consultation avec le médecin.</p>
       </div>
       <ul class="incl">
-        <li>Entretien individuel</li>
-        <li>Analyse InBody de la composition corporelle</li>
-        <li>Objectifs personnalisés</li>
+        <li>Bilan corporel &amp; analyse InBody</li>
+        <li>Consultation avec le médecin</li>
+        <li>Programme ou protocole personnalisé</li>
       </ul>
     </div>
 
@@ -401,13 +401,18 @@
         <div class="field"><label for="tel">Téléphone</label><input id="tel" type="tel" required autocomplete="tel"></div>
       </div>
       <div class="field">
-        <label for="objectif">Votre objectif principal</label>
+        <label for="objectif">Votre demande</label>
         <select id="objectif">
+          <optgroup label="Programme Maigrir en santé">
           <option>Perdre du poids</option>
           <option>Affiner ma silhouette</option>
           <option>Retrouver une alimentation équilibrée</option>
           <option>Reprendre le sport accompagné(e)</option>
           <option>Je ne sais pas encore, je veux être conseillé(e)</option>
+          </optgroup>
+          <optgroup label="Soins avec le médecin">
+          <option>Laser</option><option>Filler</option><option>Skin booster</option><option>PRP cheveux</option><option>Hydrafacial</option><option>Microneedling</option>
+          </optgroup>
         </select>
       </div>
       <div class="field">
@@ -438,7 +443,7 @@
   <div class="wrap">
     <div class="foot">
       <div>
-        <a href="#accueil" class="logo"><b>Anaïs Clinic</b><span>Maigrir en santé</span></a>
+        <a href="#accueil" class="logo"><b>Anaïs</b><span>Beauty Clinic</span></a>
         <p style="margin-top:18px;max-width:34ch">Un programme global qui associe nutrition, analyse corporelle, coaching privé et technologies d'amincissement.</p>
       </div>
       <div>
@@ -460,7 +465,7 @@
       </div>
     </div>
     <div class="copy">
-      <span>© <span id="yr"></span> Anaïs Clinic — Tous droits réservés</span>
+      <span>© <span id="yr"></span> Anaïs Beauty Clinic — Tous droits réservés</span>
       <span>Un univers Complexe Moov'Up Sports</span>
     </div>
   </div>
@@ -473,14 +478,10 @@
 
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // header + rail
+  // header
   const header = document.querySelector('header');
-  const rail = document.getElementById('rail');
-  const proto = document.getElementById('protocole');
   addEventListener('scroll', () => {
     header.classList.toggle('scrolled', scrollY > 40);
-    const r = proto.getBoundingClientRect();
-    rail.classList.toggle('show', r.top < innerHeight * .5 && r.bottom > innerHeight * .5);
   }, {passive:true});
 
   // burger
@@ -499,12 +500,80 @@
     if (e.isIntersecting) lines.forEach((l, i) => setTimeout(() => l.classList.add('on'), i * 450));
   }), {threshold:.4}).observe(document.getElementById('obj'));
 
-  // active step in rail
-  const links = [...rail.querySelectorAll('a')];
-  const so = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
-  }), {rootMargin:'-45% 0px -45% 0px'});
-  document.querySelectorAll('.step').forEach(s => so.observe(s));
+  // ---------- ÉTAPES (cartes) ----------
+  const STEPS = [
+    {img:'img/bilan-inbody.jpg', t:'Bilan corporel & diagnostic initial', d:'Un premier rendez-vous pour faire le point sur votre corps et fixer vos objectifs.',
+     li:['Accueil et entretien individuel.','Analyse de la composition corporelle avec InBody.','Évaluation de la masse grasse, de la masse musculaire et des autres indicateurs disponibles.','Définition de vos objectifs personnalisés.']},
+    {img:'img/nutrition.jpg', t:'Programme nutritionnel personnalisé', d:'Une alimentation pensée pour vous, construite avec notre nutritionniste.',
+     li:['Consultation avec la nutritionniste.','Étude de vos habitudes alimentaires.','Élaboration d\'un programme alimentaire adapté.','Conseils pratiques et suivi nutritionnel.','Ajustements selon votre évolution.']},
+    {img:'img/coaching.jpg', t:'Coaching sportif privé', d:'Des séances individuelles encadrées, adaptées à votre niveau et à vos objectifs.',
+     li:['Séances individuelles encadrées.','Exercices adaptés à votre niveau et à vos capacités.','Travail musculaire et cardiovasculaire selon vos objectifs.','Progression et motivation à chaque séance.']},
+    {img:'img/technologies.jpg', t:'Technologies d\'amincissement', d:'Les machines de la clinique, intégrées à votre parcours pour cibler votre silhouette.',
+     li:['Intégration des machines disponibles à Anaïs Clinic.','Protocoles adaptés à vos besoins et aux contre-indications.','Travail complémentaire sur les zones ciblées et la silhouette, selon les technologies utilisées.','Séances planifiées dans votre parcours global.']},
+    {img:'img/suivi.jpg', t:'Suivi, évaluation & réajustement', d:'Des contrôles réguliers pour mesurer vos progrès et ajuster votre programme.',
+     li:['Contrôles InBody périodiques.','Comparaison de vos résultats.','Réévaluation du programme alimentaire et sportif.','Ajustement des séances.','Bilan final et conseils pour maintenir les habitudes acquises.']}
+  ];
+  const cards = document.getElementById('cards');
+  cards.innerHTML = STEPS.map((s,i)=>`
+    <article class="card">
+      <div class="card-img"><img src="${s.img}" alt="${s.t}" loading="lazy"></div>
+      <div class="card-body">
+        <div class="tag">Étape 0${i+1}</div>
+        <h3>${s.t}</h3>
+        <p>${s.d}</p>
+        <button class="btn" data-step="${i}">Voir le détail <span class="arr">→</span></button>
+      </div>
+    </article>`).join('');
+  const prev=document.getElementById('prev'), next=document.getElementById('next');
+  const step=()=>cards.querySelector('.card').offsetWidth+24;
+  prev.onclick=()=>cards.scrollBy({left:-step(),behavior:'smooth'});
+  next.onclick=()=>cards.scrollBy({left:step(),behavior:'smooth'});
+  const upd=()=>{prev.disabled=cards.scrollLeft<5; next.disabled=cards.scrollLeft+cards.clientWidth>=cards.scrollWidth-5;};
+  cards.addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
+
+  const modal=document.getElementById('modal');
+  cards.addEventListener('click',e=>{
+    const b=e.target.closest('[data-step]'); if(!b) return;
+    const s=STEPS[+b.dataset.step];
+    document.getElementById('mImg').src=s.img; document.getElementById('mImg').alt=s.t;
+    document.getElementById('mTag').textContent='Étape 0'+(+b.dataset.step+1);
+    document.getElementById('mTitle').textContent=s.t;
+    document.getElementById('mList').innerHTML=s.li.map(x=>`<li>${x}</li>`).join('');
+    modal.classList.add('open'); document.body.style.overflow='hidden';
+  });
+  const closeM=()=>{modal.classList.remove('open'); document.body.style.overflow='';};
+  document.getElementById('mClose').onclick=closeM;
+  document.getElementById('mBtn').onclick=closeM;
+  modal.addEventListener('click',e=>{ if(e.target===modal) closeM(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape') closeM(); });
+
+  // ---------- SOINS AVEC LE MÉDECIN ----------
+  const SOINS = [
+    {n:'Laser', d:'Séances laser réalisées sous contrôle médical, après une évaluation de votre peau par le médecin.'},
+    {n:'Filler', d:'Injections d\'acide hyaluronique pour redonner du volume ou atténuer certaines rides, pratiquées par le médecin.'},
+    {n:'Skin booster', d:'Micro-injections hydratantes pour améliorer l\'éclat, la souplesse et la qualité de la peau.'},
+    {n:'PRP cheveux', d:'Injections de plasma riche en plaquettes, préparé à partir de votre propre sang, sur le cuir chevelu.'},
+    {n:'Hydrafacial', d:'Soin du visage en plusieurs temps : nettoyage, exfoliation, extraction et hydratation en profondeur.'},
+    {n:'Microneedling', d:'Micro-perforations contrôlées de la peau pour stimuler son renouvellement naturel.'}
+  ];
+  const bub=document.getElementById('bubbles');
+  bub.innerHTML=SOINS.map((s,i)=>`
+    <button class="bubble" data-soin="${i}">
+      <span class="disc"><span><b>Anaïs</b><small>Beauty Clinic</small></span></span>
+      <strong>${s.n}</strong>
+    </button>`).join('');
+  const showSoin=i=>{
+    const s=SOINS[i];
+    document.getElementById('sdTitle').textContent=s.n;
+    document.getElementById('sdText').textContent=s.d;
+    document.getElementById('sdBtn').dataset.soin=s.n;
+    bub.querySelectorAll('.bubble').forEach((b,j)=>b.classList.toggle('active',j===i));
+  };
+  bub.addEventListener('click',e=>{const b=e.target.closest('[data-soin]'); if(b) showSoin(+b.dataset.soin);});
+  showSoin(0);
+  document.getElementById('sdBtn').addEventListener('click',e=>{
+    document.getElementById('objectif').value=e.currentTarget.dataset.soin;
+  });
 
   // booking form -> WhatsApp message
   const form = document.getElementById('form');
@@ -516,11 +585,11 @@
     if (!ok) return;
     const txt =
 `Bonjour Anaïs Clinic,
-Je souhaite réserver mon bilan corporel (programme « Maigrir en santé »).
+Je souhaite prendre rendez-vous.
 
 Nom : ${nom.value.trim()}
 Téléphone : ${tel.value.trim()}
-Objectif : ${document.getElementById('objectif').value}
+Demande : ${document.getElementById('objectif').value}
 Disponibilités : ${document.getElementById('dispo').value}` +
       (document.getElementById('note').value.trim() ? `\nMessage : ${document.getElementById('note').value.trim()}` : '');
     document.getElementById('msgtxt').textContent = txt;
