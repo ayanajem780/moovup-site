@@ -203,6 +203,33 @@
     .scan-foot .s-steps{grid-template-columns:1fr}
   }
 
+
+  /* scanner : tout sur un écran */
+  @media (min-width:961px){
+    .scan{height:calc(100svh - var(--hh));min-height:520px;padding:22px 0}
+    .scan .wrap{height:100%;grid-template-columns:minmax(300px,1fr) minmax(440px,560px) minmax(260px,1fr);justify-items:stretch;text-align:left;gap:3vw;width:min(1360px,calc(100vw - 180px))}
+    .scan .wrap > .rv:first-child{max-width:none;align-self:center}
+    .scan h2{margin:14px 0 18px}
+    .scan h2 i{font-size:clamp(24px,2.2vw,34px)}
+    .scan h2 b{font-size:clamp(28px,2.7vw,44px);min-height:3.3em}
+    .scan p.lead2{margin:0 0 26px;max-width:40ch;font-size:14.5px}
+    .stage{height:100%;max-width:none}
+    .scan-foot{align-self:center;align-items:stretch;gap:12px}
+    .scan-foot .s-steps{grid-template-columns:1fr;gap:10px}
+    .scan-foot .s-steps li{flex-direction:row;text-align:left;align-items:center;padding:13px 16px;font-size:13px;gap:14px}
+    .meter2{bottom:1%}
+  }
+  .foot-k{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#7FB2FF;font-weight:500}
+  .caret{display:inline-block;width:3px;height:.9em;background:#9CC7FF;margin-left:4px;vertical-align:-.08em;animation:blink .9s steps(1) infinite;-webkit-text-fill-color:initial}
+  @keyframes blink{50%{opacity:0}}
+  #typeTitle i,#typeTitle b{position:relative;min-height:0!important}
+  #typeTitle .ghost{visibility:hidden}
+  #typeTitle .typed{position:absolute;left:0;right:0;top:0}
+  #typeTitle b{background:none!important;-webkit-text-fill-color:initial;color:#fff}
+  #typeTitle b .typed{background:linear-gradient(90deg,#fff 0%,#9CC7FF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  #typeTitle .caret{-webkit-text-fill-color:initial}
+  @media (max-width:960px){#typeTitle .typed{text-align:center}}
+
   /* ---------- GALLERY ---------- */
   .gallery{padding:130px 0 120px}
   .gal{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:330px 330px;gap:10px;margin-top:56px}
@@ -541,8 +568,9 @@
   <div class="wrap">
     <div class="rv">
       <div class="k">Étape 01 · Bilan corporel &amp; diagnostic initial</div>
-      <h2><i>Nous sommes là</i><b>pour transformer votre vie, en profondeur.</b></h2>
-      <p class="lead2">Tout commence par un entretien individuel, puis l'analyse InBody de votre composition corporelle. Masse grasse, masse musculaire et autres indicateurs disponibles : nous mesurons ce que le miroir ne montre pas, puis nous définissons ensemble vos objectifs personnalisés.</p>
+      <h2 id="typeTitle" aria-label="Nous sommes là pour transformer votre vie, en profondeur."><i data-text="Nous sommes là" aria-hidden="true"></i><b data-text="pour transformer votre vie, en profondeur." aria-hidden="true"></b></h2>
+      <p class="lead2">Un entretien, puis l'analyse InBody de votre composition corporelle : nous mesurons ce que le miroir ne montre pas, et nous définissons ensemble vos objectifs.</p>
+      <a href="#contact" class="pill-btn light" id="scanCta">Réserver mon bilan corporel →</a>
 
     </div>
     <div class="stage" id="stage">
@@ -561,13 +589,13 @@
       <div class="meter2"><span id="scanTxt">Analyse InBody en cours… 0%</span><div class="bar"><i id="scanBar"></i></div></div>
     </div>
     <div class="scan-foot rv">
+      <div class="foot-k">Étape 01 en 4 temps</div>
         <ul class="s-steps">
         <li><span>1</span>Accueil et entretien individuel</li>
         <li><span>2</span>Analyse de la composition corporelle avec InBody</li>
         <li><span>3</span>Évaluation de la masse grasse, de la masse musculaire et des autres indicateurs disponibles</li>
         <li><span>4</span>Définition de vos objectifs personnalisés</li>
       </ul>
-      <a href="#contact" class="pill-btn light" data-pre="Bilan corporel InBody" id="scanCta">Réserver mon bilan corporel →</a>
     </div>
   </div>
 </section>
@@ -877,6 +905,31 @@
   const observe = root => root.querySelectorAll('.rv').forEach(el => io.observe(el));
   observe(document);
 
+
+
+  // ---------- TITRE TAPÉ AU CLAVIER ----------
+  (function(){
+    const h=document.getElementById('typeTitle'); if(!h) return;
+    const parts=[...h.querySelectorAll('[data-text]')];
+    const caret=document.createElement('span'); caret.className='caret';
+    parts.forEach(p=>p.innerHTML=`<span class="ghost">${p.dataset.text}</span><span class="typed"></span>`);
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){ parts.forEach(p=>p.querySelector('.typed').textContent=p.dataset.text); return; }
+    let started=false;
+    const type=async()=>{
+      for(const p of parts){
+        const txt=p.dataset.text;
+        p.innerHTML=`<span class="ghost">${txt}</span><span class="typed"></span>`;
+        const tgt=p.querySelector('.typed'); tgt.appendChild(caret);
+        for(let i=0;i<txt.length;i++){
+          caret.before(txt[i]);
+          const c=txt[i];
+          await new Promise(r=>setTimeout(r, c===' '?70:(',.'.includes(c)?260:38+Math.random()*70)));
+        }
+        await new Promise(r=>setTimeout(r,350));
+      }
+    };
+    new IntersectionObserver((es,o)=>es.forEach(e=>{ if(e.isIntersecting && !started){ started=true; o.disconnect(); setTimeout(type,300);} }),{threshold:.4}).observe(h);
+  })();
 
   // ---------- SCANNER ----------
   (function(){
