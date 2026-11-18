@@ -4,229 +4,224 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anaïs Beauty Clinic — Maigrir en santé</title>
-<meta name="description" content="Anaïs Clinic : un programme global pour maigrir en santé — bilan InBody, nutrition, coaching sportif privé et technologies d'amincissement.">
+<meta name="description" content="Anaïs Beauty Clinic : programme Maigrir en santé (bilan InBody, nutrition, coaching privé, technologies d'amincissement) et soins médico-esthétiques avec le médecin.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Mukta:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#F7F2EB;
-    --sand:#EDE3D6;
-    --linen:#FBF8F4;
-    --taupe:#8B7866;
-    --espresso:#2A221D;
-    --ink:#3D332C;
-    --gold:#5F7F6B;
+    --bg:#F4F4F5;
+    --white:#FFFFFF;
+    --ink:#1B1D21;
+    --muted:#6E737D;
+    --line:rgba(27,29,33,.1);
+    --tile:#E4E5E7;
     --sage:#7E9A88;
-    --gold-soft:#B8CDBF;
-    --line:rgba(42,34,29,.12);
-    --serif:'Cormorant Garamond', Georgia, serif;
-    --sans:'Jost', system-ui, sans-serif;
-    --radius:22px;
+    --sage-deep:#56705F;
+    --sage-mist:#DCE5DF;
+    --serif:'Newsreader', Georgia, serif;
+    --sans:'Mukta', 'Frutiger', system-ui, sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;overflow-x:clip}
-  body{overflow-x:clip}
-  body{font-family:var(--sans);font-weight:300;color:var(--ink);background:var(--cream);line-height:1.7;font-size:17px;-webkit-font-smoothing:antialiased}
+  body{font-family:var(--sans);font-weight:300;color:var(--ink);background:var(--bg);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:clip}
   img{display:block;max-width:100%}
   a{color:inherit;text-decoration:none}
-  .wrap{width:min(1180px,92vw);margin:0 auto}
-  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:500}
-  h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--espresso);line-height:1.08}
-  em{font-style:italic;color:var(--gold)}
+  button{font-family:inherit}
+  .wrap{width:min(1240px,92vw);margin:0 auto}
 
-  /* ---------- NAV ---------- */
-  header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s, box-shadow .4s, padding .4s;padding:22px 0}
-  header.scrolled{background:rgba(247,242,235,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding:14px 0}
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
-  .logo{display:flex;flex-direction:column;line-height:1}
-  .logo b{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:.04em;color:var(--espresso)}
-  .logo span{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--taupe);margin-top:4px}
-  .nav ul{display:flex;gap:34px;list-style:none;font-size:14px;letter-spacing:.06em}
-  .nav ul a{position:relative;padding:4px 0}
-  .nav ul a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .3s}
-  .nav ul a:hover::after{width:100%}
-  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-size:14px;letter-spacing:.08em;font-weight:400;transition:all .3s;cursor:pointer;border:1px solid transparent;font-family:var(--sans)}
-  .btn-dark{background:var(--espresso);color:var(--cream)}
-  .btn-dark:hover{background:var(--gold)}
-  .btn-ghost{border-color:var(--espresso);color:var(--espresso)}
-  .btn-ghost:hover{background:var(--espresso);color:var(--cream)}
-  .btn .arr{transition:transform .3s}
-  .btn:hover .arr{transform:translateX(4px)}
-  .burger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer}
-  .burger i{display:block;width:24px;height:1px;background:var(--espresso);margin:6px auto;transition:.3s}
+  /* Double-line titles (italic serif + uppercase sans) */
+  .tt{text-align:center;line-height:1.05}
+  .tt i{display:block;font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(26px,2.6vw,36px);color:var(--ink);letter-spacing:.01em}
+  .tt b{display:block;font-weight:400;text-transform:uppercase;font-size:clamp(30px,3.4vw,46px);letter-spacing:.04em;margin-top:4px}
+  .tt.left{text-align:left}
+  .sub{text-align:center;color:var(--ink);font-size:15px;margin-top:14px}
+
+  .pill-btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#FAFAFA;border-radius:999px;padding:9px 20px;font-size:14px;font-weight:400;border:0;cursor:pointer;transition:background .3s}
+  .pill-btn:hover{background:var(--sage-deep)}
+  .pill-btn.light{background:#fff;color:var(--ink)}
+  .pill-btn.light:hover{background:var(--sage-mist)}
+  .pill-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+  .pill-btn.ghost:hover{background:var(--ink);color:#fff}
+
+  /* ---------- FLOATING NAV ---------- */
+  .navbar{position:fixed;top:18px;left:0;right:0;z-index:60;pointer-events:none}
+  .navbar .wrap{display:flex;justify-content:space-between;align-items:flex-start;width:min(1400px,96vw)}
+  .pill{pointer-events:auto;display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:rgba(255,255,255,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,255,255,.4) inset, 0 6px 24px -12px rgba(0,0,0,.25);font-size:14px}
+  .pill .ic{width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;border:0;cursor:pointer}
+  .pill .ic i{display:block;width:13px;height:1.5px;background:#fff;box-shadow:0 4px 0 #fff,0 -4px 0 #fff}
+  .pill .lbl{padding:0 14px 0 8px;cursor:pointer;background:none;border:0;font-size:14px;color:var(--ink)}
+  .pill .lnk{padding:0 12px;display:flex;align-items:center;gap:6px;color:var(--ink)}
+  .pill .pill-btn{padding:8px 16px}
+  .brand{position:fixed;top:22px;left:50%;transform:translateX(-50%);z-index:61;text-align:center;color:#fff;transition:opacity .4s, transform .4s;line-height:.9}
+  .brand b{display:block;font-weight:600;font-size:30px;letter-spacing:.14em}
+  .brand small{display:block;font-family:var(--serif);font-style:italic;font-size:15px;letter-spacing:.04em;margin-top:6px}
+  .brand.hide{opacity:0;transform:translate(-50%,-14px);pointer-events:none}
+
+  /* menu overlay */
+  .menu{position:fixed;inset:0;z-index:70;background:rgba(244,244,245,.97);backdrop-filter:blur(10px);display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px}
+  .menu.open{display:flex;animation:fade .35s}
+  .menu a{font-size:clamp(28px,4vw,46px);text-transform:uppercase;letter-spacing:.05em;font-weight:300;transition:color .3s}
+  .menu a:hover{color:var(--sage-deep)}
+  .menu a i{font-family:var(--serif);text-transform:none;font-size:.6em;margin-right:14px;color:var(--muted)}
+  .menu .x{position:absolute;top:24px;left:2vw;width:48px;height:48px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:18px;cursor:pointer}
+  @keyframes fade{from{opacity:0}}
 
   /* ---------- HERO ---------- */
-  .hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:6vw;padding:130px 0 80px}
-  .hero h1{font-size:clamp(54px,7.4vw,108px);font-weight:400;letter-spacing:-.01em;margin:22px 0 26px}
-  .hero h1 em{display:block}
-  .hero p.lead{font-family:var(--serif);font-size:clamp(21px,2vw,26px);font-style:italic;color:var(--taupe);max-width:30ch;margin-bottom:38px}
-  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
-  .hero-visual{position:relative}
-  .arch{border-radius:999px 999px var(--radius) var(--radius);overflow:hidden;aspect-ratio:4/5;box-shadow:0 40px 80px -30px rgba(42,34,29,.35)}
-  .arch img{width:100%;height:100%;object-fit:cover;object-position:62% center;transform:scale(1.08);animation:zoom 14s ease-out forwards}
+  .hero{position:relative;height:100svh;min-height:600px;display:flex;align-items:flex-end;justify-content:center;color:#fff;text-align:center;overflow:hidden}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);animation:zoom 16s ease-out forwards}
   @keyframes zoom{to{transform:scale(1)}}
-  .badge{position:absolute;left:-34px;bottom:56px;background:var(--linen);border-radius:18px;padding:18px 22px;box-shadow:0 20px 50px -20px rgba(42,34,29,.3);display:flex;align-items:center;gap:14px}
-  .badge .dot{width:46px;height:46px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-family:var(--serif);font-size:22px;color:var(--gold)}
-  .badge small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe)}
-  .badge strong{font-family:var(--serif);font-weight:500;font-size:20px;color:var(--espresso)}
-  .ring{position:absolute;right:-28px;top:40px;width:120px;height:120px;animation:spin 22s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,22,25,.28) 0%,rgba(20,22,25,.05) 35%,rgba(20,22,25,.55) 100%)}
+  .hero-in{position:relative;z-index:2;padding:0 6vw 70px;max-width:760px}
+  .hero .tt i,.hero .tt b{color:#fff}
+  .hero .tt i{font-size:clamp(34px,4vw,54px)}
+  .hero .tt b{font-size:clamp(46px,6vw,84px);letter-spacing:.06em;font-weight:300}
+  .hero p{margin:22px auto 30px;font-size:15.5px;max-width:52ch;opacity:.92}
+  .down{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.3);backdrop-filter:blur(8px);display:inline-grid;place-items:center;color:#fff;font-size:14px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(5px)}}
 
-  /* ---------- MANIFESTO ---------- */
-  .manifesto{padding:120px 0;background:var(--linen);text-align:center}
-  .manifesto h2{font-size:clamp(34px,4.4vw,58px);font-weight:400;max-width:20ch;margin:20px auto 30px}
-  .manifesto p{max-width:60ch;margin:0 auto;color:var(--taupe);font-size:18px}
+  /* ---------- GALLERY ---------- */
+  .gallery{padding:130px 0 120px}
+  .gal{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:330px 330px;gap:10px;margin-top:56px}
+  .gal figure{overflow:hidden;background:var(--tile)}
+  .gal figure:first-child{grid-row:span 2}
+  .gal img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s ease}
+  .gal figure:hover img{transform:scale(1.05)}
 
-  /* ---------- PILLARS ---------- */
-  .pillars{padding:120px 0}
-  .sec-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:60px;flex-wrap:wrap}
-  .sec-head h2{font-size:clamp(36px,4.2vw,56px);font-weight:400;max-width:16ch;margin-top:14px}
-  .sec-head p{max-width:42ch;color:var(--taupe)}
-  .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
-  .pillar{background:var(--linen);border:1px solid var(--line);border-radius:var(--radius);padding:34px 26px 30px;transition:transform .4s, box-shadow .4s, background .4s;min-height:260px;display:flex;flex-direction:column}
-  .pillar:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(42,34,29,.3);background:#fff}
-  .pillar .ico{width:54px;height:54px;border-radius:50%;background:var(--sand);display:grid;place-items:center;margin-bottom:auto}
-  .pillar .ico svg{width:24px;height:24px;stroke:var(--gold);fill:none;stroke-width:1.4}
-  .pillar .n{font-family:var(--serif);font-size:15px;color:var(--gold);margin:30px 0 6px}
-  .pillar h3{font-size:24px;line-height:1.15}
+  /* ---------- WELCOME ---------- */
+  .welcome{padding:30px 0 130px}
+  .welcome .wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:7vw;align-items:center}
+  .portrait{aspect-ratio:4/5;background:var(--tile);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--muted)}
+  .portrait .mono{width:130px;height:130px;border-radius:50%;background:var(--sage);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;line-height:1}
+  .portrait .mono b{font-family:var(--serif);font-weight:400;font-size:38px}
+  .portrait .mono small{font-family:var(--serif);font-size:11px;margin-top:4px}
+  .welcome .txt p{margin-top:26px;max-width:54ch;font-size:16px}
+  .welcome .txt p + p{margin-top:16px}
+  .sign{margin-top:28px;font-family:var(--serif);font-style:italic;font-size:22px}
+  .sign small{display:block;font-family:var(--sans);font-style:normal;font-size:13px;color:var(--muted)}
 
-  /* ---------- OBJECTIVE ---------- */
-  .objective{background:var(--espresso);color:var(--cream);padding:110px 0;overflow:hidden;position:relative}
-  .objective .eyebrow{color:var(--gold-soft)}
-  .obj-lines{margin-top:28px}
-  .obj-lines div{font-family:var(--serif);font-size:clamp(38px,5.6vw,80px);line-height:1.12;font-weight:400;color:var(--cream);opacity:.25;transition:opacity .8s, transform .8s;transform:translateX(-20px)}
-  .obj-lines div.on{opacity:1;transform:none}
-  .obj-lines div em{color:var(--gold-soft)}
+  /* ---------- SPLIT ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+  .split .media{position:relative;overflow:hidden}
+  .split .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .split .panel{display:flex;flex-direction:column;background:linear-gradient(180deg,#E9EAEB 0%,#F4F4F5 100%)}
+  .split .panel .top{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:90px 8%}
+  .split .panel .top p{max-width:44ch;margin-top:20px;font-size:15px}
+  .split .panel .bot{background:#F4F4F5;padding:56px 8% 64px;border-top:1px solid var(--line)}
+  .split.rev .media{order:2}
+  .pil-list{list-style:none;display:grid;gap:0;margin-bottom:30px;max-width:460px}
+  .pil-list li{display:flex;gap:18px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+  .pil-list li span{font-family:var(--serif);font-style:italic;color:var(--sage-deep);font-size:17px;min-width:26px}
+  .obj{font-family:var(--serif);font-style:italic;font-size:clamp(20px,1.7vw,24px);line-height:1.4;margin-bottom:26px;max-width:28ch}
 
-  /* ---------- PROTOCOL ---------- */
-  .protocol{padding:130px 0 90px}
-  .carousel-ctrl{display:flex;gap:10px}
-  .cbtn{width:52px;height:52px;border-radius:50%;border:1px solid var(--espresso);background:transparent;color:var(--espresso);font-size:20px;cursor:pointer;transition:.3s;display:grid;place-items:center}
-  .cbtn:hover{background:var(--espresso);color:var(--cream)}
-  .cbtn:disabled{opacity:.25;cursor:default;background:transparent;color:var(--espresso)}
-  .cards{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 3*24px)/4);gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 4px 40px;scrollbar-width:none}
+  /* ---------- STEPS (cards) ---------- */
+  .steps{padding:140px 0 120px}
+  .steps-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+  .ctrl{display:flex;gap:8px}
+  .cbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:transparent;cursor:pointer;font-size:16px;color:var(--ink);transition:.3s}
+  .cbtn:hover{background:var(--ink);color:#fff}
+  .cbtn:disabled{opacity:.2;background:transparent;color:var(--ink);cursor:default}
+  .cards{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 3*20px)/4);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;margin-top:50px;padding-bottom:20px;scrollbar-width:none}
   .cards::-webkit-scrollbar{display:none}
-  .card{scroll-snap-align:start;background:var(--linen);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 50px -28px rgba(42,34,29,.28);transition:transform .4s, box-shadow .4s}
-  .card:hover{transform:translateY(-6px);box-shadow:0 34px 60px -28px rgba(42,34,29,.35)}
-  .card-img{aspect-ratio:3/2;overflow:hidden;border-radius:28px;background:var(--sand)}
-  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform 1s ease}
+  .card{scroll-snap-align:start;background:var(--white);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .4s, box-shadow .4s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 26px 50px -30px rgba(0,0,0,.3)}
+  .card-img{aspect-ratio:3/2;overflow:hidden;border-radius:22px;background:var(--tile)}
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s}
   .card:hover .card-img img{transform:scale(1.05)}
-  .card-body{padding:28px 28px 30px;display:flex;flex-direction:column;flex:1}
-  .card-body .tag{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-  .card-body h3{font-size:27px;line-height:1.12;margin-bottom:12px}
-  .card-body p{color:var(--taupe);font-size:15.5px;margin-bottom:30px}
-  .card-body .btn{margin-top:auto;align-self:flex-start;border-color:var(--espresso);color:var(--espresso);padding:13px 24px}
-  .card-body .btn:hover{background:var(--espresso);color:var(--cream)}
+  .card-b{padding:24px 24px 26px;display:flex;flex-direction:column;flex:1}
+  .card-b .n{font-family:var(--serif);font-style:italic;color:var(--sage-deep);font-size:18px}
+  .card-b h3{font-weight:400;font-size:21px;line-height:1.2;text-transform:uppercase;letter-spacing:.03em;margin:6px 0 12px}
+  .card-b p{color:var(--muted);font-size:14.5px;margin-bottom:26px}
+  .card-b .pill-btn{margin-top:auto;align-self:flex-start}
 
   /* modal */
-  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(42,34,29,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .modal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(27,29,33,.5);backdrop-filter:blur(6px)}
   .modal.open{display:flex;animation:fade .3s}
-  @keyframes fade{from{opacity:0}}
-  .modal-box{background:var(--linen);border-radius:28px;max-width:860px;width:100%;max-height:90vh;overflow:auto;display:grid;grid-template-columns:.9fr 1.1fr}
-  .modal-box img{width:100%;height:100%;object-fit:cover;min-height:260px}
-  .modal-in{padding:44px 40px;position:relative}
-  .modal-in .tag{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:500}
-  .modal-in h3{font-size:34px;font-weight:400;margin:10px 0 18px}
-  .modal-in ul{list-style:none;margin-bottom:28px}
-  .modal-in li{padding:11px 0 11px 30px;border-bottom:1px solid var(--line);position:relative;font-size:15.5px}
-  .modal-in li::before{content:"";position:absolute;left:2px;top:22px;width:14px;height:1px;background:var(--gold)}
-  .modal-in p.ms{color:var(--taupe);margin-bottom:24px}
-  .close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--cream);cursor:pointer;font-size:18px;color:var(--espresso)}
+  .mbox{background:var(--white);border-radius:22px;max-width:880px;width:100%;max-height:90vh;overflow:auto;display:grid;grid-template-columns:.9fr 1.1fr}
+  .mbox img{width:100%;height:100%;object-fit:cover;min-height:280px}
+  .min{padding:46px 40px;position:relative}
+  .min .n{font-family:var(--serif);font-style:italic;color:var(--sage-deep);font-size:20px}
+  .min h3{font-weight:400;text-transform:uppercase;letter-spacing:.03em;font-size:26px;line-height:1.15;margin:6px 0 20px}
+  .min ul{list-style:none;margin-bottom:28px}
+  .min li{padding:10px 0 10px 26px;border-bottom:1px solid var(--line);position:relative;font-size:15px}
+  .min li::before{content:"";position:absolute;left:2px;top:21px;width:12px;height:1px;background:var(--sage-deep)}
+  .mx{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:0;background:var(--bg);cursor:pointer;font-size:15px}
 
-  /* soins médicaux */
-  .soins{background:var(--espresso);color:var(--cream);padding:120px 0}
-  .soins .sec-head h2{color:var(--cream)}
-  .soins .sec-head p{color:rgba(247,242,235,.65)}
-  .soins .eyebrow{color:var(--gold-soft)}
-  .doc{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:9px 18px;border:1px solid rgba(247,242,235,.25);border-radius:999px;font-size:13px;letter-spacing:.06em;color:var(--gold-soft)}
-  .bubbles{display:grid;grid-template-columns:repeat(6,1fr);gap:22px}
-  .bubble{background:none;border:0;cursor:pointer;color:var(--cream);font-family:var(--sans);text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
-  .bubble .disc{width:100%;max-width:150px;aspect-ratio:1;border-radius:50%;padding:7px;border:2px solid rgba(247,242,235,.18);transition:border-color .4s, transform .4s}
-  .bubble .disc span{width:100%;height:100%;border-radius:50%;background:var(--sage);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
-  .bubble .disc b{font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,34px);color:#fff}
-  .bubble .disc small{font-family:var(--serif);font-size:11px;color:rgba(255,255,255,.85);margin-top:3px}
-  .bubble:hover .disc,.bubble.active .disc{border-color:var(--gold-soft);transform:translateY(-4px)}
-  .bubble strong{font-weight:500;font-size:16px;letter-spacing:.02em}
-  .soin-detail{margin-top:50px;border-top:1px solid rgba(247,242,235,.15);padding-top:40px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;min-height:150px}
-  .soin-detail h3{color:var(--cream);font-size:36px;font-weight:400;margin-bottom:10px}
-  .soin-detail p{color:rgba(247,242,235,.72);max-width:62ch}
-  .soin-detail .btn{background:var(--cream);color:var(--espresso)}
-  .soin-detail .btn:hover{background:var(--gold-soft)}
-  .soins-note{margin-top:26px;font-size:13px;color:rgba(247,242,235,.5)}
+  /* ---------- SOINS (team-like grid) ---------- */
+  .soins{padding:140px 0 120px;background:var(--white)}
+  .doc{display:flex;justify-content:center;margin-top:18px}
+  .doc span{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--sage-deep);background:var(--sage-mist);padding:6px 16px;border-radius:999px}
+  .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 20px;margin-top:60px}
+  .soin{cursor:pointer;text-align:left;background:none;border:0;color:var(--ink)}
+  .soin .tile{aspect-ratio:4/4.4;background:var(--tile);display:grid;place-items:center;overflow:hidden;position:relative;transition:background .5s}
+  .soin .disc{width:46%;aspect-ratio:1;border-radius:50%;background:var(--sage);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;line-height:1;outline:6px solid rgba(126,154,136,.25);outline-offset:6px;transition:transform .6s}
+  .soin .disc b{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.6vw,40px)}
+  .soin .disc small{font-family:var(--serif);font-size:12px;margin-top:4px;opacity:.9}
+  .soin .hov{position:absolute;inset:auto 0 0 0;padding:22px 24px;background:linear-gradient(0deg,rgba(27,29,33,.78),rgba(27,29,33,0));color:#fff;font-size:14px;transform:translateY(100%);transition:transform .5s}
+  .soin:hover .tile{background:#dcdedf}
+  .soin:hover .disc{transform:scale(1.05)}
+  .soin:hover .hov,.soin:focus-visible .hov{transform:none}
+  .soin h3{font-weight:400;font-size:16px;margin-top:14px}
+  .soin p{font-size:13.5px;color:var(--muted)}
+  .soins-note{text-align:center;margin-top:50px;font-size:14px;color:var(--muted)}
 
-  /* ---------- BOOKING ---------- */
-  .booking{padding:120px 0 130px}
-  .book-card{display:grid;grid-template-columns:1fr 1.1fr;border-radius:32px;overflow:hidden;background:var(--linen);border:1px solid var(--line)}
-  .book-left{background:var(--sand);padding:64px 56px;display:flex;flex-direction:column;justify-content:space-between;gap:40px}
-  .book-left h2{font-size:clamp(36px,4vw,54px);font-weight:400;margin:16px 0 20px}
-  .book-left p{color:var(--taupe)}
-  .incl{list-style:none;display:grid;gap:10px;font-size:15px}
-  .incl li{display:flex;gap:12px;align-items:center}
-  .incl li::before{content:"✦";color:var(--gold);font-size:12px}
-  form{padding:64px 56px;display:grid;gap:20px}
-  .field{display:grid;gap:8px}
-  .field label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe)}
-  .field input,.field select,.field textarea{font-family:var(--sans);font-size:16px;font-weight:300;color:var(--espresso);background:transparent;border:0;border-bottom:1px solid rgba(42,34,29,.25);padding:10px 0;outline:none;transition:border-color .3s;border-radius:0;-webkit-appearance:none;appearance:none}
-  .field select{background-image:linear-gradient(45deg,transparent 50%,var(--taupe) 50%),linear-gradient(135deg,var(--taupe) 50%,transparent 50%);background-position:calc(100% - 12px) 20px,calc(100% - 7px) 20px;background-size:5px 5px;background-repeat:no-repeat}
-  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
-  .field textarea{resize:vertical;min-height:70px}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  .form-note{font-size:13px;color:var(--taupe)}
-  .msg{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;font-size:15px}
+  /* ---------- CONTACT ---------- */
+  .contact{padding:140px 0 60px;text-align:center}
+  .contact > .wrap > p{max-width:52ch;margin:20px auto 0;font-size:15px}
+  .fcard{max-width:760px;margin:50px auto 0;background:var(--white);padding:46px 46px 40px;text-align:left;display:grid;gap:22px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .field{display:grid;gap:6px}
+  .field label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500}
+  .field input,.field select,.field textarea{font-family:var(--sans);font-size:16px;font-weight:300;color:var(--ink);background:transparent;border:0;border-bottom:1px solid rgba(27,29,33,.22);padding:8px 0;outline:none;border-radius:0;-webkit-appearance:none;appearance:none}
+  .field select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 12px) 18px,calc(100% - 7px) 18px;background-size:5px 5px;background-repeat:no-repeat}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--sage-deep)}
+  .field textarea{min-height:64px;resize:vertical}
+  .fnote{font-size:13px;color:var(--muted)}
+  .msg{display:none;background:var(--bg);padding:20px;font-size:14.5px}
   .msg.show{display:block}
-  .msg pre{white-space:pre-wrap;font-family:var(--sans);font-size:14px;color:var(--ink);margin:10px 0 14px;background:var(--cream);padding:14px;border-radius:10px}
+  .msg pre{white-space:pre-wrap;font-family:var(--sans);font-size:14px;margin:10px 0 14px}
   .msg .acts{display:flex;gap:10px;flex-wrap:wrap}
-  .msg .btn{padding:11px 20px;font-size:13px}
 
   /* ---------- FOOTER ---------- */
-  footer{background:var(--espresso);color:rgba(247,242,235,.7);padding:70px 0 34px;font-size:14px}
-  .foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:50px;border-bottom:1px solid rgba(247,242,235,.12)}
-  footer .logo b{color:var(--cream)}
-  footer .logo span{color:var(--gold-soft)}
-  footer h4{font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:16px}
-  footer ul{list-style:none;display:grid;gap:8px}
-  footer a:hover{color:var(--cream)}
-  .copy{display:flex;justify-content:space-between;gap:20px;padding-top:28px;font-size:12px;letter-spacing:.06em;flex-wrap:wrap}
+  footer{padding:60px 0 40px}
+  .fbox{max-width:760px;margin:0 auto;background:var(--white);padding:50px 56px;display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+  .fbox h4{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:16px}
+  .fbox ul{list-style:none;display:grid;gap:6px;font-size:15px;font-weight:400}
+  .fbox a:hover{color:var(--sage-deep)}
+  .legal{text-align:center;margin-top:40px;font-size:11.5px;color:var(--muted);display:grid;gap:10px}
 
-  /* ---------- REVEAL ---------- */
-  .rv{opacity:0;transform:translateY(30px);transition:opacity 1s ease, transform 1s ease}
+  /* reveal */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity 1s ease, transform 1s ease}
   .rv.in{opacity:1;transform:none}
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:1080px){
-    .grid5{grid-template-columns:repeat(3,1fr)}
-    .cards{grid-auto-columns:calc((100% - 2*24px)/2.4)}
-    .bubbles{grid-template-columns:repeat(3,1fr);row-gap:34px}
+    .cards{grid-auto-columns:calc((100% - 2*20px)/2.4)}
+    .pill .lnk{display:none}
   }
   @media (max-width:860px){
-    body{font-size:16px}
-    .nav ul,.nav .btn{display:none}
-    .burger{display:block}
-    header.open{background:var(--cream)}
-    header.open .nav ul{display:flex;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--cream);padding:10px 4vw 24px;border-bottom:1px solid var(--line)}
-    header.open .nav ul li a{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
-    header.open .burger i:first-child{transform:translateY(3.5px) rotate(45deg)}
-    header.open .burger i:last-child{transform:translateY(-3.5px) rotate(-45deg)}
-    .hero{grid-template-columns:1fr;padding-top:120px;gap:50px}
-    .hero-visual{max-width:440px;margin:0 auto;width:100%}
-    .badge{left:-8px}
-    .ring{right:-6px;width:90px;height:90px}
-    .grid5{grid-template-columns:1fr 1fr}
+    .gal{grid-template-columns:1fr 1fr;grid-template-rows:240px 240px 240px}
+    .gal figure:first-child{grid-row:span 1;grid-column:span 2}
+    .welcome .wrap{grid-template-columns:1fr;gap:44px}
+    .portrait{max-width:420px;width:100%;margin:0 auto}
+    .welcome .tt{text-align:center}
+    .split,.split.rev{grid-template-columns:1fr;min-height:auto}
+    .split .media{height:62vh;order:0!important}
     .cards{grid-auto-columns:82%}
-    .modal-box{grid-template-columns:1fr}
-    .modal-box img{max-height:220px;min-height:0}
-    .modal-in{padding:34px 26px}
-    .soin-detail{grid-template-columns:1fr}
-    .book-card{grid-template-columns:1fr}
-    .book-left,form{padding:44px 28px}
-    .foot{grid-template-columns:1fr}
+    .mbox{grid-template-columns:1fr}
+    .mbox img{max-height:220px;min-height:0}
+    .min{padding:34px 26px}
+    .sgrid{grid-template-columns:1fr 1fr}
+    .fbox{grid-template-columns:1fr 1fr;padding:40px 30px}
+    .pill .lbl{display:none}
+    .brand b{font-size:24px}
   }
   @media (max-width:520px){
-    .grid5{grid-template-columns:1fr}
-    .pillar{min-height:auto}
     .row2{grid-template-columns:1fr}
-    .bubbles{grid-template-columns:repeat(2,1fr)}
+    .fcard{padding:32px 22px}
+    .fbox{grid-template-columns:1fr}
+    .sgrid{gap:24px 12px}
+    .soin .hov{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
@@ -236,203 +231,177 @@
 </head>
 <body>
 
-<header id="top">
-  <div class="wrap nav">
-    <a href="#accueil" class="logo"><b>Anaïs</b><span>Beauty Clinic</span></a>
-    <ul>
-      <li><a href="#approche">Notre approche</a></li>
-      <li><a href="#programme">Le programme</a></li>
-      <li><a href="#protocole">Le protocole</a></li>
-      <li><a href="#soins">Soins médicaux</a></li>
-      <li><a href="#bilan">Bilan</a></li>
-    </ul>
-    <a href="#bilan" class="btn btn-dark">Réserver mon bilan <span class="arr">→</span></a>
-    <button class="burger" aria-label="Menu" id="burger"><i></i><i></i></button>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="wrap hero" id="accueil">
-  <div class="rv">
-    <div class="eyebrow">Programme minceur · Anaïs Clinic</div>
-    <h1>Maigrir <em>en santé.</em></h1>
-    <p class="lead">Votre corps mérite mieux qu'un simple régime.</p>
-    <div class="hero-cta">
-      <a href="#bilan" class="btn btn-dark">Réserver mon bilan corporel <span class="arr">→</span></a>
-      <a href="#protocole" class="btn btn-ghost">Découvrir le protocole</a>
-    </div>
-  </div>
-  <div class="hero-visual rv">
-    <div class="arch"><img src="img/technologies.jpg" alt="Séance d'amincissement à Anaïs Clinic"></div>
-    <div class="badge">
-      <div class="dot">5</div>
-      <div><small>Un parcours en</small><strong>5 étapes encadrées</strong></div>
-    </div>
-    <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
-      <defs><path id="c" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
-      <circle cx="60" cy="60" r="58" fill="#FBF8F4"/>
-      <text font-family="Jost" font-size="9.6" letter-spacing="3.2" fill="#8B7866"><textPath href="#c">NUTRITION · COACHING · TECHNOLOGIES · SUIVI ·</textPath></text>
-      <text x="60" y="68" text-anchor="middle" font-family="Cormorant Garamond" font-size="24" fill="#5F7F6B">A</text>
-    </svg>
-  </div>
-</section>
-
-<!-- MANIFESTO -->
-<section class="manifesto" id="approche">
-  <div class="wrap rv">
-    <div class="eyebrow">Notre conviction</div>
-    <h2>Perdre du poids, <em>sans privation</em> ni solutions extrêmes.</h2>
-    <p>Chez Anaïs Clinic, nous croyons que perdre du poids ne doit pas être synonyme de privation, de frustration ou de solutions extrêmes. C'est pourquoi nous avons conçu un programme global, pensé autour de vous.</p>
-  </div>
-</section>
-
-<!-- PILLARS -->
-<section class="pillars wrap" id="programme">
-  <div class="sec-head rv">
-    <div>
-      <div class="eyebrow">Un programme global</div>
-      <h2>Cinq expertises réunies en un seul parcours</h2>
-    </div>
-    <p>Chaque dimension compte. Notre programme associe le savoir-faire de plusieurs spécialistes pour une transformation durable et encadrée.</p>
-  </div>
-  <div class="grid5">
-    <div class="pillar rv">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21c-4-2-7-6-7-11a7 7 0 0 1 14 0c0 5-3 9-7 11z"/><path d="M12 8v6M9 11h6"/></svg></div>
-      <div class="n">01</div><h3>L'expertise nutritionnelle</h3>
-    </div>
-    <div class="pillar rv">
-      <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 15l3-3 2 2 3-4"/></svg></div>
-      <div class="n">02</div><h3>L'analyse de la composition corporelle</h3>
-    </div>
-    <div class="pillar rv">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h3M18 12h3M6 8v8M18 8v8M9 10v4M15 10v4M9 12h6"/></svg></div>
-      <div class="n">03</div><h3>Le coaching sportif privé</h3>
-    </div>
-    <div class="pillar rv">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></div>
-      <div class="n">04</div><h3>Les technologies d'amincissement</h3>
-    </div>
-    <div class="pillar rv">
-      <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/></svg></div>
-      <div class="n">05</div><h3>Un accompagnement personnalisé</h3>
-    </div>
-  </div>
-</section>
-
-<!-- OBJECTIVE -->
-<section class="objective">
+<!-- floating nav -->
+<div class="navbar">
   <div class="wrap">
-    <div class="eyebrow">Notre objectif</div>
-    <div class="obj-lines" id="obj">
-      <div>Un accompagnement <em>complet.</em></div>
-      <div>Un programme <em>personnalisé.</em></div>
-      <div>Une transformation <em>encadrée.</em></div>
+    <div class="pill">
+      <button class="ic" id="openMenu" aria-label="Menu"><i></i></button>
+      <button class="lbl" id="openMenu2">Votre parcours commence ici ✦</button>
     </div>
-  </div>
-</section>
-
-<!-- PROTOCOL -->
-<section class="protocol wrap" id="protocole">
-  <div class="sec-head rv">
-    <div>
-      <div class="eyebrow">Le protocole de prise en charge</div>
-      <h2>Votre parcours, étape par étape</h2>
-    </div>
-    <div class="carousel-ctrl">
-      <button class="cbtn" id="prev" aria-label="Précédent">←</button>
-      <button class="cbtn" id="next" aria-label="Suivant">→</button>
-    </div>
-  </div>
-  <div class="cards" id="cards"></div>
-</section>
-
-<!-- SOINS MÉDICAUX -->
-<section class="soins" id="soins">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <div class="eyebrow">Médecine esthétique</div>
-        <h2>Nos soins réalisés avec le médecin</h2>
-        <div class="doc">✚ Consultation et soins encadrés par notre médecin</div>
-      </div>
-      <p>Au-delà du programme minceur, Anaïs Beauty Clinic propose des soins médico-esthétiques pour le visage, la peau et les cheveux.</p>
-    </div>
-    <div class="bubbles rv" id="bubbles"></div>
-    <div class="soin-detail" id="soinDetail">
-      <div><h3 id="sdTitle"></h3><p id="sdText"></p></div>
-      <a href="#bilan" class="btn" id="sdBtn">Prendre rendez-vous <span class="arr">→</span></a>
-    </div>
-    <p class="soins-note">Chaque soin commence par une consultation : le médecin vérifie qu'il vous convient et définit le protocole adapté.</p>
-  </div>
-</section>
-
-<div class="modal" id="modal" role="dialog" aria-modal="true">
-  <div class="modal-box">
-    <img id="mImg" alt="">
-    <div class="modal-in">
-      <button class="close" id="mClose" aria-label="Fermer">✕</button>
-      <div class="tag" id="mTag"></div>
-      <h3 id="mTitle"></h3>
-      <ul id="mList"></ul>
-      <a href="#bilan" class="btn btn-dark" id="mBtn">Réserver mon bilan <span class="arr">→</span></a>
+    <div class="pill">
+      <a class="lnk" href="#contact">Nous contacter</a>
+      <a class="pill-btn" href="#contact">Réserver</a>
     </div>
   </div>
 </div>
+<a href="#accueil" class="brand" id="brand"><b>ANAÏS</b><small>Beauty Clinic</small></a>
 
-<!-- BOOKING -->
-<section class="booking wrap" id="bilan">
-  <div class="book-card rv">
-    <div class="book-left">
-      <div>
-        <div class="eyebrow">Première étape</div>
-        <h2>Prenez <em>rendez-vous</em></h2>
-        <p>Pour le programme minceur, tout commence par un bilan corporel avec analyse InBody. Pour un soin, par une consultation avec le médecin.</p>
-      </div>
-      <ul class="incl">
-        <li>Bilan corporel &amp; analyse InBody</li>
-        <li>Consultation avec le médecin</li>
-        <li>Programme ou protocole personnalisé</li>
-      </ul>
+<nav class="menu" id="menu" aria-label="Menu principal">
+  <button class="x" id="closeMenu" aria-label="Fermer">✕</button>
+  <a href="#accueil"><i>01</i>Accueil</a>
+  <a href="#clinique"><i>02</i>La clinique</a>
+  <a href="#programme"><i>03</i>Le programme</a>
+  <a href="#parcours"><i>04</i>Le parcours</a>
+  <a href="#soins"><i>05</i>Soins médicaux</a>
+  <a href="#contact"><i>06</i>Contact</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="accueil">
+  <img src="img/technologies.jpg" alt="Séance d'amincissement à Anaïs Beauty Clinic">
+  <div class="hero-in">
+    <h1 class="tt"><i>Maigrir</i><b>en santé</b></h1>
+    <p>Votre corps mérite mieux qu'un simple régime. Chez Anaïs Beauty Clinic, nutrition, coaching, technologies et suivi médical se réunissent en un seul parcours, pensé pour vous.</p>
+    <a href="#clinique" class="down" aria-label="Défiler">↓</a>
+  </div>
+</header>
+
+<!-- GALLERY -->
+<section class="gallery" id="clinique">
+  <div class="wrap">
+    <div class="rv">
+      <h2 class="tt"><i>Un aperçu de</i><b>Anaïs Beauty Clinic</b></h2>
+      <p class="sub">Analyse, nutrition, mouvement et technologies — sous un même toit.</p>
     </div>
+    <div class="gal rv">
+      <figure><img src="img/technologies.jpg" alt="Technologies d'amincissement"></figure>
+      <figure><img src="img/nutrition.jpg" alt="Consultation nutrition" loading="lazy"></figure>
+      <figure><img src="img/coaching.jpg" alt="Coaching sportif privé" loading="lazy"></figure>
+      <figure><img src="img/bilan-inbody.jpg" alt="Analyse InBody" loading="lazy"></figure>
+      <figure><img src="img/suivi.jpg" alt="Suivi des résultats" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
 
-    <form id="form" novalidate>
+<!-- WELCOME -->
+<section class="welcome">
+  <div class="wrap">
+    <div class="portrait rv">
+      <div class="mono"><b>Anaïs</b><small>Beauty Clinic</small></div>
+    </div>
+    <div class="txt rv">
+      <h2 class="tt left"><i>Bienvenue chez</i><b>Anaïs Beauty Clinic</b></h2>
+      <p>Chez Anaïs Clinic, nous croyons que perdre du poids ne doit pas être synonyme de privation, de frustration ou de solutions extrêmes.</p>
+      <p>C'est pourquoi nous avons conçu un programme global, qui associe l'expertise nutritionnelle, l'analyse de la composition corporelle, le coaching sportif privé et les technologies d'amincissement — avec un accompagnement personnalisé tout au long du parcours.</p>
+      <div class="sign">L'équipe Anaïs<small>Anaïs Beauty Clinic · Complexe Moov'Up Sports</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT : programme -->
+<section class="split" id="programme">
+  <div class="media"><img src="img/nutrition.jpg" alt="Consultation avec la nutritionniste" loading="lazy"></div>
+  <div class="panel">
+    <div class="top rv">
+      <h2 class="tt"><i>Un programme global</i><b>Cinq expertises<br>réunies</b></h2>
+      <p>Chaque dimension compte. Notre programme rassemble le savoir-faire de plusieurs spécialistes pour une transformation durable.</p>
+    </div>
+    <div class="bot rv">
+      <ul class="pil-list">
+        <li><span>01</span>L'expertise nutritionnelle</li>
+        <li><span>02</span>Le suivi et l'analyse de la composition corporelle</li>
+        <li><span>03</span>Le coaching sportif privé</li>
+        <li><span>04</span>Les technologies d'amincissement</li>
+        <li><span>05</span>Un accompagnement personnalisé tout au long du parcours</li>
+      </ul>
+      <p class="obj">Un accompagnement complet. Un programme personnalisé. Une transformation encadrée.</p>
+      <a href="#parcours" class="pill-btn">Découvrir le parcours</a>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="steps" id="parcours">
+  <div class="wrap">
+    <div class="steps-head rv">
+      <h2 class="tt left"><i>Étape par étape</i><b>Votre parcours</b></h2>
+      <div class="ctrl">
+        <button class="cbtn" id="prev" aria-label="Précédent">←</button>
+        <button class="cbtn" id="next" aria-label="Suivant">→</button>
+      </div>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<!-- SPLIT : médecin -->
+<section class="split rev">
+  <div class="media"><img src="img/suivi.jpg" alt="Consultation et suivi" loading="lazy"></div>
+  <div class="panel">
+    <div class="top rv">
+      <h2 class="tt"><i>Encadré par</i><b>notre médecin</b></h2>
+      <p>Au-delà du programme minceur, Anaïs Beauty Clinic propose des soins médico-esthétiques pour le visage, la peau et les cheveux. Chaque soin commence par une consultation avec le médecin.</p>
+    </div>
+    <div class="bot rv" style="text-align:center">
+      <a href="#soins" class="pill-btn">Voir les soins</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOINS -->
+<section class="soins" id="soins">
+  <div class="wrap">
+    <div class="rv">
+      <h2 class="tt"><i>Médecine esthétique</i><b>Nos soins avec le médecin</b></h2>
+      <div class="doc"><span>✚ Consultation et soins réalisés par notre médecin</span></div>
+    </div>
+    <div class="sgrid" id="sgrid"></div>
+    <p class="soins-note">Le médecin vérifie que le soin vous convient et définit le protocole adapté à votre situation.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2 class="tt rv"><i>Une question sur</i><b>votre parcours ?</b></h2>
+    <p class="rv">Que vous souhaitiez commencer le programme Maigrir en santé ou prendre rendez-vous pour un soin, notre équipe vous répond et vous propose le créneau qui vous convient.</p>
+
+    <form class="fcard rv" id="form" novalidate>
       <div class="row2">
-        <div class="field"><label for="nom">Nom &amp; prénom</label><input id="nom" required autocomplete="name"></div>
-        <div class="field"><label for="tel">Téléphone</label><input id="tel" type="tel" required autocomplete="tel"></div>
+        <div class="field"><label for="nom">Nom &amp; prénom</label><input id="nom" autocomplete="name"></div>
+        <div class="field"><label for="tel">Téléphone</label><input id="tel" type="tel" autocomplete="tel"></div>
       </div>
-      <div class="field">
-        <label for="objectif">Votre demande</label>
-        <select id="objectif">
-          <optgroup label="Programme Maigrir en santé">
-          <option>Perdre du poids</option>
-          <option>Affiner ma silhouette</option>
-          <option>Retrouver une alimentation équilibrée</option>
-          <option>Reprendre le sport accompagné(e)</option>
-          <option>Je ne sais pas encore, je veux être conseillé(e)</option>
-          </optgroup>
-          <optgroup label="Soins avec le médecin">
-          <option>Laser</option><option>Filler</option><option>Skin booster</option><option>PRP cheveux</option><option>Hydrafacial</option><option>Microneedling</option>
-          </optgroup>
-        </select>
-      </div>
-      <div class="field">
-        <label for="dispo">Disponibilités</label>
-        <select id="dispo">
-          <option>En matinée</option>
-          <option>L'après-midi</option>
-          <option>En soirée</option>
-          <option>Le week-end</option>
-        </select>
+      <div class="row2">
+        <div class="field">
+          <label for="objectif">Votre demande</label>
+          <select id="objectif">
+            <optgroup label="Programme Maigrir en santé">
+              <option>Bilan corporel InBody</option>
+              <option>Perdre du poids</option>
+              <option>Affiner ma silhouette</option>
+              <option>Retrouver une alimentation équilibrée</option>
+              <option>Reprendre le sport accompagné(e)</option>
+            </optgroup>
+            <optgroup label="Soins avec le médecin">
+              <option>Laser</option><option>Filler</option><option>Skin booster</option><option>PRP cheveux</option><option>Hydrafacial</option><option>Microneedling</option>
+            </optgroup>
+            <option>Je souhaite être conseillé(e)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="dispo">Disponibilités</label>
+          <select id="dispo"><option>En matinée</option><option>L'après-midi</option><option>En soirée</option><option>Le week-end</option></select>
+        </div>
       </div>
       <div class="field"><label for="note">Message (facultatif)</label><textarea id="note"></textarea></div>
-      <button class="btn btn-dark" type="submit" style="justify-self:start">Envoyer ma demande sur WhatsApp <span class="arr">→</span></button>
-      <p class="form-note">Votre demande s'ouvre dans WhatsApp : il vous suffit de l'envoyer à notre équipe.</p>
+      <div><button class="pill-btn" type="submit">Envoyer sur WhatsApp</button></div>
+      <p class="fnote">Votre demande s'ouvre dans WhatsApp : il vous suffit de l'envoyer à notre équipe.</p>
       <div class="msg" id="msg">
-        <strong style="font-family:var(--serif);font-size:20px;color:var(--espresso)">Votre message est prêt</strong>
+        <strong>Votre message est prêt</strong>
         <pre id="msgtxt"></pre>
         <div class="acts">
-          <a class="btn btn-dark" id="walink" href="#" target="_blank" rel="noopener">Ouvrir WhatsApp →</a>
-          <button type="button" class="btn btn-ghost" id="copybtn">Copier le message</button>
+          <a class="pill-btn" id="walink" href="#" target="_blank" rel="noopener">Ouvrir WhatsApp</a>
+          <button type="button" class="pill-btn ghost" id="copybtn">Copier le message</button>
         </div>
       </div>
     </form>
@@ -441,35 +410,41 @@
 
 <footer>
   <div class="wrap">
-    <div class="foot">
-      <div>
-        <a href="#accueil" class="logo"><b>Anaïs</b><span>Beauty Clinic</span></a>
-        <p style="margin-top:18px;max-width:34ch">Un programme global qui associe nutrition, analyse corporelle, coaching privé et technologies d'amincissement.</p>
-      </div>
-      <div>
-        <h4>Le programme</h4>
-        <ul>
-          <li><a href="#etape-1">Bilan &amp; diagnostic</a></li>
-          <li><a href="#etape-2">Nutrition</a></li>
-          <li><a href="#etape-3">Coaching privé</a></li>
-          <li><a href="#etape-4">Technologies</a></li>
-          <li><a href="#etape-5">Suivi</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Nous suivre</h4>
-        <ul>
-          <li><a href="https://www.instagram.com/anaisclinic/" target="_blank" rel="noopener">Instagram · @anaisclinic</a></li>
-          <li><a href="https://www.instagram.com/complexemoovup/" target="_blank" rel="noopener">Complexe Moov'Up Sports</a></li>
-        </ul>
-      </div>
+    <div class="fbox">
+      <div><h4>Programme</h4><ul>
+        <li><a href="#programme">Maigrir en santé</a></li>
+        <li><a href="#parcours">Le parcours</a></li>
+        <li><a href="#contact">Bilan InBody</a></li>
+      </ul></div>
+      <div><h4>Soins</h4><ul>
+        <li><a href="#soins">Laser</a></li><li><a href="#soins">Filler</a></li><li><a href="#soins">Skin booster</a></li>
+        <li><a href="#soins">PRP cheveux</a></li><li><a href="#soins">Hydrafacial</a></li><li><a href="#soins">Microneedling</a></li>
+      </ul></div>
+      <div><h4>Nous suivre</h4><ul>
+        <li><a href="https://www.instagram.com/anaisclinic/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.instagram.com/complexemoovup/" target="_blank" rel="noopener">Complexe Moov'Up</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul></div>
     </div>
-    <div class="copy">
-      <span>© <span id="yr"></span> Anaïs Beauty Clinic — Tous droits réservés</span>
-      <span>Un univers Complexe Moov'Up Sports</span>
+    <div class="legal">
+      <span>Anaïs Beauty Clinic · Un univers Complexe Moov'Up Sports</span>
+      <span>© <span id="yr"></span> Anaïs Beauty Clinic</span>
     </div>
   </div>
 </footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="mbox">
+    <img id="mImg" alt="">
+    <div class="min">
+      <button class="mx" id="mClose" aria-label="Fermer">✕</button>
+      <div class="n" id="mTag"></div>
+      <h3 id="mTitle"></h3>
+      <ul id="mList"></ul>
+      <a href="#contact" class="pill-btn" id="mBtn">Réserver mon bilan</a>
+    </div>
+  </div>
+</div>
 
 <script>
   /* ⚠️ À compléter : numéro WhatsApp de la clinique, format international sans + ni espaces (ex. 2126XXXXXXXX).
@@ -478,37 +453,33 @@
 
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // header
-  const header = document.querySelector('header');
-  addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', scrollY > 40);
-  }, {passive:true});
+  // brand hides after hero (comme Lanserhof)
+  const brand = document.getElementById('brand');
+  addEventListener('scroll', () => brand.classList.toggle('hide', scrollY > innerHeight * .35), {passive:true});
 
-  // burger
-  document.getElementById('burger').addEventListener('click', () => header.classList.toggle('open'));
-  document.querySelectorAll('.nav ul a').forEach(a => a.addEventListener('click', () => header.classList.remove('open')));
+  // menu overlay
+  const menu = document.getElementById('menu');
+  const openM = () => { menu.classList.add('open'); document.body.style.overflow='hidden'; };
+  const closeMenu = () => { menu.classList.remove('open'); document.body.style.overflow=''; };
+  document.getElementById('openMenu').onclick = openM;
+  document.getElementById('openMenu2').onclick = openM;
+  document.getElementById('closeMenu').onclick = closeMenu;
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
   // reveal
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }), {threshold:.15});
-  document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 5) * 70 + 'ms'; io.observe(el); });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12});
+  const observe = root => root.querySelectorAll('.rv').forEach(el => io.observe(el));
+  observe(document);
 
-  // objective lines light up one by one
-  const lines = [...document.querySelectorAll('#obj div')];
-  new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) lines.forEach((l, i) => setTimeout(() => l.classList.add('on'), i * 450));
-  }), {threshold:.4}).observe(document.getElementById('obj'));
-
-  // ---------- ÉTAPES (cartes) ----------
+  // ---------- ÉTAPES ----------
   const STEPS = [
     {img:'img/bilan-inbody.jpg', t:'Bilan corporel & diagnostic initial', d:'Un premier rendez-vous pour faire le point sur votre corps et fixer vos objectifs.',
      li:['Accueil et entretien individuel.','Analyse de la composition corporelle avec InBody.','Évaluation de la masse grasse, de la masse musculaire et des autres indicateurs disponibles.','Définition de vos objectifs personnalisés.']},
     {img:'img/nutrition.jpg', t:'Programme nutritionnel personnalisé', d:'Une alimentation pensée pour vous, construite avec notre nutritionniste.',
-     li:['Consultation avec la nutritionniste.','Étude de vos habitudes alimentaires.','Élaboration d\'un programme alimentaire adapté.','Conseils pratiques et suivi nutritionnel.','Ajustements selon votre évolution.']},
+     li:['Consultation avec la nutritionniste.','Étude de vos habitudes alimentaires.',"Élaboration d'un programme alimentaire adapté.",'Conseils pratiques et suivi nutritionnel.','Ajustements selon votre évolution.']},
     {img:'img/coaching.jpg', t:'Coaching sportif privé', d:'Des séances individuelles encadrées, adaptées à votre niveau et à vos objectifs.',
      li:['Séances individuelles encadrées.','Exercices adaptés à votre niveau et à vos capacités.','Travail musculaire et cardiovasculaire selon vos objectifs.','Progression et motivation à chaque séance.']},
-    {img:'img/technologies.jpg', t:'Technologies d\'amincissement', d:'Les machines de la clinique, intégrées à votre parcours pour cibler votre silhouette.',
+    {img:'img/technologies.jpg', t:"Technologies d'amincissement", d:'Les machines de la clinique, intégrées à votre parcours pour cibler votre silhouette.',
      li:['Intégration des machines disponibles à Anaïs Clinic.','Protocoles adaptés à vos besoins et aux contre-indications.','Travail complémentaire sur les zones ciblées et la silhouette, selon les technologies utilisées.','Séances planifiées dans votre parcours global.']},
     {img:'img/suivi.jpg', t:'Suivi, évaluation & réajustement', d:'Des contrôles réguliers pour mesurer vos progrès et ajuster votre programme.',
      li:['Contrôles InBody périodiques.','Comparaison de vos résultats.','Réévaluation du programme alimentaire et sportif.','Ajustement des séances.','Bilan final et conseils pour maintenir les habitudes acquises.']}
@@ -517,89 +488,84 @@
   cards.innerHTML = STEPS.map((s,i)=>`
     <article class="card">
       <div class="card-img"><img src="${s.img}" alt="${s.t}" loading="lazy"></div>
-      <div class="card-body">
-        <div class="tag">Étape 0${i+1}</div>
+      <div class="card-b">
+        <div class="n">Étape 0${i+1}</div>
         <h3>${s.t}</h3>
         <p>${s.d}</p>
-        <button class="btn" data-step="${i}">Voir le détail <span class="arr">→</span></button>
+        <button class="pill-btn ghost" data-step="${i}">Voir le détail →</button>
       </div>
     </article>`).join('');
   const prev=document.getElementById('prev'), next=document.getElementById('next');
-  const step=()=>cards.querySelector('.card').offsetWidth+24;
-  prev.onclick=()=>cards.scrollBy({left:-step(),behavior:'smooth'});
-  next.onclick=()=>cards.scrollBy({left:step(),behavior:'smooth'});
+  const stepW=()=>cards.querySelector('.card').offsetWidth+20;
+  prev.onclick=()=>cards.scrollBy({left:-stepW(),behavior:'smooth'});
+  next.onclick=()=>cards.scrollBy({left:stepW(),behavior:'smooth'});
   const upd=()=>{prev.disabled=cards.scrollLeft<5; next.disabled=cards.scrollLeft+cards.clientWidth>=cards.scrollWidth-5;};
   cards.addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
 
   const modal=document.getElementById('modal');
   cards.addEventListener('click',e=>{
     const b=e.target.closest('[data-step]'); if(!b) return;
-    const s=STEPS[+b.dataset.step];
-    document.getElementById('mImg').src=s.img; document.getElementById('mImg').alt=s.t;
-    document.getElementById('mTag').textContent='Étape 0'+(+b.dataset.step+1);
+    const i=+b.dataset.step, s=STEPS[i];
+    const im=document.getElementById('mImg'); im.src=s.img; im.alt=s.t;
+    document.getElementById('mTag').textContent='Étape 0'+(i+1);
     document.getElementById('mTitle').textContent=s.t;
     document.getElementById('mList').innerHTML=s.li.map(x=>`<li>${x}</li>`).join('');
     modal.classList.add('open'); document.body.style.overflow='hidden';
   });
-  const closeM=()=>{modal.classList.remove('open'); document.body.style.overflow='';};
-  document.getElementById('mClose').onclick=closeM;
-  document.getElementById('mBtn').onclick=closeM;
-  modal.addEventListener('click',e=>{ if(e.target===modal) closeM(); });
-  addEventListener('keydown',e=>{ if(e.key==='Escape') closeM(); });
+  const closeModal=()=>{modal.classList.remove('open'); document.body.style.overflow='';};
+  document.getElementById('mClose').onclick=closeModal;
+  document.getElementById('mBtn').onclick=closeModal;
+  modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeMenu(); } });
 
-  // ---------- SOINS AVEC LE MÉDECIN ----------
+  // ---------- SOINS ----------
   const SOINS = [
     {n:'Laser', d:'Séances laser réalisées sous contrôle médical, après une évaluation de votre peau par le médecin.'},
-    {n:'Filler', d:'Injections d\'acide hyaluronique pour redonner du volume ou atténuer certaines rides, pratiquées par le médecin.'},
-    {n:'Skin booster', d:'Micro-injections hydratantes pour améliorer l\'éclat, la souplesse et la qualité de la peau.'},
+    {n:'Filler', d:"Injections d'acide hyaluronique pour redonner du volume ou atténuer certaines rides, pratiquées par le médecin."},
+    {n:'Skin booster', d:"Micro-injections hydratantes pour améliorer l'éclat, la souplesse et la qualité de la peau."},
     {n:'PRP cheveux', d:'Injections de plasma riche en plaquettes, préparé à partir de votre propre sang, sur le cuir chevelu.'},
     {n:'Hydrafacial', d:'Soin du visage en plusieurs temps : nettoyage, exfoliation, extraction et hydratation en profondeur.'},
     {n:'Microneedling', d:'Micro-perforations contrôlées de la peau pour stimuler son renouvellement naturel.'}
   ];
-  const bub=document.getElementById('bubbles');
-  bub.innerHTML=SOINS.map((s,i)=>`
-    <button class="bubble" data-soin="${i}">
-      <span class="disc"><span><b>Anaïs</b><small>Beauty Clinic</small></span></span>
-      <strong>${s.n}</strong>
+  const sgrid=document.getElementById('sgrid');
+  sgrid.innerHTML=SOINS.map(s=>`
+    <button class="soin rv" data-soin="${s.n}">
+      <div class="tile">
+        <div class="disc"><b>Anaïs</b><small>Beauty Clinic</small></div>
+        <div class="hov">Prendre rendez-vous →</div>
+      </div>
+      <h3>${s.n}</h3>
+      <p>${s.d}</p>
     </button>`).join('');
-  const showSoin=i=>{
-    const s=SOINS[i];
-    document.getElementById('sdTitle').textContent=s.n;
-    document.getElementById('sdText').textContent=s.d;
-    document.getElementById('sdBtn').dataset.soin=s.n;
-    bub.querySelectorAll('.bubble').forEach((b,j)=>b.classList.toggle('active',j===i));
-  };
-  bub.addEventListener('click',e=>{const b=e.target.closest('[data-soin]'); if(b) showSoin(+b.dataset.soin);});
-  showSoin(0);
-  document.getElementById('sdBtn').addEventListener('click',e=>{
-    document.getElementById('objectif').value=e.currentTarget.dataset.soin;
+  observe(sgrid);
+  sgrid.addEventListener('click',e=>{
+    const b=e.target.closest('[data-soin]'); if(!b) return;
+    document.getElementById('objectif').value=b.dataset.soin;
+    document.getElementById('contact').scrollIntoView({behavior:'smooth'});
   });
 
-  // booking form -> WhatsApp message
-  const form = document.getElementById('form');
-  form.addEventListener('submit', e => {
+  // ---------- FORMULAIRE → WHATSAPP ----------
+  document.getElementById('form').addEventListener('submit', e => {
     e.preventDefault();
-    const nom = document.getElementById('nom'), tel = document.getElementById('tel');
-    let ok = true;
-    [nom, tel].forEach(f => { const bad = !f.value.trim(); f.style.borderColor = bad ? '#b5543c' : ''; if (bad) ok = false; });
-    if (!ok) return;
-    const txt =
-`Bonjour Anaïs Clinic,
+    const nom=document.getElementById('nom'), tel=document.getElementById('tel');
+    let ok=true;
+    [nom,tel].forEach(f=>{const bad=!f.value.trim(); f.style.borderColor=bad?'#b5543c':''; if(bad) ok=false;});
+    if(!ok) return;
+    const note=document.getElementById('note').value.trim();
+    const txt=`Bonjour Anaïs Beauty Clinic,
 Je souhaite prendre rendez-vous.
 
 Nom : ${nom.value.trim()}
 Téléphone : ${tel.value.trim()}
 Demande : ${document.getElementById('objectif').value}
-Disponibilités : ${document.getElementById('dispo').value}` +
-      (document.getElementById('note').value.trim() ? `\nMessage : ${document.getElementById('note').value.trim()}` : '');
-    document.getElementById('msgtxt').textContent = txt;
-    document.getElementById('walink').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(txt);
-    document.getElementById('msg').classList.add('show');
-    document.getElementById('msg').scrollIntoView({behavior:'smooth', block:'nearest'});
+Disponibilités : ${document.getElementById('dispo').value}`+(note?`\nMessage : ${note}`:'');
+    document.getElementById('msgtxt').textContent=txt;
+    document.getElementById('walink').href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(txt);
+    const m=document.getElementById('msg'); m.classList.add('show'); m.scrollIntoView({behavior:'smooth',block:'nearest'});
   });
   document.getElementById('copybtn').addEventListener('click', async e => {
-    try { await navigator.clipboard.writeText(document.getElementById('msgtxt').textContent); e.target.textContent = 'Copié ✓'; }
-    catch { e.target.textContent = 'Sélectionnez le texte pour copier'; }
+    try{ await navigator.clipboard.writeText(document.getElementById('msgtxt').textContent); e.target.textContent='Copié ✓'; }
+    catch{ e.target.textContent='Sélectionnez le texte pour copier'; }
   });
 </script>
 </body>
