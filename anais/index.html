@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,7 @@
 <meta name="description" content="Anaïs Beauty Clinic : programme Maigrir en santé (bilan InBody, nutrition, coaching privé, technologies d'amincissement) et soins médico-esthétiques avec le médecin.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Belleza&family=Great+Vibes&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#F0EDE7;
@@ -19,8 +19,8 @@
     --sage:#729B89;
     --sage-deep:#4F7565;
     --sage-mist:#E3ECE7;
-    --serif:'Belleza', 'DM Sans', sans-serif;
-    --sans:'DM Sans', system-ui, sans-serif;
+    --serif:'Inter', 'Inter', sans-serif;
+    --sans:'Inter', system-ui, sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;overflow-x:clip}
@@ -364,7 +364,7 @@
   .sl-ph{overflow:hidden;cursor:pointer;opacity:0;background:var(--tile)}
   .sl-ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.15);transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
   .sl-ph.sm{cursor:default}
-  .sl-title{font-family:'Belleza',sans-serif;color:var(--ink);line-height:.86;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;z-index:3;pointer-events:none}
+  .sl-title{font-family:'Inter',sans-serif;color:var(--ink);line-height:.86;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;z-index:3;pointer-events:none}
   .sl-title span{display:block;overflow:hidden}
   .sl-title span i{display:block;font-style:normal;transform:translateY(105%)}
   .sl-title.v{writing-mode:vertical-rl;transform:rotate(180deg)}
@@ -402,7 +402,7 @@
   @keyframes edfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
   .ed-ctrl{display:flex;align-items:center;gap:14px}
   .ed-arr{width:34px;height:34px;border:0;background:none;font-size:26px;cursor:pointer;color:var(--ink);line-height:1}
-  .ed-num{font-family:'Belleza',sans-serif;font-size:44px;line-height:1;color:var(--ink);display:flex;align-items:flex-start;min-width:84px}
+  .ed-num{font-family:'Inter',sans-serif;font-size:44px;line-height:1;color:var(--ink);display:flex;align-items:flex-start;min-width:84px}
   .ed-num b{font-weight:400;font-size:30px;margin-right:2px}
   @media (max-width:860px){
     .ed{height:auto;min-height:0;max-height:none}
@@ -428,7 +428,7 @@
      linear-gradient(115deg,transparent 64%,rgba(255,255,255,.22) 69%,transparent 74%),
      linear-gradient(115deg,transparent 74%,rgba(255,255,255,.18) 78%,transparent 82%);animation:rays 9s ease-in-out infinite alternate}
   @keyframes rays{from{transform:translateX(-3%)}to{transform:translateX(3%)}}
-  .h2-word{position:absolute;left:0;right:0;top:9%;display:flex;justify-content:center;gap:1.2vw;font-family:'Belleza',serif;font-weight:400;font-size:min(27vw,38vh);line-height:.9;margin:0;
+  .h2-word{position:absolute;left:0;right:0;top:9%;display:flex;justify-content:center;gap:1.2vw;font-family:'Inter',serif;font-weight:400;font-size:min(27vw,38vh);line-height:.9;margin:0;
      background:linear-gradient(180deg,#4F7565 0%,#729B89 45%,rgba(114,155,137,0) 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
   .h2-word span{display:inline-block;opacity:0;transform:translateY(40px);animation:h2up 1.1s cubic-bezier(.2,.8,.2,1) forwards}
   .h2-word span:nth-child(2){animation-delay:.08s}.h2-word span:nth-child(3){animation-delay:.16s}.h2-word span:nth-child(4){animation-delay:.24s}.h2-word span:nth-child(5){animation-delay:.32s}
@@ -439,14 +439,14 @@
   .h2-fade{position:absolute;left:0;right:0;bottom:0;height:22%;z-index:2;background:linear-gradient(180deg,rgba(203,219,207,0) 0%,#CBDBCF 85%);pointer-events:none}
   .h2-left{position:absolute;left:3.2%;bottom:7%;z-index:3;max-width:340px;opacity:0;animation:h2up 1s ease .7s forwards}
   .h2-person img{width:100%;height:100%;object-fit:cover;object-position:center top}
-  .h2-slogan{font-family:'Belleza',serif;font-weight:400;color:#2F4A3E;font-size:clamp(28px,2.6vw,42px);line-height:1.05;margin:0 0 12px;text-transform:none}
+  .h2-slogan{font-family:'Inter',serif;font-weight:400;color:#2F4A3E;font-size:clamp(28px,2.6vw,42px);line-height:1.05;margin:0 0 12px;text-transform:none}
   .h2-slogan span{display:block}
   .h2-slogan span:last-child{color:var(--sage)}
   .h2-left p{font-size:15px;line-height:1.55;color:#3d4a44;margin-bottom:22px}
   .h2-left p b{font-weight:600;color:#2F4A3E}
   .h2-btn{display:inline-block;background:#2F4A3E;color:#fff;border-radius:999px;padding:13px 26px;font-size:14.5px;font-weight:500;transition:background .3s}
   .h2-btn:hover{background:var(--sage-deep)}
-  .h2-explore{position:absolute;left:50%;bottom:3%;transform:translateX(-50%);z-index:3;font-family:'Belleza',serif;font-size:15px;color:#2F4A3E;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .h2-explore{position:absolute;left:50%;bottom:3%;transform:translateX(-50%);z-index:3;font-family:'Inter',serif;font-size:15px;color:#2F4A3E;display:flex;flex-direction:column;align-items:center;gap:2px}
   .h2-explore span{animation:bob 2.4s ease-in-out infinite}
   .h2-card{position:absolute;right:2.4%;bottom:5%;z-index:3;width:180px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-radius:16px;padding:10px 10px 14px;box-shadow:0 20px 40px -24px rgba(30,50,40,.45);opacity:0;animation:h2up 1s ease .9s forwards;transition:transform .3s}
   .h2-card:hover{transform:translateY(-4px)}
@@ -472,7 +472,7 @@
   .site-head.nh.scrolled, body:has(.stepview.open) .site-head.nh{background:rgba(47,74,62,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 30px -20px rgba(0,0,0,.5)}
   .nh-logo{display:flex;align-items:baseline;gap:10px;color:#fff}
   .nh-logo img{height:38px;width:auto}
-  .nh-logo span{font-family:'Belleza',sans-serif;font-size:14px;letter-spacing:.06em;opacity:.85}
+  .nh-logo span{font-family:'Inter',sans-serif;font-size:14px;letter-spacing:.06em;opacity:.85}
   .nh-pill{display:flex;align-items:center;gap:4px;padding:5px 5px 5px 16px;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#fff}
   .nh-pill .hnav{display:flex;gap:2px;align-items:center;font-size:14px}
   .nh-link{color:#fff;background:none;border:0;font-family:var(--sans);font-size:14px;padding:9px 13px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .3s}
@@ -510,7 +510,7 @@
   .h3-shade{position:absolute;inset:0;background:linear-gradient(90deg,#4F7565 0%,#4F7565 34%,rgba(79,117,101,.82) 46%,rgba(79,117,101,.25) 66%,rgba(79,117,101,.08) 100%),linear-gradient(0deg,rgba(47,74,62,.45),rgba(47,74,62,0) 40%),linear-gradient(180deg,rgba(47,74,62,.55),rgba(47,74,62,0) 22%)}
   .h3-fl{position:absolute;left:-40px;bottom:-30px;width:min(420px,36vw);opacity:.14;pointer-events:none}
   .h3-in{position:absolute;left:clamp(22px,3vw,48px);bottom:clamp(56px,11vh,120px);max-width:min(720px,58vw);z-index:2}
-  .h3-title{font-family:'Belleza',sans-serif;font-weight:400;font-size:clamp(42px,5.4vw,84px);line-height:1.02;letter-spacing:-.005em;margin:0 0 22px;color:#fff}
+  .h3-title{font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(42px,5.4vw,84px);line-height:1.02;letter-spacing:-.005em;margin:0 0 22px;color:#fff}
   .h3-title span{display:inline;opacity:0;animation:h3up 1s cubic-bezier(.2,.8,.2,1) forwards}
   .h3-title span:nth-child(2){animation-delay:.12s}.h3-title span:nth-child(3){animation-delay:.24s}
   @keyframes h3up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
@@ -531,15 +531,33 @@
     .h3-down{display:none}
   }
 
+
+  /* ---------- POLICE INTER + LANGUES ---------- */
+  body{font-family:'Inter',system-ui,sans-serif;letter-spacing:-.005em}
+  .tt b,.h3-title,.sl-title,.xs h2 b,.scan h2 b,.ed-num,.h2-word,.cf-info h3,.min h3,.side h3,.mapcard b,.h2-slogan{font-weight:700;letter-spacing:-.025em}
+  .tt i,.xs h2 i,.scan h2 i{font-weight:400;letter-spacing:-.015em}
+  .h3-title{font-weight:700;letter-spacing:-.03em;line-height:1.03}
+  .sl-title{letter-spacing:-.04em}
+  html[lang=ar] body,html[lang=ar] input,html[lang=ar] select,html[lang=ar] textarea,html[lang=ar] button{font-family:'IBM Plex Sans Arabic','Inter',sans-serif;letter-spacing:0}
+  html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3,html[lang=ar] .tt b,html[lang=ar] .tt i,html[lang=ar] .h3-title,html[lang=ar] .sl-title{font-family:'IBM Plex Sans Arabic',sans-serif;letter-spacing:0}
+  html[lang=ar] p,html[lang=ar] li,html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3,html[lang=ar] label,html[lang=ar] .k,html[lang=ar] .h3-chip,html[lang=ar] .sl-txt,html[lang=ar] .h3-in,html[lang=ar] .fhead,html[lang=ar] .side,html[lang=ar] .mapcard{unicode-bidi:plaintext}
+  html[lang=ar] .h3-in,html[lang=ar] .sl-txt,html[lang=ar] .side,html[lang=ar] .mapcard,html[lang=ar] .xs .rv,html[lang=ar] .scan .rv{direction:rtl;text-align:right}
+  html[lang=ar] .tt,html[lang=ar] .sub{direction:rtl}
+  html[lang=ar] .sl-title{text-transform:none}
+  .lang{display:flex;gap:2px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:9px;padding:3px;margin:0 6px}
+  .lang button{border:0;background:none;color:#fff;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;padding:7px 9px;border-radius:6px;cursor:pointer;letter-spacing:.04em;transition:background .3s,color .3s}
+  .lang button[data-l=ar]{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:13px}
+  .lang button.on{background:#fff;color:#2F4A3E}
+
   /* ---------- IDENTITÉ OFFICIELLE (anaisbeautyclinic.com) ---------- */
-  h1,h2,h3,.tt i,.tt b,.cf-info h3,.card-b h3,.min h3,.menu a,.xs h2 b,.xs h2 i,.scan h2 b,.scan h2 i{font-family:'Belleza','DM Sans',sans-serif}
+  h1,h2,h3,.tt i,.tt b,.cf-info h3,.card-b h3,.min h3,.menu a,.xs h2 b,.xs h2 i,.scan h2 b,.scan h2 i{font-family:'Inter','Inter',sans-serif}
   .tt i,.xs h2 i,.scan h2 i{font-style:normal;color:var(--sage)}
   .tt b{font-weight:400;letter-spacing:.02em}
   .xs h2 b,.scan h2 b{font-weight:400}
   .hero .tt i{color:#fff}
   .xs.x3 h2 i,.xs.x5 h2 i{color:var(--xacc)}
   .scan h2 i{color:#BFD6FF}
-  .cf-info .cf-n,.card-b .n,.min .n{font-family:'Belleza',sans-serif;font-style:normal}
+  .cf-info .cf-n,.card-b .n,.min .n{font-family:'Inter',sans-serif;font-style:normal}
 
   /* ---------- IDENTITÉ ANAÏS (brochure) ---------- */
   .deco{position:relative;overflow:hidden}
@@ -942,9 +960,11 @@
     </div>
     <a href="https://www.instagram.com/anaisbeautyclinic/" target="_blank" rel="noopener" class="nh-ic" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor"/></svg></a>
     <a href="tel:+212525236754" class="nh-tel"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>05 25 23 67 54</a>
+    <div class="lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="fr">FR</button><button data-l="ar">عربي</button></div>
     <a href="#contact" class="nh-book">Réserver</a>
   </div>
   <div class="nh-mob">
+    <div class="lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="fr">FR</button><button data-l="ar">عربي</button></div>
     <a href="#contact" class="nh-book">Réserver</a>
     <button class="nh-burger" id="openMenu" aria-label="Menu"><i></i><i></i></button>
   </div>
@@ -1070,8 +1090,8 @@
             <circle class="seg" data-f=".25" data-o=".75" cx="250" cy="250" r="120" stroke="#E3C98F" stroke-dasharray="0 754"/>
           </g>
           <circle cx="250" cy="250" r="72" fill="#fff"/>
-          <text x="250" y="245" text-anchor="middle" font-family="DM Sans" font-size="17" font-weight="600" fill="#1B1D21">Votre assiette</text>
-          <text x="250" y="270" text-anchor="middle" font-family="DM Sans" font-size="14" font-style="italic" fill="#4F7565">sur mesure</text>
+          <text x="250" y="245" text-anchor="middle" font-family="Inter" font-size="17" font-weight="600" fill="#1B1D21">Votre assiette</text>
+          <text x="250" y="270" text-anchor="middle" font-family="Inter" font-size="14" font-style="italic" fill="#4F7565">sur mesure</text>
         </svg>
         <div class="chip" style="left:-4%;top:58%"><i style="background:#8FAF8A"></i>Légumes</div>
         <div class="chip" style="right:-2%;top:70%"><i style="background:#D98E73"></i>Protéines</div>
@@ -1278,7 +1298,7 @@
             <circle r="34" fill="url(#glow)"/>
             <circle r="17" fill="#fff"/>
             <circle r="12" fill="#4F7565"/>
-            <text y="4.5" text-anchor="middle" font-family="Belleza, sans-serif" font-style="italic" font-size="13" fill="#fff">A</text>
+            <text y="4.5" text-anchor="middle" font-family="Inter, sans-serif" font-style="italic" font-size="13" fill="#fff">A</text>
           </g>
         </svg>
         <div class="hud">
@@ -1465,7 +1485,7 @@
   q.addEventListener('input',()=>{
     const v=norm(q.value.trim());
     if(!v){qres.classList.remove('open'); return;}
-    const hits=IDX.filter(([t,k])=>norm(t+' '+k).includes(v)).slice(0,7);
+    const hits=IDX.filter(([t,k])=>norm(t+' '+k+' '+((window.__tr&&window.__tr(t))||'')+' '+((window.__tr&&window.__tr(k))||'')).includes(v)).slice(0,7);
     qres.innerHTML=hits.length?hits.map(([t,k,h])=>`<a href="${h}"><span>${t}</span><small>${k}</small></a>`).join(''):'<div class="none">Aucun résultat — essayez « laser » ou « bilan ».</div>';
     qres.classList.add('open');
   });
@@ -1650,9 +1670,9 @@
   // mise en page éditoriale : une composition différente par étape (positions en % de la scène)
   const SAGE='var(--sage)', MIST='#DCE8E1', SAND='#EFE4D6', BLUSH='#F3DCD4';
   const ED=[
-    { w:['Bilan','Corporel'], v:true, soft:1,
+    { w:['Bilan\u200b','Corporel'], v:true, soft:1,
       big:{img:0,x:58,y:9,w:22,h:60}, sm:{img:4,x:8,y:50,w:18,h:30},
-      t:{x:84,y:7,size:8.6}, txt:{x:8,y:20},
+      t:{x:84,y:7,size:6.6}, txt:{x:8,y:20},
       blobs:[{x:29,y:44,w:24,h:30,c:MIST,sq:1},{x:70,y:62,w:14,h:20,c:SAND}], badge:{x:55,y:70}, lead:'Le point de départ',
       d:"Entretien individuel et analyse InBody : nous mesurons masse grasse et masse musculaire, puis fixons vos objectifs." },
     { w:['Manger','en conscience'], v:false, soft:2,
@@ -1676,7 +1696,7 @@
       blobs:[{x:52,y:8,w:28,h:30,c:MIST,sq:1},{x:80,y:70,w:12,h:18,c:SAND}], badge:{x:84,y:10}, lead:'Suivi & réajustement',
       d:"Contrôles InBody réguliers, comparaison des résultats et bilan final pour garder les bonnes habitudes." }
   ];
-  const badgeSVG=`<svg viewBox="0 0 120 120"><defs><path id="bdg" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text font-family="DM Sans" font-size="9.4" font-weight="600" letter-spacing="3" fill="#1B1D21"><textPath href="#bdg">TIME TO CHANGE · ANAÏS · TIME TO CHANGE · </textPath></text></svg><b>+</b>`;
+  const badgeSVG=`<svg viewBox="0 0 120 120"><defs><path id="bdg" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text font-family="Inter" font-size="9.4" font-weight="600" letter-spacing="3" fill="#1B1D21"><textPath href="#bdg">TIME TO CHANGE · ANAÏS · TIME TO CHANGE · </textPath></text></svg><b>+</b>`;
   const pct=(o)=>`left:${o.x}%;top:${o.y}%;width:${o.w}%;height:${o.h}%`;
   cards.innerHTML = ED.map((e,i)=>{
     const st=STEPS[i];
@@ -1728,7 +1748,7 @@
   const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const SCR='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·&';
   const scramble=el=>{
-    if(!el||REDUCE) return; const final=el.dataset.final||el.textContent; el.dataset.final=final;
+    if(!el||REDUCE) return; const final=el.dataset.frk&&window.__L?window.__L(el.dataset.frk):el.textContent;
     let f=0; const total=22; clearInterval(el._sc);
     el._sc=setInterval(()=>{ f++;
       el.textContent=[...final].map((c,k)=> c===' '?' ':(k < final.length*f/total ? c : SCR[Math.random()*SCR.length|0])).join('');
@@ -1864,7 +1884,7 @@
 
     // drapeau d'arrivée
     const e=pt(END);
-    document.getElementById('finish').innerHTML=`<g transform="translate(${e.x+6},${e.y-70})"><rect x="0" y="0" width="3" height="74" fill="#1B1D21"/><path d="M3 2 h62 l-12 14 l12 14 h-62z" fill="#4F7565"/><text x="31" y="21" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="600" letter-spacing="1.5" fill="#fff">ANAÏS</text></g>`;
+    document.getElementById('finish').innerHTML=`<g transform="translate(${e.x+6},${e.y-70})"><rect x="0" y="0" width="3" height="74" fill="#1B1D21"/><path d="M3 2 h62 l-12 14 l12 14 h-62z" fill="#4F7565"/><text x="31" y="21" text-anchor="middle" font-family="Inter" font-size="11" font-weight="600" letter-spacing="1.5" fill="#fff">ANAÏS</text></g>`;
 
     // arrêts
     const pins=document.getElementById('pins');
@@ -1876,7 +1896,7 @@
       g.innerHTML=`<g transform="translate(${p.x},${p.y-30})">
         <path class="drop" d="M0 18 C -16 0,-22 -8,-22 -22 a22 22 0 1 1 44 0 C 22 -8,16 0,0 18z" fill="#2B2E33" filter="url(#sh)"/>
         <circle cy="-22" r="12" fill="#fff"/>
-        <text y="-17.5" text-anchor="middle" font-family="Belleza, sans-serif" font-style="italic" font-size="14" fill="#1B1D21">${i+1}</text>
+        <text y="-17.5" text-anchor="middle" font-family="Inter, sans-serif" font-style="italic" font-size="14" fill="#1B1D21">${i+1}</text>
         <text class="lbl-pin" y="${up?-56:44}" text-anchor="middle">${NAMES[i]}</text></g>`;
       pins.appendChild(g);
     });
@@ -2047,6 +2067,68 @@ Disponibilités : ${document.getElementById('dispo').value}`+(note?`\nMessage : 
     try{ await navigator.clipboard.writeText(document.getElementById('msgtxt').textContent); e.target.textContent='Copié ✓'; }
     catch{ e.target.textContent='Sélectionnez le texte pour copier'; }
   });
+</script>
+<script>
+/* ===== Traduction EN / FR / AR ===== */
+(function(){
+  const D={"5 arrêts, 5 petites questions, moins d'une minute. À l'arrivée : votre parcours Anaïs personnalisé.": ["5 stops, 5 quick questions, under a minute. At the finish: your personalised Anaïs journey.", "5 محطات، 5 أسئلة قصيرة، في أقل من دقيقة. عند الوصول: مسارك الشخصي مع أنايس."], "5 étapes": ["5 steps", "5 مراحل"], "ANAÏS": ["ANAÏS", "أنايس"], "Accueil": ["Home", "الرئيسية"], "Accueil et entretien individuel": ["Welcome and one-to-one consultation", "استقبال ومقابلة فردية"], "Accueil et entretien individuel.": ["Welcome and one-to-one consultation.", "استقبال ومقابلة فردية."], "Adresse": ["Address", "العنوان"], "Affiner ma silhouette": ["Refine my figure", "تنحيف قوامي"], "Ajustement des séances.": ["Session adjustments.", "تعديل الحصص."], "Ajustements selon l'évolution.": ["Adjustments as you progress.", "تعديلات حسب تطورك."], "Ajustements selon votre évolution.": ["Adjustments as you progress.", "تعديلات حسب تطورك."], "Analyse": ["Analysis", "تحليل"], "Analyse de la composition corporelle avec InBody": ["Body composition analysis with InBody", "تحليل تركيبة الجسم بجهاز InBody"], "Analyse de la composition corporelle avec InBody.": ["Body composition analysis with InBody.", "تحليل تركيبة الجسم بجهاز InBody."], "Analyse terminée ✓ — objectifs à définir ensemble": ["Analysis complete ✓ — goals to set together", "اكتمل التحليل ✓ — أهداف نحددها معًا"], "Nouvelle analyse…": ["New analysis…", "تحليل جديد…"], "Anaïs Beauty Clinic": ["Anaïs Beauty Clinic", "عيادة أنايس للتجميل"], "Anaïs Beauty Clinic · Complexe Moov'Up Sports": ["Anaïs Beauty Clinic · Complexe Moov'Up Sports", "عيادة أنايس للتجميل · مركب موف أب سبورتس"], "Anaïs Beauty Clinic · Un univers Complexe Moov'Up Sports": ["Anaïs Beauty Clinic · Part of Complexe Moov'Up Sports", "عيادة أنايس للتجميل · جزء من مركب موف أب سبورتس"], "Arrivée": ["Finish", "الوصول"], "Arrivée ✦": ["Finish ✦", "الوصول ✦"], "Arrêt suivant →": ["Next stop →", "المحطة التالية ←"], "Au cœur du Complexe Moov'Up Sports, à Agadir.": ["In the heart of Complexe Moov'Up Sports, Agadir.", "في قلب مركب موف أب سبورتس، أكادير."], "Autres indicateurs": ["Other indicators", "مؤشرات أخرى"], "Avancez sur la route d'Anaïs : à chaque arrêt, un petit défi. À l'arrivée, votre parcours personnalisé, prêt à être réservé.": ["Travel the Anaïs road: a small challenge at every stop. At the finish, your personalised journey, ready to book.", "تقدّم على طريق أنايس: تحدٍّ صغير في كل محطة. وعند الوصول، مسارك الشخصي جاهز للحجز."], "Avec le médecin": ["With the doctor", "مع الطبيب"], "Avec notre nutritionniste, un programme alimentaire adapté à vos habitudes, ajusté selon votre évolution.": ["With our nutritionist, an eating plan tailored to your habits and adjusted as you progress.", "مع أخصائية التغذية، برنامج غذائي يناسب عاداتك ويُعدَّل حسب تطورك."], "Avec notre nutritionniste, votre alimentation devient un programme fait pour vous : simple à suivre, et ajusté à chaque étape.": ["With our nutritionist, your eating becomes a plan made for you: easy to follow and adjusted at every step.", "مع أخصائية التغذية، يصبح طعامك برنامجًا مصممًا لك: سهل الاتباع ويُعدَّل في كل مرحلة."], "Beauty Clinic": ["Beauty Clinic", "عيادة التجميل"], "Bienvenue chez": ["Welcome to", "مرحبًا بكم في"], "Bilan": ["Assessment", "التقييم"], "Bilan & scanner InBody": ["InBody assessment & scan", "التقييم وفحص InBody"], "Bilan InBody": ["InBody assessment", "تقييم InBody"], "Bilan corporel & diagnostic initial": ["Body assessment & initial diagnosis", "تقييم الجسم والتشخيص الأولي"], "Bilan corporel & InBody": ["Body assessment & InBody", "تقييم الجسم و InBody"], "Bilan corporel InBody": ["InBody body assessment", "تقييم الجسم بجهاز InBody"], "Bilan final": ["Final review", "التقييم النهائي"], "Bilan final et conseils pour maintenir les habitudes acquises.": ["Final review and advice to keep your new habits.", "تقييم نهائي ونصائح للحفاظ على العادات المكتسبة."], "Bouger": ["Move", "تحرّك"], "Bouger mieux,": ["Move better,", "تحرّك أفضل،"], "Bras": ["Arms", "الذراعان"], "C'est pourquoi nous avons conçu un programme global, qui associe l'expertise nutritionnelle, l'analyse de la composition corporelle, le coaching sportif privé et les technologies d'amincissement — avec un accompagnement personnalisé tout au long du parcours.": ["That's why we designed a complete programme that combines nutrition expertise, body composition analysis, private fitness coaching and slimming technologies — with personalised support throughout the journey.", "لهذا صممنا برنامجًا متكاملًا يجمع بين خبرة التغذية وتحليل تركيبة الجسم والتدريب الرياضي الخاص وتقنيات التنحيف — مع مرافقة شخصية طوال المسار."], "Cardio": ["Cardio", "كارديو"], "Chez Anaïs Clinic, nous croyons que perdre du poids ne doit pas être synonyme de privation, de frustration ou de solutions extrêmes.": ["At Anaïs Clinic, we believe losing weight should never mean deprivation, frustration or extreme solutions.", "في عيادة أنايس، نؤمن بأن فقدان الوزن لا يجب أن يعني الحرمان أو الإحباط أو الحلول القاسية."], "Cinq arrêts, cinq questions : découvrez en une minute le parcours qui vous correspond.": ["Five stops, five questions: discover the journey that suits you in one minute.", "خمس محطات، خمسة أسئلة: اكتشف في دقيقة المسار الذي يناسبك."], "Cliquez, la route vous attend.": ["Click — the road is waiting.", "انقر، الطريق بانتظارك."], "Coaching": ["Coaching", "التدريب"], "Coaching sportif privé": ["Private fitness coaching", "تدريب رياضي خاص"], "Comment voulez-vous suivre vos progrès ?": ["How would you like to track your progress?", "كيف تريد متابعة تقدمك؟"], "Comparaison des résultats.": ["Comparison of results.", "مقارنة النتائج."], "Comparaison de vos résultats.": ["Comparison of your results.", "مقارنة نتائجك."], "Complexe Moov'Up": ["Complexe Moov'Up", "مركب موف أب"], "Complexe Moov'Up Sports, Agadir 80000": ["Complexe Moov'Up Sports, Agadir 80000", "مركب موف أب سبورتس، أكادير 80000"], "Composition corporelle": ["Body composition", "تركيبة الجسم"], "Conseils pratiques et suivi nutritionnel.": ["Practical advice and nutrition follow-up.", "نصائح عملية ومتابعة غذائية."], "Consultation avec la nutritionniste.": ["Consultation with the nutritionist.", "استشارة مع أخصائية التغذية."], "Contact": ["Contact", "اتصل بنا"], "Contrôle 1": ["Check 1", "فحص 1"], "Contrôle 2": ["Check 2", "فحص 2"], "Contrôle 3": ["Check 3", "فحص 3"], "Contrôles InBody périodiques.": ["Regular InBody check-ups.", "فحوصات InBody دورية."], "Contrôles InBody réguliers, comparaison des résultats et bilan final pour garder les bonnes habitudes.": ["Regular InBody check-ups, result comparisons and a final review to keep good habits.", "فحوصات InBody منتظمة ومقارنة النتائج وتقييم نهائي للحفاظ على العادات الجيدة."], "Copier le message": ["Copy message", "نسخ الرسالة"], "Copié ✓": ["Copied ✓", "تم النسخ ✓"], "Sélectionnez le texte pour copier": ["Select the text to copy", "حدّد النص لنسخه"], "Corporel": ["Assessment", "الجسم"], "Bilan\u200b": ["Body", "تقييم"], "Bilan\u200b": ["Body", "تقييم"], "Cuisses": ["Thighs", "الفخذان"], "Des contrôles InBody réguliers pour voir le chemin parcouru, ajuster votre programme et repartir avec les bonnes habitudes.": ["Regular InBody check-ups to see how far you've come, adjust your programme and leave with good habits.", "فحوصات InBody منتظمة لرؤية ما حققته، وتعديل برنامجك، والمغادرة بعادات جيدة."], "Des contrôles réguliers pour mesurer vos progrès et ajuster votre programme.": ["Regular check-ups to measure your progress and adjust your programme.", "فحوصات منتظمة لقياس تقدمك وتعديل برنامجك."], "Des contrôles réguliers vous montreront le chemin parcouru, étape après étape.": ["Regular check-ups will show how far you've come, step by step.", "ستُظهر لك الفحوصات المنتظمة ما حققته، خطوة بخطوة."], "Des soins médico-esthétiques": ["Medical aesthetic treatments", "علاجات طبية تجميلية"], "Des séances individuelles encadrées, adaptées à votre niveau et à vos objectifs.": ["Supervised one-to-one sessions, adapted to your level and goals.", "حصص فردية مؤطرة، تناسب مستواك وأهدافك."], "Des séances individuelles encadrées, adaptées à votre niveau, pour le travail musculaire et cardio.": ["Supervised one-to-one sessions, adapted to your level, for strength and cardio work.", "حصص فردية مؤطرة، تناسب مستواك، لتمارين العضلات والكارديو."], "Des séances individuelles pensées pour votre niveau et vos capacités, pour progresser semaine après semaine.": ["One-to-one sessions designed for your level and abilities, so you progress week after week.", "حصص فردية مصممة لمستواك وقدراتك، لتتقدم أسبوعًا بعد أسبوع."], "Disponibilités": ["Availability", "الأوقات المتاحة"], "Du bilan InBody au bilan final, chaque étape est planifiée et adaptée à votre évolution.": ["From the InBody assessment to the final review, every step is planned and adapted to your progress.", "من تقييم InBody إلى التقييم النهائي، كل مرحلة مخططة ومكيّفة حسب تطورك."], "Découvrir l'étape": ["Discover the step", "اكتشف المرحلة"], "Découvrir le programme →": ["Discover the programme →", "اكتشف البرنامج ←"], "Découvrir les séances →": ["Discover the sessions →", "اكتشف الحصص ←"], "Défi à table": ["Eating challenge", "تحدي الأكل"], "Définition de vos objectifs personnalisés": ["Setting your personalised goals", "تحديد أهدافك الشخصية"], "Définition de vos objectifs personnalisés.": ["Setting your personalised goals.", "تحديد أهدافك الشخصية."], "Départ": ["Start", "الانطلاق"], "Détail de l'étape": ["Step details", "تفاصيل المرحلة"], "En matinée": ["Morning", "صباحًا"], "En soirée": ["Evening", "مساءً"], "L'après-midi": ["Afternoon", "بعد الظهر"], "Le week-end": ["Weekend", "عطلة نهاية الأسبوع"], "En route…": ["On the road…", "في الطريق…"], "Dernier virage…": ["Last bend…", "المنعطف الأخير…"], "Entretien individuel et analyse InBody : nous mesurons masse grasse et masse musculaire, puis fixons vos objectifs.": ["One-to-one consultation and InBody analysis: we measure fat and muscle mass, then set your goals.", "مقابلة فردية وتحليل InBody: نقيس كتلة الدهون والعضلات، ثم نحدد أهدافك."], "Envoyer sur WhatsApp": ["Send on WhatsApp", "إرسال عبر واتساب"], "Et si vous testiez votre parcours avant de commencer ?": ["Why not test your journey before you start?", "ما رأيك أن تجرّب مسارك قبل أن تبدأ؟"], "Exercices adaptés au niveau et aux capacités du client.": ["Exercises adapted to the client's level and abilities.", "تمارين مكيّفة حسب مستوى وقدرات العميل."], "Exercices adaptés à votre niveau et à vos capacités.": ["Exercises adapted to your level and abilities.", "تمارين مكيّفة حسب مستواك وقدراتك."], "Faites le trajet": ["Take the journey", "خُض الرحلة"], "Fessiers": ["Glutes", "الأرداف"], "Filler": ["Filler", "الفيلر"], "Force": ["Strength", "القوة"], "Franchir l'arrivée →": ["Cross the finish line →", "اعبر خط الوصول ←"], "Féculents": ["Starches", "النشويات"], "Horaires": ["Opening hours", "أوقات العمل"], "Hydrafacial": ["Hydrafacial", "هيدرافيشل"], "Illustration : chaque parcours et chaque résultat sont personnels.": ["Illustration: every journey and every result is personal.", "توضيح: كل مسار وكل نتيجة شخصية."], "Injections d'acide hyaluronique pour redonner du volume ou atténuer certaines rides, pratiquées par le médecin.": ["Hyaluronic acid injections to restore volume or soften certain wrinkles, performed by the doctor.", "حقن حمض الهيالورونيك لاستعادة الحجم أو تخفيف بعض التجاعيد، يجريها الطبيب."], "Injections de plasma riche en plaquettes, préparé à partir de votre propre sang, sur le cuir chevelu.": ["Platelet-rich plasma injections, prepared from your own blood, into the scalp.", "حقن البلازما الغنية بالصفائح الدموية، المحضّرة من دمك، في فروة الرأس."], "Instagram": ["Instagram", "إنستغرام"], "Interactif": ["Interactive", "تفاعلي"], "Intégration des machines disponibles à Anaïs Clinic.": ["Use of the machines available at Anaïs Clinic.", "استخدام الأجهزة المتوفرة في عيادة أنايس."], "Itinéraire →": ["Directions →", "الاتجاهات ←"], "Je bouge déjà": ["I'm already active", "أتحرك بالفعل"], "Je débute": ["I'm a beginner", "أنا مبتدئ"], "Je reprends": ["I'm getting back into it", "أعود للرياضة"], "Je souhaite être conseillé(e)": ["I'd like some advice", "أرغب في استشارة"], "Je veux me dépasser": ["I want to push myself", "أريد تجاوز حدودي"], "L'équipe Anaïs": ["The Anaïs team", "فريق أنايس"], "La nutritionniste en tiendra compte pour construire un programme qui vous ressemble.": ["The nutritionist will take it into account to build a programme that suits you.", "ستأخذ أخصائية التغذية ذلك بعين الاعتبار لبناء برنامج يشبهك."], "La technologie": ["Technology", "التكنولوجيا"], "La zone que vous voulez travailler ?": ["Which area would you like to work on?", "ما المنطقة التي تريد العمل عليها؟"], "Laser": ["Laser", "الليزر"], "Laser, filler, skin booster, PRP cheveux, Hydrafacial et microneedling, après consultation.": ["Laser, filler, skin booster, hair PRP, Hydrafacial and microneedling, after consultation.", "الليزر، الفيلر، سكين بوستر، البلازما للشعر، هيدرافيشل والميكرونيدلينغ، بعد الاستشارة."], "Le grignotage": ["Snacking", "الأكل بين الوجبات"], "Le jeu du trajet": ["The journey game", "لعبة الرحلة"], "Le médecin vérifie que le soin vous convient et définit le protocole adapté à votre situation.": ["The doctor checks the treatment is right for you and sets the protocol suited to your situation.", "يتحقق الطبيب من ملاءمة العلاج لك ويحدد البروتوكول المناسب لحالتك."], "Le parcours": ["The journey", "المسار"], "Le point de départ": ["The starting point", "نقطة الانطلاق"], "Le programme « Maigrir en santé » d'Anaïs Clinic associe bilan InBody, nutrition, coaching privé et technologies d'amincissement — guidé par des professionnels qui adaptent chaque étape à vous.": ["Anaïs Clinic's “Healthy Weight Loss” programme combines an InBody assessment, nutrition, private coaching and slimming technologies — guided by professionals who tailor every step to you.", "يجمع برنامج «التنحيف الصحي» في عيادة أنايس بين تقييم InBody والتغذية والتدريب الخاص وتقنيات التنحيف — بإشراف مختصين يكيّفون كل مرحلة حسبك."], "Le protocole des machines sera adapté à cette zone, selon les contre-indications.": ["The machine protocol will be adapted to this area, according to contraindications.", "سيُكيَّف بروتوكول الأجهزة لهذه المنطقة حسب موانع الاستعمال."], "Le sucre": ["Sugar", "السكر"], "Les machines d'Anaïs Clinic complètent votre programme, avec des protocoles adaptés à vos besoins et à vos contre-indications.": ["Anaïs Clinic's machines complement your programme, with protocols adapted to your needs and contraindications.", "تكمّل أجهزة عيادة أنايس برنامجك، ببروتوكولات تناسب احتياجاتك وموانع الاستعمال لديك."], "Les machines d'Anaïs Clinic, intégrées à votre parcours, avec des protocoles adaptés aux zones ciblées.": ["Anaïs Clinic's machines, built into your journey, with protocols adapted to targeted areas.", "أجهزة عيادة أنايس، مدمجة في مسارك، ببروتوكولات تناسب المناطق المستهدفة."], "Les machines de la clinique, intégrées à votre parcours pour cibler votre silhouette.": ["The clinic's machines, built into your journey to target your figure.", "أجهزة العيادة، مدمجة في مسارك لاستهداف قوامك."], "Les repas sautés": ["Skipped meals", "تخطي الوجبات"], "Lose Weight. Gain": ["Lose Weight. Gain", "اخسر الوزن."], "Control. Feel Like": ["Control. Feel Like", "استعد السيطرة."], "Yourself Again.": ["Yourself Again.", "وعُد إلى ذاتك."], "Lun – Dim · 10h – 21h": ["Mon – Sun · 10am – 9pm", "الإثنين – الأحد · 10:00 – 21:00"], "Lundi – Dimanche · 10h – 21h": ["Monday – Sunday · 10am – 9pm", "الإثنين – الأحد · 10:00 – 21:00"], "Légumes": ["Vegetables", "الخضروات"], "Maigrir en santé": ["Healthy weight loss", "التنحيف الصحي"], "Maigrir en santé, sans privation": ["Healthy weight loss, without deprivation", "تنحيف صحي، بدون حرمان"], "Manger": ["Eat", "كُل"], "Manger mieux,": ["Eat better,", "كُل أفضل،"], "Manger trop vite": ["Eating too fast", "الأكل بسرعة"], "Masse grasse": ["Fat mass", "كتلة الدهون"], "Masse musculaire": ["Muscle mass", "الكتلة العضلية"], "Mes chiffres InBody": ["My InBody numbers", "أرقام InBody الخاصة بي"], "Mes photos avant/après": ["My before/after photos", "صوري قبل/بعد"], "Message (facultatif)": ["Message (optional)", "رسالة (اختياري)"], "Mesurer": ["Measure", "قِس"], "Mesurer, ajuster,": ["Measure, adjust,", "قِس، عدّل،"], "Micro-injections hydratantes pour améliorer l'éclat, la souplesse et la qualité de la peau.": ["Hydrating micro-injections to improve skin radiance, suppleness and quality.", "حقن دقيقة مرطبة لتحسين إشراقة البشرة ونعومتها وجودتها."], "Micro-perforations contrôlées de la peau pour stimuler son renouvellement naturel.": ["Controlled micro-perforations of the skin to stimulate its natural renewal.", "ثقوب دقيقة مضبوطة في البشرة لتحفيز تجددها الطبيعي."], "Microneedling": ["Microneedling", "الميكرونيدلينغ"], "Mobilité": ["Mobility", "المرونة"], "Mon énergie au quotidien": ["My daily energy", "طاقتي اليومية"], "Motivation": ["Motivation", "التحفيز"], "Médecine esthétique": ["Aesthetic medicine", "الطب التجميلي"], "Niveau sportif": ["Fitness level", "المستوى الرياضي"], "Nom & prénom": ["Full name", "الاسم الكامل"], "Nos soins avec le médecin": ["Our treatments with the doctor", "علاجاتنا مع الطبيب"], "Nous sommes là": ["We are here", "نحن هنا"], "Nous suivre": ["Follow us", "تابعونا"], "Nous trouver": ["Find us", "موقعنا"], "Nous écrire": ["Write to us", "راسلنا"], "Nutrition": ["Nutrition", "التغذية"], "Nutrition personnalisée": ["Personalised nutrition", "تغذية شخصية"], "Nutrition, coaching privé, technologies et suivi : un programme global, encadré du premier au dernier jour.": ["Nutrition, private coaching, technologies and follow-up: a complete programme, supervised from the first day to the last.", "تغذية وتدريب خاص وتقنيات ومتابعة: برنامج متكامل، مؤطر من اليوم الأول حتى الأخير."], "N°40 RP, Hay El Mohammadi": ["N°40 RP, Hay El Mohammadi", "رقم 40 RP، حي المحمدي"], "Objectif": ["Goal", "الهدف"], "Objectifs personnalisés": ["Personalised goals", "أهداف شخصية"], "Ouvrir WhatsApp": ["Open WhatsApp", "فتح واتساب"], "Ouvrir dans Google Maps": ["Open in Google Maps", "فتح في خرائط جوجل"], "Où nous trouver": ["Where to find us", "أين تجدوننا"], "PRP cheveux": ["Hair PRP", "البلازما للشعر"], "Parcours": ["Journey", "المسار"], "Parfait : les séances privées partent de là où vous êtes, sans brûler les étapes.": ["Perfect: private sessions start from where you are, without rushing.", "ممتاز: تبدأ الحصص الخاصة من مستواك الحالي، دون حرق المراحل."], "Perdre du poids": ["Lose weight", "فقدان الوزن"], "Prendre de bonnes habitudes": ["Build good habits", "اكتساب عادات جيدة"], "Prendre la route →": ["Hit the road →", "انطلق ←"], "Prendre rendez-vous →": ["Book an appointment →", "احجز موعدًا ←"], "Programme": ["Programme", "البرنامج"], "Programme Maigrir en santé": ["Healthy Weight Loss programme", "برنامج التنحيف الصحي"], "Programme nutritionnel personnalisé": ["Personalised nutrition plan", "برنامج غذائي شخصي"], "Programme personnalisé": ["Personalised plan", "برنامج شخصي"], "Progression et motivation.": ["Progress and motivation.", "التقدم والتحفيز."], "Progression et motivation à chaque séance.": ["Progress and motivation at every session.", "التقدم والتحفيز في كل حصة."], "Protocole": ["Protocol", "البروتوكول"], "Protocole adapté à vos besoins": ["Protocol adapted to your needs", "بروتوكول يناسب احتياجاتك"], "Protocoles adaptés aux besoins et contre-indications.": ["Protocols adapted to needs and contraindications.", "بروتوكولات تناسب الاحتياجات وموانع الاستعمال."], "Protocoles adaptés à vos besoins et aux contre-indications.": ["Protocols adapted to your needs and contraindications.", "بروتوكولات تناسب احتياجاتك وموانع الاستعمال."], "Protéines": ["Proteins", "البروتينات"], "Que vous souhaitiez commencer le programme Maigrir en santé ou prendre rendez-vous pour un soin, notre équipe vous répond et vous propose le créneau qui vous convient.": ["Whether you want to start the Healthy Weight Loss programme or book a treatment, our team will reply and offer you a time that suits you.", "سواء أردت بدء برنامج التنحيف الصحي أو حجز موعد لعلاج، سيرد عليك فريقنا ويقترح عليك الموعد المناسب."], "RP N°40 Hay El Mohammadi, Agadir": ["RP N°40 Hay El Mohammadi, Agadir", "RP رقم 40 حي المحمدي، أكادير"], "Rejouer": ["Play again", "العب مجددًا"], "Rendez-vous rapide": ["Quick booking", "حجز سريع"], "Reprendre le sport accompagné(e)": ["Get back into sport with support", "العودة للرياضة بمرافقة"], "Retrouver de l'énergie": ["Regain energy", "استعادة الطاقة"], "Retrouver une alimentation équilibrée": ["Get back to balanced eating", "العودة لتغذية متوازنة"], "Réserver": ["Book", "احجز"], "Réserver ce parcours →": ["Book this journey →", "احجز هذا المسار ←"], "Réserver mon bilan": ["Book my assessment", "احجز تقييمي"], "Réserver mon bilan corporel →": ["Book my body assessment →", "احجز تقييم جسمي ←"], "Réserver mon bilan →": ["Book my assessment →", "احجز تقييمي ←"], "Réserver une consultation": ["Book a consultation", "احجز استشارة"], "Réserver une séance →": ["Book a session →", "احجز حصة ←"], "Résultat": ["Result", "النتيجة"], "Réévaluation du programme alimentaire et sportif.": ["Review of the eating and exercise programme.", "إعادة تقييم البرنامج الغذائي والرياضي."], "Sculpter": ["Sculpt", "انحت"], "Silhouette": ["Figure", "القوام"], "Silhouette globale": ["Whole figure", "القوام كاملًا"], "Skin booster": ["Skin booster", "سكين بوستر"], "Soin du visage en plusieurs temps : nettoyage, exfoliation, extraction et hydratation en profondeur.": ["A multi-step facial: cleansing, exfoliation, extraction and deep hydration.", "علاج للوجه على مراحل: تنظيف، تقشير، استخراج وترطيب عميق."], "Soin, étape, programme…": ["Treatment, step, programme…", "علاج، مرحلة، برنامج…"], "Soins": ["Treatments", "العلاجات"], "Soins avec le médecin": ["Treatments with the doctor", "علاجات مع الطبيب"], "Soins médicaux": ["Medical treatments", "العلاجات الطبية"], "Suivi": ["Follow-up", "المتابعة"], "Suivi & réajustement": ["Follow-up & adjustment", "المتابعة والتعديل"], "Suivi, évaluation & réajustement": ["Follow-up, evaluation & adjustment", "المتابعة والتقييم والتعديل"], "Sur place à Agadir · Complexe Moov'Up": ["In clinic in Agadir · Complexe Moov'Up", "في العيادة بأكادير · مركب موف أب"], "Séance en cours": ["Session in progress", "الحصة جارية"], "Séance privée · n°": ["Private session · no.", "حصة خاصة · رقم"], "Séance terminée ✓": ["Session complete ✓", "انتهت الحصة ✓"], "Séances individuelles encadrées.": ["Supervised one-to-one sessions.", "حصص فردية مؤطرة."], "Séances laser réalisées sous contrôle médical, après une évaluation de votre peau par le médecin.": ["Laser sessions under medical supervision, after the doctor assesses your skin.", "جلسات ليزر تحت إشراف طبي، بعد تقييم الطبيب لبشرتك."], "Séances planifiées dans le parcours global.": ["Sessions planned within the overall journey.", "حصص مبرمجة ضمن المسار الشامل."], "Séances planifiées dans votre parcours global.": ["Sessions planned within your overall journey.", "حصص مبرمجة ضمن مسارك الشامل."], "TIME TO CHANGE · ANAÏS · TIME TO CHANGE ·": ["TIME TO CHANGE · ANAÏS · TIME TO CHANGE ·", "TIME TO CHANGE · ANAÏS · TIME TO CHANGE ·"], "Technologies": ["Technologies", "التقنيات"], "Technologies d'amincissement": ["Slimming technologies", "تقنيات التنحيف"], "Testez votre trajet en jeu": ["Try your journey as a game", "جرّب مسارك كلعبة"], "Travail complémentaire sur les zones ciblées et la silhouette, selon les technologies utilisées.": ["Complementary work on targeted areas and the figure, depending on the technologies used.", "عمل تكميلي على المناطق المستهدفة والقوام، حسب التقنيات المستخدمة."], "Travail musculaire et cardiovasculaire selon les objectifs.": ["Strength and cardio work according to goals.", "تمارين العضلات والقلب حسب الأهداف."], "Travail musculaire et cardiovasculaire selon vos objectifs.": ["Strength and cardio work according to your goals.", "تمارين العضلات والقلب حسب أهدافك."], "Téléphone": ["Phone", "الهاتف"], "Un entretien, puis l'analyse InBody de votre composition corporelle : nous mesurons ce que le miroir ne montre pas, et nous définissons ensemble vos objectifs.": ["A consultation, then an InBody analysis of your body composition: we measure what the mirror doesn't show, and set your goals together.", "مقابلة، ثم تحليل InBody لتركيبة جسمك: نقيس ما لا تُظهره المرآة، ونحدد أهدافك معًا."], "Un parcours mesuré et ajusté": ["A measured, adjusted journey", "مسار مُقاس ومُعدَّل"], "Un peu de tout": ["A bit of everything", "قليل من كل شيء"], "Un premier rendez-vous pour faire le point sur votre corps et fixer vos objectifs.": ["A first appointment to review your body and set your goals.", "موعد أول لتقييم جسمك وتحديد أهدافك."], "Une alimentation pensée pour vous, construite avec notre nutritionniste.": ["Eating designed for you, built with our nutritionist.", "تغذية مصممة لك، بالتعاون مع أخصائية التغذية."], "Une question sur": ["A question about", "سؤال حول"], "votre parcours ?": ["your journey?", "مسارك؟"], "Ventre": ["Belly", "البطن"], "Voici le trajet que nous construirions ensemble. Il commence par un bilan corporel InBody.": ["Here is the journey we would build together. It starts with an InBody body assessment.", "هذا هو المسار الذي سنبنيه معًا. يبدأ بتقييم الجسم بجهاز InBody."], "Voir les soins →": ["See treatments →", "اطّلع على العلاجات ←"], "Voir les étapes →": ["See the steps →", "اطّلع على المراحل ←"], "Vos contrôles InBody": ["Your InBody check-ups", "فحوصات InBody الخاصة بك"], "Votre assiette": ["Your plate", "طبقك"], "sur mesure": ["made to measure", "حسب المقاس"], "Votre demande": ["Your request", "طلبك"], "Votre demande s'ouvre dans WhatsApp : il vous suffit de l'envoyer à notre équipe.": ["Your request opens in WhatsApp: just send it to our team.", "يُفتح طلبك في واتساب: ما عليك سوى إرساله إلى فريقنا."], "Votre message est prêt": ["Your message is ready", "رسالتك جاهزة"], "Votre objectif principal ?": ["Your main goal?", "هدفك الرئيسي؟"], "Votre parcours Anaïs": ["Your Anaïs journey", "مسارك مع أنايس"], "Votre parcours en jeu": ["Your journey as a game", "مسارك كلعبة"], "Votre plus grand défi à table ?": ["Your biggest eating challenge?", "أكبر تحدٍّ لك في الأكل؟"], "Votre programme": ["Your programme", "برنامجك"], "Votre rapport au sport aujourd'hui ?": ["Your relationship with exercise today?", "علاقتك بالرياضة اليوم؟"], "Zone ciblée": ["Target area", "المنطقة المستهدفة"], "au parcours": ["to the journey", "إلى المسار"], "← Retour": ["← Back", "→ رجوع"], "au service de votre silhouette.": ["in service of your figure.", "في خدمة قوامك."], "avec un coach rien que pour vous.": ["with a coach just for you.", "مع مدرب لك وحدك."], "en conscience": ["mindfully", "بوعي"], "la silhouette": ["your figure", "القوام"], "pour des résultats qui durent.": ["for results that last.", "لنتائج تدوم."], "pour durer": ["to last", "لتدوم"], "pour transformer votre vie, en profondeur.": ["to transform your life, deeply.", "لنغيّر حياتك، بعمق."], "rythme": ["pace", "وتيرتك"], "à votre": ["at your", "على"], "sans jamais vous priver.": ["without ever depriving yourself.", "دون أن تحرم نفسك أبدًا."], "Élaboration d'un programme alimentaire adapté.": ["Creation of a tailored eating plan.", "إعداد برنامج غذائي مناسب."], "Énergie": ["Energy", "الطاقة"], "Étape 01 · Bilan corporel & diagnostic initial": ["Step 01 · Body assessment & initial diagnosis", "المرحلة 01 · تقييم الجسم والتشخيص الأولي"], "Étape 02 · Programme nutritionnel personnalisé": ["Step 02 · Personalised nutrition plan", "المرحلة 02 · برنامج غذائي شخصي"], "Étape 03 · Coaching sportif privé": ["Step 03 · Private fitness coaching", "المرحلة 03 · تدريب رياضي خاص"], "Étape 04 · Technologies d'amincissement": ["Step 04 · Slimming technologies", "المرحلة 04 · تقنيات التنحيف"], "Étape 05 · Suivi, évaluation & réajustement": ["Step 05 · Follow-up, evaluation & adjustment", "المرحلة 05 · المتابعة والتقييم والتعديل"], "Étape par étape · Votre parcours": ["Step by step · Your journey", "مرحلة بمرحلة · مسارك"], "Étude des habitudes alimentaires.": ["Review of eating habits.", "دراسة العادات الغذائية."], "Étude de vos habitudes alimentaires.": ["Review of your eating habits.", "دراسة عاداتك الغذائية."], "Évaluation": ["Evaluation", "تقييم"], "Évaluation de la masse grasse, de la masse musculaire et des autres indicateurs disponibles": ["Evaluation of fat mass, muscle mass and other available indicators", "تقييم كتلة الدهون والكتلة العضلية والمؤشرات الأخرى المتاحة"], "Évaluation de la masse grasse, de la masse musculaire et des autres indicateurs disponibles.": ["Evaluation of fat mass, muscle mass and other available indicators.", "تقييم كتلة الدهون والكتلة العضلية والمؤشرات الأخرى المتاحة."], "✓ Bilan final · conseils pour garder vos habitudes": ["✓ Final review · advice to keep your habits", "✓ التقييم النهائي · نصائح للحفاظ على عاداتك"], "✚ Consultation et soins réalisés par notre médecin": ["✚ Consultation and treatments by our doctor", "✚ استشارة وعلاجات يجريها طبيبنا"], "Aucun résultat — essayez « laser » ou « bilan ».": ["No results — try “laser” or “assessment”.", "لا توجد نتائج — جرّب «ليزر» أو «تقييم»."], "Soin médical": ["Medical treatment", "علاج طبي"], "Étape 1": ["Step 1", "المرحلة 1"], "Étape 2": ["Step 2", "المرحلة 2"], "Étape 3": ["Step 3", "المرحلة 3"], "Étape 4": ["Step 4", "المرحلة 4"], "Étape 5": ["Step 5", "المرحلة 5"], "Démonstration": ["Demo", "عرض"], "Carte": ["Map", "الخريطة"], "Accès": ["Access", "الوصول"], "Machines": ["Machines", "الأجهزة"], "Suivi InBody": ["InBody follow-up", "متابعة InBody"], "Scanner InBody": ["InBody scanner", "جهاز InBody"], "Analyse corporelle": ["Body analysis", "تحليل الجسم"], "Notre médecin": ["Our doctor", "طبيبنا"], "Nutritionniste": ["Nutritionist", "أخصائية التغذية"], "Prendre rendez-vous": ["Book an appointment", "احجز موعدًا"], "Programme nutritionnel": ["Nutrition plan", "البرنامج الغذائي"], "Itinéraire": ["Directions", "الاتجاهات"], "WhatsApp": ["WhatsApp", "واتساب"], "Le scanner InBody": ["The InBody scanner", "جهاز InBody"], "Votre parcours": ["Your journey", "مسارك"], "Étape par étape": ["Step by step", "مرحلة بمرحلة"]};
+  const LOW={}; for(const k in D) LOW[k.toLowerCase()]=D[k];
+  const PAT=[
+    [/^Arrêt (\d+)\/5$/,['Stop $1/5','المحطة $1/5']],
+    [/^Arrêt (0\d)$/,['Stop $1','المحطة $1']],
+    [/^Analyse InBody en cours… (\d+)%$/,['InBody analysis in progress… $1%','جارٍ تحليل InBody… $1%']],
+    [/^Étape (0\d) en (\d) temps$/,['Step $1 in $2 parts','المرحلة $1 في $2 خطوات']],
+    [/^Noté : « (.+) »\. C'est le cap de tout votre parcours\.$/,['Noted: “$1”. That\'s the direction of your whole journey.','تم التسجيل: «$1». هذا هو اتجاه مسارك كله.']],
+    [/^Direction (.+)\.$/,null]
+  ];
+  const WEEK={en:['M','T','W','T','F','S','S'],ar:['ن','ث','ر','خ','ج','س','ح'],fr:['L','M','M','J','V','S','D']};
+  let LANG='en'; try{ LANG=localStorage.getItem('anais-lang')||'en'; }catch(e){}
+  const ORIG=new WeakMap();
+  const FRX={'Lose Weight. Gain':'Perdez du poids.','Control. Feel Like':'Reprenez le contrôle.','Yourself Again.':'Retrouvez-vous.'};
+  const tr=fr=>{
+    if(LANG==='fr'){ const k=fr.replace(/\s+/g,' ').trim(); return FRX[k]||null; }
+    const k=fr.replace(/\s+/g,' ').trim(), i=LANG==='en'?0:1;
+    if(D[k]) return D[k][i];
+    for(const [re,out] of PAT){ const m=k.match(re); if(m){
+      if(!out){ const w=LOW[m[1].toLowerCase()]; return (i? 'الوجهة: ':'Heading to: ')+(w?w[i]:m[1])+'.'; }
+      return k.replace(re,out[i]); } }
+    return null;
+  };
+  window.__tr=t=>{ const k=t.replace(/\s+/g,' ').trim(); return D[k]?D[k][0]+' '+D[k][1]:''; };
+  const skip=n=>{ const p=n.parentElement; return !p || /^(SCRIPT|STYLE|NOSCRIPT)$/.test(p.tagName) || p.closest('.typed'); };
+  const doNode=n=>{
+    if(skip(n)) return;
+    if(!ORIG.has(n)) ORIG.set(n,n.nodeValue);
+    const o=ORIG.get(n); const t=o.trim(); if(t.length<2) return;
+    const x=tr(o); const val= x==null ? o : o.replace(t,x);
+    if(n.nodeValue!==val) n.nodeValue=val;
+  };
+  const walk=root=>{ const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT); let n; while(n=w.nextNode()) doNode(n); };
+  const attrs=root=>{
+    root.querySelectorAll('[placeholder]').forEach(e=>{ if(!e.dataset.frPh) e.dataset.frPh=e.placeholder; const x=tr(e.dataset.frPh); e.placeholder= x==null?e.dataset.frPh:x; });
+    root.querySelectorAll('[data-text]').forEach(e=>{ if(!e.dataset.fr) e.dataset.fr=e.dataset.text; const x=tr(e.dataset.fr); e.dataset.text= x==null?e.dataset.fr:x; });
+    root.querySelectorAll('[data-final]').forEach(e=>delete e.dataset.final);
+  };
+  const typed=()=>{ document.querySelectorAll('.typeT').forEach(h=>{ const parts=[...h.querySelectorAll('[data-text]')];
+      parts.forEach(p=>{ const t=p.querySelector('.typed'); if(t && t.textContent.replace(/\s/g,'').length>0){ const c=t.querySelector('.caret'); t.textContent=p.dataset.text; if(c) t.appendChild(c); } });
+      h.setAttribute('aria-label',parts.map(p=>p.dataset.text).join(' ')); }); };
+  const week=()=>{ document.querySelectorAll('#week span').forEach((sp,k)=>{ const n=sp.firstChild; if(n&&n.nodeType===3) n.nodeValue=WEEK[LANG][k]; }); };
+  // les options du formulaire gardent leur valeur française (pré-remplissage + message WhatsApp)
+  document.querySelectorAll('option').forEach(o=>{ if(!o.hasAttribute('value')) o.value=o.textContent; });
+  window.__L=fr=>{ const x=tr(fr); return x==null?fr:x; };
+  const apply=()=>{
+    document.querySelectorAll('.stepview .k, .foot-k').forEach(e=>{ if(!e.dataset.frk) e.dataset.frk=e.textContent.trim(); else { clearInterval(e._sc); e.textContent=window.__L(e.dataset.frk); } });
+    document.documentElement.lang=LANG;
+    attrs(document); walk(document.body); typed(); week();
+    document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG));
+  };
+  new MutationObserver(ms=>{ for(const m of ms) m.addedNodes.forEach(n=>{
+      if(n.nodeType===3) doNode(n);
+      else if(n.nodeType===1){ walk(n); attrs(n); }
+  }); }).observe(document.body,{childList:true,subtree:true});
+  document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>{ LANG=b.dataset.l; try{localStorage.setItem('anais-lang',LANG);}catch(e){} apply(); }));
+  apply();
+})();
 </script>
 </body>
 </html>
