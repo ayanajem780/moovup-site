@@ -395,7 +395,7 @@
   .cf-corners .c{position:absolute;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;letter-spacing:.14em;color:var(--muted);opacity:.75}
   .cf-corners .tl{top:24px;left:28px}.cf-corners .tm{top:24px;left:50%;transform:translateX(-50%)}.cf-corners .tr{top:24px;right:28px}
   .cf-corners .bl{bottom:24px;left:28px}.cf-corners .bm{bottom:24px;left:50%;transform:translateX(-50%)}.cf-corners .br{bottom:24px;right:28px}
-  .cf-stage{position:relative;height:440px;margin-top:6px}
+  .cf-stage{position:relative;height:480px;margin-top:10px;width:100vw;margin-left:calc(50% - 50vw)}
   .cf-card{position:absolute;top:50%;left:50%;border-radius:22px;overflow:hidden;cursor:pointer;background:var(--tile);
     transition:left .85s cubic-bezier(.65,.05,.25,1),width .85s cubic-bezier(.65,.05,.25,1),height .85s cubic-bezier(.65,.05,.25,1),opacity .6s,box-shadow .85s,filter .85s;
     transform:translateY(-50%);will-change:left,width,height}
@@ -406,7 +406,7 @@
   .cf-card.c0{z-index:5}
   .cf-card.c1{z-index:4;filter:saturate(.9)}
   .cf-card.c2{z-index:3;filter:saturate(.75) brightness(.97)}
-  .cf-card.c3{z-index:1;opacity:0;pointer-events:none}
+  .cf-card.c3{z-index:1;pointer-events:none}
   .cf-info{text-align:center;min-height:150px;margin-top:6px}
   .cf-info .cf-n{font-style:italic;color:var(--sage-deep);font-size:16px}
   .cf-info h3{font-weight:500;font-size:clamp(22px,2vw,28px);margin:2px 0 6px;letter-spacing:.01em}
@@ -419,7 +419,7 @@
   .cf-dots button.on{width:26px;background:var(--sage-deep)}
   @media (max-width:760px){
     .cflow{padding:80px 0 70px}
-    .cf-stage{height:380px}
+    .cf-stage{height:360px}
     .cf-corners .tm,.cf-corners .bm{display:none}
   }
 
@@ -1454,22 +1454,28 @@
   const dots=[...cfDots.children], info=document.getElementById('cfInfo');
   let cfCur=0, cfTimer=null, cfHover=false, cfVis=false;
   const geo=()=>{
-    const W=cards.clientWidth, mob=W<600;
-    const cw=mob?Math.min(250,W*.62):320, ch=mob?340:400;
-    return {cw,ch,s1:mob?34:74,s2:mob?20:44,gap:mob?10:16,h1:ch*.82,h2:ch*.7};
+    const W=cards.clientWidth, mob=W<700;
+    const cw=mob?Math.min(250,W*.64):360, ch=mob?330:440;
+    return {cw,ch,w1:mob?200:300,h1:mob?270:370,w2:mob?180:280,h2:mob?240:330,gap:mob?14:26};
   };
+  const prevD=new Array(N).fill(null);
   const layout=()=>{
     const g=geo(), W=cards.clientWidth, cx=W/2;
     cfCards.forEach((c,i)=>{
       let d=((i-cfCur)%N+N)%N; if(d>N/2) d-=N;
       const a=Math.abs(d), side=Math.sign(d);
+      // une carte qui passe d'un bord à l'autre ne traverse pas l'écran
+      if(prevD[i]!==null && Math.abs(d-prevD[i])>2){ c.style.transition='none'; }
       c.className='cf-card c'+Math.min(a,3);
       let w,h,left;
       if(a===0){ w=g.cw; h=g.ch; left=cx-g.cw/2; }
-      else if(a===1){ w=g.s1; h=g.h1; left= side>0 ? cx+g.cw/2+g.gap : cx-g.cw/2-g.gap-g.s1; }
-      else { w=g.s2; h=g.h2; left= side>0 ? cx+g.cw/2+g.gap+g.s1-g.s2*.35 : cx-g.cw/2-g.gap-g.s1-g.s2*.65; }
+      else if(a===1){ w=g.w1; h=g.h1; left= side>0 ? cx+g.cw/2+g.gap : cx-g.cw/2-g.gap-g.w1; }
+      else { w=g.w2; h=g.h2; left= side>0 ? cx+g.cw/2+g.gap+g.w1+g.gap : cx-g.cw/2-g.gap-g.w1-g.gap-g.w2; }
       c.style.width=w+'px'; c.style.height=h+'px'; c.style.left=left+'px';
-      c.style.boxShadow = a===0 ? `0 40px 70px -26px ${GLOW[i]}, 0 18px 40px -24px rgba(0,0,0,.35)` : '0 14px 30px -20px rgba(0,0,0,.35)';
+      c.style.opacity= a>=2 ? .85 : 1;
+      c.style.boxShadow = a===0 ? `0 40px 70px -26px ${GLOW[i]}, 0 18px 40px -24px rgba(0,0,0,.35)` : '0 16px 34px -22px rgba(0,0,0,.35)';
+      if(c.style.transition==='none'){ void c.offsetWidth; requestAnimationFrame(()=>c.style.transition=''); }
+      prevD[i]=d;
     });
     dots.forEach((d,k)=>d.classList.toggle('on',k===cfCur));
     const s=STEPS[cfCur];
