@@ -423,6 +423,24 @@
     .cf-corners .tm,.cf-corners .bm{display:none}
   }
 
+
+  /* ---------- TRANSITIONS ENTRE LES PAGES ---------- */
+  .sv-zoom{position:fixed;z-index:59;overflow:hidden;transition:left .72s cubic-bezier(.7,0,.2,1),top .72s cubic-bezier(.7,0,.2,1),width .72s cubic-bezier(.7,0,.2,1),height .72s cubic-bezier(.7,0,.2,1),border-radius .72s,opacity .9s ease,filter .9s ease;box-shadow:0 40px 80px -30px rgba(0,0,0,.5)}
+  .sv-zoom img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+  .sv-zoom.gone{opacity:0;filter:blur(12px)}
+  .sv-zoom.gone img{transform:scale(1.25)}
+  .stepview{perspective:1600px}
+  .stepview > section.fx-in{animation:fxIn .95s cubic-bezier(.2,.7,.15,1) both}
+  @keyframes fxIn{0%{transform:scale(1.32);filter:blur(16px);opacity:0}35%{opacity:1}100%{transform:none;filter:none;opacity:1}}
+  .stepview > section.fx-out{position:absolute;left:0;right:0;z-index:4;display:block!important;transform-origin:50% 100%;animation:fxOut .85s cubic-bezier(.7,0,.3,1) both;box-shadow:0 50px 90px -40px rgba(0,0,0,.6);border-radius:0}
+  @keyframes fxOut{0%{transform:none;opacity:1;filter:none;border-radius:0}
+    55%{opacity:1;border-radius:26px}
+    100%{transform:translate3d(calc(var(--dir,1) * -18%),70%,0) rotateX(22deg) rotateZ(calc(var(--dir,1) * -7deg)) scale(.62);opacity:0;filter:blur(6px);border-radius:36px}}
+  .stepview.sv-leave{animation:svLeave .75s cubic-bezier(.7,0,.3,1) both;transform-origin:50% 100%}
+  @keyframes svLeave{to{transform:perspective(1600px) translate3d(0,75%,0) rotateX(20deg) rotateZ(-5deg) scale(.66);opacity:0;filter:blur(6px);border-radius:36px}}
+  .stepview.open.sv-enter{animation:none}
+  .stepview{overflow-x:hidden}
+
   /* ---------- GALLERY ---------- */
   .gallery{padding:130px 0 120px}
   .gal{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:330px 330px;gap:10px;margin-top:56px}
@@ -1299,17 +1317,22 @@
     const caret=document.createElement('span'); caret.className='caret';
     parts.forEach(p=>p.innerHTML=`<span class="ghost">${p.dataset.text}</span><span class="typed"></span>`);
     if(matchMedia('(prefers-reduced-motion: reduce)').matches){ parts.forEach(p=>p.querySelector('.typed').textContent=p.dataset.text); return; }
+    let tok=0;
     const type=async()=>{
+      const my=++tok;
+      parts.forEach(p=>p.querySelector('.typed').textContent='');
       for(const p of parts){
         const tgt=p.querySelector('.typed'), txt=p.dataset.text; tgt.appendChild(caret);
         for(const c of txt){
+          if(my!==tok) return;
           caret.before(c);
           await new Promise(r=>setTimeout(r, c===' '?70:(',.'.includes(c)?260:38+Math.random()*70)));
         }
         await new Promise(r=>setTimeout(r,350));
       }
     };
-    new IntersectionObserver((es,o)=>es.forEach(e=>{ if(e.isIntersecting){ o.disconnect(); setTimeout(type,300);} }),{threshold:.4}).observe(h);
+    h._play=(delay=300)=>setTimeout(type,delay);
+    if(!h.closest('#stepview')) new IntersectionObserver((es,o)=>es.forEach(e=>{ if(e.isIntersecting){ o.disconnect(); setTimeout(type,300);} }),{threshold:.4}).observe(h);
   });
 
   // listes d'étapes : le point en cours s'allume tour à tour
@@ -1509,24 +1532,76 @@
   const svSecs=PAGES.map(id=>document.getElementById(id));
   const svDots=[...document.querySelectorAll('#svDots button')], svPrev=document.getElementById('svPrev'), svNext=document.getElementById('svNext');
   let svCur=-1;
-  const openStep=(i,push=true)=>{
-    svCur=i; sv.classList.add('open'); sv.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden';
-    svSecs.forEach((sec,k)=>sec.classList.toggle('cur',k===i));
+  const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SCR='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·&';
+  const scramble=el=>{
+    if(!el||REDUCE) return; const final=el.dataset.final||el.textContent; el.dataset.final=final;
+    let f=0; const total=22; clearInterval(el._sc);
+    el._sc=setInterval(()=>{ f++;
+      el.textContent=[...final].map((c,k)=> c===' '?' ':(k < final.length*f/total ? c : SCR[Math.random()*SCR.length|0])).join('');
+      if(f>=total){ clearInterval(el._sc); el.textContent=final; }
+    },35);
+  };
+  const enterFx=sec=>{
+    sec.querySelectorAll('.typeT').forEach(h=>h._play&&h._play(REDUCE?0:650));
+    scramble(sec.querySelector('.k'));
+    sec.querySelectorAll('.foot-k').forEach(scramble);
+  };
+  let svBusy=false;
+  const showOnly=i=>{ svSecs.forEach((sec,k)=>{ sec.classList.toggle('cur',k===i); }); };
+  const openStep=(i,push=true,srcEl=null)=>{
+    if(svBusy||i===svCur) return;
+    const from=svCur, wasOpen=from>=0;
+    svCur=i; sv.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden';
     sv.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));
     svDots.forEach((d,k)=>d.classList.toggle('on',k===i));
     svPrev.disabled=i===0; svNext.disabled=i===PAGES.length-1;
-    sv.scrollTop=0;
     document.getElementById('sidebtns').classList.add('hide-sv');
     if(push && location.hash!=='#'+PAGES[i]) history.pushState(null,'','#'+PAGES[i]);
+    const inSec=svSecs[i];
+    if(REDUCE){ sv.classList.add('open'); showOnly(i); sv.scrollTop=0; enterFx(inSec); return; }
+    svBusy=true;
+    if(!wasOpen){
+      // ouverture : la photo de la carte grandit jusqu'à remplir l'écran
+      const img=srcEl&&srcEl.querySelector('img');
+      showOnly(i); sv.scrollTop=0;
+      if(img){
+        const r=srcEl.getBoundingClientRect(), hh=document.getElementById('sitehead').offsetHeight;
+        const z=document.createElement('div'); z.className='sv-zoom';
+        z.innerHTML=`<img src="${img.getAttribute('src')}" alt="">`;
+        Object.assign(z.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',borderRadius:'22px'});
+        document.body.appendChild(z);
+        requestAnimationFrame(()=>requestAnimationFrame(()=>Object.assign(z.style,{left:'0px',top:hh+'px',width:innerWidth+'px',height:(innerHeight-hh)+'px',borderRadius:'0px'})));
+        setTimeout(()=>{ sv.classList.add('open','sv-enter'); inSec.classList.add('fx-in'); z.classList.add('gone'); enterFx(inSec); },720);
+        setTimeout(()=>{ z.remove(); inSec.classList.remove('fx-in'); sv.classList.remove('sv-enter'); svBusy=false; },1700);
+      } else {
+        sv.classList.add('open'); inSec.classList.add('fx-in'); enterFx(inSec);
+        setTimeout(()=>{ inSec.classList.remove('fx-in'); svBusy=false; },1000);
+      }
+      return;
+    }
+    // passage d'une étape à l'autre : l'ancienne page bascule en 3D, la nouvelle arrive en zoom flou
+    const outSec=svSecs[from], dir=i>from?1:-1;
+    const top=sv.scrollTop;
+    outSec.classList.add('fx-out'); outSec.style.setProperty('--dir',dir); outSec.style.top=(58-top)+'px';
+    inSec.classList.add('cur','fx-in'); sv.scrollTop=0;
+    enterFx(inSec);
+    setTimeout(()=>{ outSec.classList.remove('cur','fx-out'); outSec.style.top=''; },850);
+    setTimeout(()=>{ inSec.classList.remove('fx-in'); svBusy=false; },1000);
   };
   const closeStep=(push=true)=>{
-    if(svCur<0) return; svCur=-1;
-    sv.classList.remove('open'); sv.setAttribute('aria-hidden','true'); document.documentElement.style.overflow='';
-    document.getElementById('sidebtns').classList.remove('hide-sv');
+    if(svCur<0||svBusy) return; svCur=-1;
+    const done=()=>{
+      sv.classList.remove('open','sv-leave'); sv.setAttribute('aria-hidden','true'); document.documentElement.style.overflow='';
+      document.getElementById('sidebtns').classList.remove('hide-sv');
+      document.getElementById('parcours').scrollIntoView({behavior:'instant',block:'start'});
+      svBusy=false;
+    };
     if(push) history.pushState(null,'','#parcours');
-    document.getElementById('parcours').scrollIntoView({behavior:'instant',block:'start'});
+    if(REDUCE){ done(); return; }
+    svBusy=true; sv.classList.add('sv-leave'); setTimeout(done,750);
   };
-  cards.addEventListener('click',e=>{ const b=e.target.closest('[data-step]'); if(b) openStep(+b.dataset.step); });
+  cards.addEventListener('click',e=>{ const b=e.target.closest('[data-step]'); if(b) openStep(+b.dataset.step,true,b); });
   document.getElementById('svBack').onclick=()=>closeStep();
   svDots.forEach(d=>d.onclick=()=>openStep(+d.dataset.i));
   svPrev.onclick=()=>svCur>0&&openStep(svCur-1);
