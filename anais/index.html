@@ -334,6 +334,22 @@
 
 
 
+
+  /* ---------- CARTE ---------- */
+  .mapsec{padding:120px 0 80px}
+  .mapsec .flr{opacity:.45}
+  .mapbox{margin-top:50px;display:grid;grid-template-columns:1.6fr 1fr;background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 30px 60px -40px rgba(40,70,58,.4)}
+  .mapframe{position:relative;min-height:440px;background:var(--tile)}
+  .mapframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.85)}
+  .mapcard{padding:44px 40px;display:flex;flex-direction:column;gap:24px}
+  .mc-logo{height:52px;width:auto;align-self:flex-start}
+  .mapcard ul{list-style:none;display:grid;gap:16px}
+  .mapcard li{font-size:15px;line-height:1.5}
+  .mapcard li span{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:3px}
+  .mapcard a[href^="tel"]{color:var(--sage-deep);font-weight:500}
+  .mc-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+  @media (max-width:860px){ .mapbox{grid-template-columns:1fr} .mapframe{min-height:320px} .mapcard{padding:32px 24px} }
+
   /* ---------- IDENTITÉ OFFICIELLE (anaisbeautyclinic.com) ---------- */
   h1,h2,h3,.tt i,.tt b,.cf-info h3,.card-b h3,.min h3,.menu a,.xs h2 b,.xs h2 i,.scan h2 b,.scan h2 i{font-family:'Belleza','DM Sans',sans-serif}
   .tt i,.xs h2 i,.scan h2 i{font-style:normal;color:var(--sage)}
@@ -742,7 +758,7 @@
       <div class="hres" id="qres"></div>
     </div>
     <div class="hacts">
-      <a href="#contact" class="hb hb-dark"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>Accès et contact</a>
+      <a href="#acces" class="hb hb-dark"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>Accès et contact</a>
       <a href="#contact" class="hb hb-light">Réserver en ligne</a>
       <div class="hdrop">
         <button class="hb hb-out" id="dropBtn">Mini-tests <span class="chev">⌄</span></button>
@@ -761,6 +777,7 @@
       <a href="#soins">Soins médicaux</a>
       <a href="#scanner">Le scanner InBody</a>
       <a href="#contact">Contact</a>
+      <a href="#acces">Nous trouver</a>
     </nav>
     <div class="hacts2">
       <a href="#contact" class="hb hb-out hcall"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span><b>Rendez-vous</b><small>par WhatsApp</small></span></a>
@@ -787,6 +804,7 @@
   <a href="#trajet"><i>03</i>Le jeu du trajet</a>
   <a href="#soins"><i>04</i>Soins médicaux</a>
   <a href="#contact"><i>05</i>Contact</a>
+  <a href="#acces"><i>06</i>Nous trouver</a>
 </nav>
 
 <!-- HERO -->
@@ -1176,6 +1194,34 @@
   </div>
 </section>
 
+<!-- OÙ NOUS TROUVER -->
+<section class="mapsec deco" id="acces">
+  <img class="flr tr" src="img/br-fl_tr.webp" alt="" aria-hidden="true">
+  <div class="wrap">
+    <div class="rv">
+      <h2 class="tt"><i>Où nous trouver</i><b>Anaïs Beauty Clinic</b></h2>
+      <p class="sub">Au cœur du Complexe Moov'Up Sports, à Agadir.</p>
+    </div>
+    <div class="mapbox rv">
+      <div class="mapframe">
+        <iframe title="Carte : Anaïs Beauty Clinic, Agadir" src="https://www.google.com/maps?q=Ana%C3%AFs+Beauty+Clinic,+N%C2%B040+RP,+Agadir+80000&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      <div class="mapcard">
+        <img class="mc-logo" src="img/br-logo.png" alt="Anaïs">
+        <ul>
+          <li><span>Adresse</span>N°40 RP, Hay El Mohammadi<br>Complexe Moov'Up Sports, Agadir 80000</li>
+          <li><span>Téléphone</span><a href="tel:+212525236754">05 25 23 67 54</a></li>
+          <li><span>Horaires</span>Lundi – Dimanche · 10h – 21h</li>
+        </ul>
+        <div class="mc-acts">
+          <a class="pill-btn" href="https://www.google.com/maps/dir/?api=1&destination=Ana%C3%AFs+Beauty+Clinic+Agadir" target="_blank" rel="noopener">Itinéraire →</a>
+          <a class="pill-btn ghost" href="https://www.google.com/maps/search/?api=1&query=Ana%C3%AFs+Beauty+Clinic+Agadir" target="_blank" rel="noopener">Ouvrir dans Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="fhead"><img src="img/br-logo.png" alt="Anaïs"><img src="img/br-relax.png" alt="Time to relax"></div>
@@ -1249,7 +1295,7 @@
     ['Coaching sportif privé','Étape 3','#parcours'],["Technologies d'amincissement",'Étape 4','#parcours'],['Suivi & réajustement','Étape 5','#parcours'],
     ['Le jeu du trajet','Interactif','#trajet'],['Laser','Soin médical','#soins'],['Filler','Soin médical','#soins'],['Skin booster','Soin médical','#soins'],
     ['PRP cheveux','Soin médical','#soins'],['Hydrafacial','Soin médical','#soins'],['Microneedling','Soin médical','#soins'],
-    ['Notre médecin','Médecine esthétique','#soins'],['Nutritionniste','Étape 2','#parcours'],['Prendre rendez-vous','Contact','#contact'],['WhatsApp','Contact','#contact'],['Nutrition','Étape 2','#etape-2'],['Coaching','Étape 3','#etape-3'],['Machines','Étape 4','#etape-4'],['Suivi InBody','Étape 5','#etape-5'],['Scanner InBody','Démonstration','#scanner'],['Analyse corporelle','Démonstration','#scanner']
+    ['Notre médecin','Médecine esthétique','#soins'],['Nutritionniste','Étape 2','#parcours'],['Prendre rendez-vous','Contact','#contact'],['Adresse','Carte','#acces'],['Itinéraire','Carte','#acces'],['Horaires','Accès','#acces'],['WhatsApp','Contact','#contact'],['Nutrition','Étape 2','#etape-2'],['Coaching','Étape 3','#etape-3'],['Machines','Étape 4','#etape-4'],['Suivi InBody','Étape 5','#etape-5'],['Scanner InBody','Démonstration','#scanner'],['Analyse corporelle','Démonstration','#scanner']
   ];
   const q=document.getElementById('q'), qres=document.getElementById('qres');
   const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
