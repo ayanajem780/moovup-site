@@ -731,7 +731,6 @@
   </div>
   <div class="hrow2">
     <nav class="hnav">
-      <a href="#programme">Le programme</a>
       <a href="#parcours">Le parcours</a>
       <a href="#trajet">Le jeu du trajet</a>
       <a href="#soins">Soins médicaux</a>
@@ -759,12 +758,10 @@
   <img class="menu-logo" src="img/br-logo.png" alt="Anaïs">
   <button class="x" id="closeMenu" aria-label="Fermer">✕</button>
   <a href="#accueil"><i>01</i>Accueil</a>
-  <a href="#clinique"><i>02</i>La clinique</a>
-  <a href="#programme"><i>03</i>Le programme</a>
-  <a href="#parcours"><i>04</i>Le parcours</a>
-  <a href="#trajet"><i>05</i>Le jeu du trajet</a>
-  <a href="#soins"><i>06</i>Soins médicaux</a>
-  <a href="#contact"><i>07</i>Contact</a>
+  <a href="#parcours"><i>02</i>Le parcours</a>
+  <a href="#trajet"><i>03</i>Le jeu du trajet</a>
+  <a href="#soins"><i>04</i>Soins médicaux</a>
+  <a href="#contact"><i>05</i>Contact</a>
 </nav>
 
 <!-- HERO -->
@@ -1006,25 +1003,6 @@
 
 </div>
 
-<!-- GALLERY -->
-<section class="gallery deco" id="clinique">
-  <img class="flr tl" src="img/br-fl_tl.webp" alt="" aria-hidden="true">
-  <img class="flr tr" src="img/br-fl_tr.webp" alt="" aria-hidden="true">
-  <div class="wrap">
-    <div class="rv">
-      <h2 class="tt"><i>Un aperçu de</i><b>Anaïs Beauty Clinic</b></h2>
-      <p class="sub">Analyse, nutrition, mouvement et technologies — sous un même toit.</p>
-    </div>
-    <div class="gal rv">
-      <figure><img src="img/technologies.jpg" alt="Technologies d'amincissement"></figure>
-      <figure><img src="img/nutrition.jpg" alt="Consultation nutrition" loading="lazy"></figure>
-      <figure><img src="img/coaching.jpg" alt="Coaching sportif privé" loading="lazy"></figure>
-      <figure><img src="img/bilan-inbody.jpg" alt="Analyse InBody" loading="lazy"></figure>
-      <figure><img src="img/suivi.jpg" alt="Suivi des résultats" loading="lazy"></figure>
-    </div>
-  </div>
-</section>
-
 <!-- WELCOME -->
 <section class="welcome">
   <div class="wrap">
@@ -1044,32 +1022,6 @@
     </div>
   </div>
 </section>
-
-<!-- SPLIT : programme -->
-<section class="split" id="programme">
-  <div class="media"><img src="img/nutrition.jpg" alt="Consultation avec la nutritionniste" loading="lazy"></div>
-  <div class="panel">
-    <div class="top rv">
-      <h2 class="tt"><i>Un programme global</i><b>Cinq expertises<br>réunies</b></h2>
-      <p>Chaque dimension compte. Notre programme rassemble le savoir-faire de plusieurs spécialistes pour une transformation durable.</p>
-    </div>
-    <div class="bot rv">
-      <ul class="pil-list">
-        <li><span>01</span>L'expertise nutritionnelle</li>
-        <li><span>02</span>Le suivi et l'analyse de la composition corporelle</li>
-        <li><span>03</span>Le coaching sportif privé</li>
-        <li><span>04</span>Les technologies d'amincissement</li>
-        <li><span>05</span>Un accompagnement personnalisé tout au long du parcours</li>
-      </ul>
-      <p class="obj">Un accompagnement complet. Un programme personnalisé. Une transformation encadrée.</p>
-      <a href="#parcours" class="pill-btn">Découvrir le parcours</a>
-    </div>
-  </div>
-</section>
-
-
-
-
 
 <!-- BANNIÈRE À ONGLETS -->
 <section class="tabban" id="decouvrir">
@@ -1133,20 +1085,6 @@
         </div>
       </div>
       <div class="side" id="side"></div>
-    </div>
-  </div>
-</section>
-
-<!-- SPLIT : médecin -->
-<section class="split rev">
-  <div class="media"><img src="img/suivi.jpg" alt="Consultation et suivi" loading="lazy"></div>
-  <div class="panel">
-    <div class="top rv">
-      <h2 class="tt"><i>Encadré par</i><b>notre médecin</b></h2>
-      <p>Au-delà du programme minceur, Anaïs Beauty Clinic propose des soins médico-esthétiques pour le visage, la peau et les cheveux. Chaque soin commence par une consultation avec le médecin.</p>
-    </div>
-    <div class="bot rv" style="text-align:center">
-      <a href="#soins" class="pill-btn">Voir les soins</a>
     </div>
   </div>
 </section>
@@ -1218,7 +1156,7 @@
     <div class="fhead"><img src="img/br-logo.png" alt="Anaïs"><img src="img/br-relax.png" alt="Time to relax"></div>
     <div class="fbox">
       <div><h4>Programme</h4><ul>
-        <li><a href="#programme">Maigrir en santé</a></li>
+        <li><a href="#parcours">Maigrir en santé</a></li>
         <li><a href="#parcours">Le parcours</a></li>
         <li><a href="#contact">Bilan InBody</a></li>
       </ul></div>
@@ -1277,11 +1215,11 @@
 
   // recherche
   const IDX=[
-    ['Maigrir en santé','Programme','#programme'],['Bilan corporel & InBody','Étape 1','#parcours'],['Programme nutritionnel','Étape 2','#parcours'],
+    ['Maigrir en santé','Programme','#parcours'],['Bilan corporel & InBody','Étape 1','#parcours'],['Programme nutritionnel','Étape 2','#parcours'],
     ['Coaching sportif privé','Étape 3','#parcours'],["Technologies d'amincissement",'Étape 4','#parcours'],['Suivi & réajustement','Étape 5','#parcours'],
     ['Le jeu du trajet','Interactif','#trajet'],['Laser','Soin médical','#soins'],['Filler','Soin médical','#soins'],['Skin booster','Soin médical','#soins'],
     ['PRP cheveux','Soin médical','#soins'],['Hydrafacial','Soin médical','#soins'],['Microneedling','Soin médical','#soins'],
-    ['Notre médecin','Médecine esthétique','#soins'],['Nutritionniste','Étape 2','#parcours'],['Prendre rendez-vous','Contact','#contact'],['WhatsApp','Contact','#contact'],['La clinique','Galerie','#clinique'],['Nutrition','Étape 2','#etape-2'],['Coaching','Étape 3','#etape-3'],['Machines','Étape 4','#etape-4'],['Suivi InBody','Étape 5','#etape-5'],['Scanner InBody','Démonstration','#scanner'],['Analyse corporelle','Démonstration','#scanner']
+    ['Notre médecin','Médecine esthétique','#soins'],['Nutritionniste','Étape 2','#parcours'],['Prendre rendez-vous','Contact','#contact'],['WhatsApp','Contact','#contact'],['Nutrition','Étape 2','#etape-2'],['Coaching','Étape 3','#etape-3'],['Machines','Étape 4','#etape-4'],['Suivi InBody','Étape 5','#etape-5'],['Scanner InBody','Démonstration','#scanner'],['Analyse corporelle','Démonstration','#scanner']
   ];
   const q=document.getElementById('q'), qres=document.getElementById('qres');
   const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
@@ -1626,7 +1564,7 @@
   // ---------- BANNIÈRE À ONGLETS ----------
   (function(){
     const T=[
-      {k:'Programme', h:'Maigrir en santé, sans privation', p:'Nutrition, coaching privé, technologies et suivi : un programme global, encadré du premier au dernier jour.', a:'#programme', l:'Découvrir le programme'},
+      {k:'Programme', h:'Maigrir en santé, sans privation', p:'Nutrition, coaching privé, technologies et suivi : un programme global, encadré du premier au dernier jour.', a:'#parcours', l:'Découvrir le programme'},
       {k:'5 étapes', h:'Un parcours mesuré et ajusté', p:'Du bilan InBody au bilan final, chaque étape est planifiée et adaptée à votre évolution.', a:'#parcours', l:'Voir les étapes'},
       {k:'Interactif', h:'Testez votre trajet en jeu', p:'Cinq arrêts, cinq questions : découvrez en une minute le parcours qui vous correspond.', a:'#trajet', l:'Prendre la route'},
       {k:'Avec le médecin', h:'Des soins médico-esthétiques', p:'Laser, filler, skin booster, PRP cheveux, Hydrafacial et microneedling, après consultation.', a:'#soins', l:'Voir les soins'}
