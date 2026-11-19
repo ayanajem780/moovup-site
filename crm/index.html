@@ -455,6 +455,94 @@ table.tt .t:hover{color:var(--brand-blue)}
 .shact{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
 .shoot.isdone{border-left:3px solid var(--s-done)}
 .pill.shootp{background:var(--accent-soft);color:var(--brand-blue)}
+/* ===== Tableau de bord, mise en page en cartes ===== */
+.fx{--fxr:22px}
+.fxhead{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:-6px 0 20px}
+.fxhello{margin:0 0 6px;font:600 clamp(28px,2.6vw,38px)/1.1 var(--body);letter-spacing:-.025em;color:var(--ink)}
+.fxhead .meta{margin:0;font-size:15px}
+.fxsel{padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:500}
+.fxg{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start}
+.fxc{background:var(--surface);border-radius:var(--fxr);padding:22px;box-shadow:0 1px 2px rgba(16,24,32,.04);border:1px solid var(--line);min-width:0}
+.fxc h2{margin:0;font:600 19px/1.2 var(--body);color:var(--ink)}
+.fxcol{display:flex;flex-direction:column;gap:16px;min-width:0}
+.fxwide{grid-column:span 2}
+.fxfull{grid-column:1/-1}
+.fxbal{display:flex;flex-direction:column;gap:18px}
+.fxbl{display:flex;flex-wrap:wrap;align-items:center;gap:8px 8px;text-decoration:none;color:inherit}
+.fxlab{width:100%;color:var(--muted);font-size:15px}
+.fxbl b{width:100%;font:600 40px/1.05 var(--body);letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.fxbl b small{font-size:18px;font-weight:400;color:var(--muted)}
+.fxpill{display:inline-block;border-radius:6px;padding:3px 8px;font-size:12.5px;font-weight:600}
+.fxpill.up{background:var(--ok-soft);color:var(--ok)}.fxpill.down{background:var(--bad-soft);color:var(--bad)}
+.fxbtns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fxbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--sunken);color:var(--ink);border-radius:999px;padding:12px 16px;font:500 14.5px/1.15 var(--body);cursor:pointer;text-decoration:none;text-align:center;transition:background .15s,transform .15s}
+.fxbtn:hover{transform:translateY(-1px)}
+.fxbtn.dark{background:#141a1f;color:#fff;border-color:#141a1f}
+.fxbtn.dark[aria-pressed="false"]{background:var(--sunken);color:var(--ink);border-color:var(--line)}
+.fxw{background:var(--sunken);border-radius:16px;padding:14px}
+.fxwh{margin:0 0 10px;color:var(--muted);font-size:14px}.fxwh b{color:var(--ink)}
+.fxwg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fxwg a{background:var(--surface);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:inherit;min-width:0}
+.fxwg a:hover{box-shadow:0 0 0 1.5px var(--brand-orange)}
+.fxwn{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;min-width:0}
+.fxwn i{width:9px;height:9px;border-radius:50%;flex:none}
+.fxwg b{font:600 22px/1.1 var(--body);font-variant-numeric:tabular-nums}
+.fxwg span.up,.fxwg span.down,.fxwg span.dl{font-size:11.5px;font-weight:500}
+.fxkpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px}
+.fxk{display:flex;flex-direction:column;gap:12px;background:var(--sunken);border-radius:18px;padding:18px;text-decoration:none;color:inherit;min-height:150px;transition:transform .18s,box-shadow .18s}
+.fxk:hover{transform:translateY(-2px);box-shadow:0 14px 30px -18px rgba(16,24,32,.4)}
+.fxkh{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;color:var(--ink)}
+.fxkh i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--ink);flex:none}
+.fxk b{font:600 36px/1 var(--body);letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink);margin-top:auto}
+.fxks{font-size:12.5px;line-height:1.35}
+.fxks .up,.fxks .down{display:inline-block;border-radius:6px;padding:2px 7px;margin-right:4px}
+.fxks .up{background:var(--ok-soft)}.fxks .down{background:var(--bad-soft)}
+.fxk.hot{background:linear-gradient(150deg,#f39a5d 0%,var(--brand-orange) 55%,#d9581c 100%);color:#fff;box-shadow:0 18px 34px -20px rgba(234,109,42,.8)}
+.fxk.hot .fxkh,.fxk.hot b{color:#fff}
+.fxk.hot .fxkh i{background:rgba(255,255,255,.22);color:#fff}
+.fxk.hot .fxks .up,.fxk.hot .fxks .down{background:rgba(255,255,255,.22);color:#fff}
+.fxk.hot .dl{color:rgba(255,255,255,.85)}
+.fxcin{background:var(--sunken);border-radius:16px;padding:14px 12px 8px}
+.fxch{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.fxch .seg{background:var(--surface)}
+.lgs{display:flex;gap:12px;flex-wrap:wrap}
+.lb{display:inline-block;width:10px;height:10px;border-radius:3px}
+.lb.cur{background:#141a1f}.lb.prev{background:var(--brand-orange);background-image:repeating-linear-gradient(45deg,transparent 0 2px,rgba(255,255,255,.45) 2px 4px)}
+:root[data-theme="dark"] .lb.cur{background:#e9eef2}
+.bcur{fill:#141a1f}.bprev{fill:url(#hatch)}
+:root[data-theme="dark"] .bcur{fill:#e9eef2}
+.cband{fill:var(--line);opacity:.55}
+.ctip .lb.cur{background:#fff}
+.fxdist{display:flex;flex-direction:column;gap:14px}
+.fxdr{display:flex;flex-direction:column;gap:7px;text-decoration:none;color:var(--ink)}
+.fxdn{display:flex;justify-content:space-between;font-size:14px}.fxdn b{font-variant-numeric:tabular-nums}
+.fxtr{height:12px;border-radius:99px;background:repeating-linear-gradient(-45deg,var(--sunken) 0 5px,var(--line) 5px 7px);overflow:hidden}
+.fxtr i{display:block;height:100%;border-radius:99px;background:var(--brand-orange)}
+.fxdr:hover .fxtr i{background:#141a1f}
+.fxtab{padding:0;overflow:hidden}
+.fxth{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:22px 22px 16px}
+.fxsearch{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:9px 14px;color:var(--muted);background:var(--surface)}
+.fxsearch input{border:0;padding:0;background:transparent;width:150px;outline:0;box-shadow:none!important}
+.fxth .fxbtn{padding:9px 16px}
+.fxtw{margin:0 14px 14px;border-radius:16px;overflow:auto;border:1px solid var(--line)}
+table.fxt th{background:var(--sunken)}
+table.fxt td{padding:15px 18px}
+.fxtt{display:flex;align-items:center;gap:10px}
+.fxtt i{width:24px;height:24px;border-radius:7px;flex:none;opacity:.85}
+.fxst{display:inline-flex;align-items:center;gap:7px;font-size:14px;white-space:nowrap}
+.fxst i{width:7px;height:7px;border-radius:50%;background:var(--s-todo)}
+.fxst.doing i{background:var(--s-doing)}.fxst.done i{background:var(--s-done)}.fxst.bad i{background:var(--s-late)}.fxst.warn i{background:var(--brand-orange)}
+.fxcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.fxcard{border-radius:var(--fxr);padding:20px;min-height:170px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:#fff;position:relative;overflow:hidden;transition:transform .18s}
+.fxcard:hover{transform:translateY(-2px)}
+.fxcard.dark{background:radial-gradient(circle at 85% 15%,rgba(255,255,255,.08),transparent 40%),#141a1f}
+.fxcard.hot{background:linear-gradient(150deg,#f39a5d 0%,var(--brand-orange) 55%,#d9581c 100%)}
+.fxcardh{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;opacity:.9;margin-bottom:4px}
+.fxbadge{background:#fff;color:#141a1f;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:600}
+.fxml{display:flex;flex-direction:column;gap:2px;border-top:1px solid rgba(255,255,255,.16);padding-top:9px;font-size:13px}
+.fxml b{font-size:14.5px;overflow-wrap:anywhere}.fxml span{opacity:.85}
+@media (max-width:1180px){.fxg{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.fxg>.chartc{grid-column:1/-1}.fxwide{grid-column:span 1}}
+@media (max-width:820px){.fxg{grid-template-columns:minmax(0,1fr)}.fxwide,.fxg>.chartc{grid-column:auto}.fxcards{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -866,69 +954,90 @@ function vDash(){
     const sh = state.shoots.filter(s => s.date === d), tk = state.tasks.filter(x => x.status !== 'done' && x.due === d), [y,m,dd] = d.split('-').map(Number);
     return `<div class="day${d === t ? ' today' : ''}"><h3>${esc(new Date(y, m-1, dd).toLocaleDateString('fr-FR', {weekday:'short', day:'numeric'}))}</h3>${sh.map(s => `<div class="ev sh">${s.start ? esc(s.start) + ' ' : ''}${esc(s.title || 'Tournage')}</div>`).join('')}${tk.slice(0,3).map(x => `<div class="ev">${esc(x.title)}</div>`).join('')}${tk.length > 3 ? `<div class="meta">+ ${tk.length - 3} autres</div>` : ''}</div>`;
   }).join('');
-  return `<div class="dhead"><div><h2 class="hello">${new Date().getHours() >= 18 ? 'Bonsoir' : 'Bonjour'}${first ? ', ' + esc(first) : ''}</h2>
+  const KI = {done:'<path d="M5 12.5 10 17l9-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>', add:'<path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>', cam:'<rect x="3" y="7" width="13" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 11 5-3v9l-5-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>', msg:'<path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>'};
+  const fxk = (href, label, icon, val, sub, hot) => `<a class="fxk${hot ? ' hot' : ''}" href="${href}"><span class="fxkh"><span>${label}</span><i><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">${KI[icon]}</svg></i></span><b>${val}</b><span class="fxks">${sub}</span></a>`;
+  const nowHM = new Date().toTimeString().slice(0, 5);
+  const mUp = state.meetings.filter(m => m.date && (m.date > t || (m.date === t && (!m.start || m.start >= nowHM)))).sort((a,b) => (a.date + (a.start || '')).localeCompare(b.date + (b.start || '')));
+  const mLast = state.meetings.filter(m => m.date && m.date <= t).sort((a,b) => (b.date + (b.start || '')).localeCompare(a.date + (a.start || '')))[0];
+  const stDot = x => { const st = x.status || 'todo'; return `<span class="fxst ${isLate(x) ? (x.imprevu ? 'warn' : 'bad') : st}"><i></i>${(STATUS.find(z => z[0] === st) || [])[1]}</span>`; };
+  return `<div class="fx">
+  <div class="fxhead"><div><h2 class="fxhello">${new Date().getHours() >= 18 ? 'Bonsoir' : 'Bonjour'}${first ? ', ' + esc(first) : ''}</h2>
       <p class="meta">Activité de l'équipe marketing Moov'Up · mis à jour à ${esc(new Date(lastSync || now).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}))} depuis le CRM</p></div>
-    <div class="dctl"><select id="perSel" data-chg="per" aria-label="Période">${[[7,'7 derniers jours'],[30,'30 derniers jours']].map(([v,l]) => `<option value="${v}"${N === v ? ' selected' : ''}>${l}</option>`).join('')}</select>
-      <button type="button" class="btn" data-act="cmp" aria-pressed="${ui.cmp !== false}">Comparer : période précédente</button>
-      <button type="button" class="btn" data-act="export">Exporter</button></div></div>
-  <div class="kpis">
-    ${kpi('#liste-terminees-7j', 'Tâches terminées', kDone[0], delta(kDone, 'terminées'))}
-    ${kpi('#liste-creees-aujourdhui', 'Tâches créées', kNew[0], delta(kNew, 'créées'))}
-    ${kpi('#tournages', 'Tournages', kShoot[0], delta(kShoot, 'tournages'))}
-    ${kpi('#discussion', 'Messages échangés', kMsg[0], delta(kMsg, 'messages'))}
-    ${kpi('#liste-en-retard', 'Santé de l\'équipe', health + '<small>/100</small>', all.late ? `<span class="down">▼ ${all.late}</span> <span class="dl">tâche${all.late > 1 ? 's' : ''} en retard</span>` : '<span class="up">▲</span> <span class="dl">aucune tâche en retard</span>', 'Part des tâches ouvertes qui ne sont pas en retard')}
-  </div>
-  <div class="dgrid">
-    <section class="block chartc"><div class="bh" style="flex-wrap:wrap;row-gap:10px"><div style="flex:1 1 260px;min-width:220px"><h2>Activité de l'équipe</h2><p class="meta" style="margin:2px 0 0">${metLbl[metric]} par jour, ${N} derniers jours</p></div>
-      <span class="lg"><i class="lcur"></i>Cette période</span>${ui.cmp !== false ? '<span class="lg"><i class="lprev"></i>Période précédente</span>' : ''}
-      <div class="seg" role="group" aria-label="Mesure">${Object.keys(metLbl).map(k => `<button type="button" data-act="met" data-v="${k}" aria-pressed="${metric === k}">${{done:'Terminées', created:'Créées', msg:'Messages'}[k]}</button>`).join('')}</div></div>
-      <div class="chart" id="chart">${chartSvg()}<div class="ctip" id="ctip" hidden></div></div></section>
-    <section class="block"><div class="bh"><div><h2>Répartition des tâches</h2><p class="meta" style="margin:2px 0 0">Tâches ouvertes par univers · ${open} au total</p></div></div>
-      <div class="dist">${per.map(([p,n]) => `<a class="dr" href="#univers-${p.k}"><span>${esc(p.s)}</span><span class="tr"><i style="width:${n ? Math.max(3, n / mx * 100) : 0}%"></i></span><b>${n}</b></a>`).join('')}</div>
-      <div class="trio"><a href="#liste-terminees"><span>Terminées</span><b class="up">${all.done}</b></a><a href="#liste-en-retard"><span>En retard</span><b class="down">${all.late}</b></a><a href="#liste-ouvertes"><span>En cours</span><b>${all.doing}</b></a></div></section>
-    <section class="block flush"><div class="bh pad"><div style="flex:1"><h2>Tâches à suivre</h2><p class="meta" style="margin:2px 0 0">Les prochaines échéances de l'équipe</p></div><a class="lnk" href="#taches">Voir toutes les tâches →</a></div>
-      ${follow.length ? `<table class="tt"><thead><tr><th>Tâche</th><th>Univers</th><th>Personne</th><th>Échéance</th><th>Statut</th></tr></thead><tbody>${follow.map(x => `<tr><td><button type="button" class="t" data-act="editTask" data-id="${esc(x.id)}">${esc(x.title)}</button></td><td>${tChips(x) || '<span class="meta">—</span>'}</td><td>${arr(x.who).map(id => esc(mname(id))).join(', ') || '<span class="chg down">personne</span>'}</td><td>${dueTxt(x)}</td><td class="meta">${(STATUS.find(z => z[0] === (x.status || 'todo')) || [])[1]}</td></tr>`).join('')}</tbody></table>` : '<p class="empty pad">Aucune tâche ouverte.</p>'}</section>
-    <section class="block"><div class="bh"><h2 style="flex:1">À régler</h2><a class="lnk" href="#suivi">Ouvrir le suivi →</a></div>
-      <ul class="att">${att.map(x => `<li><a href="${x.h}"><span class="ai ${x.c}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">${IC[x.i]}</svg></span><span><b>${x.t}</b><span class="meta">${x.d}</span></span></a></li>`).join('') || '<li class="empty">Rien à régler pour le moment.</li>'}</ul></section>
-    <section class="block wide2"><h2>Les 7 prochains jours</h2><div class="week">${days}</div></section>
-  </div>
-  <div class="dash" style="margin-top:14px">${meetBlock()}</div>`;
+    <select id="perSel" class="fxsel" data-chg="per" aria-label="Période">${[[7,'7 derniers jours'],[30,'30 derniers jours']].map(([v,l]) => `<option value="${v}"${N === v ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
+  <div class="fxg">
+    <section class="fxc fxbal">
+      <a class="fxbl" href="#liste-en-retard" title="Part des tâches ouvertes qui ne sont pas en retard"><span class="fxlab">Santé de l'équipe</span><b>${health}<small>/100</small></b>
+        <span class="fxpill ${all.late ? 'down' : 'up'}">${all.late ? '▼ ' + all.late : '▲'}</span> <span class="dl">${all.late ? `tâche${all.late > 1 ? 's' : ''} en retard` : 'aucune tâche en retard'}</span></a>
+      <div class="fxbtns"><button type="button" class="fxbtn dark" data-act="cmp" aria-pressed="${ui.cmp !== false}">Comparer : période précédente</button><button type="button" class="fxbtn" data-act="export">Exporter</button></div>
+      <div class="fxw"><p class="fxwh"><b>Tâches</b> | ${open} ouvertes</p><div class="fxwg">
+        <a href="#liste-terminees"><span class="fxwn"><i style="background:var(--s-done)"></i>Terminées</span><b>${all.done}</b><span class="up">voir la liste</span></a>
+        <a href="#liste-en-retard"><span class="fxwn"><i style="background:var(--s-late)"></i>En retard</span><b>${all.late}</b><span class="${all.late ? 'down' : 'dl'}">${all.late ? 'à rattraper' : 'rien en retard'}</span></a>
+        <a href="#liste-ouvertes"><span class="fxwn"><i style="background:var(--s-doing)"></i>En cours</span><b>${all.doing}</b><span class="dl">en ce moment</span></a></div></div>
+    </section>
+    <section class="fxc fxkpis">
+      ${fxk('#liste-terminees-7j', 'Tâches terminées', 'done', kDone[0], delta(kDone, 'terminées'), true)}
+      ${fxk('#liste-creees-aujourdhui', 'Tâches créées', 'add', kNew[0], delta(kNew, 'créées'))}
+      ${fxk('#tournages', 'Tournages', 'cam', kShoot[0], delta(kShoot, 'tournages'))}
+      ${fxk('#discussion', 'Messages échangés', 'msg', kMsg[0], delta(kMsg, 'messages'))}
+    </section>
+    <section class="fxc chartc"><h2>Activité de l'équipe</h2><p class="meta" style="margin:2px 0 12px">${metLbl[metric]} par jour, ${N} derniers jours</p>
+      <div class="fxcin"><div class="fxch"><div class="seg" role="group" aria-label="Mesure">${Object.keys(metLbl).map(k => `<button type="button" data-act="met" data-v="${k}" aria-pressed="${metric === k}">${{done:'Terminées', created:'Créées', msg:'Messages'}[k]}</button>`).join('')}</div>
+        <span class="lgs"><span class="lg"><i class="lb cur"></i>Cette période</span>${ui.cmp !== false ? '<span class="lg"><i class="lb prev"></i>Précédente</span>' : ''}</span></div>
+      <div class="chart" id="chart">${chartSvg()}<div class="ctip" id="ctip" hidden></div></div></div></section>
+    <div class="fxcol">
+      <section class="fxc"><h2>Répartition des tâches</h2><p class="meta" style="margin:2px 0 14px">Tâches ouvertes par univers · ${open} au total</p>
+        <div class="fxdist">${per.map(([p,n]) => `<a class="fxdr" href="#univers-${p.k}"><span class="fxdn"><span>${esc(p.s)}</span><b>${n}</b></span><span class="fxtr"><i style="width:${n ? Math.max(4, n / mx * 100) : 0}%"></i></span></a>`).join('')}</div></section>
+      <section class="fxc"><div class="bh"><h2 style="flex:1">À régler</h2><a class="lnk" href="#suivi">Ouvrir le suivi →</a></div>
+        <ul class="att">${att.map(x => `<li><a href="${x.h}"><span class="ai ${x.c}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">${IC[x.i]}</svg></span><span><b>${x.t}</b><span class="meta">${x.d}</span></span></a></li>`).join('') || '<li class="empty">Rien à régler pour le moment.</li>'}</ul></section>
+    </div>
+    <div class="fxcol fxwide">
+      <section class="fxc fxtab"><div class="fxth"><div style="flex:1"><h2>Tâches à suivre</h2><p class="meta" style="margin:2px 0 0">Les prochaines échéances de l'équipe</p></div>
+          <label class="fxsearch"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13.5 13.5 18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input type="search" id="fxSearch" placeholder="Rechercher" aria-label="Rechercher dans les tâches à suivre"></label>
+          <a class="fxbtn" href="#taches">Voir toutes les tâches →</a></div>
+        ${follow.length ? `<div class="fxtw"><table class="tt fxt"><thead><tr><th>Tâche</th><th>Univers</th><th>Personne</th><th>Échéance</th><th>Statut</th></tr></thead><tbody>${follow.map(x => { const p = proj(tP(x)[0]); return `<tr data-q="${esc(norm(x.title))}"><td><span class="fxtt"><i style="background:${p ? p.c : 'var(--muted)'}"></i><button type="button" class="t" data-act="editTask" data-id="${esc(x.id)}">${esc(x.title)}</button></span></td><td>${tChips(x) || '<span class="meta">—</span>'}</td><td>${arr(x.who).map(id => esc(mname(id))).join(', ') || '<span class="chg down">personne</span>'}</td><td>${dueTxt(x)}</td><td>${stDot(x)}</td></tr>`; }).join('')}</tbody></table></div>` : '<p class="empty">Aucune tâche ouverte.</p>'}</section>
+      <div class="fxcards">
+        <a class="fxcard dark" href="#reunions"><span class="fxcardh"><span class="fxbadge">Réunions</span><span>À venir</span></span>
+          ${mUp.slice(0, 3).map(m => `<span class="fxml"><b>${esc(m.title)}</b><span>${m.date === t ? 'Aujourd\'hui' : esc(fdate(m.date))}${m.start ? ' · ' + esc(m.start) : ''}${arr(m.people).length ? ` · ${arr(m.people).length} participant${arr(m.people).length > 1 ? 's' : ''}` : ''}</span></span>`).join('') || '<span class="fxml"><span>Aucune réunion prévue.</span></span>'}</a>
+        <a class="fxcard hot" href="#reunions"><span class="fxcardh"><span class="fxbadge">Dernière réunion</span><span>${last0(mLast)}</span></span>
+          ${mLast ? (arr(mLast.decisions).map(d => `<span class="fxml"><b>${esc(d)}</b></span>`).join('') || `<span class="fxml"><span>${mLast.note ? 'Compte rendu écrit, aucune décision listée.' : 'Compte rendu pas encore écrit.'}</span></span>`) : '<span class="fxml"><span>Aucune réunion passée.</span></span>'}</a>
+      </div>
+    </div>
+    <section class="fxc fxfull"><h2>Les 7 prochains jours</h2><div class="week" style="margin-top:12px">${days}</div></section>
+  </div></div>`;
 }
+const last0 = m => m ? esc(m.title) : '';
+const CH = {W: 520, H: 280, L: 34, R: 6, T: 10, B: 28};
 function chartSvg(){
   const c = live.chart; if (!c) return '';
-  const W = 760, H = 260, L = 40, R = 12, T = 12, B = 30, cmp = ui.cmp !== false;
+  const {W, H, L, R, T, B} = CH, cmp = ui.cmp !== false;
   const top = Math.max(4, ...c.cur, ...(cmp ? c.prev : [0])), step = Math.ceil(top / 4), ymax = step * 4;
-  const x = i => L + (c.N === 1 ? 0 : i * (W - L - R) / (c.N - 1)), y = v => T + (H - T - B) * (1 - v / ymax);
-  const pts = v => v.map((n,i) => `${x(i).toFixed(1)},${y(n).toFixed(1)}`).join(' ');
+  const gw = (W - L - R) / c.N, bw = Math.max(2, Math.min(cmp ? 13 : 22, gw * (cmp ? .34 : .55))), y = v => T + (H - T - B) * (1 - v / ymax), base = y(0);
+  const cx = i => L + (i + .5) * gw;
   const grid = [0,1,2,3,4].map(k => `<line x1="${L}" x2="${W - R}" y1="${y(k * step)}" y2="${y(k * step)}" class="cg"/><text x="${L - 8}" y="${y(k * step) + 4}" text-anchor="end" class="ct">${k * step}</text>`).join('');
   const every = c.N <= 7 ? 1 : 5;
-  const xl = c.labels.map((ts,i) => (i % every === 0 || i === c.N - 1) && !(c.N > 7 && i === c.N - 1 && i % every !== 0 && i % every < 3) ? `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" class="ct">${esc(new Date(ts).toLocaleDateString('fr-FR', c.N <= 7 ? {weekday:'short'} : {day:'numeric', month:'short'}))}</text>` : '').join('');
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graphique de l'activité par jour"><defs><linearGradient id="cfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--chart-cur)" stop-opacity=".18"/><stop offset="1" stop-color="var(--chart-cur)" stop-opacity="0"/></linearGradient></defs>
-    ${grid}${xl}
-    <polygon points="${x(0)},${y(0)} ${pts(c.cur)} ${x(c.N - 1)},${y(0)}" fill="url(#cfill)"/>
-    ${cmp ? `<polyline points="${pts(c.prev)}" fill="none" class="cprev"/>` : ''}
-    <polyline points="${pts(c.cur)}" fill="none" class="ccur"/>
-    <line id="cx" class="cxl" x1="0" x2="0" y1="${T}" y2="${H - B}" visibility="hidden"/><circle id="cdot" r="5" class="cdot" visibility="hidden"/>${cmp ? '<circle id="cdot2" r="4" class="cdot2" visibility="hidden"/>' : ''}
+  const xl = c.labels.map((ts,i) => (i % every === 0) ? `<text x="${cx(i)}" y="${H - 8}" text-anchor="middle" class="ct">${esc(new Date(ts).toLocaleDateString('fr-FR', c.N <= 7 ? {weekday:'short'} : {day:'numeric', month:'short'}))}</text>` : '').join('');
+  const bar = (x, v, cls) => { const h = Math.max(v ? 3 : 0, base - y(v)); return h ? `<rect x="${(x - bw / 2).toFixed(1)}" y="${(base - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="${Math.min(4, bw / 2).toFixed(1)}" class="${cls}"/>` : ''; };
+  const bars = c.cur.map((v,i) => cmp ? bar(cx(i) - bw / 2 - 1, v, 'bcur') + bar(cx(i) + bw / 2 + 1, c.prev[i], 'bprev') : bar(cx(i), v, 'bcur')).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graphique en barres de l'activité par jour"><defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--brand-orange)"/><line x1="0" y1="0" x2="0" y2="6" stroke="rgba(255,255,255,.45)" stroke-width="2.4"/></pattern></defs>
+    ${grid}${xl}<rect id="cband" x="0" y="${T}" width="${gw}" height="${H - T - B}" class="cband" visibility="hidden"/>${bars}
     <rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="chit"/></svg>`;
 }
 function chartHover(e){
   const c = live.chart, svg = document.querySelector('#chart svg'), tip = $('#ctip'); if (!c || !svg || !tip) return;
-  const r = svg.getBoundingClientRect(), W = 760, L = 40, R = 12, T = 12, H = 260, B = 30, sx = (e.clientX - r.left) / r.width * W;
-  if (sx < L - 10 || sx > W - R + 10) { chartOut(); return; }
-  const i = Math.max(0, Math.min(c.N - 1, Math.round((sx - L) / ((W - L - R) / Math.max(1, c.N - 1))))), cmp = ui.cmp !== false;
-  const top = Math.max(4, ...c.cur, ...(cmp ? c.prev : [0])), ymax = Math.ceil(top / 4) * 4, X = L + i * (W - L - R) / Math.max(1, c.N - 1), Y = v => T + (H - T - B) * (1 - v / ymax);
-  const cx = svg.querySelector('#cx'), d1 = svg.querySelector('#cdot'), d2 = svg.querySelector('#cdot2');
-  cx.setAttribute('x1', X); cx.setAttribute('x2', X); cx.setAttribute('visibility', 'visible');
-  d1.setAttribute('cx', X); d1.setAttribute('cy', Y(c.cur[i])); d1.setAttribute('visibility', 'visible');
-  if (d2) { d2.setAttribute('cx', X); d2.setAttribute('cy', Y(c.prev[i])); d2.setAttribute('visibility', 'visible'); }
+  const {W, H, L, R, T, B} = CH, r = svg.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * W;
+  if (sx < L || sx > W - R) { chartOut(); return; }
+  const gw = (W - L - R) / c.N, i = Math.max(0, Math.min(c.N - 1, Math.floor((sx - L) / gw))), cmp = ui.cmp !== false;
+  const band = svg.querySelector('#cband'); band.setAttribute('x', L + i * gw); band.setAttribute('width', gw); band.setAttribute('visibility', 'visible');
   const a = c.cur[i], p = c.prev[i], pc = p ? Math.round((a - p) / p * 1000) / 10 : null;
-  tip.innerHTML = `<b>${esc(new Date(c.labels[i]).toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}))}</b><span><i class="lcur"></i>Cette période<em>${a}</em></span>${cmp ? `<span><i class="lprev"></i>Période précédente<em>${p}</em></span>${pc != null ? (pc === 0 ? '<span class="dl">= stable</span>' : `<span class="${pc > 0 ? 'up' : 'down'}">${pc > 0 ? '▲' : '▼'} ${Math.abs(pc).toString().replace('.', ',')} %</span>`) : ''}` : ''}`;
+  tip.innerHTML = `<b>${esc(new Date(c.labels[i]).toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}))}</b><span><i class="lb cur"></i>Cette période<em>${a}</em></span>${cmp ? `<span><i class="lb prev"></i>Période précédente<em>${p}</em></span>${pc != null ? (pc === 0 ? '<span class="dl">= stable</span>' : `<span class="${pc > 0 ? 'up' : 'down'}">${pc > 0 ? '▲' : '▼'} ${Math.abs(pc).toString().replace('.', ',')} %</span>`) : ''}` : ''}`;
   tip.hidden = false;
-  const px = X / W * r.width, tw = tip.offsetWidth; tip.style.left = Math.min(r.width - tw - 4, Math.max(4, px + 14 + tw > r.width ? px - tw - 14 : px + 14)) + 'px'; tip.style.top = Math.max(0, Y(a) / H * r.height - 30) + 'px';
+  const px = (L + (i + .5) * gw) / W * r.width, tw = tip.offsetWidth;
+  tip.style.left = Math.min(r.width - tw - 4, Math.max(4, px + 14 + tw > r.width ? px - tw - 14 : px + 14)) + 'px'; tip.style.top = '8px';
 }
-function chartOut(){ const svg = document.querySelector('#chart svg'), tip = $('#ctip'); if (tip) tip.hidden = true; if (svg) ['#cx','#cdot','#cdot2'].forEach(q => { const el = svg.querySelector(q); if (el) el.setAttribute('visibility', 'hidden'); }); }
+function chartOut(){ const svg = document.querySelector('#chart svg'), tip = $('#ctip'); if (tip) tip.hidden = true; const b = svg && svg.querySelector('#cband'); if (b) b.setAttribute('visibility', 'hidden'); }
 document.addEventListener('pointermove', e => { if (e.target.closest && e.target.closest('#chart')) chartHover(e); });
 document.addEventListener('pointerleave', e => { if (e.target && e.target.id === 'chart') chartOut(); }, true);
+document.addEventListener('input', e => { if (e.target.id === 'fxSearch') { const q = norm(e.target.value).trim(); document.querySelectorAll('.fxt tbody tr').forEach(tr => { tr.hidden = !!q && !tr.dataset.q.includes(q); }); } });
 function exportCsv(){
   const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
   const rows = [['Tâche','Univers','Personnes','Type','Statut','Échéance','Temps estimé','Imprévu','Créée le','Créée par','Terminée le','Note']].concat(state.tasks.map(x => [x.title, tP(x).map(k => (proj(k) || {}).n).join(', '), arr(x.who).map(mname).join(', '), x.kind === 'collectif' ? 'Collective' : 'Individuelle', (STATUS.find(z => z[0] === (x.status || 'todo')) || [])[1], x.due || '', estTxt(x.est), x.imprevu ? (x.imprevuNote || 'oui') : '', x.createdAt ? new Date(x.createdAt).toLocaleDateString('fr-FR') : '', x.createdBy || '', x.doneAt ? new Date(x.doneAt).toLocaleDateString('fr-FR') : '', x.note || '']));
