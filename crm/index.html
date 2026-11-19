@@ -726,7 +726,7 @@ function waText(s, p, c){
 }
 function pending(s){ return s.done ? [] : arr(s.projects).filter(k => proj(k) && !(s.notified || {})[k]); }
 function spacesBlock(s){
-  const ps = arr(s.projects).filter(proj); if (!ps.length) return '';
+  const ps = arr(s.projects).filter(proj); if (!ps.length || s.done) return '';
   return `<div class="spaces"><h4>Espaces à prévenir avant le tournage</h4>${ps.map(k => {
     const p = proj(k), c = space(k), n = (s.notified || {})[k], tel = waNumber(c.phone);
     const st = n && n.ok ? '<span class="pill ok">A confirmé</span>' : n ? `<span class="pill warn">Prévenu le ${esc(new Date(n.at).toLocaleDateString('fr-FR', {day:'numeric', month:'short'}))}</span>` : '<span class="pill bad">Pas encore prévenu</span>';
