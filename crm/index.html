@@ -448,6 +448,10 @@ table.tt .t:hover{color:var(--brand-blue)}
 .mperf{display:flex;flex-direction:column;gap:8px}
 .mph2{display:flex;gap:8px;align-items:center;font-size:14px}
 .mph2>span:first-child{color:var(--muted);flex:1}
+.impbox{background:var(--warn-soft);border-radius:10px;padding:12px 14px}
+.impchk{display:flex;gap:8px;align-items:center;font-weight:600;color:var(--warn);text-transform:none!important;letter-spacing:0!important;font-size:14px!important;cursor:pointer}
+.impbox textarea{background:var(--surface)}
+.impnote{margin:0;font-size:13px;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:6px 9px;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -670,10 +674,11 @@ function taskCard(t){
       ${tChips(t)}${who}
     </div>
     <div class="meta">
-      ${t.due ? `<span class="pill ${late ? 'bad' : ''}">${late ? 'En retard, ' : 'Pour le '}${esc(fdate(t.due))}</span>` : '<span>Sans échéance</span>'}
+      ${t.due ? `<span class="pill ${dueCls(t)}">${late ? 'En retard, ' : 'Pour le '}${esc(fdate(t.due))}</span>` : '<span>Sans échéance</span>'}${estPill(t)}${impPill(t)}
       <span class="grow" style="flex:1"></span>
       <select data-chg="status" data-id="${esc(t.id)}" aria-label="Statut de la tâche"${dis()}>${STATUS.map(([k,l]) => `<option value="${k}"${(t.status || 'todo') === k ? ' selected' : ''}>${l}</option>`).join('')}</select>
     </div>
+    ${t.imprevu && t.imprevuNote ? `<p class="impnote"><b>Imprévu :</b> ${esc(t.imprevuNote)}</p>` : ''}
   </article>`;
 }
 
@@ -698,6 +703,11 @@ function vShoots(){
   ${past.length ? `<details class="past"><summary>Tournages passés (${past.length})</summary>${past.map(shootCard).join('')}</details>` : ''}`;
 }
 const SPF = {spName:'name', spPhone:'phone', spInsta:'insta', spNote:'note'};
+const EST = [[15,'15 min'],[30,'30 min'],[60,'1 h'],[120,'2 h'],[180,'3 h'],[240,'Une demi-journée'],[480,'1 jour'],[960,'2 jours'],[1440,'3 jours'],[2400,'1 semaine']];
+const estTxt = m => { m = +m || 0; if (!m) return ''; if (m < 60) return m + ' min'; if (m < 480) { const h = Math.round(m / 6) / 10; return (h + ' h').replace('.', ','); } const d = Math.round(m / 48) / 10; return (d + ' j').replace('.', ','); };
+const estPill = x => x.est ? `<span class="pill" title="Durée estimée">⏱ ${esc(estTxt(x.est))}</span>` : '';
+const impPill = x => x.imprevu ? `<span class="pill warn" title="${esc('Imprévu : ' + (x.imprevuNote || ''))}">Imprévu</span>` : '';
+const dueCls = x => isLate(x) ? (x.imprevu ? 'warn' : 'bad') : '';
 const tP = x => arr(x.projects).length ? arr(x.projects) : (x.project ? [x.project] : []);
 const inP = (x, k) => tP(x).includes(k);
 const tChips = x => tP(x).length === PROJECTS.length ? '<span class="pill">Les 6 univers</span>' : tP(x).map(projChip).join('');
@@ -823,7 +833,7 @@ function vDash(){
   // tâches à suivre
   const follow = state.tasks.filter(x => x.status !== 'done').sort((a,b) => (a.due || '9999').localeCompare(b.due || '9999')).slice(0, 6);
   const dueTxt = x => { if (!x.due) return '<span class="meta">—</span>'; const [y,m,d] = x.due.split('-').map(Number), n = Math.round((new Date(y, m-1, d) - new Date(dayStart())) / DAY);
-    return n < 0 ? `<span class="chg down">▼ ${-n} j de retard</span>` : n === 0 ? '<span class="chg warn">aujourd\'hui</span>' : `<span class="chg up">dans ${n} j</span>`; };
+    return n < 0 ? (x.imprevu ? `<span class="chg warn" title="${esc(x.imprevuNote || '')}">${-n} j de retard · imprévu</span>` : `<span class="chg down">▼ ${-n} j de retard</span>`) : n === 0 ? '<span class="chg warn">aujourd\'hui</span>' : `<span class="chg up">dans ${n} j</span>`; };
   // répartition par univers
   const per = PROJECTS.map(p => [p, state.tasks.filter(x => inP(x, p.k) && x.status !== 'done').length]), mx = Math.max(1, ...per.map(z => z[1]));
   const first = (() => { const id = myId(), m = id && member(id); return String((m && m.name) || (me && me.displayName) || '').trim().split(/\s+/)[0] || ''; })();
@@ -897,7 +907,7 @@ document.addEventListener('pointermove', e => { if (e.target.closest && e.target
 document.addEventListener('pointerleave', e => { if (e.target && e.target.id === 'chart') chartOut(); }, true);
 function exportCsv(){
   const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
-  const rows = [['Tâche','Univers','Personnes','Type','Statut','Échéance','Créée le','Créée par','Terminée le','Note']].concat(state.tasks.map(x => [x.title, tP(x).map(k => (proj(k) || {}).n).join(', '), arr(x.who).map(mname).join(', '), x.kind === 'collectif' ? 'Collective' : 'Individuelle', (STATUS.find(z => z[0] === (x.status || 'todo')) || [])[1], x.due || '', x.createdAt ? new Date(x.createdAt).toLocaleDateString('fr-FR') : '', x.createdBy || '', x.doneAt ? new Date(x.doneAt).toLocaleDateString('fr-FR') : '', x.note || '']));
+  const rows = [['Tâche','Univers','Personnes','Type','Statut','Échéance','Temps estimé','Imprévu','Créée le','Créée par','Terminée le','Note']].concat(state.tasks.map(x => [x.title, tP(x).map(k => (proj(k) || {}).n).join(', '), arr(x.who).map(mname).join(', '), x.kind === 'collectif' ? 'Collective' : 'Individuelle', (STATUS.find(z => z[0] === (x.status || 'todo')) || [])[1], x.due || '', estTxt(x.est), x.imprevu ? (x.imprevuNote || 'oui') : '', x.createdAt ? new Date(x.createdAt).toLocaleDateString('fr-FR') : '', x.createdBy || '', x.doneAt ? new Date(x.doneAt).toLocaleDateString('fr-FR') : '', x.note || '']));
   const blob = new Blob(['﻿' + rows.map(r => r.map(q).join(';')).join('\n')], {type: 'text/csv;charset=utf-8'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'crm-moovup-taches-' + today() + '.csv'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
@@ -1096,7 +1106,7 @@ function facts(k){
 }
 function dataFor(k){
   const names = ids => arr(ids).map(mname);
-  const tasks = state.tasks.filter(x => !k || inP(x, k)).map(x => ({titre:x.title, statut:(STATUS.find(z => z[0] === (x.status || 'todo')) || [])[1], echeance:x.due || null, type:x.kind === 'collectif' ? 'collective' : 'individuelle', personnes:names(x.who), univers:tP(x).map(k => (proj(k) || {}).n), note:x.note || null}));
+  const tasks = state.tasks.filter(x => !k || inP(x, k)).map(x => ({titre:x.title, statut:(STATUS.find(z => z[0] === (x.status || 'todo')) || [])[1], echeance:x.due || null, type:x.kind === 'collectif' ? 'collective' : 'individuelle', personnes:names(x.who), univers:tP(x).map(k => (proj(k) || {}).n), tempsEstime: x.est ? estTxt(x.est) : null, imprevu: x.imprevu ? (x.imprevuNote || 'oui') : null, note:x.note || null}));
   const shoots = state.shoots.filter(s => !k || arr(s.projects).includes(k)).map(s => ({titre:s.title, date:s.date || null, debut:s.start || null, fin:s.end || null, lieu:s.place || null, univers:arr(s.projects).map(z => (proj(z) || {}).n), equipe:names(s.people), plans:arr(s.shots).map(z => ({plan:z.text, filme:!!z.done})), materiel:arr(s.gear).map(z => ({objet:z.text, apportePar:z.who ? mname(z.who) : null})), espacesPrevenus:arr(s.projects).filter(z => (s.notified || {})[z]).map(z => (proj(z) || {}).n)}));
   return {aujourdhui: today(), taches: tasks, tournages: shoots};
 }
@@ -1276,7 +1286,7 @@ function vList(){
     <td style="min-width:200px"><button type="button" class="t" style="background:none;border:0;padding:0;text-align:left;cursor:pointer;font-weight:600;color:var(--ink)" data-act="editTask" data-id="${esc(x.id)}">${esc(x.title)}</button>${x.note ? `<br><span class="meta">${esc(String(x.note).slice(0, 140))}</span>` : ''}</td>
     <td>${tChips(x) || '<span class="meta">—</span>'}</td>
     <td>${arr(x.who).map(id => `<span class="pill">${esc(mname(id))}</span>`).join(' ') || '<span class="pill bad">Personne</span>'}</td>
-    <td>${x.due ? `<span class="pill ${isLate(x) ? 'bad' : ''}">${esc(fdate(x.due))}</span>` : '<span class="meta">—</span>'}</td>
+    <td>${x.due ? `<span class="pill ${dueCls(x)}">${esc(fdate(x.due))}</span>` : '<span class="meta">—</span>'}${estPill(x)}${x.imprevu ? `<br><span class="meta" style="font-size:13px"><b>Imprévu :</b> ${esc(x.imprevuNote || '')}</span>` : ''}</td>
     <td><select data-chg="status" data-id="${esc(x.id)}" aria-label="Statut de ${esc(x.title)}"${dis()}>${STATUS.map(([k,l]) => `<option value="${k}"${(x.status || 'todo') === k ? ' selected' : ''}>${l}</option>`).join('')}</select></td>
     <td class="meta" style="font-size:13px">${x.createdAt ? 'Créée le ' + when(x.createdAt) + (x.createdBy ? ' par ' + esc(x.createdBy) : '') : ''}${x.doneAt ? '<br>Terminée le ' + when(x.doneAt) : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="empty">Aucune tâche dans cette liste.</p>'}</section>`;
 }
@@ -1320,12 +1330,15 @@ function aiReportBlock(kind){
 }
 
 /* équipe marketing : fiches avec photo, rôle, ancienneté et performance */
+const onTimeOf = x => { if (!x.due || !x.doneAt) return true; const [y,mo,d] = x.due.split('-').map(Number); return x.doneAt < new Date(y, mo-1, d + 1).getTime(); };
 function perf(m){
   const D = 864e5, now = Date.now(), mine = state.tasks.filter(x => arr(x.who).includes(m.id));
   const done = mine.filter(x => x.status === 'done'), done30 = done.filter(x => (x.doneAt || 0) > now - 30 * D).length;
   const timed = done.filter(x => x.due && x.doneAt), onTime = timed.filter(x => { const [y,mo,d] = x.due.split('-').map(Number); return x.doneAt < new Date(y, mo-1, d + 1).getTime(); }).length;
-  const rate = timed.length ? onTime / timed.length : null, late = mine.filter(isLate).length, doing = mine.filter(x => x.status === 'doing').length;
-  return {done: done.length, done30, rate, late, doing, open: mine.filter(x => x.status !== 'done').length};
+  const lateJ = mine.filter(x => isLate(x) && x.imprevu).length;
+  const counted = timed.filter(x => !(x.imprevu && !onTimeOf(x)));
+  const rate = counted.length ? counted.filter(onTimeOf).length / counted.length : null, late = mine.filter(x => isLate(x) && !x.imprevu).length, doing = mine.filter(x => x.status === 'doing').length;
+  return {done: done.length, done30, rate, late, lateJ, doing, open: mine.filter(x => x.status !== 'done').length};
 }
 function teamCards(edit){
   const D = 864e5, ps = state.members.map(m => [m, perf(m)]), maxV = Math.max(1, ...ps.map(z => z[1].done30));
@@ -1346,12 +1359,12 @@ function teamCards(edit){
           ${m.start ? `<p class="meta msince">${since(m.start)}</p>` : (edit ? '' : '<p class="meta msince">Date d\'arrivée non renseignée</p>')}
           ${edit && m.photo ? `<button type="button" class="lnkb" data-act="rmPhoto" data-id="${esc(m.id)}"${dis()}>Retirer la photo</button>` : ''}</div>
       </div>
-      <div class="mstats"><a href="#liste-terminees"><b>${p.done30}</b><span>terminées 30 j</span></a><a href="#taches"><b>${p.doing}</b><span>en cours</span></a><a href="#liste-en-retard"><b class="${p.late ? 'down' : ''}">${p.late}</b><span>en retard</span></a><div><b>${p.rate == null ? '–' : Math.round(p.rate * 100) + ' %'}</b><span>dans les délais</span></div></div>
+      <div class="mstats"><a href="#liste-terminees"><b>${p.done30}</b><span>terminées 30 j</span></a><a href="#taches"><b>${p.doing}</b><span>en cours</span></a><a href="#liste-en-retard"><b class="${p.late ? 'down' : ''}">${p.late}</b><span>en retard${p.lateJ ? ` (+ ${p.lateJ} imprévu${p.lateJ > 1 ? 's' : ''})` : ''}</span></a><div><b>${p.rate == null ? '–' : Math.round(p.rate * 100) + ' %'}</b><span>dans les délais</span></div></div>
       <div class="mperf"><div class="mph2"><span>Performance</span><b>${sc == null ? '–' : sc + '/100'}</b><span class="pill ${lc}">${ll}</span></div><div class="tr"><i style="width:${sc || 0}%;background:var(--${lc === 'bad' ? 'bad' : lc === 'warn' ? 'brand-orange' : 's-done'})"></i></div></div>
     </article>`; }).join('');
   return `<section class="block"><div class="bh"><h2 style="flex:1">Équipe marketing</h2><span class="meta">${state.members.length} membre${state.members.length > 1 ? 's' : ''}</span>${edit ? '<a class="lnk" href="#equipe">Ajouter un membre →</a>' : ''}</div>
     ${cards ? `<div class="mgrid">${cards}</div>` : '<p class="empty">Aucun membre pour le moment. Ajoutez-les dans l\'onglet Équipe.</p>'}
-    <p class="meta" style="margin:14px 0 0">Performance : 60 % pour le respect des délais, 40 % pour le nombre de tâches terminées sur 30 jours (comparé au membre le plus actif), moins 5 points par tâche en retard. Elle ne reflète que le travail enregistré dans le CRM.</p></section>`;
+    <p class="meta" style="margin:14px 0 0">Performance : 60 % pour le respect des délais, 40 % pour le nombre de tâches terminées sur 30 jours (comparé au membre le plus actif), moins 5 points par tâche en retard. Un retard justifié par un imprévu ne retire pas de points. Elle ne reflète que le travail enregistré dans le CRM.</p></section>`;
 }
 async function setPhoto(id, file){
   if (!file || !/^image\//.test(file.type)) { note("Choisissez une image (JPG ou PNG)."); return; }
@@ -1448,7 +1461,8 @@ function vMine(){
   const shoots = state.shoots.filter(s => s.date && s.date >= t && arr(s.people).includes(id)).sort((a,b) => (a.date + (a.start || '')).localeCompare(b.date + (b.start || '')));
   const row = x => `<li><button type="button" class="t g" style="background:none;border:0;padding:0;text-align:left;cursor:pointer;font-weight:500" data-act="editTask" data-id="${esc(x.id)}">${esc(x.title)}</button>
       ${tChips(x)}<span class="pill ${x.kind === 'collectif' ? 'kind-c' : ''}">${x.kind === 'collectif' ? 'Collective' : 'Individuelle'}</span>
-      ${x.due ? `<span class="pill ${isLate(x) ? 'bad' : ''}">${esc(fdate(x.due))}</span>` : ''}
+      ${x.due ? `<span class="pill ${dueCls(x)}">${esc(fdate(x.due))}</span>` : ''}${estPill(x)}${impPill(x)}
+      ${isLate(x) && !x.imprevu ? `<button type="button" class="btn small" data-act="editTask" data-id="${esc(x.id)}">Signaler un imprévu</button>` : ''}
       <select data-chg="status" data-id="${esc(x.id)}" aria-label="Statut de ${esc(x.title)}"${dis()}>${STATUS.map(([k,l]) => `<option value="${k}"${(x.status || 'todo') === k ? ' selected' : ''}>${l}</option>`).join('')}</select></li>`;
   return `<div class="tiles">
     <a class="tile" href="#liste-mes-a-faire"><b>${open.filter(x => (x.status || 'todo') === 'todo').length}</b><span>à faire</span></a>
@@ -1456,7 +1470,7 @@ function vMine(){
     <a class="tile${open.filter(isLate).length ? ' bad' : ''}" href="#liste-mes-en-retard"><b>${open.filter(isLate).length}</b><span>en retard</span></a>
     <a class="tile" href="#liste-mes-terminees-7j"><b>${doneWeek}</b><span>terminées en 7 jours</span></a>
   </div>
-  <div class="bar"><span class="meta">Bonjour ${esc(mname(id))}, voici uniquement les tâches où vous êtes nommé${mine.some(x => x.kind === 'collectif') ? ', seul ou avec d\'autres' : ''}.</span><span class="grow"></span><button type="button" class="btn primary" data-act="newMine"${dis()}>Nouvelle tâche pour moi</button></div>
+  <div class="bar"><span class="meta">Bonjour ${esc(mname(id))}, voici uniquement les tâches où vous êtes nommé${open.some(x => x.est) ? ' · charge estimée : ' + esc(estTxt(open.reduce((n,x) => n + (+x.est || 0), 0))) : ''}${mine.some(x => x.kind === 'collectif') ? ', seul ou avec d\'autres' : ''}.</span><span class="grow"></span><button type="button" class="btn primary" data-act="newMine"${dis()}>Nouvelle tâche pour moi</button></div>
   <div class="dash">
     <section class="block two3"><h2>Mes tâches ouvertes (${open.length})</h2>
       ${groups.map(g => `<h3 style="margin:16px 0 4px;font:600 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--${g[2] || 'muted'})">${g[0]} · ${g[1].length}</h3><ul class="items">${g[1].map(row).join('')}</ul>`).join('') || '<p class="empty">Aucune tâche ouverte. Beau travail.</p>'}
@@ -1573,6 +1587,7 @@ function openTask(t, pre){
   draft = {type:'task', id: t ? t.id : null, title: t ? t.title : (pre.title || ''), kind: t ? t.kind : 'indiv', who: t ? arr(t.who).slice() : (ui.person ? [ui.person] : []),
     projects: t ? tP(t).slice() : (pre.project ? [pre.project] : (ui.project ? [ui.project] : [])), status: t ? (t.status || 'todo') : 'todo', due: t ? (t.due || '') : '', note: t ? (t.note || '') : '', createdAt: t ? t.createdAt : null};
   draft.createdBy = t ? (t.createdBy || '') : ''; draft.doneAt = t ? (t.doneAt || null) : null;
+  draft.est = t ? (+t.est || 0) : 0; draft.imprevu = t ? !!t.imprevu : false; draft.imprevuNote = t ? (t.imprevuNote || '') : ''; draft.imprevuAt = t ? (t.imprevuAt || null) : null;
   drawDialog(); $('#dlg').showModal();
 }
 function openShoot(s, pre){
@@ -1610,7 +1625,10 @@ function drawDialog(err){
       <div class="f" style="flex-basis:100%"><span class="l">Univers</span><div class="choices"><label><input type="checkbox" id="allU"${d.projects.length === PROJECTS.length ? ' checked' : ''}>Les 6 univers</label>${PROJECTS.map(p => `<label><input type="checkbox" name="tprojects" value="${p.k}"${d.projects.includes(p.k) ? ' checked' : ''}><i class="dot" style="background:${p.c}"></i>${esc(p.s)}</label>`).join('')}</div></div>
       <div class="f"><label for="dStatus">Statut</label><select id="dStatus">${STATUS.map(([k,l]) => `<option value="${k}"${d.status === k ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
       <div class="f"><label for="dDue">Échéance</label><input type="date" id="dDue" value="${esc(d.due)}"></div>
+      <div class="f"><label for="dEst">Temps estimé</label><select id="dEst"><option value="0">Non estimé</option>${EST.map(([v,l]) => `<option value="${v}"${+d.est === v ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
     </div>
+    ${(d.due && d.due < today() && d.status !== 'done') || d.imprevu || (d.status === 'done' && d.due && d.doneAt && d.doneAt >= new Date(d.due + 'T23:59:59').getTime()) ? `<div class="f impbox"><label class="impchk"><input type="checkbox" id="dImp"${d.imprevu ? ' checked' : ''}> Pas terminée à temps à cause d'un imprévu</label>
+      ${d.imprevu ? `<label for="dImpNote">Expliquez l'imprévu</label><textarea id="dImpNote" placeholder="Ce qui s'est passé, et la nouvelle date prévue si vous la connaissez">${esc(d.imprevuNote)}</textarea>` : '<span class="meta">L\'échéance est dépassée. Cochez la case si un imprévu vous a empêché de finir à temps.</span>'}</div>` : ''}
     <div class="f"><label for="dNote">Note de suivi</label><textarea id="dNote" placeholder="Où en est la tâche, ce qui bloque, le lien du fichier…">${esc(d.note)}</textarea></div>${foot}`;
   } else {
     const projOpts = v => `<option value="">Univers</option>` + PROJECTS.map(p => `<option value="${p.k}"${v === p.k ? ' selected' : ''}>${esc(p.s)}</option>`).join('');
@@ -1642,7 +1660,8 @@ function syncDraft(){
     d.decisions = d.decisions.map((x,i) => f.querySelector(`[data-dec="${i}"]`).value.trim());
   } else if (d.type === 'task') {
     d.kind = (f.querySelector('input[name="kind"]:checked') || {}).value || 'indiv';
-    d.who = checked('who'); d.projects = checked('tprojects'); d.status = val('dStatus') || 'todo'; d.due = val('dDue');
+    d.who = checked('who'); d.projects = checked('tprojects'); d.est = +val('dEst') || 0;
+    { const ic = $('#dImp', f); if (ic) d.imprevu = ic.checked; const inote = $('#dImpNote', f); if (inote) d.imprevuNote = inote.value.trim(); } d.status = val('dStatus') || 'todo'; d.due = val('dDue');
   } else {
     d.date = val('dDate'); d.start = val('dStart'); d.end = val('dEnd'); d.place = val('dPlace'); d.guests = val('dGuests');
     d.projects = checked('projects'); d.people = checked('people');
@@ -1659,9 +1678,10 @@ async function saveDraft(){
     col = 'meetings';
     data = {title:d.title, date:d.date, start:d.start, place:d.place, people:d.people, agenda:d.agenda, note:d.note, decisions:d.decisions.filter(Boolean), createdAt: d.createdAt || Date.now(), createdBy: d.createdBy || whoAmI(), updatedAt: Date.now(), updatedBy: whoAmI()};
   } else if (d.type === 'task') {
+    if (d.imprevu && !d.imprevuNote) return drawDialog('Expliquez l\'imprévu en quelques mots avant d\'enregistrer.');
     if (d.kind === 'indiv' && d.who.length !== 1) return drawDialog('Une tâche individuelle a une seule personne. Choisissez-en une, ou passez la tâche en Collective.');
     col = 'tasks';
-    data = {title:d.title, kind:d.kind, who:d.who, projects:d.projects, project:d.projects[0] || '', status:d.status, due:d.due, note:d.note, createdAt: d.createdAt || Date.now(), createdBy: d.createdBy || whoAmI(), updatedAt: Date.now(), updatedBy: whoAmI(), doneAt: d.status === 'done' ? (d.doneAt || Date.now()) : null};
+    data = {title:d.title, kind:d.kind, who:d.who, projects:d.projects, project:d.projects[0] || '', est: d.est, imprevu: !!d.imprevu, imprevuNote: d.imprevu ? d.imprevuNote : '', imprevuAt: d.imprevu ? (d.imprevuAt || Date.now()) : null, status:d.status, due:d.due, note:d.note, createdAt: d.createdAt || Date.now(), createdBy: d.createdBy || whoAmI(), updatedAt: Date.now(), updatedBy: whoAmI(), doneAt: d.status === 'done' ? (d.doneAt || Date.now()) : null};
   } else {
     col = 'shoots';
     data = {title:d.title, date:d.date, start:d.start, end:d.end, place:d.place, projects:d.projects, people:d.people, guests:d.guests,
@@ -1754,6 +1774,7 @@ document.addEventListener('click', async e => {
 });
 document.addEventListener('change', e => {
   const el = e.target;
+  if (el.id === 'dImp' && draft) { syncDraft(); drawDialog(); const n = document.getElementById('dImpNote'); if (n) n.focus(); return; }
   if (el.id === 'allU') document.querySelectorAll('input[name="tprojects"]').forEach(c => c.checked = el.checked);
   else if (el.name === 'tprojects') { const all = document.getElementById('allU'), cs = Array.from(document.querySelectorAll('input[name="tprojects"]')); if (all) all.checked = cs.every(c => c.checked); }
 });
