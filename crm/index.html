@@ -452,6 +452,9 @@ table.tt .t:hover{color:var(--brand-blue)}
 .impchk{display:flex;gap:8px;align-items:center;font-weight:600;color:var(--warn);text-transform:none!important;letter-spacing:0!important;font-size:14px!important;cursor:pointer}
 .impbox textarea{background:var(--surface)}
 .impnote{margin:0;font-size:13px;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:6px 9px;overflow-wrap:anywhere}
+.shact{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.shoot.isdone{border-left:3px solid var(--s-done)}
+.pill.shootp{background:var(--accent-soft);color:var(--brand-blue)}
 </style>
 </head>
 <body>
@@ -675,7 +678,7 @@ function taskCard(t){
     <button type="button" class="t" data-act="editTask" data-id="${esc(t.id)}">${esc(t.title)}</button>
     <div class="meta">
       <span class="pill ${t.kind === 'collectif' ? 'kind-c' : ''}">${t.kind === 'collectif' ? 'Collective' : 'Individuelle'}</span>
-      ${tChips(t)}${who}
+      ${t.fromShoot ? '<span class="pill shootp">Tournage</span>' : ''}${tChips(t)}${who}
     </div>
     <div class="meta">
       ${t.due ? `<span class="pill ${dueCls(t)}">${late ? 'En retard, ' : 'Pour le '}${esc(fdate(t.due))}</span>` : '<span>Sans échéance</span>'}${estPill(t)}${impPill(t)}
@@ -721,7 +724,7 @@ function waText(s, p, c){
   const when = (s.date ? 'le ' + fdate(s.date, true) : 'à une date à confirmer') + (s.start ? ' de ' + s.start + (s.end ? ' à ' + s.end : '') : '');
   return `Bonjour${c.name ? ' ' + c.name : ''}, l'équipe marketing Moov Up prévoit un tournage ${when} pour ${p.n}` + (s.place ? `, lieu : ${s.place}` : '') + (s.guests ? `. Personnes concernées : ${s.guests}` : '') + `. Merci de prévenir votre équipe et les adhérents présents, et de me confirmer que c'est bon pour vous.`;
 }
-function pending(s){ return arr(s.projects).filter(k => proj(k) && !(s.notified || {})[k]); }
+function pending(s){ return s.done ? [] : arr(s.projects).filter(k => proj(k) && !(s.notified || {})[k]); }
 function spacesBlock(s){
   const ps = arr(s.projects).filter(proj); if (!ps.length) return '';
   return `<div class="spaces"><h4>Espaces à prévenir avant le tournage</h4>${ps.map(k => {
@@ -731,12 +734,28 @@ function spacesBlock(s){
     return `<div class="sp">${projChip(k)}<span>${esc(c.name || 'Responsable non renseigné')}</span>${st}<span class="grow"></span>${n ? `<label class="check"><input type="checkbox" data-chg="confirm" data-id="${esc(s.id)}" data-k="${k}"${n.ok ? ' checked' : ''}${dis()}><span>A confirmé</span></label>` : ''}${act}</div>`;
   }).join('')}</div>`;
 }
+async function shootDone(id){
+  const s = state.shoots.find(x => x.id === id); if (!s || !canWrite) return;
+  const now = Date.now(), who = arr(s.people).length ? arr(s.people) : (myId() ? [myId()] : []);
+  const shots = arr(s.shots), mins = (s.start && s.end) ? Math.max(0, mins2(s.end) - mins2(s.start)) : 0;
+  const ok1 = await write(() => db.collection('shoots').doc(id).update({done: true, doneAt: now, doneBy: whoAmI(), updatedAt: now, updatedBy: whoAmI()}));
+  if (!ok1) return;
+  await write(() => db.collection('tasks').doc('tournage-' + id).set({title: 'Tournage : ' + (s.title || 'sans titre'), kind: who.length > 1 ? 'collectif' : 'indiv', who, projects: arr(s.projects), project: arr(s.projects)[0] || '',
+    status: 'done', due: s.date || today(), est: mins, note: shots.length ? `${shots.filter(x => x.done).length} plan${shots.length > 1 ? 's' : ''} filmé${shots.filter(x => x.done).length > 1 ? 's' : ''} sur ${shots.length}` + (s.place ? ' · ' + s.place : '') : (s.place || ''),
+    fromShoot: id, createdAt: now, createdBy: whoAmI(), updatedAt: now, updatedBy: whoAmI(), doneAt: now, imprevu: false, imprevuNote: '', imprevuAt: null}));
+}
+async function shootUndo(id){
+  if (!canWrite) return;
+  const ok = await write(() => db.collection('shoots').doc(id).update({done: false, doneAt: null, doneBy: '', updatedAt: Date.now(), updatedBy: whoAmI()}));
+  if (ok) await write(() => db.collection('tasks').doc('tournage-' + id).delete());
+}
+const mins2 = v => { const [h,m] = String(v).split(':').map(Number); return h * 60 + (m || 0); };
 function shootCard(s){
-  const cf = conflicts(s);
+  const cf = s.done ? [] : conflicts(s);
   const alert = cf.map(({o, shared}) => `<div class="alert">Même créneau que « ${esc(o.title || 'un autre tournage')} »${shared.length ? ' : ' + esc(shared.map(mname).join(', ')) + (shared.length > 1 ? ' sont prévus' : ' est prévu(e)') + ' sur les deux' : ''}.</div>`).join('');
   const shots = arr(s.shots), gear = arr(s.gear);
   const doneN = shots.filter(x => x.done).length;
-  return `<article class="shoot">
+  return `<article class="shoot${s.done ? ' isdone' : ''}">
     ${alert}
     <div class="when">
       <b>${s.date ? esc(fdate(s.date, true)) : 'Date à fixer'}</b>
@@ -757,7 +776,8 @@ function shootCard(s){
         </div>
       </div>
       ${s.note ? `<p class="meta" style="margin:10px 0 0">${esc(s.note)}</p>` : ''}
-      <div style="margin-top:10px"><button type="button" class="btn small" data-act="editShoot" data-id="${esc(s.id)}"${dis()}>Modifier</button></div>
+      <div class="shact">${s.done ? `<span class="pill ok">✓ Tournage fait le ${esc(new Date(s.doneAt || Date.now()).toLocaleDateString('fr-FR', {day:'numeric', month:'short'}))}${s.doneBy ? ' · ' + esc(s.doneBy) : ''}</span><span class="meta">ajouté aux tâches terminées</span><button type="button" class="btn small" data-act="shootUndo" data-id="${esc(s.id)}"${dis()}>Annuler</button>`
+        : `<button type="button" class="btn small primary" data-act="shootDone" data-id="${esc(s.id)}"${dis()}>✓ Marquer comme fait</button>`}<button type="button" class="btn small" data-act="editShoot" data-id="${esc(s.id)}"${dis()}>Modifier</button></div>
     </div>
   </article>`;
 }
@@ -1735,6 +1755,8 @@ document.addEventListener('click', async e => {
   else if (a === 'export') exportCsv();
   else if (a === 'genRep') genAIReport(b.dataset.k);
   else if (a === 'back') { if (history.length > 1) history.back(); else location.hash = '#tableau'; }
+  else if (a === 'shootDone') { b.disabled = true; await shootDone(id); }
+  else if (a === 'shootUndo') { if (b.dataset.sure) { b.disabled = true; await shootUndo(id); } else { b.dataset.sure = '1'; b.textContent = 'Confirmer l\'annulation'; } }
   else if (a === 'palette') palOpen();
   else if (a === 'theme') toggleTheme();
   else if (a === 'utab') { ui.utab = b.dataset.v; keepFilters(); render(); }
