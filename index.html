@@ -167,6 +167,7 @@ img{max-width:100%}
 .volet .seuil-video{filter:none}
 .volet .seuil-video.couleur{filter:none;object-position:center 28%}
 #video-coachs{object-position:center 35%}
+#video-projets{object-position:center}
 .volet::before{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.18) 40%,rgba(0,0,0,.72) 82%,rgba(0,0,0,.92) 100%)}
 .volet .seuil-bas{gap:14px}
 html.defile-ecrans{scroll-snap-type:y proximity}
@@ -401,7 +402,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     </div>
   </section>
   <section class="seuil volet" id="volet-projets">
-    <img class="seuil-video" src="assets/volet-projets.jpg" alt="" loading="lazy">
+    <video class="seuil-video couleur" id="video-projets" data-v="assets/volet-projets-v.mp4" data-l="assets/volet-projets-l.mp4" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
     <div class="seuil-bas">
       <h2>Découvrez nos projets</h2>
       <div class="seuil-acces"><a href="#visiteur" data-vers="#projets">Découvrir</a></div>
@@ -942,9 +943,9 @@ GRILLE_WE.forEach(function(l){ COURS.push([[6], l[0], null, 'complexe', l[1], ''
 })();
 
 function lire(f){ var j = f.play(); if (j && j.catch) j.catch(function(){}); }
-// Vidéo « Découvrez vos coachs » : version verticale sur téléphone, version large sur ordinateur
-(function(){
-  var v = document.getElementById('video-coachs'), mq = window.matchMedia('(max-aspect-ratio: 4/5)');
+// Vidéos des écrans « coachs » et « projets » : version verticale sur téléphone, version large sur ordinateur
+document.querySelectorAll('#vue-accueil video[data-l]').forEach(function(v){
+  var mq = window.matchMedia('(max-aspect-ratio: 4/5)');
   function choisir(){
     var src = mq.matches ? v.dataset.v : v.dataset.l;
     if (v.getAttribute('src') === src) return;
@@ -954,7 +955,7 @@ function lire(f){ var j = f.play(); if (j && j.catch) j.catch(function(){}); }
   }
   choisir();
   if (mq.addEventListener) mq.addEventListener('change', choisir); else if (mq.addListener) mq.addListener(choisir);
-})();
+});
 
 // Les vidéos de l'accueil ne tournent que lorsqu'elles sont à l'écran
 if ('IntersectionObserver' in window){
