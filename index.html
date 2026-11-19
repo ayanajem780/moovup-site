@@ -136,7 +136,7 @@ img{max-width:100%}
 .eq-bandeau video,.eq-bandeau img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%;filter:grayscale(1) brightness(.55) contrast(1.1)}
 .eq-fiche{display:flex;flex-direction:column;align-items:center;gap:clamp(30px,5vw,60px);padding:clamp(50px,8vw,110px) 20px clamp(60px,9vw,120px)}
 .eq-portrait{width:min(620px,100%);aspect-ratio:1;background:repeating-linear-gradient(135deg,#e9e9ea 0 14px,#f2f2f3 14px 28px);display:grid;place-items:center;overflow:hidden;color:#6A717B;font:700 .75rem var(--texte);letter-spacing:.14em;text-transform:uppercase}
-.eq-portrait img{width:100%;height:100%;object-fit:cover}
+.eq-portrait img,.eq-portrait video{width:100%;height:100%;object-fit:cover;display:block}
 .eq-fiche h2{font-size:clamp(1.7rem,3.6vw,2.8rem);font-weight:800;text-transform:uppercase;text-align:center}
 .eq-bio{margin:0;max-width:56ch;text-align:center;color:#444;font-size:1.05rem}
 .eq-bio:empty{display:none}
@@ -166,14 +166,12 @@ img{max-width:100%}
 .volet{scroll-margin-top:0}
 .volet .seuil-video{filter:none}
 .volet .seuil-video.couleur{filter:none;object-position:center 28%}
-.mur-coachs{position:absolute;inset:0;z-index:-2;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;background:#0b0b0c}
-.mur-coachs img{width:14.2857%;height:50%;object-fit:cover;object-position:center 22%;filter:grayscale(1);display:block}
-#volet-coachs::before{background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.08) 55%,rgba(0,0,0,.7) 80%,rgba(0,0,0,.9) 100%)}
-@media (max-width:620px){.mur-coachs img{width:25%;height:21.5%}#volet-coachs::before{background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.08) 66%,rgba(0,0,0,.75) 88%,rgba(0,0,0,.92) 100%)}}
 .volet::before{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.18) 40%,rgba(0,0,0,.72) 82%,rgba(0,0,0,.92) 100%)}
 .volet .seuil-bas{gap:14px}
 html.defile-ecrans{scroll-snap-type:y proximity}
 html.defile-ecrans .seuil{scroll-snap-align:start}
+#vue-accueil .seuil{position:sticky;top:0;height:100vh;height:100svh;min-height:0}
+#vue-accueil .volet{box-shadow:0 -24px 60px rgba(0,0,0,.45)}
 
 /* ---------- Barre commune aux pages intérieures ---------- */
 .barre{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);border-bottom:1px solid var(--trait)}
@@ -395,7 +393,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     </div>
   </div>
   <section class="seuil volet" id="volet-coachs">
-    <div class="mur-coachs" aria-hidden="true"><img src="assets/coachs/m-chadiya.jpg" alt="" loading="lazy"><img src="assets/coachs/m-brahim.jpg" alt="" loading="lazy"><img src="assets/coachs/m-ahlam.jpg" alt="" loading="lazy"><img src="assets/coachs/m-anas.jpg" alt="" loading="lazy"><img src="assets/coachs/m-hamid.jpg" alt="" loading="lazy"><img src="assets/coachs/m-hannan.jpg" alt="" loading="lazy"><img src="assets/coachs/m-hassna.jpg" alt="" loading="lazy"><img src="assets/coachs/m-khadija.jpg" alt="" loading="lazy"><img src="assets/coachs/m-khalid.jpg" alt="" loading="lazy"><img src="assets/coachs/m-khalid-natation.jpg" alt="" loading="lazy"><img src="assets/coachs/m-manal.jpg" alt="" loading="lazy"><img src="assets/coachs/m-mouad.jpg" alt="" loading="lazy"><img src="assets/coachs/m-yassin.jpg" alt="" loading="lazy"><img src="assets/coachs/m-zahra.jpg" alt="" loading="lazy"></div>
+    <video class="seuil-video couleur" id="video-coachs" data-v="assets/volet-coachs-v.mp4" data-l="assets/volet-coachs-l.mp4" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
     <div class="seuil-bas">
       <h2>Découvrez vos coachs</h2>
       <div class="seuil-acces"><a href="#equipe">Découvrir</a></div>
@@ -743,10 +741,11 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
 var VUES = ['accueil','visiteur','membre','equipe'];
 // --- Page des coachs ---
 // Pour chaque coach : nom, role, bio, portrait (photo carrée), bandeau (photo ou vidéo .mp4 large).
+// video : vidéo carrée jouée une fois à la place du portrait (la photo reste utilisée ailleurs).
 // Laisser portrait ou bandeau vide tant que le fichier n'est pas prêt.
 // onglet : libellé du bouton quand deux coachs portent le même prénom.
 var COACHS = [
-  {nom: 'Chadiya', role: 'Spécialité à préciser', portrait: 'assets/coachs/chadiya.jpg'},
+  {nom: 'Chadiya', role: 'Spécialité à préciser', portrait: 'assets/coachs/chadiya.jpg', video: 'assets/coachs/chadiya.mp4'},
   {nom: 'Brahim',  role: 'Spécialité à préciser', portrait: 'assets/coachs/brahim.jpg'},
   {nom: 'Ahlam',   role: 'Spécialité à préciser', portrait: 'assets/coachs/ahlam.jpg'},
   {nom: 'Anas',    role: 'Natation', portrait: 'assets/coachs/anas.jpg'},
@@ -771,7 +770,12 @@ function montrerCoach(i){
   document.getElementById('eq-bio').textContent = c.bio || '';
   var p = document.getElementById('eq-portrait');
   p.textContent = '';
-  if (c.portrait){ var im = document.createElement('img'); im.src = c.portrait; im.alt = 'Portrait de ' + c.nom; p.appendChild(im); }
+  if (c.video){
+    var pv = document.createElement('video'); pv.muted = true; pv.playsInline = true; pv.setAttribute('muted',''); pv.setAttribute('playsinline','');
+    pv.poster = c.video.replace(/\.mp4$/, '-video.jpg'); pv.src = c.video; pv.setAttribute('aria-label', 'Portrait de ' + c.nom);
+    p.appendChild(pv); if (document.getElementById('vue-equipe').classList.contains('active')) lire(pv);
+  }
+  else if (c.portrait){ var im = document.createElement('img'); im.src = c.portrait; im.alt = 'Portrait de ' + c.nom; p.appendChild(im); }
   else p.textContent = 'Portrait à ajouter';
   var z = document.getElementById('eq-bandeau'), src = c.bandeau || BANDEAU_DEFAUT, actuel = z.firstElementChild;
   if (!actuel || actuel.getAttribute('src') !== src){
@@ -937,6 +941,20 @@ GRILLE_WE.forEach(function(l){ COURS.push([[6], l[0], null, 'complexe', l[1], ''
 })();
 
 function lire(f){ var j = f.play(); if (j && j.catch) j.catch(function(){}); }
+// Vidéo « Découvrez vos coachs » : version verticale sur téléphone, version large sur ordinateur
+(function(){
+  var v = document.getElementById('video-coachs'), mq = window.matchMedia('(max-aspect-ratio: 4/5)');
+  function choisir(){
+    var src = mq.matches ? v.dataset.v : v.dataset.l;
+    if (v.getAttribute('src') === src) return;
+    var jouait = !v.paused;
+    v.poster = src.replace(/\.mp4$/, '.jpg'); v.src = src;
+    if (jouait) lire(v);
+  }
+  choisir();
+  if (mq.addEventListener) mq.addEventListener('change', choisir); else if (mq.addListener) mq.addListener(choisir);
+})();
+
 // Les vidéos de l'accueil ne tournent que lorsqu'elles sont à l'écran
 if ('IntersectionObserver' in window){
   var guet = new IntersectionObserver(function(es){
@@ -952,6 +970,8 @@ function afficher(nom){
   else if (!('IntersectionObserver' in window)) lire(document.getElementById('video-accueil'));
   var bandeau = document.querySelector('#eq-bandeau video');
   if (bandeau){ if (nom==='equipe') lire(bandeau); else bandeau.pause(); }
+  var pv = document.querySelector('#eq-portrait video');
+  if (pv && nom==='equipe'){ pv.currentTime = 0; lire(pv); }
 }
 function route(){
   var h = location.hash.replace('#','');
