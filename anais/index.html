@@ -362,7 +362,7 @@
   .blob{border-radius:50%;filter:blur(2px);opacity:0;transform:scale(.6)}
   .blob.sq{border-radius:0}
   .sl-ph{overflow:hidden;cursor:pointer;opacity:0;background:var(--tile)}
-  .sl-ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.15);transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
+  .sl-ph img,.sl-ph video{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.15);transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
   .sl-ph.sm{cursor:default}
   .sl-title{font-family:'Inter',sans-serif;color:var(--ink);line-height:.86;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;z-index:3;pointer-events:none}
   .sl-title span{display:block;overflow:hidden}
@@ -383,7 +383,7 @@
   .slide.in .blob{opacity:1;transform:none;transition:opacity 1s ease .05s,transform 1.2s cubic-bezier(.2,.7,.2,1) .05s}
   .slide.in .sl-ph{opacity:1;transition:opacity .9s ease .15s, clip-path 1s cubic-bezier(.7,0,.2,1) .15s;clip-path:inset(0 0 0 0)}
   .slide .sl-ph{clip-path:inset(0 0 0 100%)}
-  .slide.in .sl-ph img{transform:none}
+  .slide.in .sl-ph img,.slide.in .sl-ph video{transform:none}
   .slide.in .sl-ph.sm{transition-delay:.35s}
   .slide.in .sl-title span i{transform:none;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
   .slide.in .sl-title span:nth-child(2) i{transition-delay:.12s}
@@ -1705,9 +1705,9 @@
   const SAGE='var(--sage)', MIST='#DCE8E1', SAND='#EFE4D6', BLUSH='#F3DCD4';
   const ED=[
     { w:['Bilan\u200b','Corporel'], v:true, soft:1,
-      big:{img:0,x:58,y:9,w:22,h:60}, sm:{img:4,x:8,y:50,w:18,h:30},
-      t:{x:84,y:7,size:6.6}, txt:{x:8,y:20},
-      blobs:[{x:29,y:44,w:24,h:30,c:MIST,sq:1},{x:70,y:62,w:14,h:20,c:SAND}], badge:{x:55,y:70}, lead:'Le point de départ',
+      big:{img:0,x:32,y:11,w:48,h:66,vid:'img/bilan-video.mp4',poster:'img/bilan-video.jpg'}, sm:null,
+      t:{x:84,y:7,size:6.6}, txt:{x:6,y:20},
+      blobs:[{x:28,y:60,w:16,h:26,c:MIST,sq:1},{x:72,y:66,w:12,h:18,c:SAND}], badge:{x:12,y:62}, lead:'Le point de départ',
       d:"Entretien individuel et analyse InBody : nous mesurons masse grasse et masse musculaire, puis fixons vos objectifs." },
     { w:['Manger','en conscience'], v:false, soft:2,
       big:{img:1,x:42,y:8,w:24,h:66}, sm:null,
@@ -1737,7 +1737,7 @@
     const title=`<h3 class="sl-title${e.v?' v':''}" style="left:${e.t.x}%;top:${e.t.y}%;font-size:clamp(34px,${e.t.size}vw,${e.t.size*14}px)">${e.w.map((w,k)=>`<span><i class="${k+1===e.soft?'soft':''}">${w}</i></span>`).join('')}</h3>`;
     return `<article class="slide" data-i="${i}" aria-label="Étape 0${i+1}">
       ${e.blobs.map(b=>`<span class="blob${b.sq?' sq':''}" style="${pct(b)};background:${b.c}"></span>`).join('')}
-      <div class="sl-ph" data-step="${i}" role="button" tabindex="0" aria-label="Voir l'étape 0${i+1} : ${st.t}" style="${pct(e.big)}"><img src="${STEPS[e.big.img].img}" alt="${st.t}"></div>
+      <div class="sl-ph" data-step="${i}" role="button" tabindex="0" aria-label="Voir l'étape 0${i+1} : ${st.t}" style="${pct(e.big)}">${e.big.vid?`<video src="${e.big.vid}" poster="${e.big.poster}" muted loop playsinline autoplay preload="auto" aria-label="${st.t}"></video>`:`<img src="${STEPS[e.big.img].img}" alt="${st.t}">`}</div>
       ${e.sm?`<div class="sl-ph sm" style="${pct(e.sm)}"><img src="${STEPS[e.sm.img].img}" alt=""></div>`:''}
       ${title}
       <div class="sl-txt" style="left:${e.txt.x}%;top:${e.txt.y}%"><div class="k">${e.lead}</div><p>${e.d}</p><button class="go" data-open="${i}">Découvrir l'étape</button></div>
@@ -1810,12 +1810,12 @@
     svBusy=true;
     if(!wasOpen){
       // ouverture : la photo de la carte grandit jusqu'à remplir l'écran
-      const img=srcEl&&srcEl.querySelector('img');
+      const img=srcEl&&srcEl.querySelector('img,video');
       showOnly(i); sv.scrollTop=0;
       if(img){
         const r=srcEl.getBoundingClientRect(), hh=document.getElementById('sitehead').offsetHeight;
         const z=document.createElement('div'); z.className='sv-zoom';
-        z.innerHTML=`<img src="${img.getAttribute('src')}" alt="">`;
+        z.innerHTML=`<img src="${img.tagName==='VIDEO'?img.getAttribute('poster'):img.getAttribute('src')}" alt="">`;
         Object.assign(z.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',borderRadius:'22px'});
         document.body.appendChild(z);
         requestAnimationFrame(()=>requestAnimationFrame(()=>Object.assign(z.style,{left:'0px',top:hh+'px',width:innerWidth+'px',height:(innerHeight-hh)+'px',borderRadius:'0px'})));
