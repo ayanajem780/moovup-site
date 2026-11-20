@@ -166,7 +166,73 @@ img{max-width:100%}
 .volet{scroll-margin-top:0}
 .volet .seuil-video{filter:none}
 .volet .seuil-video.couleur{filter:none;object-position:center 28%}
-#video-coachs{object-position:center 35%}
+/* Écran « Découvrez vos coachs » : deux coachs en noir et blanc ; au survol, couleur + geste + animation de puissance */
+#volet-coachs::before{pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 62%,rgba(0,0,0,.75) 86%,rgba(0,0,0,.94) 100%)}
+#volet-coachs .seuil-bas{pointer-events:none}
+#volet-coachs .seuil-bas a{pointer-events:auto}
+.duo{position:absolute;inset:0;z-index:-2;display:grid;grid-template-columns:1fr 1fr;background:#0b0b0c}
+.duo-coach{position:relative;overflow:hidden;display:block;cursor:pointer;outline:none}
+.duo-coach + .duo-coach{border-left:1px solid rgba(255,255,255,.08)}
+.duo-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(1) contrast(1.06) brightness(.82);transition:filter .7s ease,transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.duo-coach.actif .duo-video{filter:grayscale(0) contrast(1.04) brightness(1);transform:scale(1.03)}
+.duo-coach:focus-visible{box-shadow:inset 0 0 0 3px #fff}
+.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fx > *{position:absolute;opacity:0}
+.fx-aura{inset:0}
+.fx-flash{inset:0;background:radial-gradient(circle at 50% 36%,#fff 0%,rgba(255,80,60,.7) 40%,rgba(255,40,30,0) 75%)}
+/* — Homme : décharge électrique rouge — */
+[data-fx="homme"] .fx-aura{background:radial-gradient(70% 50% at 50% 34%,rgba(230,25,20,.42),rgba(230,25,20,0) 72%),linear-gradient(180deg,rgba(120,0,0,.18),rgba(120,0,0,0) 40%)}
+[data-fx="homme"] .fx-onde{left:50%;top:38%;width:40%;aspect-ratio:1;margin:-20% 0 0 -20%;border-radius:50%;border:3px solid #ff3b2f;box-shadow:0 0 30px #ff3b2f,inset 0 0 30px rgba(255,59,47,.6)}
+.fx-eclairs{inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 3px #ff2a1f) drop-shadow(0 0 10px #ff2a1f) drop-shadow(0 0 22px #c00)}
+.fx-eclairs path{fill:none;stroke:#fff;stroke-width:4;stroke-linejoin:miter;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:0}
+.puissance[data-fx="homme"]{animation:secousse .45s linear 1}
+.puissance[data-fx="homme"] .fx-aura{animation:aura-h 1.6s ease-in-out .1s infinite}
+.puissance[data-fx="homme"] .fx-eclairs{opacity:1}
+.puissance[data-fx="homme"] .fx-eclairs path{animation:eclair 1.8s steps(1) infinite}
+.puissance[data-fx="homme"] .fx-eclairs .e2{animation-delay:.12s}
+.puissance[data-fx="homme"] .fx-eclairs .e3{animation-delay:.3s}
+.puissance[data-fx="homme"] .fx-eclairs .e4{animation-delay:.55s}
+.puissance[data-fx="homme"] .fx-eclairs .e5{animation-delay:.7s}
+.puissance[data-fx="homme"] .fx-onde{animation:onde .9s cubic-bezier(.1,.7,.3,1) 1 forwards}
+.puissance[data-fx="homme"] .o2{animation-delay:.15s}
+.puissance[data-fx="homme"] .o3{animation-delay:.3s}
+.puissance[data-fx="homme"] .fx-flash{animation:flash .5s ease-out 1}
+@keyframes secousse{0%,100%{transform:none}15%{transform:translate(-6px,3px)}30%{transform:translate(5px,-4px)}45%{transform:translate(-4px,-2px)}60%{transform:translate(3px,4px)}80%{transform:translate(-2px,1px)}}
+@keyframes aura-h{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes eclair{0%{opacity:1}5%{opacity:.2}9%{opacity:1}22%{opacity:1}26%{opacity:0}100%{opacity:0}}
+@keyframes onde{0%{opacity:.95;transform:scale(.2)}100%{opacity:0;transform:scale(3.4)}}
+@keyframes flash{0%{opacity:.85}100%{opacity:0}}
+/* — Femme : énergie dorée et étincelles — */
+[data-fx="femme"] .fx-aura{background:radial-gradient(60% 48% at 50% 38%,rgba(232,140,60,.38),rgba(216,114,56,0) 72%)}
+[data-fx="femme"] .fx-halo{left:50%;top:40%;width:46%;aspect-ratio:1;margin:-23% 0 0 -23%;border-radius:50%;border:2px solid rgba(255,214,150,.95);box-shadow:0 0 24px rgba(255,170,90,.9),0 0 60px rgba(216,114,56,.6)}
+.fx-reflet{top:-20%;bottom:-20%;left:-60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,200,130,.45),transparent);transform:skewX(-18deg)}
+.fx-etincelles{inset:0}
+.fx-etincelles i{position:absolute;bottom:-6%;width:var(--t,6px);height:var(--t,6px);border-radius:50%;background:#ffd59a;box-shadow:0 0 6px #ffb45e,0 0 16px #e8782e,0 0 2px #fff inset;opacity:0}
+.puissance[data-fx="femme"] .fx-aura{animation:aura-f 2.4s ease-in-out infinite}
+.puissance[data-fx="femme"] .fx-halo{animation:halo 1.5s cubic-bezier(.2,.8,.3,1) 1 forwards}
+.puissance[data-fx="femme"] .h2{animation-delay:.25s}
+.puissance[data-fx="femme"] .h3{animation-delay:.5s}
+.puissance[data-fx="femme"] .fx-reflet{animation:reflet 1.1s ease-out .05s 1 forwards}
+.puissance[data-fx="femme"] .fx-etincelles{opacity:1}
+.puissance[data-fx="femme"] .fx-etincelles i{animation:monte var(--d,3s) ease-out var(--r,0s) infinite}
+@keyframes aura-f{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.95;transform:scale(1.06)}}
+@keyframes halo{0%{opacity:0;transform:scale(.3)}25%{opacity:1}100%{opacity:0;transform:scale(2.6)}}
+@keyframes reflet{0%{opacity:1;left:-60%}100%{opacity:1;left:120%}}
+@keyframes monte{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:1}100%{opacity:0;transform:translate(var(--x,0),-95vh) scale(1.1)}}
+@media (max-aspect-ratio: 4/5){
+  .duo{grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+  .duo-coach + .duo-coach{border-left:0;border-top:1px solid rgba(255,255,255,.08)}
+  .duo-video{object-position:center 12%}
+  [data-fx="femme"] .duo-video{object-position:center 42%}
+  #volet-coachs::before{background:linear-gradient(180deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.45) 16%,rgba(0,0,0,0) 26%,rgba(0,0,0,0) 85%,rgba(0,0,0,.35) 100%)}
+  #volet-coachs .seuil-bas{margin-top:0;padding:34px 20px 0;gap:10px}
+  @keyframes monte{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:1}100%{opacity:0;transform:translate(var(--x,0),-48vh) scale(1.1)}}
+}
+@media (prefers-reduced-motion: reduce){
+  .puissance[data-fx]{animation:none}
+  .puissance .fx > *,.puissance .fx-eclairs path,.puissance .fx-etincelles i{animation:none !important;opacity:0 !important}
+  .puissance .fx-aura{opacity:.7 !important}
+}
 #video-projets{object-position:center}
 .volet::before{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.18) 40%,rgba(0,0,0,.72) 82%,rgba(0,0,0,.92) 100%)}
 .volet .seuil-bas{gap:14px}
@@ -395,7 +461,32 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     </div>
   </div>
   <section class="seuil volet" id="volet-coachs">
-    <video class="seuil-video couleur" id="video-coachs" data-v="assets/volet-coachs-v.mp4" data-l="assets/volet-coachs-l.mp4" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+    <div class="duo" role="group" aria-label="Deux de nos coachs">
+      <a class="duo-coach" href="#equipe" data-fx="homme" data-geste="1.55" aria-label="Découvrir nos coachs">
+        <video class="duo-video" src="assets/coachs/duo-homme.mp4" poster="assets/coachs/duo-homme.jpg" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+        <span class="fx" aria-hidden="true">
+          <span class="fx-aura"></span>
+          <span class="fx-onde"></span><span class="fx-onde o2"></span><span class="fx-onde o3"></span>
+          <svg class="fx-eclairs" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path class="e1" d="M14 14 L22 24 L17 25 L26 38 L19 39 L28 52"/>
+            <path class="e2" d="M86 14 L78 24 L83 25 L74 38 L81 39 L72 52"/>
+            <path class="e3" d="M50 2 L46 10 L52 12 L47 20"/>
+            <path class="e4" d="M6 40 L13 46 L8 49 L16 58"/>
+            <path class="e5" d="M94 40 L87 46 L92 49 L84 58"/>
+          </svg>
+          <span class="fx-flash"></span>
+        </span>
+      </a>
+      <a class="duo-coach" href="#equipe" data-fx="femme" data-geste="1.2" aria-label="Découvrir nos coachs">
+        <video class="duo-video" src="assets/coachs/duo-femme.mp4" poster="assets/coachs/duo-femme.jpg" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+        <span class="fx" aria-hidden="true">
+          <span class="fx-aura"></span>
+          <span class="fx-halo"></span><span class="fx-halo h2"></span><span class="fx-halo h3"></span>
+          <span class="fx-reflet"></span>
+          <span class="fx-etincelles"></span>
+        </span>
+      </a>
+    </div>
     <div class="seuil-bas">
       <h2>Découvrez vos coachs</h2>
       <div class="seuil-acces"><a href="#equipe">Découvrir</a></div>
@@ -962,8 +1053,58 @@ if ('IntersectionObserver' in window){
   var guet = new IntersectionObserver(function(es){
     es.forEach(function(e){ if (e.isIntersecting) lire(e.target); else e.target.pause(); });
   }, {threshold: .15});
-  document.querySelectorAll('#vue-accueil video').forEach(function(f){ guet.observe(f); });
+  document.querySelectorAll('#vue-accueil video:not(.duo-video)').forEach(function(f){ guet.observe(f); });
 }
+// Écran « Découvrez vos coachs » : noir et blanc au repos ; au survol, couleur, le coach fait son geste,
+// puis l'animation de puissance (éclairs pour lui, énergie dorée pour elle) se déclenche pile sur le geste.
+(function(){
+  var calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.duo-coach').forEach(function(c){
+    var v = c.querySelector('video'), geste = parseFloat(c.dataset.geste) || 1, boucle = null;
+    var et = c.querySelector('.fx-etincelles');
+    if (et && !calme){
+      for (var k = 0; k < 40; k++){
+        var i = document.createElement('i');
+        i.style.left = (6 + Math.random()*88) + '%';
+        i.style.setProperty('--t', (4 + Math.random()*8).toFixed(1) + 'px');
+        i.style.setProperty('--d', (2.2 + Math.random()*2.2).toFixed(2) + 's');
+        i.style.setProperty('--r', (Math.random()*1.8).toFixed(2) + 's');
+        i.style.setProperty('--x', (Math.random()*80 - 40).toFixed(0) + 'px');
+        et.appendChild(i);
+      }
+    }
+    function guetter(){
+      if (!c.classList.contains('actif')) return;
+      if (v.currentTime >= geste || v.ended){ c.classList.add('puissance'); return; }
+      boucle = requestAnimationFrame(guetter);
+    }
+    function allumer(){
+      if (c.classList.contains('actif')) return;
+      c.classList.remove('puissance'); void c.offsetWidth;
+      c.classList.add('actif');
+      try { v.currentTime = 0; } catch(e){}
+      lire(v);
+      cancelAnimationFrame(boucle); boucle = requestAnimationFrame(guetter);
+    }
+    function eteindre(){
+      c.classList.remove('actif', 'puissance');
+      cancelAnimationFrame(boucle);
+      v.pause(); try { v.currentTime = 0; } catch(e){}
+    }
+    c.addEventListener('mouseenter', allumer);
+    c.addEventListener('mouseleave', eteindre);
+    c.addEventListener('focus', allumer);
+    c.addEventListener('blur', eteindre);
+    c._allumer = allumer; c._eteindre = eteindre;
+  });
+  // Téléphone / tablette (pas de souris) : le coach s'anime quand il arrive bien à l'écran
+  if (window.matchMedia('(hover: none)').matches && 'IntersectionObserver' in window){
+    var vue = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.intersectionRatio >= .6) e.target._allumer(); else if (!e.isIntersecting) e.target._eteindre(); });
+    }, {threshold: [0, .6]});
+    document.querySelectorAll('.duo-coach').forEach(function(c){ vue.observe(c); });
+  }
+})();
 function afficher(nom){
   VUES.forEach(function(v){ document.getElementById('vue-'+v).classList.toggle('active', v===nom); });
   document.documentElement.classList.toggle('defile-ecrans', nom==='accueil');
