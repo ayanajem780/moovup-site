@@ -1275,15 +1275,15 @@
 <!-- BANNIÈRE À ONGLETS -->
 <section class="tabban" id="decouvrir">
   <div class="tb-media" id="tbMedia">
-    <img class="on" src="img/suivi.jpg" alt="">
-    <img src="img/accompagnement.jpg" alt="">
+    <img src="img/suivi.jpg" alt="">
+    <img class="on" src="img/accompagnement.jpg" alt="">
     <img src="img/nutrition.jpg" alt="">
     <img src="img/technologies.jpg" alt="">
     <div class="tb-cap"><div class="wrap" id="tbCap"></div></div>
   </div>
   <div class="tabs" role="tablist" id="tabs">
-    <button class="tab on" data-t="0">Maigrir en santé</button>
-    <button class="tab" data-t="1">Le parcours</button>
+    <button class="tab" data-t="0">Maigrir en santé</button>
+    <button class="tab on" data-t="1">Le parcours</button>
     <button class="tab" data-t="2">Le jeu du trajet</button>
     <button class="tab" data-t="3">Soins médicaux</button>
   </div>
@@ -1887,8 +1887,9 @@
       cap.parentElement.classList.remove('swap'); void cap.offsetWidth; cap.parentElement.classList.add('swap');
     };
     const auto=()=>{clearInterval(timer); timer=setInterval(()=>show((cur+1)%T.length),6000);};
-    tabs.forEach((t,i)=>t.onclick=()=>{show(i); auto();});
-    show(0); auto();
+    // bannière fixe : elle reste sur « Le parcours » (À vos côtés), sans défilement automatique ; les onglets restent cliquables
+    tabs.forEach((t,i)=>t.onclick=()=>show(i));
+    show(1);
   })();
 
   // boutons latéraux visibles après le hero
