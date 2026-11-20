@@ -370,10 +370,10 @@
   .sl-title.v{writing-mode:vertical-rl;transform:rotate(180deg)}
   .sl-title.v span i{transform:translateX(-105%)}
   .sl-title .soft{color:var(--sage)}
-  .sl-txt{max-width:300px;z-index:4;opacity:0;transform:translateY(20px)}
-  .sl-txt .k{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink);margin-bottom:8px}
-  .sl-txt p{font-size:13px;line-height:1.6;color:var(--muted)}
-  .sl-txt .go{display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:none;border:0;cursor:pointer;padding:0}
+  .sl-txt{max-width:380px;z-index:4;opacity:0;transform:translateY(20px)}
+  .sl-txt .k{font-size:clamp(14px,1.15vw,17px);font-weight:700;letter-spacing:.02em;color:var(--ink);margin-bottom:8px}
+  .sl-txt p{font-size:clamp(15px,1.15vw,18px);line-height:1.6;color:#4a4f56}
+  .sl-txt .go{display:inline-flex;align-items:center;gap:10px;margin-top:16px;font-size:clamp(12px,.9vw,14px);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:none;border:0;cursor:pointer;padding:0}
   .sl-txt .go::after{content:"";width:46px;height:1px;background:var(--ink);transition:width .3s}
   .sl-txt .go:hover::after{width:70px}
   .sl-badge{width:120px;height:120px;z-index:4;opacity:0}
@@ -1706,12 +1706,12 @@
   const ED=[
     { w:['Bilan\u200b','Corporel'], v:true, soft:1,
       big:{img:0,x:53,y:8,w:43,h:80,vid:'img/bilan-video.mp4?v=2',poster:'img/bilan-video.jpg?v=2'}, sm:null,
-      t:{x:38,y:8,size:6.6}, txt:{x:6,y:22,mw:'min(300px,26vw)'},
+      t:{x:38,y:8,size:6.6}, txt:{x:6,y:20,mw:'min(400px,27vw)'},
       blobs:[{x:20,y:58,w:16,h:28,c:MIST,sq:1},{x:41,y:68,w:12,h:20,c:SAND}], badge:{x:9,y:62}, lead:'Le point de départ',
       d:"Entretien individuel et analyse avec notre dernière machine InBody : nous mesurons masse grasse et masse musculaire, puis fixons vos objectifs." },
     { w:['Manger','en conscience'], v:false, soft:2,
       big:{img:1,x:42,y:8,w:24,h:66}, sm:null,
-      t:{x:8,y:20,size:8.4}, txt:{x:8,y:64},
+      t:{x:8,y:20,size:8.4}, txt:{x:8,y:64,mw:'min(380px,30vw)'},
       blobs:[{x:34,y:14,w:16,h:28,c:BLUSH},{x:86,y:6,w:9,h:15,c:MIST},{x:0,y:70,w:12,h:14,c:SAND,sq:1}], badge:null, lead:'Nutrition personnalisée',
       d:"Avec notre nutritionniste, un programme alimentaire adapté à vos habitudes, ajusté selon votre évolution." },
     { w:['Bouger','à votre','rythme'], v:false, soft:2,
@@ -1721,12 +1721,12 @@
       d:"Des séances individuelles encadrées, adaptées à votre niveau, pour le travail musculaire et cardio." },
     { w:['Sculpter','la silhouette'], v:true, soft:2,
       big:{img:3,x:36,y:12,w:30,h:56}, sm:{img:1,x:8,y:12,w:15,h:26},
-      t:{x:74,y:6,size:5.8}, txt:{x:8,y:60},
+      t:{x:74,y:6,size:5.8}, txt:{x:8,y:60,mw:'min(380px,24vw)'},
       blobs:[{x:30,y:4,w:20,h:26,c:SAND,sq:1},{x:58,y:60,w:16,h:26,c:BLUSH}], badge:{x:24,y:42}, lead:"Technologies d'amincissement",
       d:"Les machines d'Anaïs Clinic, intégrées à votre parcours, avec des protocoles adaptés aux zones ciblées." },
     { w:['Mesurer','pour durer'], v:false, soft:2,
-      big:{img:4,x:56,y:30,w:22,h:54}, sm:{img:0,x:30,y:58,w:14,h:26},
-      t:{x:8,y:10,size:8.6}, txt:{x:8,y:52},
+      big:{img:4,x:56,y:30,w:22,h:54}, sm:{img:0,x:38,y:62,w:14,h:24},
+      t:{x:8,y:10,size:8.6}, txt:{x:8,y:52,mw:'min(380px,27vw)'},
       blobs:[{x:52,y:8,w:28,h:30,c:MIST,sq:1},{x:80,y:70,w:12,h:18,c:SAND}], badge:{x:84,y:10}, lead:'Suivi & réajustement',
       d:"Contrôles InBody réguliers, comparaison des résultats et bilan final pour garder les bonnes habitudes." }
   ];
