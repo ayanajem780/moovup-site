@@ -239,6 +239,7 @@ img{max-width:100%}
   .puissance .fx-aura{opacity:.7 !important}
 }
 #video-projets{object-position:center}
+#video-collabs{object-position:center}
 .volet::before{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.18) 40%,rgba(0,0,0,.72) 82%,rgba(0,0,0,.92) 100%)}
 .volet .seuil-bas{gap:14px}
 html.defile-ecrans{scroll-snap-type:y proximity}
@@ -505,7 +506,7 @@ dialog#dlg-visite::backdrop{background:rgba(15,25,35,.72)}
     </div>
   </section>
   <section class="seuil volet" id="volet-collabs">
-    <img class="seuil-video" src="assets/volet-collabs.jpg" alt="" loading="lazy">
+    <video class="seuil-video couleur" id="video-collabs" data-v="assets/volet-collabs-v.mp4" data-l="assets/volet-collabs-l.mp4" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
     <div class="seuil-bas">
       <h2>Découvrez nos collabs</h2>
       <div class="seuil-acces"><a href="#visiteur" data-vers="#collabs">Découvrir</a></div>
