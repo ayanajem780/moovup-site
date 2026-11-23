@@ -567,6 +567,23 @@ table.fxt td{padding:15px 18px}
 .tbib.live{color:var(--s-done)}.tbib.live.off{color:var(--s-late)}
 .bdot{position:absolute;top:8px;right:9px;width:9px;height:9px;border-radius:50%;background:var(--brand-orange);box-shadow:0 0 0 2px var(--surface)}
 .bdot[hidden]{display:none}
+.tbpres{position:relative}
+.prbtn{display:flex;align-items:center;gap:8px;height:100%;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:inherit;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:0 1px 2px rgba(10,52,71,.06)}
+.prbtn:hover{filter:brightness(.97)}
+.prdot{width:10px;height:10px;border-radius:50%;flex:none}
+.prbtn small{font-weight:400;opacity:.7;font-size:12px}
+.prmenu{position:absolute;right:0;top:calc(100% + 8px);z-index:60;min-width:230px;background:var(--surface);border-radius:16px;padding:6px;box-shadow:0 12px 32px rgba(10,52,71,.18);border:1px solid var(--line)}
+.prmenu p{margin:6px 10px 6px;font-size:12px;opacity:.7}
+.prmenu button{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:0;border-radius:10px;background:none;color:inherit;font:inherit;font-size:14px;text-align:left;cursor:pointer}
+.prmenu button:hover,.prmenu button[aria-checked="true"]{background:rgba(12,108,148,.08)}
+.prmenu button[aria-checked="true"]::after{content:'✓';margin-left:auto;font-weight:700;color:#0c6c94}
+.prlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.prlist li{display:flex;align-items:center;gap:10px;font-size:14px}
+.prlist li b{font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prchip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.prchip .prdot{width:8px;height:8px}
+@media (max-width:1600px){.prbtn small{display:none}}
+@media (max-width:1280px){.prbtn .prtx{display:none}.prbtn{padding:0 14px}}
 .tbuser{display:flex;align-items:center;gap:10px;padding:5px 18px 5px 5px;max-width:260px}
 .tbav{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,var(--navy),var(--brand-blue));color:#fff;font-weight:600}
 .tbav img{width:100%;height:100%;object-fit:cover}
@@ -616,6 +633,7 @@ body[data-view="tableau"] header.top{display:none}
         <a class="tbib" href="#discussion" id="bell" data-tip="Messages de l'équipe" aria-label="Messages de l'équipe"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z M10 20.500a2.2 2.2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><i class="bdot" id="bdot" hidden></i></a>
         <span class="tbib" id="live" data-tip="En direct" aria-label="État de la connexion"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5.500M12 16.500v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
       </div>
+      <div class="tbpres" id="pres"></div>
       <div class="tbpill tbuser" id="who"></div>
     </div>
   </header>
@@ -660,7 +678,7 @@ const PROJECTS = [
   {k:'nutrition', n:'Nutritionniste',       s:'Nutrition', c:'#1f9e8f'}
 ];
 const STATUS = [['todo','À faire'],['doing','En cours'],['done','Terminé']];
-const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[], ai:[], meetings:[], reports:[], supnotes:[]};
+const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[], ai:[], meetings:[], reports:[], supnotes:[], presence:[]};
 const loaded = {members:false, tasks:false, shoots:false};
 const ui = {kind:'all', person:'', project:'', ch:'general', seen:0, u:'sports', utab:'ia'};
 const live = {aiBusy:'', qa:[], asking:false, repBusy:false};
@@ -673,6 +691,7 @@ let lastView = '', lastSync = 0;
 try { if (localStorage.getItem('moovcrm-theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
 const whoAmI = () => (me && (me.displayName || me.email)) || '';
 window.crmConfig = firebaseConfig; window.crmAiModel = 'gemini-3.5-flash-lite'; window.crmRecaptchaKey = '';
+let presOpen = false;
 let db = null, auth = null, me = null, phase = 'loading', unsub = [], canWrite = true, draft = null, loadTimer = null;
 
 try { Object.assign(ui, JSON.parse(localStorage.getItem('moovcrm-filters') || '{}')); } catch (e) {}
@@ -683,6 +702,19 @@ const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp
 const proj = k => PROJECTS.find(p => p.k === k);
 const member = id => state.members.find(m => m.id === id);
 const mname = id => { const m = member(id); return m ? m.name : 'Ancien membre'; };
+const PRES = {dispo:['Disponible','#2fae6b'], pause:['En pause','#ea6d2a'], reunion:['En réunion','#0c6c94'], dej:['Pause déjeuner','#e3a312']};
+function presOf(email){ const e = String(email || '').toLowerCase(); const d = e && state.presence.find(x => x.id === e); return d && d.day === today() && PRES[d.status] ? d : {status:'dispo', since:0, log: d && d.day === today() ? d.log || [] : []}; }
+function presChip(p){ const [l,c] = PRES[p.status]; return `<span class="prchip" style="background:${c}1f;color:${c}"><i class="prdot" style="background:${c}"></i>${l}</span>`; }
+function hm(t){ return new Date(t).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); }
+function presTotals(email){ const p = presOf(email), out = {pause:0, reunion:0, dej:0}; (p.log || []).forEach(x => { if (out[x.s] != null) out[x.s] += Math.max(0, (x.b || 0) - (x.a || 0)); }); if (p.status !== 'dispo' && p.since) out[p.status] += Date.now() - p.since; return out; }
+async function setPres(st){
+  if (!me || !PRES[st]) return; const e = String(me.email || '').toLowerCase(), cur = presOf(e), now = Date.now();
+  if (cur.status === st) return;
+  const log = (cur.log || []).slice();
+  if (cur.status !== 'dispo' && cur.since) log.push({s:cur.status, a:cur.since, b:now});
+  const ok = await write(() => db.collection('presence').doc(e).set({status:st, since:now, day:today(), log:log.slice(-60), name:whoAmI()}));
+  if (ok) toast(st === 'dispo' ? 'Vous êtes de nouveau disponible.' : 'Statut : ' + PRES[st][0].toLowerCase() + '.');
+}
 function today(){ const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
 function fdate(s, long){
   if (!s) return '';
@@ -712,7 +744,7 @@ function init(){
 }
 function subscribe(){
   loadTimer = setTimeout(() => note("Les données ne sont pas encore joignables. Vérifiez la connexion, elles s'afficheront dès que possible."), 10000);
-  ['members','tasks','shoots','access','spaces','messages','ai','meetings','reports'].concat(isAdminMe() ? ['supnotes'] : []).forEach(name => {
+  ['members','tasks','shoots','access','spaces','messages','ai','meetings','reports','presence'].concat(isAdminMe() ? ['supnotes'] : []).forEach(name => {
     const q = name === 'messages' ? db.collection(name).orderBy('at', 'desc').limit(200) : db.collection(name);
     unsub.push(q.onSnapshot(snap => {
       state[name] = snap.docs.map(d => Object.assign({id: d.id}, d.data()));
@@ -759,6 +791,8 @@ function render(){
   lv.className = 'tbib live' + (off ? ' off' : ''); lv.dataset.tip = off ? 'Hors ligne' : 'En direct' + (lastSync ? ' · synchronisé à ' + new Date(lastSync).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '');
   { const dk = document.documentElement.dataset.theme === 'dark'; $('#tLight').setAttribute('aria-pressed', String(!dk)); $('#tDark').setAttribute('aria-pressed', String(dk)); }
   { const mm = me && member(myId()), nm = (mm && mm.name) || (me && me.displayName) || (me ? String(me.email).split('@')[0] : '');
+    { const pp = presOf(me && me.email), [pl, pc] = PRES[pp.status];
+      $('#pres').innerHTML = me ? `<button type="button" class="prbtn" data-act="presMenu" aria-haspopup="menu" aria-expanded="${presOpen}" aria-label="Mon statut : ${pl}"><i class="prdot" style="background:${pc}"></i><span class="prtx">${pl}${pp.status !== 'dispo' && pp.since ? ` <small>depuis ${hm(pp.since)}</small>` : ''}</span></button>${presOpen ? `<div class="prmenu" role="menu"><p>Je suis…</p>${Object.keys(PRES).map(k => `<button type="button" role="menuitemradio" aria-checked="${pp.status === k}" data-act="setPres" data-v="${k}"><i class="prdot" style="background:${PRES[k][1]}"></i>${PRES[k][0]}</button>`).join('')}</div>` : ''}` : ''; }
     $('#who').innerHTML = me ? `<span class="tbav">${mm && mm.photo ? `<img src="${esc(mm.photo)}" alt="">` : esc(String(nm).trim().charAt(0).toUpperCase())}</span><span class="tbun"><b>${esc(nm)}</b><span>${esc(me.email)}</span></span>` : ''; }
   document.querySelectorAll('#nav a, #side a').forEach(a => a.getAttribute('href') === '#' + cur ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current'));
   if (phase === 'loading') { $('#main').innerHTML = '<p class="empty">Chargement…</p>'; return; }
@@ -1033,6 +1067,7 @@ function vDash(){
         <span class="lgs"><span class="lg"><i class="lb cur"></i>Cette période</span>${ui.cmp !== false ? '<span class="lg"><i class="lb prev"></i>Précédente</span>' : ''}</span></div>
       <div class="chart" id="chart">${chartSvg()}<div class="ctip" id="ctip" hidden></div></div></div></section>
     <div class="fxcol">
+      ${presCard()}
       <section class="fxc"><h2>Répartition des tâches</h2><p class="meta" style="margin:2px 0 14px">Tâches ouvertes par univers · ${open} au total</p>
         <div class="fxdist">${per.map(([p,n]) => `<a class="fxdr" href="#univers-${p.k}"><span class="fxdn"><span>${esc(p.s)}</span><b>${n}</b></span><span class="fxtr"><i style="width:${n ? Math.max(4, n / mx * 100) : 0}%"></i></span></a>`).join('')}</div></section>
       <section class="fxc"><div class="bh"><h2 style="flex:1">À régler</h2><a class="lnk" href="#suivi">Ouvrir le suivi →</a></div>
@@ -1559,6 +1594,17 @@ async function setPhoto(id, file){
   } catch (e) { note("La photo n'a pas pu être lue. Essayez une autre image (JPG ou PNG)."); }
 }
 
+function presCard(){
+  const ms = state.members.filter(m => m.email);
+  const order = {reunion:0, pause:1, dej:2, dispo:3};
+  const rows = ms.map(m => [m, presOf(m.email)]).sort((a,b) => order[a[1].status] - order[b[1].status] || String(a[0].name).localeCompare(b[0].name));
+  const away = rows.filter(r => r[1].status !== 'dispo').length;
+  return `<section class="fxc"><div class="bh"><h2 style="flex:1">Présence de l'équipe</h2><span class="meta">${rows.length ? (away ? away + ' absent' + (away > 1 ? 's' : '') : 'Tous disponibles') : ''}</span></div>
+    ${rows.length ? `<ul class="prlist" style="margin-top:12px">${rows.map(([m,p]) => `<li><b>${esc(m.name)}</b>${presChip(p)}${p.status !== 'dispo' && p.since ? `<span class="meta">depuis ${hm(p.since)}</span>` : ''}</li>`).join('')}</ul>` : '<p class="empty">Ajoutez l\'adresse e-mail de chaque membre dans Équipe pour voir sa présence.</p>'}
+    <p class="meta" style="margin:12px 0 0">Changez votre statut avec le bouton en haut, à côté de votre nom.</p></section>`;
+}
+function dur(ms){ const m = Math.round(ms / 6e4); return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + String(m % 60).padStart(2, '0'); }
+
 /* supervision (Aya seule) */
 function vSup(){
   if (!isAdminMe()) return restricted('à la superviseure');
@@ -1572,6 +1618,7 @@ function vSup(){
     const note = (state.supnotes.find(x => x.id === m.id) || {}).text || '';
     return `<tr><td><b>${esc(m.name)}</b>${m.role ? `<br><span class="meta">${esc(m.role)}</span>` : ''}</td><td class="n">${c.todo + c.doing}</td><td class="n">${c.late ? `<span class="pill bad">${c.late}</span>` : '0'}</td><td class="n">${doneW}</td>
       <td>${last ? esc(new Date(last).toLocaleDateString('fr-FR', {day:'numeric', month:'short'})) + ' ' + esc(new Date(last).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'})) : '<span class="meta">jamais</span>'}</td>
+      <td>${(() => { if (!m.email) return '<span class="meta">pas d\'e-mail</span>'; const tt = presTotals(m.email), parts = ['pause','dej','reunion'].filter(k => tt[k] >= 6e4).map(k => `<span class="meta" style="display:block">${PRES[k][0]} : ${dur(tt[k])}</span>`); return presChip(presOf(m.email)) + (parts.join('') || '<span class="meta" style="display:block">aucune</span>'); })()}</td>
       <td style="min-width:220px"><textarea data-chg="supNote" data-id="${esc(m.id)}" placeholder="Note privée, visible par vous seule" aria-label="Note privée sur ${esc(m.name)}" style="min-height:44px">${esc(note)}</textarea></td></tr>`;
   }).join('');
   const ev = events();
@@ -1584,7 +1631,7 @@ function vSup(){
   ${aiReportBlock('sup')}
   ${teamCards(true)}
   <section class="block"><div class="bh"><h2>Suivi de l'équipe</h2><span class="role">Visible par vous seule</span></div>
-    ${rows ? `<table><thead><tr><th>Membre</th><th class="n">Ouvertes</th><th class="n">En retard</th><th class="n">Terminées 7 j</th><th>Dernière activité</th><th>Notes privées</th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="empty">Ajoutez les membres dans l\'onglet Équipe.</p>'}
+    ${rows ? `<table><thead><tr><th>Membre</th><th class="n">Ouvertes</th><th class="n">En retard</th><th class="n">Terminées 7 j</th><th>Dernière activité</th><th>Pauses aujourd'hui</th><th>Notes privées</th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="empty">Ajoutez les membres dans l\'onglet Équipe.</p>'}
     <p class="meta" style="margin:10px 0 0">Les notes privées sont protégées dans la base : seul votre compte peut les lire.</p></section>
   <div class="dash">
     <section class="block"><h2>Journal d'activité</h2><ul class="items">${ev.slice(0, 18).map(e => `<li><span class="meta" style="min-width:92px">${esc(new Date(e[0]).toLocaleDateString('fr-FR', {day:'numeric', month:'short'}))} ${esc(new Date(e[0]).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}))}</span><span class="g"><b>${esc(e[1] || 'Quelqu\'un')}</b> ${esc(e[2])} « ${esc(e[3] || '')} »</span></li>`).join('') || '<li class="empty">Aucune activité enregistrée pour le moment.</li>'}</ul></section>
@@ -1878,8 +1925,11 @@ async function saveDraft(){
 document.addEventListener('click', async e => {
   const pi = e.target.closest('#palList li[data-pi]'); if (pi) { palRun(+pi.dataset.pi); return; }
   if (e.target.id === 'pal') { $('#pal').close(); return; }
+  if (presOpen && !e.target.closest('#pres')) { presOpen = false; render(); }
   const b = e.target.closest('[data-act]'); if (!b) return;
   const a = b.dataset.act, id = b.dataset.id;
+  if (a === 'presMenu') { presOpen = !presOpen; render(); return; }
+  if (a === 'setPres') { presOpen = false; render(); await setPres(b.dataset.v); return; }
   if (a === 'kind') { ui.kind = b.dataset.v; keepFilters(); render(); }
   else if (a === 'login') { gate.msg = gate.ok = ''; try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); } catch (err) { gate.msg = authMsg(err); render(); } }
   else if (a === 'gmode') { gate.mode = gate.mode === 'up' ? 'in' : 'up'; gate.msg = gate.ok = ''; render(); }
