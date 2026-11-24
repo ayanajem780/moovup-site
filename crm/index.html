@@ -104,6 +104,26 @@ textarea{width:100%;min-height:64px;resize:vertical}
 .btn.small{padding:3px 9px;font-size:13px}
 .btn[disabled]{opacity:.5;cursor:not-allowed}
 .seg{display:flex;background:var(--sunken);border-radius:8px;padding:3px;gap:2px}
+.iform{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+.iform label{display:grid;gap:5px;font-size:13px;font-weight:600}
+.iform .full{grid-column:1/-1}
+.iform input,.iform textarea{font:inherit;font-weight:400;font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.ipick{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.ipick legend{font-size:13px;font-weight:600;margin-bottom:6px;padding:0}
+.ipick label{display:inline-flex;align-items:center;gap:6px;font-weight:500;padding:6px 12px;border:1px solid var(--line);border-radius:999px;cursor:pointer}
+.ipick label:has(input:checked){border-color:var(--brand,#0c6c94);background:rgba(12,108,148,.08)}
+.ipick input{margin:0}
+.iseg{flex-wrap:wrap}.iseg button{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.iseg .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.inspi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.ith{position:relative;display:block;aspect-ratio:16/10;background:linear-gradient(135deg,var(--ic),#0a3447);color:#fff;text-decoration:none}
+.ith img{width:100%;height:100%;object-fit:cover;display:block}
+.ipl{position:absolute;inset:0;margin:auto;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.92);color:#0a3447;display:grid;place-items:center;font-size:16px;padding-left:3px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.isrc{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px}
+.ibd{padding:12px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.ibd h3{margin:0;font-size:15px}.ibd p{margin:0;font-size:13.5px;color:var(--muted);white-space:pre-line}
+.ift{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto}
+@media (max-width:640px){.iform{grid-template-columns:1fr}}
 .seg button{border:0;background:none;padding:5px 11px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:500;font-size:14px}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink)}
 .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
@@ -606,7 +626,9 @@ table.fxt td{padding:15px 18px}
 .shell2 .wrap{padding-top:10px}
 body[data-view="tableau"] header.top{display:none}
 .gate-on .shell2{grid-template-columns:minmax(0,1fr)}
+@media (max-width:1680px){.tbnav a{padding:10px 11px;font-size:14px}}
 @media (max-width:1480px){.tblogo span:last-child{display:none}.tblogo{padding:6px}}
+@media (max-width:1480px){.tbuser .tbun{display:none}.tbuser{padding:5px}.prbtn .prtx{display:none}.prbtn{padding:0 14px}}
 @media (max-width:1280px){.tbuser .tbun{display:none}.tbuser{padding:5px}}
 @media (max-width:1100px){.tbuser .tbun{display:none}.tbuser{padding:5px}.tblogo span:last-child{display:none}.tblogo{padding:6px}}
 @media (max-width:760px){.shell2{grid-template-columns:minmax(0,1fr)}.tb{flex-wrap:wrap;padding:10px 12px 6px;position:static}.tbnav{order:3;width:100%;margin:0}.tbr{margin-left:auto}
@@ -623,6 +645,7 @@ body[data-view="tableau"] header.top{display:none}
       <a href="#mes-taches" id="navMine">Mes tâches</a>
       <a href="#taches">Tâches</a>
       <a href="#tournages">Tournages</a>
+      <a href="#inspirations">Inspirations</a>
       <a href="#reunions">Réunions</a>
       <a href="#discussion" id="navChat">Discussion</a>
       <a href="#rapport">Rapport</a>
@@ -678,7 +701,7 @@ const PROJECTS = [
   {k:'nutrition', n:'Nutritionniste',       s:'Nutrition', c:'#1f9e8f'}
 ];
 const STATUS = [['todo','À faire'],['doing','En cours'],['done','Terminé']];
-const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[], ai:[], meetings:[], reports:[], supnotes:[], presence:[]};
+const state = {members:[], tasks:[], shoots:[], access:[], spaces:[], messages:[], ai:[], meetings:[], reports:[], supnotes:[], presence:[], inspi:[]};
 const loaded = {members:false, tasks:false, shoots:false};
 const ui = {kind:'all', person:'', project:'', ch:'general', seen:0, u:'sports', utab:'ia'};
 const live = {aiBusy:'', qa:[], asking:false, repBusy:false};
@@ -686,7 +709,7 @@ const ADMIN_EMAIL = 'ayanajem780@gmail.com';
 const isAdminMe = () => !!me && String(me.email || '').toLowerCase() === ADMIN_EMAIL;
 const myRole = () => isAdminMe() ? 'admin' : ((state.access.find(a => a.id === String((me && me.email) || '').toLowerCase()) || {}).role || 'membre');
 const allowed = k => k === 'supervision' ? isAdminMe() : k === 'fondateur' ? (isAdminMe() || myRole() === 'fondateur') : true;
-const TITLES = {tableau:'Tableau de bord', 'mes-taches':'Mes tâches', taches:'Tâches', tournages:'Tournages', reunions:'Réunions', discussion:'Discussion', assistant:'Assistant IA', rapport:'Rapport du jour', supervision:'Supervision', fondateur:'Espace fondateur', suivi:'Suivi', equipe:'Équipe'};
+const TITLES = {tableau:'Tableau de bord', 'mes-taches':'Mes tâches', taches:'Tâches', tournages:'Tournages', reunions:'Réunions', inspirations:"Vidéos d'inspiration", discussion:'Discussion', assistant:'Assistant IA', rapport:'Rapport du jour', supervision:'Supervision', fondateur:'Espace fondateur', suivi:'Suivi', equipe:'Équipe'};
 let lastView = '', lastSync = 0;
 try { if (localStorage.getItem('moovcrm-theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
 const whoAmI = () => (me && (me.displayName || me.email)) || '';
@@ -744,7 +767,7 @@ function init(){
 }
 function subscribe(){
   loadTimer = setTimeout(() => note("Les données ne sont pas encore joignables. Vérifiez la connexion, elles s'afficheront dès que possible."), 10000);
-  ['members','tasks','shoots','access','spaces','messages','ai','meetings','reports','presence'].concat(isAdminMe() ? ['supnotes'] : []).forEach(name => {
+  ['members','tasks','shoots','access','spaces','messages','ai','meetings','reports','presence','inspi'].concat(isAdminMe() ? ['supnotes'] : []).forEach(name => {
     const q = name === 'messages' ? db.collection(name).orderBy('at', 'desc').limit(200) : db.collection(name);
     unsub.push(q.onSnapshot(snap => {
       state[name] = snap.docs.map(d => Object.assign({id: d.id}, d.data()));
@@ -779,7 +802,7 @@ function view(){ const h = location.hash.replace('#','');
   if (h.startsWith('univers-') && proj(h.slice(8))) { ui.u = h.slice(8); return 'univers'; }
   if (h === 'assistant') return 'assistant';
   if (h.startsWith('liste-') && LISTS[h.slice(6)]) { ui.list = h.slice(6); return 'liste'; }
-  return ['tableau','supervision','fondateur','mes-taches','taches','tournages','reunions','discussion','rapport','suivi','equipe'].includes(h) ? h : 'tableau'; }
+  return ['tableau','supervision','fondateur','mes-taches','taches','tournages','inspirations','reunions','discussion','rapport','suivi','equipe'].includes(h) ? h : 'tableau'; }
 function render(){
   const v = view(), app = phase === 'app';
   $('#side').hidden = !app; $('#tb').hidden = !app; document.body.dataset.view = app ? v : '';
@@ -810,7 +833,7 @@ function render(){
   $('#navMine').innerHTML = 'Mes tâches' + (mineOpen ? `<span class="nbadge"${mineLate ? '' : ' style="background:var(--line);color:var(--ink)"'}>${mineOpen}</span>` : '');
   $('#navSup').hidden = !(app && allowed('supervision')); $('#navFound').hidden = !(app && allowed('fondateur'));
   document.title = (app && unread ? '(' + unread + ') ' : '') + 'CRM Marketing Moov Up';
-  $('#main').innerHTML = ({tableau: vDash, liste: vList, supervision: vSup, fondateur: vFounder, 'mes-taches': vMine, reunions: vMeet, rapport: vReport, univers: vUnivers, assistant: vAssistant, discussion: vChat, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
+  $('#main').innerHTML = ({tableau: vDash, liste: vList, supervision: vSup, fondateur: vFounder, 'mes-taches': vMine, reunions: vMeet, inspirations: vInspi, rapport: vReport, univers: vUnivers, assistant: vAssistant, discussion: vChat, taches: vTasks, tournages: vShoots, suivi: vSuivi, equipe: vTeam})[v]();
   if (cur !== lastView) { lastView = cur; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); countUp(); }
   if (v === 'discussion') {
     const box = $('#chatBox'); if (box) box.scrollTop = box.scrollHeight;
@@ -1730,6 +1753,40 @@ function vMeet(){
   ${past.length ? `<details class="past" open><summary>Réunions passées (${past.length})</summary>${past.map(card).join('')}</details>` : ''}`;
 }
 
+/* vidéos d'inspiration */
+function inspiMeta(u){
+  let h = ''; try { h = new URL(u).hostname.replace(/^www\.|^m\./, ''); } catch (x) {}
+  const yt = String(u).match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
+  if (yt) return {k:'YouTube', c:'#d93025', img:'https://img.youtube.com/vi/' + yt[1] + '/hqdefault.jpg'};
+  if (/instagram\.com$/.test(h)) return {k:'Instagram', c:'#c13584'};
+  if (/tiktok\.com$/.test(h)) return {k:'TikTok', c:'#111'};
+  if (/pinterest\./.test(h)) return {k:'Pinterest', c:'#e60023'};
+  if (/facebook\.com$|fb\.watch$/.test(h)) return {k:'Facebook', c:'#1877f2'};
+  if (/drive\.google\.com$/.test(h)) return {k:'Google Drive', c:'#1a73e8'};
+  return {k: h || 'Lien', c:'#0a3447'};
+}
+function vInspi(){
+  const f = ui.inspiP || '', all = state.inspi.slice().sort((a,b) => (b.at || 0) - (a.at || 0));
+  const list = f ? all.filter(x => arr(x.projects).includes(f)) : all;
+  const cnt = k => all.filter(x => arr(x.projects).includes(k)).length;
+  const seg = `<button type="button" data-act="inspiP" data-k="" aria-pressed="${!f}">Tous <span class="meta">${all.length}</span></button>` + PROJECTS.map(p => `<button type="button" data-act="inspiP" data-k="${p.k}" aria-pressed="${f === p.k}"><i class="dot" style="background:${p.c}"></i> ${esc(p.s)} <span class="meta">${cnt(p.k)}</span></button>`).join('');
+  const card = x => { const m = inspiMeta(x.url), mine = isAdminMe() || (me && String(x.email || '').toLowerCase() === String(me.email || '').toLowerCase());
+    return `<article class="inspi"><a class="ith" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer" style="--ic:${m.c}">${m.img ? `<img src="${esc(m.img)}" alt="" loading="lazy" onerror="this.remove()">` : ''}<span class="ipl">▶</span><span class="isrc">${esc(m.k)}</span></a>
+      <div class="ibd"><h3>${esc(x.title || 'Vidéo sans titre')}</h3>${x.note ? `<p>${esc(x.note)}</p>` : ''}
+      <div class="meta">${arr(x.projects).map(projChip).join('') || '<span class="pill">Sans univers</span>'}</div>
+      <div class="ift"><span class="meta">${esc(x.by || '')}${x.at ? ' · ' + new Date(x.at).toLocaleDateString('fr-FR', {day:'numeric', month:'short'}) : ''}</span><span class="grow"></span><a class="btn small" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">Voir la vidéo</a>${mine ? `<button type="button" class="btn small" data-act="delInspi" data-id="${esc(x.id)}"${dis()}>Supprimer</button>` : ''}</div></div></article>`; };
+  return `<section class="block wide"><div class="bh"><h2>Ajouter une vidéo d'inspiration</h2></div>
+    <form id="inspiForm" class="iform">
+      <label>Lien de la vidéo<input id="inUrl" type="url" required placeholder="https://www.instagram.com/reel/…"></label>
+      <label>Titre<input id="inTitle" maxlength="120" placeholder="Ex. : transition vestiaire → salle"></label>
+      <label class="full">Ce qui nous plaît / l'idée à reprendre<textarea id="inNote" rows="2" maxlength="600" placeholder="Ex. : le rythme des coupes, le texte à l'écran, la musique…"></textarea></label>
+      <fieldset class="full ipick"><legend>Pour quel univers ?</legend>${PROJECTS.map(p => `<label><input type="checkbox" name="inP" value="${p.k}"${f === p.k ? ' checked' : ''}><i class="dot" style="background:${p.c}"></i>${esc(p.n)}</label>`).join('')}</fieldset>
+      <div class="full"><button class="btn primary"${dis()}>Ajouter la vidéo</button></div>
+    </form></section>
+  <div class="bar"><div class="seg iseg" role="group" aria-label="Filtrer par univers">${seg}</div></div>
+  ${list.length ? `<div class="igrid">${list.map(card).join('')}</div>` : `<p class="empty">${f ? 'Aucune vidéo pour cet univers pour l\'instant.' : 'Aucune vidéo pour l\'instant. Collez le lien d\'un Reel, d\'un TikTok ou d\'une vidéo YouTube qui vous inspire.'}</p>`}`;
+}
+
 /* rapport du jour */
 function usage(day){
   const [y,m,d] = day.split('-').map(Number), a = new Date(y, m-1, d).getTime(), b = a + 864e5, on = ts => ts >= a && ts < b;
@@ -1928,6 +1985,8 @@ document.addEventListener('click', async e => {
   if (presOpen && !e.target.closest('#pres')) { presOpen = false; render(); }
   const b = e.target.closest('[data-act]'); if (!b) return;
   const a = b.dataset.act, id = b.dataset.id;
+  if (a === 'inspiP') { ui.inspiP = b.dataset.k; render(); return; }
+  if (a === 'delInspi') { if (b.dataset.sure) await write(() => db.collection('inspi').doc(id).delete()); else { b.dataset.sure = '1'; b.textContent = 'Confirmer'; b.classList.add('danger'); } return; }
   if (a === 'presMenu') { presOpen = !presOpen; render(); return; }
   if (a === 'setPres') { presOpen = false; render(); await setPres(b.dataset.v); return; }
   if (a === 'kind') { ui.kind = b.dataset.v; keepFilters(); render(); }
@@ -2050,6 +2109,16 @@ document.addEventListener('submit', async e => {
       else await auth.signInWithEmailAndPassword(em, pw);
       gate.busy = false; render();
     } catch (err) { gate.busy = false; gate.msg = authMsg(err); render(); }
+    return;
+  }
+  if (e.target.id === 'inspiForm') {
+    const url = $('#inUrl').value.trim(), title = $('#inTitle').value.trim(), noteTxt = $('#inNote').value.trim();
+    const projects = Array.from(document.querySelectorAll('input[name="inP"]:checked')).map(x => x.value);
+    if (!/^https?:\/\/\S+$/i.test(url)) { note("Collez un lien complet qui commence par https://"); return; }
+    if (!projects.length) { note("Choisissez au moins un univers pour cette vidéo."); return; }
+    note('');
+    const ok = await write(() => db.collection('inspi').add({url: url.slice(0, 600), title: title.slice(0, 120), note: noteTxt.slice(0, 600), projects, email: me.email, by: whoAmI(), at: Date.now()}));
+    if (ok) { toast('Vidéo ajoutée aux inspirations.'); }
     return;
   }
   if (e.target.id === 'askForm') { const q = $('#askText').value.trim(); if (q) askAI(q); return; }
